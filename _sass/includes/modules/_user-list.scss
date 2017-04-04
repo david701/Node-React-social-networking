@@ -1,0 +1,31 @@
+// User List
+// -----------
+.user-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    li {
+        width: auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        margin-bottom: 1.5em;
+        @include w480 {
+            width: initial;
+        }
+        a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h5 {
+                margin-top: em(12);
+            }
+        }
+        .control {
+            color: $red;
+            font-size: em(10)
+        }
+    }
+}

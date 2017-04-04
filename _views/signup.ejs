@@ -1,0 +1,192 @@
+<% include ./partials/head %>
+	<% include ./partials/mobile-head %>
+<div class="modal">
+	<div class="overlay">
+		<div class="content-block-small content-block">
+			<h3>Book Brawl Log In</h3>
+			<p class="quote">“Some type of quote.”</p>
+			<ul class="field-list field-list-small">
+				<li>
+					<label for="email">Email Address</label>
+					<input id="email" type="text">
+				</li>
+				<li>
+					<label for="passwprd">Password</label>
+					<input id="password" type="password">
+				</li>
+			</ul>
+			<div class="submit-row submit-row-small">
+				<div class="buttons">
+					<a class="button button-white" href=".">Close</a>
+					<a class="button button-red" href=".">Sign Up</a>
+				</div>
+				<div class="controls">
+					<p><a class="modal-trigger-password" href=".">Forgot Password?</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlay is-hidden">
+		<div class="content-block-small content-block" id="reset">
+			<h3>Password Reset</h3>
+			<p class="instructions">Instructions here.</p>
+			<ul class="field-list field-list-small">
+				<li>
+					<label for="email">Email Address</label>
+					<input id="email" type="text">
+				</li>
+			</ul>
+			<div class="submit-row submit-row-small">
+				<div class="buttons">
+					<a class="button button-white" href=".">Close</a>
+					<a class="button button-red" href=".">Submit</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="view">
+	<main class="main-view">
+		<section class="standard-section">
+			<div class="container">
+
+				<div class="content-block content-block-standard account-block">
+					<header>
+						<h3>Book Brawl Sign Up</h3>
+						<p class="lead copy">Already have an account? <a href="." class="modal-trigger">Log in.</a></p>
+					</header>
+					<form>
+						<h4><span>Step 1.</span> Tell us about yourself</h4>
+						<p>Add your photo:</p>
+						<div class="avatar-selection">
+							<figure class="avatar"></figure>
+							<ul class="radio-list">
+								<li>
+									<input type="radio" name="avatar" id="avatar-1" checked>
+									<label for="avatar-1">Intermediate Avatar 1</label>
+								</li>
+								<li>
+									<input type="radio" name="avatar" id="avatar-2">
+									<label for="avatar-2">Intermediate Avatar 2</label>
+								</li>
+								<li>
+									<input type="radio" name="avatar" id="avatar-3">
+									<label for="avatar-3">Intermediate Avatar 3</label>
+								</li>
+							</ul>
+						</div>
+						<ul class="field-list">
+							<li class="field-error">
+								<label for="name">What is your name?</label>
+								<input id="name" type="text">
+							</li>
+							<li>
+								<label for="email">What is your email?</label>
+								<input id="email" type="text">
+							</li>
+							<li>
+								<label for="dob">What is your birth date?</label>
+								<input id="dob" type="text">
+							</li>
+							<li>
+								<label for="gender">What is your gender?</label>
+								<input id="gender" type="text">
+							</li>
+						</ul>
+						<hr>
+						<h4><span>Step 2.</span> Where else can we find you?</h4>
+						<ul class="field-list">
+							<li>
+								<label for="website">Your website URL</label>
+								<input id="website" type="text">
+							</li>
+							<li>
+								<label for="goodreads">Goodreads URL</label>
+								<input id="goodreads" type="text">
+							</li>
+							<li>
+								<label for="amazon">Amazon URL</label>
+								<input id="amazon" type="text">
+							</li>
+							<li>
+								<label for="wordpress">WordPress URL</label>
+								<input id="wordpress" type="text">
+							</li>
+							<li>
+								<label for="facebook">Facebook URL</label>
+								<input id="facebook" type="text">
+							</li>
+							<li>
+								<label for="twitter">Twitter URL</label>
+								<input id="twitter" type="text">
+							</li>
+						</ul>
+						<hr>
+						<h4><span>Step 3.</span> Create a secure password</h4>
+						<ul class="field-list">
+							<li>
+								<label for="passwprd">Password</label>
+								<input id="password" type="password">
+							</li>
+							<li>
+								<label for="passwprd">Confirm Password</label>
+								<input id="password" type="password">
+							</li>
+						</ul>
+						<hr>
+						<h4><span>Step 4.</span> Tell us what you like to see</h4>
+						<p>What Genres do you like?</p>
+						<ul class="toggle-list">
+							<li>Fantasy</li>
+							<li>Science Fiction</li>
+							<li>Horror</li>
+							<li>Non-Fiction</li>
+							<li>Mystery</li>
+							<li>Romance</li>
+							<li>Poetry</li>
+							<li class="spacing-block"></li>
+							<li class="spacing-block"></li>
+						</ul>
+						<p>What type of Fiction Themes?</p>
+						<ul class="toggle-list">
+							<li>Contemporary</li>
+							<li>Historical</li>
+							<li>Drama</li>
+							<li>ChickLit</li>
+							<li>Tragedy</li>
+							<li>Adventure</li>
+							<li>Urban</li>
+							<li>Epic</li>
+							<li>Romance</li>
+							<li>Spiritual</li>
+							<li>Humor</li>
+							<li>Paranormal</li>
+							<li>Young Adult</li>
+							<li>Middle Grade</li>
+							<li>Children</li>
+							<li>Thriller</li>
+							<li>Mystery</li>
+							<li>Classic</li>
+							<li class="spacing-block"></li>
+							<li class="spacing-block"></li>
+						</ul>
+						<div class="submit-row">
+							<div class="field">
+								<input type="checkbox" name="avatar" id="newsletter" checked>
+								<label for="newsletter">I want to subscribe to newsletters</label>
+							</div>
+							<div class="buttons">
+								<a class="button button-white" href=".">Close</a>
+								<a class="button button-red" href=".">Sign Up</a>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</section>
+		<% include ./partials/main-footer %>
+	</main>
+	<% include ./partials/sidebar %>
+</div>
+<% include ./partials/end %>

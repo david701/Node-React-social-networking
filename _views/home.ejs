@@ -1,12 +1,813 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title><%= title %></title>
-		<link rel="stylesheet" href="./css/main.css">
-	</head>
-	<body>
-		<div id="example"></div>
-		<script src="./js/main.js"></script>
-	</body>
-</html>
+<% include ./partials/head %>
+	<% include ./partials/mobile-head %>
+	<div class="view">
+			<main class="main-view">
+					<section class="brawl-feature">
+							<header>
+									<div class="container">
+											<div class="flex-row">
+													<a href="#last-week" class="week-control-last">
+															<span class="label label-small">Previous</span>
+															<span class="label label-large">Last Week’s Brawl</span>
+													</a>
+													<h2>
+				<span class="week-title week-title-this">Current Brawl</span>
+				<span class="week-title week-title-last">Last Week’s Brawl</span>
+			</h2>
+													<a href="#this-week" class="week-control-this">
+															<span class="label label-small">Next</span>
+															<span class="label label-large">This Week’s Brawl</span>
+													</a>
+											</div>
+									</div>
+							</header>
+							<main>
+									<div class="week week-last">
+											<div class="container">
+													<div class="flex-row">
+															<div class="mascot your-pick">
+																	<div class="vote-count">
+																			<div>
+																					<strong>45%</strong>
+																					<span>of the votes</span>
+																			</div>
+																	</div>
+																	<img src="/assets/images/dog.gif" alt="">
+															</div>
+															<div class="book-blocks book-blocks-feature">
+																	<ul>
+																			<li>
+																					<a href="." class="content-block content-block-book">
+																							<figure>
+																									<div class="cover" style="background-image: url('/assets/images/samples/covers/feature-1.jpg');">
+																											<div class="overlay">
+																													<button class="button button-red" href=".">Preview</button>
+																													<button class="button button-white" href=".">Add to Library</button>
+																											</div>
+																									</div>
+																									<figcaption>
+																											<h4>Title Area</h4>
+																											<p>By [Author Name]</p>
+																											<ul class="rating-display">
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li></li>
+																											</ul>
+																									</figcaption>
+																							</figure>
+																					</a>
+																					<a href="." class="button button-hidden">Vote</a>
+																			</li>
+																			<li>
+																					<a href="." class="content-block content-block-book">
+																							<figure>
+																									<div class="cover" style="background-image: url('/assets/images/samples/covers/feature-2.jpg');">
+																											<div class="overlay">
+																													<button class="button button-red" href=".">Preview</button>
+																													<button class="button button-white" href=".">Add to Library</button>
+																											</div>
+																									</div>
+																									<figcaption>
+																											<h4>Title Area</h4>
+																											<p>By [Author Name]</p>
+																											<ul class="rating-display">
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li></li>
+																											</ul>
+																									</figcaption>
+																							</figure>
+																					</a>
+																					<a href="." class="button button-hidden">Vote</a>
+																			</li>
+																	</ul>
+															</div>
+															<div class="mascot">
+																	<div class="vote-count has-won">
+																			<div>
+																					<strong>55%</strong>
+																					<span>of the votes</span>
+																			</div>
+																	</div>
+																	<img src="/assets/images/cat.gif" alt="">
+															</div>
+													</div>
+											</div>
+									</div>
+									<div class="week week-this">
+											<div class="container">
+													<div class="flex-row">
+															<div class="mascot">
+																	<img src="/assets/images/dog.gif" alt="">
+															</div>
+															<div class="book-blocks book-blocks-feature">
+																	<ul>
+																			<li>
+																					<a href="." class="content-block content-block-book">
+																							<figure>
+																									<div class="cover" style="background-image: url('/assets/images/samples/covers/feature-1.jpg');">
+																											<div class="overlay">
+																													<button class="button button-red" href=".">Preview</button>
+																													<button class="button button-white" href=".">Add to Library</button>
+																											</div>
+																									</div>
+																									<figcaption>
+																											<h4>Title Area</h4>
+																											<p>By [Author Name]</p>
+																											<ul class="rating-display">
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li></li>
+																											</ul>
+																									</figcaption>
+																							</figure>
+																					</a>
+																					<a href="." class="button">Vote</a>
+																			</li>
+																			<li>
+																					<a href="." class="content-block content-block-book">
+																							<figure>
+																									<div class="cover" style="background-image: url('/assets/images/samples/covers/feature-2.jpg');">
+																											<div class="overlay">
+																													<button class="button button-red" href=".">Preview</button>
+																													<button class="button button-white" href=".">Add to Library</button>
+																											</div>
+																									</div>
+																									<figcaption>
+																											<h4>Title Area</h4>
+																											<p>By [Author Name]</p>
+																											<ul class="rating-display">
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li class="filled"></li>
+																													<li></li>
+																											</ul>
+																									</figcaption>
+																							</figure>
+																					</a>
+																					<a href="." class="button">Vote</a>
+																			</li>
+																	</ul>
+															</div>
+															<div class="mascot">
+																	<img src="/assets/images/cat.gif" alt="">
+															</div>
+													</div>
+											</div>
+									</div>
+							</main>
+							<footer>
+									<div class="container">
+											<h4>
+			<span class="week-results week-results-this">Vote to see results</span>
+			<span class="week-results week-results-last is-announced">[Book Title] Won!</span>
+		</h4>
+									</div>
+							</footer>
+					</section>
+					<section class="standard-section">
+							<div class="container">
+									<div class="content-block">
+											<div class="placeholder">
+													<h4>Ad Space</h4>
+											</div>
+									</div>
+
+									<div class="filter-controls">
+											<div class="flex-row">
+													<strong>Sort by:</strong>
+													<div class="minimal-select minimal-select-large">
+															<select>
+					<option value="">Genre</option>
+					<option value="">Genre 1</option>
+					<option value="">Genre 2</option>
+					<option value="">Genre 3</option>
+					<option value="">Genre 4</option>
+					<option value="">Genre 5</option>
+					<option value="">Genre 6</option>
+					<option value="">Genre 7</option>
+					<option value="">Genre 8</option>
+					<option value="">Genre 9</option>
+					<option value="">Genre 10</option>
+					<option value="">Genre 11</option>
+					<option value="">Genre 12</option>
+					<option value="">Genre 13</option>
+					<option value="">Genre 14</option>
+					<option value="">Genre 15</option>
+				</select>
+													</div>
+											</div>
+									</div>
+
+									<div class="book-blocks">
+											<div class="title-row">
+													<h3>Recommended</h3>
+													<a class="expand-control" href=".">All Recommended</a>
+											</div>
+											<ul>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/2.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/3.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/4.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/2.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/3.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/4.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li class="spacing-block"></li>
+													<li class="spacing-block"></li>
+											</ul>
+									</div>
+
+									<div class="book-blocks">
+											<div class="title-row">
+													<h3>Top Rated</h3>
+													<a class="expand-control" href=".">All Top Rated</a>
+											</div>
+											<ul>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/2.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/3.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/4.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/2.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/3.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/4.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li class="spacing-block"></li>
+													<li class="spacing-block"></li>
+											</ul>
+									</div>
+
+									<div class="content-block-spread">
+											<div class="content-block">
+													<div class="placeholder">
+															<h4>Ad Space</h4>
+													</div>
+											</div>
+											<div class="content-block">
+													<div class="placeholder">
+															<h4>Ad Space</h4>
+													</div>
+											</div>
+									</div>
+
+									<div class="book-blocks">
+											<div class="title-row">
+													<h3>Genre Name</h3>
+													<a class="expand-control" href=".">All Genre Name</a>
+											</div>
+											<ul>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/2.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/3.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/4.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/2.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/3.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li>
+															<a href="." class="content-block content-block-book">
+																	<figure>
+																			<div class="cover" style="background-image: url('/assets/images/samples/covers/4.jpg');">
+																					<div class="overlay">
+																							<button class="button button-red" href=".">Preview</button>
+																							<button class="button button-white" href=".">Add to Library</button>
+																					</div>
+																			</div>
+																			<figcaption>
+																					<h4>Title Area</h4>
+																					<p>By [Author Name]</p>
+																					<ul class="rating-display">
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li class="filled"></li>
+																							<li></li>
+																					</ul>
+																			</figcaption>
+																	</figure>
+															</a>
+													</li>
+													<li class="spacing-block"></li>
+													<li class="spacing-block"></li>
+											</ul>
+									</div>
+
+							</div>
+					</section>
+					<% include ./partials/main-footer %>
+			</main>
+			<% include ./partials/sidebar %>
+	</div>
+<% include ./partials/end %>

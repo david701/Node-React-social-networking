@@ -1,0 +1,98 @@
+<aside class="view-sidebar set-view-menu">
+    <div class="fixed-area">
+        <a href="/" class="brand">
+            <figure>
+                <div class="logo"></div>
+                <figcaption>Book Brawl</figcaption>
+            </figure>
+        </a>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">
+                        <div class="icon">
+                            <img src="/assets/images/icons/nav/browse.svg" alt="Browse">
+                        </div>
+                        <span>Browse</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href=".">All</a>
+                        </li>
+                        <li>
+                            <a href=".">Trending</a>
+                        </li>
+                        <li>
+                            <a href=".">Genre Name</a>
+                        </li>
+                        <li>
+                            <a href=".">My Library</a>
+                        </li>
+                    </ul>
+                </li>
+                <li <% if(title == 'Dashboard' || title == 'Create'){ %> class="selected" <% } %> >
+                    <a href="/dashboard/">
+                        <div class="icon">
+                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse">
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                    <ul>
+                        <li <% if(title == 'Create'){ %> class="selected" <% } %>>
+                            <a href="/dashboard/create/">Create</a>
+                        </li>
+                        <li>
+                            <a href="#create-brawl" class="modal-trigger modal-trigger-report-issue">Report Issue</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="/signup/">
+                        <div class="icon">
+                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse">
+                        </div>
+                        <span>Sign Up</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/login/">
+                        <div class="icon">
+                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse">
+                        </div>
+                        <span>Log In</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/forum/">
+                        <div class="icon">
+                            <img src="/assets/images/icons/nav/forum.svg" alt="Browse">
+                        </div>
+                        <span>Forum</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href=".">Messages</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/search/">
+                        <div class="icon">
+                            <img src="/assets/images/icons/nav/advanced-search.svg" alt="Browse">
+                        </div>
+                        <span>Advanced Search</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <footer>
+            <form class="search-form">
+                <input type="search" placeholder="Search">
+            </form>
+            <a href="." class="button button-red button-night-mode">Night Mode</a>
+        </footer>
+    </div>
+</aside>
