@@ -9616,7 +9616,7 @@ var UploadCover = function (_React$Component) {
 			e.preventDefault();
 			var postData = { title: _this.state.title, cover: _this.state.coverFile };
 			_jquery2.default.post('/api/mybooks', postData).then(function (data) {
-				console.log(data);
+				window.location.href = "/dashboard";
 			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}

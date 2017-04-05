@@ -35,7 +35,7 @@ class UploadCover extends React.Component{
 		e.preventDefault();
 		var postData = {title: this.state.title, cover: this.state.coverFile}
 		$.post('/api/mybooks', postData).then((data)=>{
-			console.log(data);
+			window.location.href = "/dashboard";
 		});
 	}
 
