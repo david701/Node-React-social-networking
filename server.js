@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
     res.render('404', {title: '404 Error'});
 });
 
-const port = process.env.ENV || 9000;
+const port = process.env.PORT || 9000;
 app.listen(port, ()=>{
 	console.log('Listening on port ' + port);
 });
