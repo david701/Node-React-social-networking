@@ -73,4 +73,9 @@ $(document).ready(function() {
         $('body').addClass('modal-showing');
         $('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
     });
+
+		$('#bookSubmit').click(function(e){
+			e.preventDefault();
+			$('#coverSubmit').click();
+		})
 });

@@ -9,61 +9,9 @@
 					<header>
 						<h3>Create Your Book</h3>
 					</header>
-					<form>
+					<%# <form>%>
 						<h4><span>Step 1.</span> Upload Cover Art</h4>
-						<ul class="field-list field-list-split">
-							<li>
-								<div class="copy">
-									<p>Preview</p>
-								</div>
-								<div class="book-blocks book-blocks-single book-blocks-preview">
-									<ul>
-										<li>
-											<div class="content-block content-block-book">
-												<figure>
-													<div class="cover" style="">
-														<div class="flex">
-															<h4>Cover</h4>
-														</div>
-													</div>
-													<figcaption>
-														<h4>Title Area</h4>
-														<p>By [Author Name]</p>
-														<ul class="rating-display">
-															<li></li>
-															<li></li>
-															<li></li>
-															<li></li>
-															<li></li>
-														</ul>
-													</figcaption>
-												</figure>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</li>
-							<li>
-								<div class="copy">
-									<p>Add Basic Information</p>
-									<ul class="inner-fields">
-										<li>
-											<label for="title">Book Title</label>
-											<input id="title" type="text">
-										</li>
-										<li>
-											<label for="cover">Upload Cover Art</label>
-											<input id="cover" type="file">
-											<small>
-												Max size of 15 MB<br>
-												Dimensions are X by X<br>
-												Needs to be jpg, png, or gif
-											</small>
-										</li>
-									</ul>
-								</div>
-							</li>
-						</ul>
+						<div id="uploadCover"></div>
 						<hr>
 						<h4><span>Step 2.</span> Tell us about your book</h4>
 						<label for="description">Description</label>
@@ -160,10 +108,10 @@
 						<div class="submit-row submit-row-single">
 							<div class="buttons">
 								<a class="button button-white" href="/views/dashboard/">Cancel</a>
-								<a class="button button-red" href=".">Create</a>
+								<a id="bookSubmit" class="button button-red" href="#">Create</a>
 							</div>
 						</div>
-					</form>
+					<%# </form>%>
 				</div>
 
 			</div>

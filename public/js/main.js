@@ -9514,6 +9514,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         (0, _jquery2.default)('body').addClass('modal-showing');
         (0, _jquery2.default)('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
     });
+
+    (0, _jquery2.default)('#bookSubmit').click(function (e) {
+        e.preventDefault();
+        (0, _jquery2.default)('#coverSubmit').click();
+    });
 });
 
 /***/ }),
@@ -9549,6 +9554,8 @@ module.exports = __webpack_require__(19);
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(82);
 
 var _react2 = _interopRequireDefault(_react);
@@ -9557,11 +9564,538 @@ var _reactDom = __webpack_require__(81);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _jquery = __webpack_require__(98);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 __webpack_require__(79);
 
 __webpack_require__(80);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function mapObject(object, callback) {
+	return Object.keys(object).map(function (key) {
+		return callback(key, object[key]);
+	});
+}
+
+var UploadCover = function (_React$Component) {
+	_inherits(UploadCover, _React$Component);
+
+	function UploadCover() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, UploadCover);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = UploadCover.__proto__ || Object.getPrototypeOf(UploadCover)).call.apply(_ref, [this].concat(args))), _this), _this.state = { title: '', coverFile: false }, _this.coverAdd = function (e) {
+			var reader = new FileReader();
+			var file = e.target.files[0];
+			reader.onload = function (upload) {
+				_this.setState({ coverFile: upload.target.result });
+			};
+
+			reader.readAsDataURL(file);
+		}, _this._onChange = function (e) {
+			var state = {};
+			state[e.target.name] = e.target.value;
+			_this.setState(state);
+		}, _this._onSubmit = function (e) {
+			e.preventDefault();
+			var postData = { title: _this.state.title, cover: _this.state.coverFile };
+			_jquery2.default.post('/api/mybooks', postData).then(function (data) {
+				console.log(data);
+			});
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(UploadCover, [{
+		key: 'render',
+		value: function render() {
+			var cover = _react2.default.createElement(
+				'div',
+				{ className: 'cover' },
+				' ',
+				_react2.default.createElement(
+					'div',
+					{ className: 'flex' },
+					' ',
+					_react2.default.createElement(
+						'h4',
+						null,
+						'Cover'
+					),
+					' '
+				),
+				' '
+			);
+			if (this.state.coverFile) {
+				cover = _react2.default.createElement(
+					'div',
+					{ className: 'cover' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'flex' },
+						_react2.default.createElement('img', { src: this.state.coverFile })
+					)
+				);
+			}
+
+			var bookTitle = 'Title Area';
+			if (this.state.title) {
+				bookTitle = this.state.title;
+			}
+
+			return _react2.default.createElement(
+				'ul',
+				{ className: 'field-list field-list-split' },
+				_react2.default.createElement(
+					'li',
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'copy' },
+						_react2.default.createElement(
+							'p',
+							null,
+							'Preview'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'book-blocks book-blocks-single book-blocks-preview' },
+						_react2.default.createElement(
+							'ul',
+							null,
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'content-block content-block-book' },
+									_react2.default.createElement(
+										'figure',
+										null,
+										cover,
+										_react2.default.createElement(
+											'figcaption',
+											null,
+											_react2.default.createElement(
+												'h4',
+												null,
+												bookTitle
+											),
+											_react2.default.createElement(
+												'p',
+												null,
+												'By [Author Name]'
+											),
+											_react2.default.createElement(
+												'ul',
+												{ className: 'rating-display' },
+												_react2.default.createElement('li', null),
+												_react2.default.createElement('li', null),
+												_react2.default.createElement('li', null),
+												_react2.default.createElement('li', null),
+												_react2.default.createElement('li', null)
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+				),
+				_react2.default.createElement(
+					'li',
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'copy' },
+						_react2.default.createElement(
+							'p',
+							null,
+							'Add Basic Information'
+						),
+						_react2.default.createElement(
+							'form',
+							{ id: 'coverForm', onSubmit: this._onSubmit },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'inner-fields' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										{ htmlFor: 'title' },
+										'Book Title'
+									),
+									_react2.default.createElement('input', { id: 'title', name: 'title', type: 'text', onChange: this._onChange, value: this.state.title })
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'label',
+										{ htmlFor: 'cover' },
+										'Upload Cover Art'
+									),
+									_react2.default.createElement('input', { id: 'cover', type: 'file', onChange: this.coverAdd }),
+									_react2.default.createElement(
+										'small',
+										null,
+										'Max size of 15 MB',
+										_react2.default.createElement('br', null),
+										'Dimensions are X by X',
+										_react2.default.createElement('br', null),
+										'Needs to be jpg, png, or gif'
+									),
+									_react2.default.createElement('button', { id: 'coverSubmit', type: 'submit', style: { display: 'none' } })
+								)
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return UploadCover;
+}(_react2.default.Component);
+
+if (document.getElementById('uploadCover')) _reactDom2.default.render(_react2.default.createElement(UploadCover, null), document.getElementById('uploadCover'));
+
+var MyBooks = function (_React$Component2) {
+	_inherits(MyBooks, _React$Component2);
+
+	function MyBooks() {
+		var _ref2;
+
+		var _temp2, _this2, _ret2;
+
+		_classCallCheck(this, MyBooks);
+
+		for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+			args[_key2] = arguments[_key2];
+		}
+
+		return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_ref2 = MyBooks.__proto__ || Object.getPrototypeOf(MyBooks)).call.apply(_ref2, [this].concat(args))), _this2), _this2.state = { books: [] }, _temp2), _possibleConstructorReturn(_this2, _ret2);
+	}
+
+	_createClass(MyBooks, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this3 = this;
+
+			_jquery2.default.get('/api/mybooks').then(function (data) {
+				console.log(data);
+				_this3.setState({ books: data });
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			var books = mapObject(this.state.books, function (key, item) {
+				var cover = "url('" + item.cover + "')";
+				return _react2.default.createElement(
+					'li',
+					{ key: key },
+					_react2.default.createElement(
+						'a',
+						{ href: '.', className: 'content-block content-block-book' },
+						_react2.default.createElement(
+							'figure',
+							null,
+							_react2.default.createElement(
+								'div',
+								{ className: 'cover', style: { backgroundImage: cover } },
+								_react2.default.createElement(
+									'div',
+									{ className: 'overlay' },
+									_react2.default.createElement(
+										'button',
+										{ className: 'button button-red modal-trigger modal-trigger-create-brawl' },
+										'Brawl'
+									),
+									_react2.default.createElement(
+										'button',
+										{ className: 'button button-white', href: '.' },
+										'Edit'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'figcaption',
+								null,
+								_react2.default.createElement(
+									'h4',
+									null,
+									item.title
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'By [Author Name]'
+								),
+								_react2.default.createElement(
+									'ul',
+									{ className: 'rating-display' },
+									_react2.default.createElement('li', { className: 'filled' }),
+									_react2.default.createElement('li', { className: 'filled' }),
+									_react2.default.createElement('li', { className: 'filled' }),
+									_react2.default.createElement('li', { className: 'filled' }),
+									_react2.default.createElement('li', null)
+								)
+							)
+						)
+					)
+				);
+			});
+
+			return _react2.default.createElement(
+				'div',
+				{ className: 'book-blocks book-blocks-small' },
+				_react2.default.createElement(
+					'ul',
+					null,
+					books,
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: '.', className: 'content-block content-block-book' },
+							_react2.default.createElement(
+								'figure',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'cover', style: { backgroundImage: "url('/assets/images/samples/covers/1.jpg')" } },
+									_react2.default.createElement(
+										'div',
+										{ className: 'overlay' },
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-red modal-trigger modal-trigger-create-brawl' },
+											'Brawl'
+										),
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-white', href: '.' },
+											'Edit'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'figcaption',
+									null,
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Title Area'
+									),
+									_react2.default.createElement(
+										'p',
+										null,
+										'By [Author Name]'
+									),
+									_react2.default.createElement(
+										'ul',
+										{ className: 'rating-display' },
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', null)
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: '.', className: 'content-block content-block-book' },
+							_react2.default.createElement(
+								'figure',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'cover', style: { backgroundImage: "url('/assets/images/samples/covers/2.jpg')" } },
+									_react2.default.createElement(
+										'div',
+										{ className: 'overlay' },
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-red modal-trigger modal-trigger-create-brawl' },
+											'Brawl'
+										),
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-white', href: '.' },
+											'Edit'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'figcaption',
+									null,
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Title Area'
+									),
+									_react2.default.createElement(
+										'p',
+										null,
+										'By [Author Name]'
+									),
+									_react2.default.createElement(
+										'ul',
+										{ className: 'rating-display' },
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', null)
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: '.', className: 'content-block content-block-book' },
+							_react2.default.createElement(
+								'figure',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'cover', style: { backgroundImage: "url('/assets/images/samples/covers/3.jpg')" } },
+									_react2.default.createElement(
+										'div',
+										{ className: 'overlay' },
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-red modal-trigger modal-trigger-create-brawl' },
+											'Brawl'
+										),
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-white', href: '.' },
+											'Edit'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'figcaption',
+									null,
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Title Area'
+									),
+									_react2.default.createElement(
+										'p',
+										null,
+										'By [Author Name]'
+									),
+									_react2.default.createElement(
+										'ul',
+										{ className: 'rating-display' },
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', null)
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: '.', className: 'content-block content-block-book' },
+							_react2.default.createElement(
+								'figure',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'cover', style: { backgroundImage: "url('/assets/images/samples/covers/4.jpg')" } },
+									_react2.default.createElement(
+										'div',
+										{ className: 'overlay' },
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-red modal-trigger modal-trigger-create-brawl' },
+											'Brawl'
+										),
+										_react2.default.createElement(
+											'button',
+											{ className: 'button button-white', href: '.' },
+											'Edit'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'figcaption',
+									null,
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Title Area'
+									),
+									_react2.default.createElement(
+										'p',
+										null,
+										'By [Author Name]'
+									),
+									_react2.default.createElement(
+										'ul',
+										{ className: 'rating-display' },
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', { className: 'filled' }),
+										_react2.default.createElement('li', null)
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement('li', { className: 'spacing-block' }),
+					_react2.default.createElement('li', { className: 'spacing-block' })
+				)
+			);
+		}
+	}]);
+
+	return MyBooks;
+}(_react2.default.Component);
+
+if (document.getElementById('myBooks')) _reactDom2.default.render(_react2.default.createElement(MyBooks, null), document.getElementById('myBooks'));
 
 /***/ }),
 /* 84 */

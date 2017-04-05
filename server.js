@@ -1,12 +1,17 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 
 app.use(express.static('public'))
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({ extended: false, limit: '5mb'}));
 app.set('views', './_views')
 app.set('view engine', 'ejs')
 
 var routes = require('./_routes/static');
+var api = require('./_routes/api');
 app.use('/', routes);
+app.use('/api', api);
 
 // 404 last route
 app.use(function(req, res, next) {
