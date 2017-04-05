@@ -9486,12 +9486,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     (0, _jquery2.default)(document).keyup(function (e) {
         if (e.keyCode === 27) {
             (0, _jquery2.default)('body').removeClass('modal-showing');
+            (0, _jquery2.default)('.login-modal').css({ visibility: 'hidden', opacity: 0 });
         }
     });
     (0, _jquery2.default)(document).mouseup(function (e) {
         var container = (0, _jquery2.default)('.modal .account-block');
         if (!container.is(e.target) && container.has(e.target).length === 0) {
             (0, _jquery2.default)('body').removeClass('modal-showing');
+            (0, _jquery2.default)('.login-modal').css({ visibility: 'hidden', opacity: 0 });
         }
     });
 
@@ -9518,6 +9520,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     (0, _jquery2.default)('#bookSubmit').click(function (e) {
         e.preventDefault();
         (0, _jquery2.default)('#coverSubmit').click();
+    });
+
+    //login modal
+    (0, _jquery2.default)('#loginButton').click(function (e) {
+        e.preventDefault();
+        (0, _jquery2.default)('.login-modal').css({ visibility: 'visible', opacity: 1 });
     });
 });
 

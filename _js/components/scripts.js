@@ -44,6 +44,7 @@ $(document).ready(function() {
     $(document).keyup(function(e) {
 		if (e.keyCode === 27) {
             $('body').removeClass('modal-showing');
+						$('.login-modal').css({visibility: 'hidden', opacity: 0});
 		}
 	});
 	$(document).mouseup(function(e) {
@@ -51,6 +52,7 @@ $(document).ready(function() {
 		if (!container.is(e.target) && container.has(e.target).length === 0)
 		{
             $('body').removeClass('modal-showing');
+						$('.login-modal').css({visibility: 'hidden', opacity: 0});
 		}
 	});
 
@@ -67,6 +69,8 @@ $(document).ready(function() {
         $('.overlay-create-brawl').removeClass('is-hidden').next('.overlay').addClass('is-hidden');
     });
 
+
+
     // Modal password
     $('.modal-trigger-report-issue').click(function(e) {
         e.preventDefault();
@@ -77,5 +81,11 @@ $(document).ready(function() {
 		$('#bookSubmit').click(function(e){
 			e.preventDefault();
 			$('#coverSubmit').click();
+		})
+
+		//login modal
+		$('#loginButton').click(function(e){
+			e.preventDefault();
+			$('.login-modal').css({visibility: 'visible', opacity: 1});
 		})
 });
