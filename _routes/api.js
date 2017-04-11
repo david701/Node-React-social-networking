@@ -1,14 +1,25 @@
-var express = require('express'),
-		router = express.Router();
+const express = require('express'),
+			router = express.Router(),
+			fs = require('fs')
 
-var mongo = require('../mongo.js');
+const Users = require('./models/users.js');
 
-var fs = require('fs');
+/// USER API ///
+router.route('/users')
+	.get(Users.getUsers)
+	.post(Users.createUser)
 
-var bcrypt = require('bcrypt');
-var salt = bcrypt.genSaltSync(11);
+router.route('/users/:id')
+	.get(Users.getUserById)
+	.put(Users.updateUser)
+	.delete(Users.removeUser)
 
 
+router.post('/login', Users.login)
+/// END USER API ///
+
+
+// === DEPRICATED ROUTES ===
 router.get('/mybooks', (req, res)=>{
 	fs.readFile('./mybooks.json',function(err,data){
 		obj = JSON.parse(data);
@@ -26,46 +37,6 @@ router.post('/mybooks', (req, res)=>{
 		});
 	})
 });
-
-router.route('/user')
-	.post((req, res)=>{
-		var user = new mongo.schema.user();
-		user.email = req.body.email;
-		user.password =  bcrypt.hashSync(req.body.password, salt);
-		user.save((err, userData)=>{
-			if(err){console.error(err);}
-			res.json(userData)
-		})
-	})
-	.get((req, res)=>{
-		mongo.schema.user.findOne({_id: req.query.userId}, (err, user)=>{
-			// console.log(user._id.getTimestamp());
-			res.json(user)
-		})
-	})
-
-router.route('/users')
-	.get((req, res)=>{
-		mongo.schema.user.find({}, (err, users)=>{
-			if(err)console.error(err);
-			res.json(users)
-		});
-	})
-
-router.post('/login', (req, res)=>{
-	mongo.schema.user.findOne({email: req.body.email}, (err, user)=>{
-		if(err){
-			console.error(err);
-		}else{
-			bcrypt.compare(req.body.password, user.password, function(err, auth) {
-				var loggedIn = 'not logged in';
-				if(err)console.error(err);
-				if(auth) loggedIn = 'logged in'
-				res.json({auth: loggedIn});
-			});
-		}
-	});
-})
 
 
 
