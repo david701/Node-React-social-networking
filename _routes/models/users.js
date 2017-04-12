@@ -15,7 +15,7 @@ exports.getUsers = (req, res) => {
 	var query = mongoUser.find(query).limit(limit).skip(skip).sort(sort).exec();
 
 	query.then((users)=>{
-		res.json(users);
+		res.json({status:'ok', data:users});
 	})
 	.catch(function(err){
 	 res.json({status:'error', message: err});

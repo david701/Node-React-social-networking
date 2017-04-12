@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import './components/scripts.js';
+import './components/profile.js';
 
 import '../_sass/main.scss';
 
@@ -34,7 +35,7 @@ class UploadCover extends React.Component{
 	_onSubmit = (e) => {
 		e.preventDefault();
 		var postData = {title: this.state.title, cover: this.state.coverFile}
-		$.post('/api/mybooks', postData).then((data)=>{
+		$.post('/api/v1/mybooks', postData).then((data)=>{
 			window.location.href = "/dashboard";
 		});
 	}
@@ -112,7 +113,7 @@ if(document.getElementById('uploadCover'))
 class MyBooks extends React.Component{
 	state = {books: []};
 	componentDidMount(){
-		$.get('/api/mybooks').then((data)=>{
+		$.get('/api/v1/mybooks').then((data)=>{
 			console.log(data);
 			this.setState({books:data});
 		});
@@ -255,3 +256,19 @@ class MyBooks extends React.Component{
 
 if(document.getElementById('myBooks'))
 	ReactDOM.render(<MyBooks />, document.getElementById('myBooks'))
+
+class NewComponent extends React.Component{
+	state = {}
+
+	componentDidMount(){
+		/// API call
+		/// SET STATE
+		this.setState({users: apiUsers})
+	}
+
+	render(){
+		return(
+			<div></div>
+		)
+	}
+}

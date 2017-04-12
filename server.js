@@ -11,7 +11,7 @@ app.set('view engine', 'ejs')
 var routes = require('./_routes/static');
 var api = require('./_routes/api');
 app.use('/', routes);
-app.use('/api', api);
+app.use('/api/v1', api);
 
 // 404 last route
 app.use(function(req, res, next) {
