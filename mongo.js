@@ -18,6 +18,7 @@ const userSchema = new Schema({
 	genres: [],
 	tags: [],
 	level: Number,
+	points: Number,
 	avatar: String,
 	social_media: {},
 	followers: [],
