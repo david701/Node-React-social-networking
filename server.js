@@ -1,7 +1,10 @@
 const express = require('express')
-const app = express()
+const cookieSession = require('cookie-session')
 const bodyParser = require('body-parser')
 
+const app = express()
+
+app.use(cookieSession({name: 'bbv1', keys:['bbKey', 'bbKey2']}))
 app.use(express.static('public'))
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({ extended: false, limit: '5mb'}));

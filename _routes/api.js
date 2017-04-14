@@ -16,7 +16,13 @@ router.route('/users/:id')
 
 
 router.post('/login', Users.login)
+router.post('/logout', Users.logout)
+
+router.get('/user_session', Users.userSession)
+
+router.post('/follow_author', Users.followAuthor)
 /// END USER API ///
+
 
 
 // === DEPRICATED ROUTES ===

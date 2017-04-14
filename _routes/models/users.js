@@ -35,7 +35,7 @@ exports.createUser = (req, res)=>{
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
-					res.json(userInfo)
+					res.json({status:'ok', data: userInfo})
 				})
 			}else{
 				res.json({status:'error', message:'Email is already in use.'});
@@ -50,7 +50,7 @@ exports.createUser = (req, res)=>{
 exports.getUserById = (req, res)=>{
 	mongoUser.findOne({_id: req.params.id})
 		.then((user)=>{
-			res.json(user)
+			res.json({status:'ok', data: user})
 		})
 		.catch((err)=>{
 			res.json({status:'error', message: err.message});
@@ -62,18 +62,23 @@ exports.getUserByEmail = (req, res)=>{
 		if(err){
 			res.json({status:'error', message: err});
 		}else{
-			res.json(user)
+			res.json({status:'ok', data: user})
 		}
 	})
 }
 
 /// UPDATE SINGLE USER
 exports.updateUser = (req, res)=>{
+	if(!req.session){
+		res.json({status:'error', message: 'Not logged in'})
+		return;
+	}
 	mongoUser.findOne({_id: req.params.id})
 		.then((user)=>{
+			if(req.body.password) delete req.body['password'];
 			user.update(req.body)
 				.then((userUpdate)=>{
-					res.json({status: 'ok', update: userUpdate});
+					res.json({status: 'ok', data: userUpdate});
 				})
 				.catch((err)=>{
 					res.json({status: 'error', message: err.message})
@@ -86,6 +91,10 @@ exports.updateUser = (req, res)=>{
 
 /// SOFT REMOVE SINGLE USER
 exports.removeUser = (req, res)=>{
+	if(!req.session){
+		res.json({status:'error', message: 'Not logged in'})
+		return;
+	}
 	mongoUser.findOne({_id: req.params.id})
 		.then((user)=>{
 			user.update({status: 0})
@@ -95,7 +104,7 @@ exports.removeUser = (req, res)=>{
 					// TODO: SOFT REMOVE REVIEWS
 					// TODO: REMOVE FOLLOWS
 					// TODO: REMOVE FOLLOWER
-					res.json({status: 'removed', user: req.params.id});
+					res.json({status: 'ok', data: req.params.id});
 				})
 				.catch((err)=>{
 					res.json({status: 'error', message: err.message})
@@ -109,15 +118,65 @@ exports.removeUser = (req, res)=>{
 /// USER LOGIN
 exports.login = (req, res)=>{
 	mongoUser.findOne({email: req.body.email}, (err, user)=>{
-		if(err){
+		if(err || !user){
 			console.error(err);
+			req.session = null;
+			res.json({status:'error', message: 'Invalid Username or Password'});
 		}else{
 			bcrypt.compare(req.body.password, user.password, function(err, auth) {
-				var loggedIn = 'not logged in';
-				if(err)console.error(err);
-				if(auth) loggedIn = 'logged in'
-				res.json({auth: loggedIn});
+				if(auth){
+					var userData = {
+						_id: user._id.toString(),
+						email: user.email,
+						name: user.name,
+						avatar: user.avatar,
+						level: user.level,
+						role: user.role,
+						status: user.status
+					}
+					req.session = userData;
+					res.json({status: 'ok'});
+				}else{
+					req.session = null;
+					res.json({status:'error', message: 'Invalid Username or Password'});
+				}
 			});
 		}
 	});
+}
+
+/// USER LOGOUT
+exports.logout = (req, res)=>{
+	req.session = null;
+	res.json({status: 'ok'});
+}
+
+/// USER SESSION INFO
+exports.userSession = (req, res)=>{
+	if(!req.session){
+		res.json({status:'error', message: 'Not logged in'})
+		return;
+	}
+	var session = req.session;
+	res.json({status: 'ok', data: session})
+}
+
+/// USER FOLLOW AUTHOR
+exports.followAuthor = (req, res)=>{
+	var user = req.session
+	if(user && user._id){
+		mongoUser.findOne({_id: user._id}).then((userInfo)=>{
+			var following = userInfo.following_authors;
+			if(following.indexOf(req.body.authorId) == -1){
+				following.push(req.body.authorId)
+				userInfo.update({following_authors: following}).then((update)=>{
+					res.json({status: 'ok', data: update});
+				})
+			}else{
+				res.json({status: 'error', message: 'Already following'});
+			}
+		});
+	}else{
+		res.json({status: 'error', message: 'Not logged in'});
+	}
 }
