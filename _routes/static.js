@@ -18,11 +18,19 @@ router.get('/author', (req, res)=>{
 });
 
 router.get('/dashboard', (req, res)=>{
-	res.render('dashboard', {title: 'Dashboard'})
+	if(req.session){
+		res.render('dashboard', {title: 'Dashboard'};
+	}else{
+		res.redirect('/login');
+	}
 });
 
 router.get('/dashboard/create', (req, res)=>{
-	res.render('dashboard-create', {title: 'Create'})
+	if(req.session){
+		res.render('dashboard-create', {title: 'Create'})
+	}else{
+		res.redirect('/login');
+	}
 });
 
 router.get('/forum', (req, res)=>{
@@ -31,6 +39,12 @@ router.get('/forum', (req, res)=>{
 
 router.get('/search', (req, res)=>{
 	res.render('search', {title: 'Search'})
+});
+
+router.get('/admin', (req, res)=>{
+	if(req.session && req.session.role > 0){
+		res.render('search', {title: 'Search'})
+	}
 });
 
 module.exports = router;

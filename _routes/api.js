@@ -16,7 +16,7 @@ router.route('/users/:id')
 
 
 router.post('/login', Users.login)
-router.post('/logout', Users.logout)
+router.get('/logout', Users.logout)
 
 router.get('/user_session', Users.userSession)
 
@@ -43,7 +43,5 @@ router.post('/mybooks', (req, res)=>{
 		});
 	})
 });
-
-
 
 module.exports = router;

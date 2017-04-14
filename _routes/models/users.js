@@ -28,7 +28,7 @@ exports.createUser = (req, res)=>{
 			if(!user){
 				var userData = req.body
 				userData.password =  bcrypt.hashSync(req.body.password, salt);
-				userData.role = 1;
+				userData.role = 0;
 				userData.level = 0;
 				userData.status = 1;
 
@@ -175,7 +175,11 @@ exports.followAuthor = (req, res)=>{
 			}else{
 				res.json({status: 'error', message: 'Already following'});
 			}
-		});
+		})
+		.catch((err)=>{
+			res.json({status: 'error', message: err.message})
+		})
+		;
 	}else{
 		res.json({status: 'error', message: 'Not logged in'});
 	}

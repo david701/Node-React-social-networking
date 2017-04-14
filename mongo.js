@@ -16,7 +16,7 @@ const userSchema = new Schema({
 	gender: String,
 	role: Number,
 	genres: [],
-	tags: [],
+	themes: [],
 	level: Number,
 	points: Number,
 	avatar: String,
