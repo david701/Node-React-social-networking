@@ -30,12 +30,6 @@ $(document).ready(function() {
         $('.brawl-feature').removeClass('last-week-showing');
     });
 
-    // Toggle list
-    $('.toggle-list li').click(function(e) {
-        e.preventDefault();
-        $(this).toggleClass('is-active');
-    });
-
     // Modal
     $('.modal-trigger').click(function(e) {
         e.preventDefault();

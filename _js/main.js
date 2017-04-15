@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 import './components/scripts.js';
 import './components/profile.js';
+import './components/sign-up.js';
 
 import '../_sass/main.scss';
 
