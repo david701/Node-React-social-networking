@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 import './components/scripts.js';
-import './components/profile.js';
 import './components/sign-up.js';
-
+import './components/profile.js';
+import './components/login.js';
 import '../_sass/main.scss';
 
 function mapObject(object, callback) {
@@ -13,6 +13,118 @@ function mapObject(object, callback) {
     return callback(key, object[key]);
   });
 }
+
+
+class LoginButtons extends React.Component{
+
+	constructor(props) {
+    	super(props);
+    	this.state = {
+    		loggedIn: false
+    	};
+    	this._signOut = this._signOut.bind(this);
+    	this._objectEmpty = this._objectEmpty.bind(this);
+  	}
+
+	componentDidMount(){
+		$.get('/api/v1/user_session/').then((response)=>{
+			let isLoggedIn = !this._objectEmpty(response.data);
+			this.setState({loggedIn: isLoggedIn });
+		});
+	}
+
+	_objectEmpty(obj){
+	    for(var prop in obj) {
+	        if(obj.hasOwnProperty(prop))
+	            return false;
+	    }
+
+    	return JSON.stringify(obj) === JSON.stringify({});
+	}
+
+	_signOut(){
+		let self = this;
+		$.get('/api/v1/logout').then((response)=>{
+			let isLoggedIn = response.status = "ok" ? false : true;
+			self.setState({loggedIn: isLoggedIn });
+			if(!isLoggedIn){
+				window.location.href = "/";
+			}
+		});
+	}
+
+	render(){
+		return(
+				<div>
+					{!this.state.loggedIn &&
+						<div className="sign-in-buttons">
+			                <li>
+			                    <a id="loginButton" href=".">
+			                        <div className="icon">
+			                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+			                        </div>
+			                        <span>Log In</span>
+			                    </a>
+			                </li>
+			                <li>
+			                    <a href="/signup/">
+			                        <div className="icon">
+			                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+			                        </div>
+			                        <span>Sign Up</span>
+			                    </a>
+			                </li>
+		                </div>
+	            	}
+	            	{this.state.loggedIn &&
+	            		<div className="sign-in-buttons">
+	            		   <li>
+			                    <a href="/dashboard/">
+			                        <div className="icon">
+			                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
+			                        </div>
+			                        <span>Dashboard</span>
+			                    </a>
+			                    <ul>
+			                        <li>
+			                            <a href="/dashboard/create/">Create</a>
+			                        </li>
+			                        <li>
+			                            <a href="#create-brawl" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
+			                        </li>
+			                    </ul>
+			                </li>
+			                <li>
+			                    <a href="/forum/">
+			                        <div className="icon">
+			                            <img src="/assets/images/icons/nav/forum.svg" alt="Browse"/>
+			                        </div>
+			                        <span>Forum</span>
+			                    </a>
+			                    <ul>
+			                        <li>
+			                            <a href=".">Messages</a>
+			                        </li>
+			                    </ul>
+                			</li>
+			                <li onClick={this._signOut}>
+			                    <a href="javascript:void(0)">
+			                        <div className="icon">
+			                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+			                        </div>
+			                        <span>Log Out</span>
+			                    </a>
+			                </li>
+		                </div>
+	            	}
+              	</div>
+		)
+	}
+}
+
+if(document.getElementById('login-buttons'))
+	ReactDOM.render(<LoginButtons />, document.getElementById('login-buttons'))
+
 
 class UploadCover extends React.Component{
 	state = {title:'', coverFile: false}

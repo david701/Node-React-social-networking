@@ -2,28 +2,56 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+const Profile = function(){
+		this.id = ''
+		this.avatar = '';
+    	this.name = '';
+    	this.password = '';
+    	this.email = '';
+    	this.bday = '';
+    	this.gender = '';
+    	this.social_media = {
+    		website: '',
+    		good_reads: '',
+    		amazon: '',
+    		wordpress: '',
+    		facebook: '',
+    		twitter: ''
+    	}
+    	this.genres = [];
+    	this.themes = [];
+    	this.newsletter = true;
+ 	}
+
+
 class Parent extends React.Component{
 
 	constructor(props) {
     	super(props);
+    	this.user = new Profile();
     	this.state = {
-    		user: {}
+    		user: this.user
     	};
   	}
 
 	componentDidMount(){
-
-		$.get('/api/v1/user_session/').then((data)=>{
-			alert(data)
+		let self = this;
+		$.get('/api/v1/user_session/').then((response)=>{
+			if(response.data){
+				this.user.id = response.data._id;
+				this.setState({user: this.user});
+				self.loadUserInfo(this.user.id);
+			}
 		});
+	}
 
-
-
-		//$.get('/api/v1/users/58ebda9a0432625f23852f0e').then((data)=>{
-		//	this.setState({
-		//		user:data
-		//	});
-		//});
+	loadUserInfo(id){
+		$.get('/api/v1/users/' + id).then((response)=>{
+			console.log('login info: ' + JSON.stringify(response.data));
+			this.setState({
+				user: response.data
+			});
+		});
 	}
 
 	render(){

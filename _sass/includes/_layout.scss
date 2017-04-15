@@ -13,6 +13,11 @@
     flex-grow: 1;
     transition: transform $timing-slower, opacity $timing-slower;
 }
+.content-block-small {
+    h3 {
+        text-align: center;
+    }
+}
 .view-sidebar {
     order: 1;
     width: 0;
@@ -83,7 +88,7 @@
             padding: 1em 0;
             border-bottom: 1px solid $shade-gray;
             > ul {
-                > li {
+                > li,.sign-in-buttons li {
                     > a {
                         padding: em(4) em(8);
                         color: $dark-blue;

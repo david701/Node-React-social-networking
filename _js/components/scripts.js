@@ -11,11 +11,12 @@ $(document).ready(function() {
             $('body').removeClass('menu-open');
 		}
 	});
+
 	$(document).mouseup(function(e) {
 		var container = $('.set-view-menu');
 		if (!container.is(e.target) && container.has(e.target).length === 0)
 		{
-            $('body').removeClass('menu-open');
+            //$('body').removeClass('menu-open');
 		}
 	});
 
@@ -37,14 +38,6 @@ $(document).ready(function() {
     });
     $(document).keyup(function(e) {
 		if (e.keyCode === 27) {
-            $('body').removeClass('modal-showing');
-						$('.login-modal').css({visibility: 'hidden', opacity: 0});
-		}
-	});
-	$(document).mouseup(function(e) {
-		var container = $('.modal .account-block');
-		if (!container.is(e.target) && container.has(e.target).length === 0)
-		{
             $('body').removeClass('modal-showing');
 						$('.login-modal').css({visibility: 'hidden', opacity: 0});
 		}
@@ -72,14 +65,14 @@ $(document).ready(function() {
         $('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
     });
 
-		$('#bookSubmit').click(function(e){
-			e.preventDefault();
-			$('#coverSubmit').click();
-		})
+	$('#bookSubmit').click(function(e){
+		e.preventDefault();
+		$('#coverSubmit').click();
+	})
 
-		//login modal
-		$('#loginButton').click(function(e){
-			e.preventDefault();
-			$('.login-modal').css({visibility: 'visible', opacity: 1});
-		})
+	//login modal
+	$('#loginButton').click(function(e){
+		$('.login-modal').css({visibility: 'visible', opacity: 1});
+        e.preventDefault();
+	})
 });

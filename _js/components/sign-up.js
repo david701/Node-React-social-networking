@@ -25,7 +25,7 @@ const Profile = function(){
     	this.newsletter = true;
  	}
 
-class Login extends React.Component{
+class SignUp extends React.Component{
 
 	constructor(props) {
     	super(props);
@@ -214,4 +214,4 @@ class Login extends React.Component{
 }
 
 if(document.getElementById('sign-up'))
-	ReactDOM.render(<Login />, document.getElementById('sign-up'))
+	ReactDOM.render(<SignUp />, document.getElementById('sign-up'))

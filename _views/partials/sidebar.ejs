@@ -30,54 +30,8 @@
                         </li>
                     </ul>
                 </li>
-                <li <% if(title == 'Dashboard' || title == 'Create'){ %> class="selected" <% } %> >
-                    <a href="/dashboard/">
-                        <div class="icon">
-                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse">
-                        </div>
-                        <span>Dashboard</span>
-                    </a>
-                    <ul>
-                        <li <% if(title == 'Create'){ %> class="selected" <% } %>>
-                            <a href="/dashboard/create/">Create</a>
-                        </li>
-                        <li>
-                            <a href="#create-brawl" class="modal-trigger modal-trigger-report-issue">Report Issue</a>
-                        </li>
-                    </ul>
-                </li>
 
-                <li>
-                    <a href="/signup/">
-                        <div class="icon">
-                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse">
-                        </div>
-                        <span>Sign Up</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a id="loginButton" href="/login/">
-                        <div class="icon">
-                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse">
-                        </div>
-                        <span>Log In</span>
-                    </a>
-                </li>
-
-                <li <% if(title == 'Forum'){ %> class="selected" <% } %>>
-                    <a href="/forum/">
-                        <div class="icon">
-                            <img src="/assets/images/icons/nav/forum.svg" alt="Browse">
-                        </div>
-                        <span>Forum</span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href=".">Messages</a>
-                        </li>
-                    </ul>
-                </li>
+                <div id="login-buttons"></div>
                 <li>
                     <a href="/search/">
                         <div class="icon">

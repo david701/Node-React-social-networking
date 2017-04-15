@@ -310,6 +310,9 @@ a:hover .avatar {
   flex-grow: 1;
   transition: transform 0.25s ease-out, opacity 0.25s ease-out; }
 
+.content-block-small h3 {
+  text-align: center; }
+
 .view-sidebar {
   order: 1;
   width: 0; }
@@ -366,29 +369,29 @@ a:hover .avatar {
       margin-bottom: 0.5em;
       padding: 1em 0;
       border-bottom: 1px solid #F2F5F7; }
-      .view-sidebar .fixed-area nav > ul > li > a {
+      .view-sidebar .fixed-area nav > ul > li > a, .view-sidebar .fixed-area nav > ul .sign-in-buttons li > a {
         padding: 0.25em 0.5em;
         color: #005876;
         font-weight: 500;
         display: flex;
         align-items: center; }
-        .view-sidebar .fixed-area nav > ul > li > a:hover {
+        .view-sidebar .fixed-area nav > ul > li > a:hover, .view-sidebar .fixed-area nav > ul .sign-in-buttons li > a:hover {
           background-color: #F2F5F7; }
-        .view-sidebar .fixed-area nav > ul > li > a .icon {
+        .view-sidebar .fixed-area nav > ul > li > a .icon, .view-sidebar .fixed-area nav > ul .sign-in-buttons li > a .icon {
           width: 1.125em;
           height: 1.125em;
           margin-right: 0.375em; }
-      .view-sidebar .fixed-area nav > ul > li ul li a {
+      .view-sidebar .fixed-area nav > ul > li ul li a, .view-sidebar .fixed-area nav > ul .sign-in-buttons li ul li a {
         padding: 0.25em 0.5em 0.25em 2em; }
-        .view-sidebar .fixed-area nav > ul > li ul li a:hover {
+        .view-sidebar .fixed-area nav > ul > li ul li a:hover, .view-sidebar .fixed-area nav > ul .sign-in-buttons li ul li a:hover {
           color: #005876;
           background-color: #F2F5F7; }
-      .view-sidebar .fixed-area nav > ul > li.selected > a {
+      .view-sidebar .fixed-area nav > ul > li.selected > a, .view-sidebar .fixed-area nav > ul .sign-in-buttons li.selected > a {
         background-color: #F2F5F7; }
-      .view-sidebar .fixed-area nav > ul > li.selected li.selected {
+      .view-sidebar .fixed-area nav > ul > li.selected li.selected, .view-sidebar .fixed-area nav > ul .sign-in-buttons li.selected li.selected {
         color: #005876;
         font-weight: 500; }
-      .view-sidebar .fixed-area nav > ul > li:not(.selected) ul {
+      .view-sidebar .fixed-area nav > ul > li:not(.selected) ul, .view-sidebar .fixed-area nav > ul .sign-in-buttons li:not(.selected) ul {
         display: none; }
     .view-sidebar .fixed-area footer {
       padding: 0.5em; }
