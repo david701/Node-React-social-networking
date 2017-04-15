@@ -19,7 +19,7 @@ router.get('/author', (req, res)=>{
 
 router.get('/dashboard', (req, res)=>{
 	if(req.session){
-		res.render('dashboard', {title: 'Dashboard'};
+		res.render('dashboard', {title: 'Dashboard'});
 	}else{
 		res.redirect('/login');
 	}
