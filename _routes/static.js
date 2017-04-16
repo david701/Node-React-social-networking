@@ -2,7 +2,7 @@ var express = require('express'),
 		router = express.Router();
 
 router.get('/', (req, res)=>{
-	res.render('home', {title: ''})
+	res.render('home', {title: 'Browse'})
 });
 
 router.get('/login', (req, res)=>{
@@ -15,6 +15,10 @@ router.get('/signup', (req, res)=>{
 
 router.get('/email', (req, res)=>{
 	res.render('email', {title: 'Check Email'})
+});
+
+router.get('/recover-password', (req, res)=>{
+	res.render('email', {title: 'Recover Password'})
 });
 
 router.get('/author', (req, res)=>{

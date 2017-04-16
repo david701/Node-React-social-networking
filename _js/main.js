@@ -60,7 +60,7 @@ class LoginButtons extends React.Component{
 		return(
 				<div>
 					<div className="sign-in-buttons">
-					    <li>
+					    <li className={this.state.title === "Browse" ? 'selected' : ''}>
 		                    <a href="/">
 		                        <div className="icon">
 		                            <img src="/assets/images/icons/nav/browse.svg" alt="Browse"/>

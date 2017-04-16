@@ -12,14 +12,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).mouseup(function(e) {
-		var container = $('.set-view-menu');
-		if (!container.is(e.target) && container.has(e.target).length === 0)
-		{
-            //$('body').removeClass('menu-open');
-		}
-	});
-
     // Brawl week switching
     $('.week-control-last').click(function(e) {
         e.preventDefault();
@@ -42,12 +34,6 @@ $(document).ready(function() {
 						$('.login-modal').css({visibility: 'hidden', opacity: 0});
 		}
 	});
-
-    // Modal password
-    $('.modal-trigger-password').click(function(e) {
-        e.preventDefault();
-        $(this).closest('.overlay').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
-    });
 
     // Modal password
     $('.modal-trigger-create-brawl').click(function(e) {

@@ -313,6 +313,35 @@ a:hover .avatar {
 .content-block-small h3 {
   text-align: center; }
 
+/* card fronts and backs */
+.card__front,
+.card__back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.card__front,
+.card__back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s; }
+
+.card__back {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg); }
+
+/* click effect */
+.card.effect__click.flipped .card__front {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg); }
+
+.card.effect__click.flipped .card__back {
+  -webkit-transform: rotateY(0);
+  transform: rotateY(0); }
+
 .view-sidebar {
   order: 1;
   width: 0; }
@@ -568,7 +597,7 @@ body.menu-open .mobile-header .fixed-area .flex-row a.control .menu-close {
       visibility: hidden; }
     .modal .overlay .content-block {
       transition: transform 0.25s ease-out, opacity 0.25s ease-out;
-      transform: translateY(0.75em); }
+      transform: translateY(7em); }
 
 body.modal-showing .modal {
   visibility: visible;
@@ -580,6 +609,10 @@ body.modal-showing .modal {
 body.modal-showing .overlay.is-hidden .content-block {
   opacity: 0;
   transform: translateY(0.75em); }
+
+.modal-trigger-password {
+  display: inline;
+  color: #0FAFFF; }
 
 .content-block {
   background-color: #FFFFFF;

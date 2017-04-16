@@ -19825,14 +19825,24 @@ var Login = function (_React$Component) {
         _this.profile = new Profile();
         _this.state = {
             profile: _this.profile,
-            error: ''
+            error: '',
+            isFlipped: false
         };
         _this.handleChange = _this.handleChange.bind(_this);
-        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.handleLogin = _this.handleLogin.bind(_this);
+        _this.closeLogin = _this.closeLogin.bind(_this);
+        _this.handleResetPassword = _this.handleResetPassword.bind(_this);
+        _this.flipWindow = _this.flipWindow.bind(_this);
         return _this;
     }
 
     _createClass(Login, [{
+        key: 'resetProfile',
+        value: function resetProfile() {
+            this.new_profile = new Profile();
+            this.setState({ profile: this.new_profile });
+        }
+    }, {
         key: 'handleChange',
         value: function handleChange(event) {
             //get target
@@ -19843,9 +19853,17 @@ var Login = function (_React$Component) {
             this.setState({ profile: this.profile, error: '' });
         }
     }, {
+        key: 'flipWindow',
+        value: function flipWindow(event) {
+            this.setState({ isFlipped: !this.state.isFlipped });
+            this.resetProfile();
+            event.preventDefault();
+        }
+    }, {
         key: 'closeLogin',
         value: function closeLogin(event) {
             (0, _jquery2.default)('body').removeClass('modal-showing');
+            this.setState({ isFlipped: false });
             (0, _jquery2.default)('.login-modal').css({ visibility: 'hidden', opacity: 0 });
         }
     }, {
@@ -19854,8 +19872,26 @@ var Login = function (_React$Component) {
             event.stopPropagation();
         }
     }, {
-        key: 'handleSubmit',
-        value: function handleSubmit(event) {
+        key: 'handleResetPassword',
+        value: function handleResetPassword(event) {
+            var new_profile = {
+                email: this.state.profile.email
+            };
+            //restart profile
+            //$.post('/api/v1/some-link',new_profile).then((data)=>{
+            //    if(data.status === "error"){
+            //        this.setState({error: data.message});
+            //    }else{
+            //        //send email
+            //    }
+            //});
+            window.location.href = "/recover-password";
+            this.resetProfile();
+            event.preventDefault();
+        }
+    }, {
+        key: 'handleLogin',
+        value: function handleLogin(event) {
             var _this2 = this;
 
             //restart profile
@@ -19866,8 +19902,7 @@ var Login = function (_React$Component) {
                     window.location.href = "/dashboard";
                 }
             });
-            this.new_profile = new Profile();
-            this.setState({ profile: this.new_profile });
+            this.resetProfile();
             event.preventDefault();
         }
     }, {
@@ -19875,75 +19910,154 @@ var Login = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: 'overlay', onClick: this.closeLogin },
+                { className: 'overlay' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'content-block-small content-block', onClick: this.handleClick },
+                    { className: this.state.isFlipped ? 'card effect__click flipped' : 'card effect__click' },
                     _react2.default.createElement(
-                        'h3',
-                        null,
-                        'Book Brawl Log In'
-                    ),
-                    _react2.default.createElement(
-                        'p',
-                        { className: 'quote' },
-                        '\u201CSome type of quote.\u201D'
-                    ),
-                    this.state.error && _react2.default.createElement(
-                        'p',
-                        { className: 'error-message' },
-                        this.state.error
-                    ),
-                    _react2.default.createElement(
-                        'form',
-                        { onSubmit: this.handleSubmit },
-                        _react2.default.createElement(
-                            'ul',
-                            { className: 'field-list field-list-small' },
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    'label',
-                                    { htmlFor: 'email' },
-                                    'Email Address'
-                                ),
-                                _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, type: 'text' })
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    'label',
-                                    { htmlFor: 'passwprd' },
-                                    'Password'
-                                ),
-                                _react2.default.createElement('input', { id: 'password', name: 'password', value: this.state.profile.password, onChange: this.handleChange, type: 'password' })
-                            )
-                        ),
+                        'div',
+                        { className: 'card__front' },
                         _react2.default.createElement(
                             'div',
-                            { className: 'submit-row submit-row-small' },
+                            { className: 'content-block-small content-block', onClick: this.handleClick },
                             _react2.default.createElement(
-                                'div',
-                                { className: 'buttons' },
-                                _react2.default.createElement(
-                                    'a',
-                                    { className: 'button button-white', href: '.' },
-                                    'Close'
-                                ),
-                                _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Login' })
+                                'h3',
+                                null,
+                                'Book Brawl Log In'
                             ),
                             _react2.default.createElement(
-                                'div',
-                                { className: 'controls' },
+                                'p',
+                                { className: 'quote' },
+                                '\u201CSome type of quote.\u201D'
+                            ),
+                            this.state.error && _react2.default.createElement(
+                                'p',
+                                { className: 'error-message' },
+                                this.state.error
+                            ),
+                            _react2.default.createElement(
+                                'form',
+                                { onSubmit: this.handleLogin },
                                 _react2.default.createElement(
-                                    'p',
-                                    null,
+                                    'ul',
+                                    { className: 'field-list field-list-small' },
                                     _react2.default.createElement(
-                                        'a',
-                                        { className: 'modal-trigger-password', href: '.' },
-                                        'Forgot Password?'
+                                        'li',
+                                        null,
+                                        _react2.default.createElement(
+                                            'label',
+                                            { htmlFor: 'email' },
+                                            'Email Address'
+                                        ),
+                                        _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, type: 'text' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'li',
+                                        null,
+                                        _react2.default.createElement(
+                                            'label',
+                                            { htmlFor: 'passwprd' },
+                                            'Password'
+                                        ),
+                                        _react2.default.createElement('input', { id: 'password', name: 'password', value: this.state.profile.password, onChange: this.handleChange, type: 'password' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'submit-row submit-row-small' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'buttons' },
+                                        _react2.default.createElement(
+                                            'a',
+                                            { className: 'button button-white', href: 'javascript:void(0)', onClick: this.closeLogin },
+                                            'Close'
+                                        ),
+                                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Login' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'controls' },
+                                        _react2.default.createElement(
+                                            'p',
+                                            null,
+                                            'Forgot your Password? ',
+                                            _react2.default.createElement(
+                                                'a',
+                                                { className: 'modal-trigger-password', href: 'javascript:void(0)', onClick: this.flipWindow },
+                                                'Reset it here.'
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'card__back' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'content-block-small content-block', id: 'reset' },
+                            _react2.default.createElement(
+                                'h3',
+                                null,
+                                'Password Reset'
+                            ),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'instructions' },
+                                'Instructions here.'
+                            ),
+                            this.state.error && _react2.default.createElement(
+                                'p',
+                                { className: 'error-message' },
+                                this.state.error
+                            ),
+                            _react2.default.createElement(
+                                'form',
+                                { onSubmit: this.handleResetPassword },
+                                _react2.default.createElement(
+                                    'ul',
+                                    { className: 'field-list field-list-small' },
+                                    _react2.default.createElement(
+                                        'li',
+                                        null,
+                                        _react2.default.createElement(
+                                            'label',
+                                            { htmlFor: 'email' },
+                                            'Email Address'
+                                        ),
+                                        _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, type: 'text' })
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'submit-row submit-row-small' },
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'buttons' },
+                                        _react2.default.createElement(
+                                            'a',
+                                            { className: 'button button-white', href: 'javascript:void(0)', onClick: this.closeLogin },
+                                            'Close'
+                                        ),
+                                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Reset Password' })
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: 'controls' },
+                                        _react2.default.createElement(
+                                            'p',
+                                            null,
+                                            'Know your password? ',
+                                            _react2.default.createElement(
+                                                'a',
+                                                { className: 'modal-trigger-password link', onClick: this.flipWindow, href: 'javascript:void(0)' },
+                                                'Login Here'
+                                            ),
+                                            '.'
+                                        )
                                     )
                                 )
                             )
@@ -20297,13 +20411,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         }
     });
 
-    (0, _jquery2.default)(document).mouseup(function (e) {
-        var container = (0, _jquery2.default)('.set-view-menu');
-        if (!container.is(e.target) && container.has(e.target).length === 0) {
-            //$('body').removeClass('menu-open');
-        }
-    });
-
     // Brawl week switching
     (0, _jquery2.default)('.week-control-last').click(function (e) {
         e.preventDefault();
@@ -20325,12 +20432,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             (0, _jquery2.default)('body').removeClass('modal-showing');
             (0, _jquery2.default)('.login-modal').css({ visibility: 'hidden', opacity: 0 });
         }
-    });
-
-    // Modal password
-    (0, _jquery2.default)('.modal-trigger-password').click(function (e) {
-        e.preventDefault();
-        (0, _jquery2.default)(this).closest('.overlay').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
     });
 
     // Modal password
@@ -20927,7 +21028,7 @@ var LoginButtons = function (_React$Component) {
 					{ className: 'sign-in-buttons' },
 					_react2.default.createElement(
 						'li',
-						null,
+						{ className: this.state.title === "Browse" ? 'selected' : '' },
 						_react2.default.createElement(
 							'a',
 							{ href: '/' },
