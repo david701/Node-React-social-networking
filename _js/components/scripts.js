@@ -59,10 +59,11 @@ $(document).ready(function() {
 
 
     // Modal password
-    $('.modal-trigger-report-issue').click(function(e) {
+    $(document).on('click','.modal-trigger-report-issue',function(e) {
         e.preventDefault();
         $('body').addClass('modal-showing');
         $('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
+        $('.login-modal ').hide();
     });
 
 	$('#bookSubmit').click(function(e){

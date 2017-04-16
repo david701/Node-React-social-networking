@@ -6,6 +6,7 @@ import './components/scripts.js';
 import './components/sign-up.js';
 import './components/profile.js';
 import './components/login.js';
+import './components/edit.js';
 import '../_sass/main.scss';
 
 function mapObject(object, callback) {
@@ -20,7 +21,8 @@ class LoginButtons extends React.Component{
 	constructor(props) {
     	super(props);
     	this.state = {
-    		loggedIn: false
+    		loggedIn: false,
+    		title: ''
     	};
     	this._signOut = this._signOut.bind(this);
     	this._objectEmpty = this._objectEmpty.bind(this);
@@ -29,8 +31,9 @@ class LoginButtons extends React.Component{
 	componentDidMount(){
 		$.get('/api/v1/user_session/').then((response)=>{
 			let isLoggedIn = !this._objectEmpty(response.data);
-			this.setState({loggedIn: isLoggedIn });
+			this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title')});
 		});
+
 	}
 
 	_objectEmpty(obj){
@@ -56,6 +59,30 @@ class LoginButtons extends React.Component{
 	render(){
 		return(
 				<div>
+					<div className="sign-in-buttons">
+					    <li>
+		                    <a href="/">
+		                        <div className="icon">
+		                            <img src="/assets/images/icons/nav/browse.svg" alt="Browse"/>
+		                        </div>
+		                        <span>Browse</span>
+		                    </a>
+		                    <ul>
+		                        <li>
+		                            <a href=".">All</a>
+		                        </li>
+		                        <li>
+		                            <a href=".">Trending</a>
+		                        </li>
+		                        <li>
+		                            <a href=".">Genre Name</a>
+		                        </li>
+		                        <li>
+		                            <a href=".">My Library</a>
+		                        </li>
+		                    </ul>
+		                </li>
+	                </div>
 					{!this.state.loggedIn &&
 						<div className="sign-in-buttons">
 			                <li>
@@ -78,7 +105,7 @@ class LoginButtons extends React.Component{
 	            	}
 	            	{this.state.loggedIn &&
 	            		<div className="sign-in-buttons">
-	            		   <li>
+	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" ? 'selected' : ''}>
 			                    <a href="/dashboard/">
 			                        <div className="icon">
 			                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
@@ -90,11 +117,11 @@ class LoginButtons extends React.Component{
 			                            <a href="/dashboard/create/">Create</a>
 			                        </li>
 			                        <li>
-			                            <a href="#create-brawl" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
+			                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
 			                        </li>
 			                    </ul>
 			                </li>
-			                <li>
+			                <li className={this.state.title === "Forum" || this.state.title === "Create" ? 'selected' : ''}>
 			                    <a href="/forum/">
 			                        <div className="icon">
 			                            <img src="/assets/images/icons/nav/forum.svg" alt="Browse"/>
@@ -117,6 +144,16 @@ class LoginButtons extends React.Component{
 			                </li>
 		                </div>
 	            	}
+	            	<div className="sign-in-buttons">
+	        			<li>
+		                    <a href="/search/">
+		                        <div className="icon">
+		                            <img src="/assets/images/icons/nav/advanced-search.svg" alt="Browse"/>
+		                        </div>
+		                        <span>Advanced Search</span>
+		                    </a>
+		                </li>
+	                </div>
               	</div>
 		)
 	}

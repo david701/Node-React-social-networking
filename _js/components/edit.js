@@ -33,7 +33,6 @@ class SignUp extends React.Component{
     	this.state = {
     		profile: this.new_profile
     	};
-        this.error = '';
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
   	}
@@ -42,6 +41,8 @@ class SignUp extends React.Component{
         //get user session
         $.get('/api/v1/user_session/').then((response)=>{
             if(!this._objectEmpty(response.data)){
+                this.loadInfo(response.data._id);
+            }else{
                 window.location.href = "/";
             }
         });
@@ -52,7 +53,18 @@ class SignUp extends React.Component{
             if(obj.hasOwnProperty(prop))
                 return false;
         }
+
         return JSON.stringify(obj) === JSON.stringify({});
+    }
+
+    loadInfo(id){
+        let self = this;
+        $.get('/api/v1/users/' + id).then((response)=>{
+            delete response.data.password;
+            self.setState({
+                profile: $.extend(this.state.profile,response.data)
+            });
+        });
     }
 
   	handleChange(event) {
@@ -90,18 +102,18 @@ class SignUp extends React.Component{
   	}
 
 	handleSubmit(event){
-		console.log(this.state.profile);
-		//restart profile
-		$.post('/api/v1/users', this.new_profile).then((data)=>{
-            if(data.status === "error"){
-                this.error = data.message;
-            }else{
-			    window.location.href = "/email";
+        //update profile
+        delete this.new_profile.password;
+        $.ajax({
+            url: '/api/v1/users/' + this.state.profile._id,
+            type: 'put',
+            data: this.new_profile,
+            dataType: 'json',
+            success: function(response){
+                window.location.href = "/dashboard/edit";
             }
-		});
-		this.new_profile = new Profile();
-		this.setState({profile: this.new_profile});
-		event.preventDefault();
+        });
+        event.preventDefault();
 	}
 
 	isChecked(array,value){
@@ -115,7 +127,6 @@ class SignUp extends React.Component{
 		let self = this;
 		return items.map(function(item,index){
 			let id = item.replace(/\s+/g,'-').toLowerCase();
-
 			return (
 				<li key={id}>
 					<input id={id} type="checkbox" name={type} value={item} onChange={self.handleChange} checked={self.isChecked(self.state.profile[type],item)}/>
@@ -128,8 +139,8 @@ class SignUp extends React.Component{
 	render(){
 		return(
 			<form onSubmit={this.handleSubmit}>
-				<h4><span>Step 1.</span> Tell us about yourself</h4>
-				<p>Add your photo:</p>
+				<h4>Tell us about yourself</h4>
+				<p>Edit your photo:</p>
 				<div className="avatar-selection">
 					<figure className="avatar"><img src={this.state.profile.avatar} /></figure>
 					<ul className="radio-list">
@@ -149,24 +160,24 @@ class SignUp extends React.Component{
 				</div>
 				<ul className="field-list">
 					<li className="field-error">
-						<label htmlFor="name">What is your name?</label>
-						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange}/>
+						<label htmlFor="name">Your name:</label>
+						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} disabled/>
 					</li>
 					<li>
-						<label htmlFor="email">What is your email?</label>
+						<label htmlFor="email">Your email:</label>
 						<input id="email" name="email" type="text" value={this.state.profile.email} onChange={this.handleChange}/>
 					</li>
 					<li>
-						<label htmlFor="bday">What is your birth date?</label>
-						<input id="bday" name="bday" type="text" value={this.state.profile.bday} onChange={this.handleChange}/>
+						<label htmlFor="bday">Your birth date:</label>
+						<input id="bday" name="bday" type="text" value={this.state.profile.bday} onChange={this.handleChange} disabled/>
 					</li>
 					<li>
-						<label htmlFor="gender">What is your gender?</label>
+						<label htmlFor="gender">Your gender:</label>
 						<input id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}/>
 					</li>
 				</ul>
 				<hr/>
-				<h4><span>Step 2.</span> Where else can we find you?</h4>
+				<h4>Where else can we find you?</h4>
     				<ul className="field-list">
     					<li>
     						<label htmlFor="website">Your website URL</label>
@@ -194,19 +205,19 @@ class SignUp extends React.Component{
     					</li>
     				</ul>
 				<hr/>
-				<h4><span>Step 3.</span> Create a secure password</h4>
+				<h4>Reset your Password</h4>
 				<ul className="field-list">
 					<li>
-						<label htmlFor="password1">Password</label>
+						<label htmlFor="password1">Current Password</label>
 						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} />
 					</li>
 					<li>
-						<label htmlFor="password2">Confirm Password</label>
+						<label htmlFor="password2">New Password</label>
 						<input id="password2" type="password" />
 					</li>
 				</ul>
 				<hr/>
-				<h4><span>Step 4.</span> Tell us what you like to see</h4>
+				<h4>Tell us what you like to see</h4>
 				<p>What Genres do you like?</p>
 				<ul className="toggle-list">
 					{ this.createCheckboxes(genres, 'genres') }
@@ -226,7 +237,7 @@ class SignUp extends React.Component{
 					</div>
 					<div className="buttons">
 						<a className="button button-white" href=".">Close</a>
-						<input className="button button-red" type="submit" value="Sign Up" />
+						<input className="button button-red" type="submit" value="Edit Profile" />
 					</div>
 				</div>
 			</form>
@@ -234,5 +245,5 @@ class SignUp extends React.Component{
 	}
 }
 
-if(document.getElementById('sign-up'))
-	ReactDOM.render(<SignUp />, document.getElementById('sign-up'))
+if(document.getElementById('edit-page'))
+	ReactDOM.render(<SignUp />, document.getElementById('edit-page'))

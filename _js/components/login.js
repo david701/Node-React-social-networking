@@ -12,10 +12,11 @@ class Login extends React.Component{
 
 	constructor(props) {
     	super(props);
+        this.profile = new Profile();
     	this.state = {
-    		profile: new Profile()
+    		profile: this.profile,
+            error: ''
     	};
-    	this.profile = this.state.profile;
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
   	}
@@ -26,7 +27,7 @@ class Login extends React.Component{
         //set value
         this.profile[target.name] = target.value;
         //set state
-        this.setState({profile: this.profile});
+        this.setState({profile: this.profile, error: ''});
     }
 
     closeLogin(event){
@@ -39,11 +40,13 @@ class Login extends React.Component{
     }
 
 	handleSubmit(event){
-		console.log(this.state.profile);
 		//restart profile
 		$.post('/api/v1/login', this.profile).then((data)=>{
-			console.log('The response is: ' + JSON.stringify(data));
-			window.location.href = "/dashboard";
+            if(data.status === "error"){
+                this.setState({error: data.message});
+            }else{
+                window.location.href = "/dashboard";
+            }
 		});
 		this.new_profile = new Profile();
 		this.setState({profile: this.new_profile});
@@ -56,6 +59,9 @@ class Login extends React.Component{
                 <div className="content-block-small content-block" onClick={this.handleClick}>
                     <h3>Book Brawl Log In</h3>
                     <p className="quote">“Some type of quote.”</p>
+                    {this.state.error &&
+                        <p className="error-message">{this.state.error}</p>
+                    }
                     <form onSubmit={this.handleSubmit}>
                         <ul className="field-list field-list-small">
                             <li>

@@ -19822,10 +19822,11 @@ var Login = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
+        _this.profile = new Profile();
         _this.state = {
-            profile: new Profile()
+            profile: _this.profile,
+            error: ''
         };
-        _this.profile = _this.state.profile;
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
         return _this;
@@ -19839,7 +19840,7 @@ var Login = function (_React$Component) {
             //set value
             this.profile[target.name] = target.value;
             //set state
-            this.setState({ profile: this.profile });
+            this.setState({ profile: this.profile, error: '' });
         }
     }, {
         key: 'closeLogin',
@@ -19855,11 +19856,15 @@ var Login = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
-            console.log(this.state.profile);
+            var _this2 = this;
+
             //restart profile
             _jquery2.default.post('/api/v1/login', this.profile).then(function (data) {
-                console.log('The response is: ' + JSON.stringify(data));
-                window.location.href = "/dashboard";
+                if (data.status === "error") {
+                    _this2.setState({ error: data.message });
+                } else {
+                    window.location.href = "/dashboard";
+                }
             });
             this.new_profile = new Profile();
             this.setState({ profile: this.new_profile });
@@ -19883,6 +19888,11 @@ var Login = function (_React$Component) {
                         'p',
                         { className: 'quote' },
                         '\u201CSome type of quote.\u201D'
+                    ),
+                    this.state.error && _react2.default.createElement(
+                        'p',
+                        { className: 'error-message' },
+                        this.state.error
                     ),
                     _react2.default.createElement(
                         'form',
@@ -20015,16 +20025,27 @@ var Parent = function (_React$Component) {
 	}
 
 	_createClass(Parent, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
+		key: '_objectEmpty',
+		value: function _objectEmpty(obj) {
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) return false;
+			}
+
+			return JSON.stringify(obj) === JSON.stringify({});
+		}
+	}, {
+		key: 'componentWillMount',
+		value: function componentWillMount() {
 			var _this2 = this;
 
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
-				if (response.data) {
+				if (!self._objectEmpty(response.data)) {
 					_this2.user.id = response.data._id;
 					_this2.setState({ user: _this2.user });
 					self.loadUserInfo(_this2.user.id);
+				} else {
+					window.location.href = "/";
 				}
 			});
 		}
@@ -20168,6 +20189,89 @@ var Parent = function (_React$Component) {
 
 if (document.getElementById('accountInfo')) _reactDom2.default.render(_react2.default.createElement(Parent, null), document.getElementById('accountInfo'));
 
+var Report = function (_React$Component2) {
+	_inherits(Report, _React$Component2);
+
+	function Report(props) {
+		_classCallCheck(this, Report);
+
+		var _this4 = _possibleConstructorReturn(this, (Report.__proto__ || Object.getPrototypeOf(Report)).call(this, props));
+
+		_this4._handleSubmit = _this4._handleSubmit.bind(_this4);
+		return _this4;
+	}
+
+	_createClass(Report, [{
+		key: '_objectEmpty',
+		value: function _objectEmpty(obj) {
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) return false;
+			}
+
+			return JSON.stringify(obj) === JSON.stringify({});
+		}
+	}, {
+		key: '_handleSubmit',
+		value: function _handleSubmit(event) {
+			//code for email submission goes here
+			alert('handle email');
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'overlay' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'content-block-small content-block', id: 'reset' },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Report Issue'
+					),
+					_react2.default.createElement(
+						'p',
+						{ className: 'instructions' },
+						'Please report your issue below and we will get back to you in X amount of time.'
+					),
+					_react2.default.createElement(
+						'ul',
+						{ className: 'field-list field-list-small' },
+						_react2.default.createElement(
+							'li',
+							null,
+							_react2.default.createElement('textarea', { name: 'name', rows: '5', cols: '80' })
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'submit-row submit-row-small' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'buttons' },
+							_react2.default.createElement(
+								'a',
+								{ className: 'button button-white', href: '/dashboard/' },
+								'Close'
+							),
+							_react2.default.createElement(
+								'a',
+								{ className: 'button button-red', href: 'javascript:void(0)', onClick: this._handleSubmit },
+								'Submit'
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return Report;
+}(_react2.default.Component);
+
+if (document.getElementById('report')) _reactDom2.default.render(_react2.default.createElement(Report, null), document.getElementById('report'));
+
 /***/ }),
 /* 85 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -20237,10 +20341,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     });
 
     // Modal password
-    (0, _jquery2.default)('.modal-trigger-report-issue').click(function (e) {
+    (0, _jquery2.default)(document).on('click', '.modal-trigger-report-issue', function (e) {
         e.preventDefault();
         (0, _jquery2.default)('body').addClass('modal-showing');
         (0, _jquery2.default)('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
+        (0, _jquery2.default)('.login-modal ').hide();
     });
 
     (0, _jquery2.default)('#bookSubmit').click(function (e) {
@@ -20315,16 +20420,37 @@ var SignUp = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
 
+		_this.new_profile = new Profile();
 		_this.state = {
-			profile: new Profile()
+			profile: _this.new_profile
 		};
-		_this.new_profile = _this.state.profile;
+		_this.error = '';
 		_this.handleChange = _this.handleChange.bind(_this);
 		_this.handleSubmit = _this.handleSubmit.bind(_this);
 		return _this;
 	}
 
 	_createClass(SignUp, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			var _this2 = this;
+
+			//get user session
+			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
+				if (!_this2._objectEmpty(response.data)) {
+					window.location.href = "/";
+				}
+			});
+		}
+	}, {
+		key: '_objectEmpty',
+		value: function _objectEmpty(obj) {
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) return false;
+			}
+			return JSON.stringify(obj) === JSON.stringify({});
+		}
+	}, {
 		key: 'handleChange',
 		value: function handleChange(event) {
 			var target = event.target,
@@ -20361,11 +20487,16 @@ var SignUp = function (_React$Component) {
 	}, {
 		key: 'handleSubmit',
 		value: function handleSubmit(event) {
+			var _this3 = this;
+
 			console.log(this.state.profile);
 			//restart profile
 			_jquery2.default.post('/api/v1/users', this.new_profile).then(function (data) {
-				console.log('The response is: ' + JSON.stringify(data));
-				//window.location.href = "/users/" + data._id;
+				if (data.status === "error") {
+					_this3.error = data.message;
+				} else {
+					window.location.href = "/email";
+				}
 			});
 			this.new_profile = new Profile();
 			this.setState({ profile: this.new_profile });
@@ -20719,6 +20850,8 @@ __webpack_require__(84);
 
 __webpack_require__(83);
 
+__webpack_require__(197);
+
 __webpack_require__(87);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -20744,7 +20877,8 @@ var LoginButtons = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (LoginButtons.__proto__ || Object.getPrototypeOf(LoginButtons)).call(this, props));
 
 		_this.state = {
-			loggedIn: false
+			loggedIn: false,
+			title: ''
 		};
 		_this._signOut = _this._signOut.bind(_this);
 		_this._objectEmpty = _this._objectEmpty.bind(_this);
@@ -20758,7 +20892,7 @@ var LoginButtons = function (_React$Component) {
 
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				var isLoggedIn = !_this2._objectEmpty(response.data);
-				_this2.setState({ loggedIn: isLoggedIn });
+				_this2.setState({ loggedIn: isLoggedIn, title: (0, _jquery2.default)('#login-buttons').attr('title') });
 			});
 		}
 	}, {
@@ -20788,6 +20922,68 @@ var LoginButtons = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(
+					'div',
+					{ className: 'sign-in-buttons' },
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: '/' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'icon' },
+								_react2.default.createElement('img', { src: '/assets/images/icons/nav/browse.svg', alt: 'Browse' })
+							),
+							_react2.default.createElement(
+								'span',
+								null,
+								'Browse'
+							)
+						),
+						_react2.default.createElement(
+							'ul',
+							null,
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '.' },
+									'All'
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '.' },
+									'Trending'
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '.' },
+									'Genre Name'
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '.' },
+									'My Library'
+								)
+							)
+						)
+					)
+				),
 				!this.state.loggedIn && _react2.default.createElement(
 					'div',
 					{ className: 'sign-in-buttons' },
@@ -20833,7 +21029,7 @@ var LoginButtons = function (_React$Component) {
 					{ className: 'sign-in-buttons' },
 					_react2.default.createElement(
 						'li',
-						null,
+						{ className: this.state.title === "Dashboard" || this.state.title === "Create" ? 'selected' : '' },
 						_react2.default.createElement(
 							'a',
 							{ href: '/dashboard/' },
@@ -20865,7 +21061,7 @@ var LoginButtons = function (_React$Component) {
 								null,
 								_react2.default.createElement(
 									'a',
-									{ href: '#create-brawl', className: 'modal-trigger modal-trigger-report-issue' },
+									{ href: 'javascript:void(0)', id: 'report-issue', className: 'modal-trigger modal-trigger-report-issue' },
 									'Report Issue'
 								)
 							)
@@ -20873,7 +21069,7 @@ var LoginButtons = function (_React$Component) {
 					),
 					_react2.default.createElement(
 						'li',
-						null,
+						{ className: this.state.title === "Forum" || this.state.title === "Create" ? 'selected' : '' },
 						_react2.default.createElement(
 							'a',
 							{ href: '/forum/' },
@@ -20917,6 +21113,28 @@ var LoginButtons = function (_React$Component) {
 								'span',
 								null,
 								'Log Out'
+							)
+						)
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'sign-in-buttons' },
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: '/search/' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'icon' },
+								_react2.default.createElement('img', { src: '/assets/images/icons/nav/advanced-search.svg', alt: 'Browse' })
+							),
+							_react2.default.createElement(
+								'span',
+								null,
+								'Advanced Search'
 							)
 						)
 					)
@@ -33927,6 +34145,462 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(27);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(26);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jquery = __webpack_require__(20);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//variables that will never change
+var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
+var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
+var Profile = function Profile() {
+  this.avatar = '/assets/images/avatars/cat-1.png';
+  this.name = '';
+  this.password = '';
+  this.email = '';
+  this.bday = '';
+  this.gender = '';
+  this.social_media = {
+    website: '',
+    good_reads: '',
+    amazon: '',
+    wordpress: '',
+    facebook: '',
+    twitter: ''
+  };
+  this.genres = [];
+  this.themes = [];
+  this.newsletter = true;
+};
+
+var SignUp = function (_React$Component) {
+  _inherits(SignUp, _React$Component);
+
+  function SignUp(props) {
+    _classCallCheck(this, SignUp);
+
+    var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
+
+    _this.new_profile = new Profile();
+    _this.state = {
+      profile: _this.new_profile
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(SignUp, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      //get user session
+      _jquery2.default.get('/api/v1/user_session/').then(function (response) {
+        if (!_this2._objectEmpty(response.data)) {
+          _this2.loadInfo(response.data._id);
+        } else {
+          window.location.href = "/";
+        }
+      });
+    }
+  }, {
+    key: '_objectEmpty',
+    value: function _objectEmpty(obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) return false;
+      }
+
+      return JSON.stringify(obj) === JSON.stringify({});
+    }
+  }, {
+    key: 'loadInfo',
+    value: function loadInfo(id) {
+      var _this3 = this;
+
+      var self = this;
+      _jquery2.default.get('/api/v1/users/' + id).then(function (response) {
+        delete response.data.password;
+        self.setState({
+          profile: _jquery2.default.extend(_this3.state.profile, response.data)
+        });
+      });
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(event) {
+      var target = event.target,
+          props = target.name.split('.'),
+          value = target.value === "true" ? true : target.value === "false" ? false : target.value;
+
+      //if the property is nested, dig 1 level deeper
+      if (props.length > 1) {
+        // add sub properties here
+        if (props[0] === "social_media") {
+          this.new_profile.social_media[props[1]] = value;
+        }
+      }
+      //if its a checkbox, add/delete values in an array
+      else if (target.type === "checkbox" && Array.isArray(this.new_profile[target.name])) {
+          //get index of value
+          var index = this.new_profile[target.name].indexOf(value);
+          //if checked, add value
+          if (target.checked) {
+            this.new_profile[target.name].push(value);
+          }
+          //if not checked, remove value
+          else {
+              this.new_profile[target.name].splice(index, 1);
+            }
+        }
+        //if it isn't a checkbox or a sub property
+        else {
+            this.new_profile[target.name] = value;
+          }
+      //set the state
+      this.setState({ profile: this.new_profile });
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      //update profile
+      delete this.new_profile.password;
+      _jquery2.default.ajax({
+        url: '/api/v1/users/' + this.state.profile._id,
+        type: 'put',
+        data: this.new_profile,
+        dataType: 'json',
+        success: function success(response) {
+          window.location.href = "/dashboard/edit";
+        }
+      });
+      event.preventDefault();
+    }
+  }, {
+    key: 'isChecked',
+    value: function isChecked(array, value) {
+      var val = array.filter(function (item, index) {
+        return item === value;
+      });
+      return val.length ? true : false;
+    }
+  }, {
+    key: 'createCheckboxes',
+    value: function createCheckboxes(items, type) {
+      var self = this;
+      return items.map(function (item, index) {
+        var id = item.replace(/\s+/g, '-').toLowerCase();
+        return _react2.default.createElement(
+          'li',
+          { key: id },
+          _react2.default.createElement('input', { id: id, type: 'checkbox', name: type, value: item, onChange: self.handleChange, checked: self.isChecked(self.state.profile[type], item) }),
+          _react2.default.createElement(
+            'label',
+            { htmlFor: id },
+            item
+          )
+        );
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: this.handleSubmit },
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Tell us about yourself'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Edit your photo:'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'avatar-selection' },
+          _react2.default.createElement(
+            'figure',
+            { className: 'avatar' },
+            _react2.default.createElement('img', { src: this.state.profile.avatar })
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'radio-list' },
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/cat-1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-1.png' }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'avatar-1' },
+                'Intermediate Avatar 1'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/cat-3.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-3.png' }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'avatar-2' },
+                'Intermediate Avatar 2'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-3', value: '/assets/images/avatars/cat-5.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-5.png' }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'avatar-3' },
+                'Intermediate Avatar 3'
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'field-list' },
+          _react2.default.createElement(
+            'li',
+            { className: 'field-error' },
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'name' },
+              'Your name:'
+            ),
+            _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, disabled: true })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'email' },
+              'Your email:'
+            ),
+            _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'bday' },
+              'Your birth date:'
+            ),
+            _react2.default.createElement('input', { id: 'bday', name: 'bday', type: 'text', value: this.state.profile.bday, onChange: this.handleChange, disabled: true })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'gender' },
+              'Your gender:'
+            ),
+            _react2.default.createElement('input', { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange })
+          )
+        ),
+        _react2.default.createElement('hr', null),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Where else can we find you?'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'field-list' },
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'website' },
+              'Your website URL'
+            ),
+            _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, type: 'text' })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'good_reads' },
+              'Goodreads URL'
+            ),
+            _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, type: 'text' })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'amazon' },
+              'Amazon URL'
+            ),
+            _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, type: 'text' })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'wordpress' },
+              'WordPress URL'
+            ),
+            _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, type: 'text' })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'facebook' },
+              'Facebook URL'
+            ),
+            _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, type: 'text' })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'twitter' },
+              'Twitter URL'
+            ),
+            _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, type: 'text' })
+          )
+        ),
+        _react2.default.createElement('hr', null),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Reset your Password'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'field-list' },
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'password1' },
+              'Current Password'
+            ),
+            _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange })
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'password2' },
+              'New Password'
+            ),
+            _react2.default.createElement('input', { id: 'password2', type: 'password' })
+          )
+        ),
+        _react2.default.createElement('hr', null),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Tell us what you like to see'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'What Genres do you like?'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'toggle-list' },
+          this.createCheckboxes(genres, 'genres'),
+          _react2.default.createElement('li', { className: 'spacing-block' }),
+          _react2.default.createElement('li', { className: 'spacing-block' })
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'What type of Fiction Themes?'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'toggle-list' },
+          this.createCheckboxes(themes, 'themes'),
+          _react2.default.createElement('li', { className: 'spacing-block' }),
+          _react2.default.createElement('li', { className: 'spacing-block' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'submit-row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'field' },
+            _react2.default.createElement('input', { type: 'checkbox', name: 'newsletter', id: 'newsletter', value: !this.state.profile.newsletter, onChange: this.handleChange, checked: this.state.profile.newsletter }),
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'newsletter' },
+              'I want to subscribe to newsletters'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'buttons' },
+            _react2.default.createElement(
+              'a',
+              { className: 'button button-white', href: '.' },
+              'Close'
+            ),
+            _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Edit Profile' })
+          )
+        )
+      );
+    }
+  }]);
+
+  return SignUp;
+}(_react2.default.Component);
+
+if (document.getElementById('edit-page')) _reactDom2.default.render(_react2.default.createElement(SignUp, null), document.getElementById('edit-page'));
 
 /***/ })
 /******/ ]);

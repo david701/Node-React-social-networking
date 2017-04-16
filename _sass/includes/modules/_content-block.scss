@@ -234,6 +234,33 @@
         }
     }
 }
+.error-message {
+    color: #fff;
+    background: red;
+    text-align: center;
+    margin: 14px 0 15px 0;
+    padding: 10px 0;
+}
+.email-us {
+    h3 {
+        line-height: 20px;
+        margin: 0 0 10px 0;
+    }
+    h5 {
+        text-align: center;
+        margin: 0 0 6px 0;
+        font-size: 18px;
+    }
+    .submit-row {
+        display: inline-block;
+        width: 100%;
+        background: none;
+        #button {
+            margin: 0 auto;
+            width: 145px;
+        }
+    }
+}
 .content-block-spread {
 	display: flex;
 	justify-content: space-between;

@@ -34,13 +34,24 @@ class Parent extends React.Component{
     	};
   	}
 
-	componentDidMount(){
+  	_objectEmpty(obj){
+	    for(var prop in obj) {
+	        if(obj.hasOwnProperty(prop))
+	            return false;
+	    }
+
+    	return JSON.stringify(obj) === JSON.stringify({});
+	}
+
+	componentWillMount(){
 		let self = this;
 		$.get('/api/v1/user_session/').then((response)=>{
-			if(response.data){
+			if(!self._objectEmpty(response.data)){
 				this.user.id = response.data._id;
 				this.setState({user: this.user});
 				self.loadUserInfo(this.user.id);
+			}else {
+				window.location.href = "/";
 			}
 		});
 	}
@@ -137,3 +148,52 @@ class Parent extends React.Component{
 
 if(document.getElementById('accountInfo'))
 	ReactDOM.render(<Parent />, document.getElementById('accountInfo'))
+
+
+
+class Report extends React.Component{
+
+	constructor(props) {
+    	super(props);
+    	this._handleSubmit = this._handleSubmit.bind(this);
+  	}
+
+  	_objectEmpty(obj){
+	    for(var prop in obj) {
+	        if(obj.hasOwnProperty(prop))
+	            return false;
+	    }
+
+    	return JSON.stringify(obj) === JSON.stringify({});
+	}
+
+	_handleSubmit(event){
+		//code for email submission goes here
+		alert('handle email')
+	}
+
+	render(){
+		return(
+			<div className="overlay">
+				<div className="content-block-small content-block" id="reset">
+					<h3>Report Issue</h3>
+					<p className="instructions">Please report your issue below and we will get back to you in X amount of time.</p>
+					<ul className="field-list field-list-small">
+						<li>
+							<textarea name="name" rows="5" cols="80"></textarea>
+						</li>
+					</ul>
+					<div className="submit-row submit-row-small">
+						<div className="buttons">
+							<a className="button button-white" href="/dashboard/">Close</a>
+							<a className="button button-red" href="javascript:void(0)" onClick={this._handleSubmit}>Submit</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+	}
+}
+
+if(document.getElementById('report'))
+	ReactDOM.render(<Report />, document.getElementById('report'))

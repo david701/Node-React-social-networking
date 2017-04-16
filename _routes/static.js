@@ -13,6 +13,10 @@ router.get('/signup', (req, res)=>{
 	res.render('signup', {title: 'Sign Up'})
 });
 
+router.get('/email', (req, res)=>{
+	res.render('email', {title: 'Check Email'})
+});
+
 router.get('/author', (req, res)=>{
 	res.render('author', {title: 'Author Page'})
 });
@@ -23,6 +27,10 @@ router.get('/dashboard', (req, res)=>{
 	}else{
 		res.redirect('/login');
 	}
+});
+
+router.get('/dashboard/edit', (req, res)=>{
+	res.render('edit', {title: 'Edit'});
 });
 
 router.get('/dashboard/create', (req, res)=>{
