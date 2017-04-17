@@ -21,6 +21,10 @@ router.get('/logout', Users.logout)
 router.get('/user_session', Users.userSession)
 
 router.post('/follow_author', Users.followAuthor)
+
+router.post('/reset_request', Users.resetRequest)
+router.post('/reset_auth', Users.resetTokenAuth)
+router.post('/reset_password', Users.resetPassword)
 /// END USER API ///
 
 

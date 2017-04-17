@@ -25,7 +25,9 @@ const userSchema = new Schema({
 	following_authors: [],
 	following_books: [],
 	last_active: { type: Date, default: Date.now },
-	status: Number
+	status: Number,
+	token: String,
+	reset_request: Date
 });
 
 const bookSchema = new Schema({

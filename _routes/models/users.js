@@ -151,6 +151,57 @@ exports.logout = (req, res)=>{
 	res.json({status: 'ok'});
 }
 
+/// PASSWORD RESET
+
+exports.resetRequest = (req, res)=>{
+	mongoUser.findOne({email: req.body.email}).then((user)=>{
+		if(!user){
+			res.json({status:'error', message: 'Email not on file.'});
+		}else{
+			var date = new Date(),
+					token = 'lkjasdfk';
+			user.update({token: token, reset_request: date}).then((update)=>{
+				/// TODO: Email link with token
+				console.log(token);
+				res.json({status:'ok'});
+			}).catch((err)=>{
+				res.json({status:'error', message: err});
+			})
+		}
+	}).catch((err)=>{
+		res.json({status:'error', message: err});
+	});
+}
+
+exports.resetTokenAuth = (req, res)=>{
+	mongoUser.findOne({token: token}).then((user)=>{
+		var userData = {_id: user._id.toString(), email: user.email};
+		res.json({status: 'ok', data: userData});
+	}).catch((err)=>{
+		res.json({status:'error', message: err});
+	})
+}
+
+exports.resetPassword = (req, res)=>{
+	mongoUser.findOne({_id: req.body.userId}, (err, user)=>{
+		if(err){
+			res.json({status:'error', message: err});
+			return;
+		}
+
+		var password = bcrypt.hashSync(req.body.password, salt);
+
+		user.update({password: password}).then((update)=>{
+			res.json({status: 'ok', data: update});
+		}).catch((err)=>{
+			res.json({status: 'error', message: err.message});
+		})
+
+	});
+
+}
+
+
 /// USER SESSION INFO
 exports.userSession = (req, res)=>{
 	if(!req.session){
