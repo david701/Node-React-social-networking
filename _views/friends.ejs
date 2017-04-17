@@ -1,0 +1,56 @@
+<% include ./partials/head %>
+<% include ./partials/mobile-head %>
+<div class="modal">
+	<div class="overlay overlay-create-brawl">
+		<div class="content-block-small content-block">
+			<h3>Are you ready to brawl?</h3>
+			<p class="quote">This is where your type would go for the book brawl. We need to determine this.</p>
+			<br><br><br><br>
+			<br><br><br><br>
+			<div class="submit-row submit-row-small">
+				<div class="buttons">
+					<a class="button button-white" href=".">Close</a>
+					<a class="button button-red" href=".">Yes</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlay" id="report"></div>
+</div>
+
+<div class="view">
+	<main class="main-view">
+		<section class="standard-section standard-section-with-sidebar">
+			<div class="container">
+				<div class="flex-row">
+					<div class="content-block content-block-standard">
+						<header>
+							<h3>All Users</h3>
+						</header>
+						<div class="title-row">
+							<h4>Choose user(s) to follow</h4>
+						</div>
+						<div id="friends"></div>
+					</div>
+					<div>
+						<div class="content-block">
+							<div class="placeholder">
+								<h4>Ad Space</h4>
+							</div>
+						</div>
+						<div class="content-block">
+							<div class="placeholder">
+								<h4>Ad Space</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</section>
+		<% include ./partials/main-footer %>
+	</main>
+	<% include ./partials/sidebar %>
+</div>
+<% include ./partials/end %>

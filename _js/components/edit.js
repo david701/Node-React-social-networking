@@ -6,7 +6,7 @@ import $ from 'jquery';
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
 const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Children","Thriller","Mystery","Classic"];
 const Profile = function(){
-		this.avatar = '/assets/images/avatars/cat-1.png';
+		this.avatar = '';
     	this.name = '';
     	this.password = '';
     	this.email = '';
@@ -143,20 +143,16 @@ class SignUp extends React.Component{
 				<p>Edit your photo:</p>
 				<div className="avatar-selection">
 					<figure className="avatar"><img src={this.state.profile.avatar} /></figure>
-					<ul className="radio-list">
-						<li>
-							<input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/cat-1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-1.png'}/>
-							<label htmlFor="avatar-1">Intermediate Avatar 1</label>
-						</li>
-						<li>
-							<input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/cat-3.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-3.png'}/>
-							<label htmlFor="avatar-2">Intermediate Avatar 2</label>
-						</li>
-						<li>
-							<input type="radio" name="avatar" id="avatar-3" value="/assets/images/avatars/cat-5.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-5.png'}/>
-							<label htmlFor="avatar-3">Intermediate Avatar 3</label>
-						</li>
-					</ul>
+          <ul className="radio-list">
+            <li>
+              <input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/Dog_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Dog_1.png'}/>
+              <label htmlFor="avatar-1">Apprentice Puppy</label>
+            </li>
+            <li>
+              <input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/Cat_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' || this.state.profile.avatar === '/assets/images/avatars/cat-1.png'}/>
+              <label htmlFor="avatar-2">Apprentice Kitty</label>
+            </li>
+          </ul>
 				</div>
 				<ul className="field-list">
 					<li className="field-error">

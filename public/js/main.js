@@ -20494,7 +20494,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 var Profile = function Profile() {
-	this.avatar = '/assets/images/avatars/cat-1.png';
+	this.avatar = '/assets/images/avatars/Dog_1.png';
 	this.name = '';
 	this.password = '';
 	this.email = '';
@@ -20665,31 +20665,21 @@ var SignUp = function (_React$Component) {
 						_react2.default.createElement(
 							'li',
 							null,
-							_react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/cat-1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-1.png' }),
+							_react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Dog_1.png' }),
 							_react2.default.createElement(
 								'label',
 								{ htmlFor: 'avatar-1' },
-								'Intermediate Avatar 1'
+								'Apprentice Puppy'
 							)
 						),
 						_react2.default.createElement(
 							'li',
 							null,
-							_react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/cat-3.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-3.png' }),
+							_react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' }),
 							_react2.default.createElement(
 								'label',
 								{ htmlFor: 'avatar-2' },
-								'Intermediate Avatar 2'
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-3', value: '/assets/images/avatars/cat-5.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-5.png' }),
-							_react2.default.createElement(
-								'label',
-								{ htmlFor: 'avatar-3' },
-								'Intermediate Avatar 3'
+								'Apprentice Kitty'
 							)
 						)
 					)
@@ -20949,9 +20939,13 @@ __webpack_require__(86);
 
 __webpack_require__(84);
 
+__webpack_require__(201);
+
 __webpack_require__(83);
 
 __webpack_require__(197);
+
+__webpack_require__(202);
 
 __webpack_require__(87);
 
@@ -21130,7 +21124,7 @@ var LoginButtons = function (_React$Component) {
 					{ className: 'sign-in-buttons' },
 					_react2.default.createElement(
 						'li',
-						{ className: this.state.title === "Dashboard" || this.state.title === "Create" ? 'selected' : '' },
+						{ className: this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" ? 'selected' : '' },
 						_react2.default.createElement(
 							'a',
 							{ href: '/dashboard/' },
@@ -21150,11 +21144,20 @@ var LoginButtons = function (_React$Component) {
 							null,
 							_react2.default.createElement(
 								'li',
-								null,
+								{ className: this.state.title === "Create" ? 'selected' : '' },
 								_react2.default.createElement(
 									'a',
 									{ href: '/dashboard/create/' },
 									'Create'
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								{ className: this.state.title === "Find Friends" ? 'selected' : '' },
+								_react2.default.createElement(
+									'a',
+									{ href: '/dashboard/find-friends/' },
+									'Find Friends'
 								)
 							),
 							_react2.default.createElement(
@@ -21223,7 +21226,7 @@ var LoginButtons = function (_React$Component) {
 					{ className: 'sign-in-buttons' },
 					_react2.default.createElement(
 						'li',
-						null,
+						{ className: this.state.title === "Search" ? 'selected' : '' },
 						_react2.default.createElement(
 							'a',
 							{ href: '/search/' },
@@ -34289,7 +34292,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 var Profile = function Profile() {
-  this.avatar = '/assets/images/avatars/cat-1.png';
+  this.avatar = '';
   this.name = '';
   this.password = '';
   this.email = '';
@@ -34467,31 +34470,21 @@ var SignUp = function (_React$Component) {
             _react2.default.createElement(
               'li',
               null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/cat-1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-1.png' }),
+              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Dog_1.png' }),
               _react2.default.createElement(
                 'label',
                 { htmlFor: 'avatar-1' },
-                'Intermediate Avatar 1'
+                'Apprentice Puppy'
               )
             ),
             _react2.default.createElement(
               'li',
               null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/cat-3.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-3.png' }),
+              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' || this.state.profile.avatar === '/assets/images/avatars/cat-1.png' }),
               _react2.default.createElement(
                 'label',
                 { htmlFor: 'avatar-2' },
-                'Intermediate Avatar 2'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-3', value: '/assets/images/avatars/cat-5.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/cat-5.png' }),
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'avatar-3' },
-                'Intermediate Avatar 3'
+                'Apprentice Kitty'
               )
             )
           )
@@ -34702,6 +34695,519 @@ var SignUp = function (_React$Component) {
 }(_react2.default.Component);
 
 if (document.getElementById('edit-page')) _reactDom2.default.render(_react2.default.createElement(SignUp, null), document.getElementById('edit-page'));
+
+/***/ }),
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(27);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(26);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jquery = __webpack_require__(20);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Profile = function Profile() {
+	this.id = (0, _jquery2.default)('#author').attr('profile');
+	this.avatar = '';
+	this.name = '';
+	this.password = '';
+	this.email = '';
+	this.bday = '';
+	this.gender = '';
+	this.social_media = {
+		website: '',
+		good_reads: '',
+		amazon: '',
+		wordpress: '',
+		facebook: '',
+		twitter: ''
+	};
+	this.genres = [];
+	this.themes = [];
+	this.newsletter = true;
+};
+
+var Author = function (_React$Component) {
+	_inherits(Author, _React$Component);
+
+	function Author(props) {
+		_classCallCheck(this, Author);
+
+		var _this = _possibleConstructorReturn(this, (Author.__proto__ || Object.getPrototypeOf(Author)).call(this, props));
+
+		_this.user = new Profile();
+		_this.state = {
+			user: _this.user,
+			following: false
+		};
+		_this.handleFollow = _this.handleFollow.bind(_this);
+		return _this;
+	}
+
+	_createClass(Author, [{
+		key: '_objectEmpty',
+		value: function _objectEmpty(obj) {
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) return false;
+			}
+
+			return JSON.stringify(obj) === JSON.stringify({});
+		}
+	}, {
+		key: 'handleFollow',
+		value: function handleFollow() {
+			var _this2 = this;
+
+			var data = {
+				authorId: this.state.user._id
+			};
+			_jquery2.default.post('/api/v1/follow_author', data).then(function (response) {
+				if (response.status === "error") {
+					alert(response.message);
+				} else {
+					_this2.setState({
+						following: true
+					});
+				}
+			});
+		}
+	}, {
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			var _this3 = this;
+
+			var self = this;
+			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
+				if (!status.error) {
+					self.loadUserInfo(response.data._id, _this3.user.id);
+				} else {
+					window.location.href = "/";
+				}
+			});
+		}
+	}, {
+		key: 'isFollowing',
+		value: function isFollowing(user, followers) {
+			this.setState({
+				following: followers.includes(user)
+			});
+		}
+	}, {
+		key: 'loadUserInfo',
+		value: function loadUserInfo(userId, profileId) {
+			var _this4 = this;
+
+			_jquery2.default.get('/api/v1/users/' + profileId).then(function (response) {
+				//figure out if we're following the user
+				_this4.isFollowing(userId, response.data.followers);
+				//in the meantime setup user data
+				_this4.setState({
+					user: response.data
+				});
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'user-info' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'main' },
+					_react2.default.createElement(
+						'figure',
+						{ className: 'avatar' },
+						_react2.default.createElement('img', { src: this.state.user.avatar, alt: '' })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'details' },
+						_react2.default.createElement(
+							'h5',
+							null,
+							this.state.user.name
+						),
+						this.state.user.achievement && _react2.default.createElement(
+							'p',
+							null,
+							'Achievement-Placeholder'
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'basic-profile' },
+							this.state.user.social_media && _react2.default.createElement(
+								'div',
+								null,
+								this.state.user.social_media.website && _react2.default.createElement(
+									'p',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: this.state.user.social_media.website, target: '_blank' },
+										this.state.user.social_media.website
+									)
+								),
+								_react2.default.createElement(
+									'ul',
+									{ className: 'social-links' },
+									this.state.user.social_media.good_reads && _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: this.state.user.social_media.good_reads, target: '_blank' },
+											_react2.default.createElement('img', { src: '/assets/images/icons/social/goodreads.svg', alt: 'Goodreads' })
+										)
+									),
+									this.state.user.social_media.amazon && _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: this.state.user.social_media.amazon, target: '_blank' },
+											_react2.default.createElement('img', { src: '/assets/images/icons/social/amazon.svg', alt: 'Amazon' })
+										)
+									),
+									this.state.user.social_media.wordpress && _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: this.state.user.social_media.wordpress, target: '_blank' },
+											_react2.default.createElement('img', { src: '/assets/images/icons/social/wordpress.svg', alt: 'Wordpress' })
+										)
+									),
+									this.state.user.social_media.facebook && _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: this.state.user.social_media.facebook, target: '_blank' },
+											_react2.default.createElement('img', { src: '/assets/images/icons/social/facebook.svg', alt: 'Facebook' })
+										)
+									),
+									this.state.user.social_media.twitter && _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: this.state.user.social_media.twitter, target: '_blank' },
+											_react2.default.createElement('img', { src: '/assets/images/icons/social/twitter.svg', alt: 'Twitter' })
+										)
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'button-row' },
+								this.state.following && _react2.default.createElement(
+									'a',
+									{ className: 'button button-small button-blue', href: 'javascript:void(0)' },
+									'Following'
+								),
+								!this.state.following && _react2.default.createElement(
+									'a',
+									{ className: 'button button-small button-blue', href: 'javascript:void(0)', onClick: this.handleFollow },
+									'Follow Me'
+								),
+								_react2.default.createElement(
+									'a',
+									{ className: 'button button-small button-white button-white-blue', href: '.' },
+									'Message Me'
+								)
+							)
+						)
+					)
+				),
+				this.state.user.achievement && _react2.default.createElement(
+					'div',
+					{ className: 'progress-meter' },
+					_react2.default.createElement(
+						'a',
+						{ href: '.', className: 'help-link' },
+						'?'
+					),
+					_react2.default.createElement(
+						'figure',
+						null,
+						_react2.default.createElement(
+							'figcaption',
+							null,
+							_react2.default.createElement(
+								'h4',
+								null,
+								'80%'
+							)
+						),
+						_react2.default.createElement('div', { className: 'meter' })
+					)
+				)
+			);
+		}
+	}]);
+
+	return Author;
+}(_react2.default.Component);
+
+if (document.getElementById('author')) _reactDom2.default.render(_react2.default.createElement(Author, null), document.getElementById('author'));
+
+var Book = function (_React$Component2) {
+	_inherits(Book, _React$Component2);
+
+	function Book(props) {
+		_classCallCheck(this, Book);
+
+		var _this5 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
+
+		_this5.state = {
+			name: ''
+		};
+		return _this5;
+	}
+
+	_createClass(Book, [{
+		key: '_objectEmpty',
+		value: function _objectEmpty(obj) {
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) return false;
+			}
+
+			return JSON.stringify(obj) === JSON.stringify({});
+		}
+	}, {
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			var self = this;
+			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
+				if (!self._objectEmpty(response.data)) {
+					self.loadUserInfo((0, _jquery2.default)('#author').attr('profile'));
+				} else {
+					window.location.href = "/";
+				}
+			});
+		}
+	}, {
+		key: 'loadUserInfo',
+		value: function loadUserInfo(id) {
+			var _this6 = this;
+
+			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
+				console.log('login info: ' + JSON.stringify(response.data));
+				_this6.setState({
+					name: response.data.name + "'s"
+				});
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'p',
+				null,
+				this.state.name
+			);
+		}
+	}]);
+
+	return Book;
+}(_react2.default.Component);
+
+if (document.getElementById('author-name')) _reactDom2.default.render(_react2.default.createElement(Book, null), document.getElementById('author-name'));
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(27);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(26);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jquery = __webpack_require__(20);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//variables that will never change
+var Users = [];
+var Books = [];
+
+var Friends = function (_React$Component) {
+    _inherits(Friends, _React$Component);
+
+    function Friends(props) {
+        _classCallCheck(this, Friends);
+
+        var _this = _possibleConstructorReturn(this, (Friends.__proto__ || Object.getPrototypeOf(Friends)).call(this, props));
+
+        _this.users = Users;
+        _this.books = Books;
+        _this.state = {
+            myId: 0,
+            followers: [],
+            users: _this.users,
+            books: _this.books
+        };
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleFollow = _this.handleFollow.bind(_this);
+        return _this;
+    }
+
+    _createClass(Friends, [{
+        key: 'isFollowing',
+        value: function isFollowing(userId, followers) {
+            if (followers.length) {
+                return followers.includes(userId);
+            }
+        }
+    }, {
+        key: 'handleFollow',
+        value: function handleFollow(event) {
+            var _this2 = this;
+
+            var data = {
+                authorId: event.target.id
+            };
+            _jquery2.default.post('/api/v1/follow_author', data).then(function (response) {
+                if (response.status === "error") {
+                    alert(response.message);
+                } else {
+                    _this2.getUsers(_this2.state.myId);
+                }
+            });
+        }
+    }, {
+        key: 'myProfile',
+        value: function myProfile(id, users) {
+            var myProfile = users.filter(function (user, index) {
+                return user._id === id;
+            });
+            this.setState({ followers: myProfile[0].following_authors, myId: myProfile[0]._id });
+        }
+    }, {
+        key: 'getUsers',
+        value: function getUsers(id) {
+            var _this3 = this;
+
+            _jquery2.default.get('/api/v1/users/').then(function (response) {
+                if (response.status === "error") {
+                    alert(response.message);
+                } else {
+                    _this3.users = response.data;
+                    _this3.setState({ users: _this3.users });
+                    if (id) {
+                        _this3.myProfile(id, _this3.state.users);
+                    }
+                }
+            });
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this4 = this;
+
+            //get user session
+            _jquery2.default.get('/api/v1/user_session/').then(function (response) {
+                if (response.status === "error") {
+                    window.location.href = "/";
+                } else {
+                    _this4.getUsers(response.data._id);
+                }
+            });
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            //get target
+            var target = event.target;
+            //set value
+            this.profile[target.name] = target.value;
+            //set state
+            this.setState({ profile: this.profile, error: '' });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var self = this;
+            return _react2.default.createElement(
+                'ul',
+                { className: 'user-list' },
+                this.state.users.map(function (user, i) {
+                    return _react2.default.createElement(
+                        'li',
+                        { key: user._id },
+                        _react2.default.createElement(
+                            'a',
+                            { href: '/author/' + user._id },
+                            _react2.default.createElement(
+                                'figure',
+                                { className: 'avatar' },
+                                _react2.default.createElement('img', { src: user.avatar, alt: '', id: user._id })
+                            ),
+                            _react2.default.createElement(
+                                'h5',
+                                null,
+                                user.name
+                            )
+                        ),
+                        self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                            'div',
+                            { className: 'control' },
+                            'Following'
+                        ),
+                        !self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                            'div',
+                            { className: 'control add-button', id: user._id, status: self.state.update, onClick: self.handleFollow },
+                            'Add'
+                        )
+                    );
+                })
+            );
+        }
+    }]);
+
+    return Friends;
+}(_react2.default.Component);
+
+if (document.getElementById('friends')) _reactDom2.default.render(_react2.default.createElement(Friends, null), document.getElementById('friends'));
 
 /***/ })
 /******/ ]);

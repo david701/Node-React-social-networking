@@ -276,6 +276,8 @@ button, .button {
 		background-repeat: no-repeat;
 		background-position: right center;
 		padding-right: em(17);
+		line-height: 14px;
+    	margin: -10px 0 0 0;
 		&:hover {
 			opacity: 0.625;
 		}

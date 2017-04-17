@@ -248,7 +248,9 @@ button, .button {
     background-image: url("/assets/images/icons/right-arrow-dark.svg");
     background-repeat: no-repeat;
     background-position: right center;
-    padding-right: 1.0625em; }
+    padding-right: 1.0625em;
+    line-height: 14px;
+    margin: -10px 0 0 0; }
     .title-row .control:hover {
       opacity: 0.625; }
     .title-row .control-expand {
@@ -312,6 +314,31 @@ a:hover .avatar {
 
 .content-block-small h3 {
   text-align: center; }
+
+.user-list li .control {
+  font-size: 14px;
+  border-radius: 5px;
+  color: #0FAFFF !important;
+  padding: 0 0 5px 0; }
+
+.user-list li .control.add-button {
+  color: #fff !important;
+  cursor: pointer;
+  padding: 5px 30px;
+  background-color: #0FAFFF;
+  transition: background-color 0.1875s ease-out, box-shadow 0.1875s ease-out;
+  box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18); }
+
+#friends li {
+  margin: 10px; }
+
+.title-row #author-name, .title-row p {
+  color: inherit;
+  font-size: 16px !important; }
+
+.title-row #author-name {
+  float: left;
+  margin: 0 5px 0 0; }
 
 /* card fronts and backs */
 .card__front,
@@ -613,6 +640,13 @@ body.modal-showing .overlay.is-hidden .content-block {
 .modal-trigger-password {
   display: inline;
   color: #0FAFFF; }
+
+#search .user-list {
+  display: inline-block;
+  padding: 0 20px; }
+  #search .user-list li {
+    float: left;
+    margin: 0 30px 30px 0; }
 
 .content-block {
   background-color: #FFFFFF;

@@ -5,8 +5,10 @@ import $ from 'jquery';
 import './components/scripts.js';
 import './components/sign-up.js';
 import './components/profile.js';
+import './components/author.js';
 import './components/login.js';
 import './components/edit.js';
+import './components/friends.js';
 import '../_sass/main.scss';
 
 function mapObject(object, callback) {
@@ -105,7 +107,7 @@ class LoginButtons extends React.Component{
 	            	}
 	            	{this.state.loggedIn &&
 	            		<div className="sign-in-buttons">
-	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" ? 'selected' : ''}>
+	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" ? 'selected' : ''}>
 			                    <a href="/dashboard/">
 			                        <div className="icon">
 			                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
@@ -113,8 +115,11 @@ class LoginButtons extends React.Component{
 			                        <span>Dashboard</span>
 			                    </a>
 			                    <ul>
-			                        <li>
+			                        <li className={this.state.title === "Create" ? 'selected' : ''}>
 			                            <a href="/dashboard/create/">Create</a>
+			                        </li>
+			                        <li className={this.state.title === "Find Friends" ? 'selected' : ''}>
+			                            <a href="/dashboard/find-friends/">Find Friends</a>
 			                        </li>
 			                        <li>
 			                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
@@ -145,7 +150,7 @@ class LoginButtons extends React.Component{
 		                </div>
 	            	}
 	            	<div className="sign-in-buttons">
-	        			<li>
+	        			<li className={this.state.title === "Search" ? 'selected' : ''}>
 		                    <a href="/search/">
 		                        <div className="icon">
 		                            <img src="/assets/images/icons/nav/advanced-search.svg" alt="Browse"/>
