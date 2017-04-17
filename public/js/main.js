@@ -20328,7 +20328,7 @@ var Report = function (_React$Component2) {
 		key: '_handleSubmit',
 		value: function _handleSubmit(event) {
 			//code for email submission goes here
-			alert('handle email');
+			window.location.href = "/report-sent";
 		}
 	}, {
 		key: 'render',
@@ -20946,6 +20946,8 @@ __webpack_require__(83);
 __webpack_require__(197);
 
 __webpack_require__(202);
+
+__webpack_require__(198);
 
 __webpack_require__(87);
 
@@ -34697,7 +34699,231 @@ var SignUp = function (_React$Component) {
 if (document.getElementById('edit-page')) _reactDom2.default.render(_react2.default.createElement(SignUp, null), document.getElementById('edit-page'));
 
 /***/ }),
-/* 198 */,
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(27);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(26);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jquery = __webpack_require__(20);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Profile = function Profile() {
+    this.id = 0;
+    this.password = '';
+    this.email = '';
+};
+
+var ResetPassword = function (_React$Component) {
+    _inherits(ResetPassword, _React$Component);
+
+    function ResetPassword(props) {
+        _classCallCheck(this, ResetPassword);
+
+        var _this = _possibleConstructorReturn(this, (ResetPassword.__proto__ || Object.getPrototypeOf(ResetPassword)).call(this, props));
+
+        _this.new_profile = new Profile();
+        _this.state = {
+            pending: true,
+            profile: _this.new_profile
+        };
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.loadProfile = _this.loadProfile.bind(_this);
+        return _this;
+    }
+
+    _createClass(ResetPassword, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            //get user session
+            _jquery2.default.get('/api/v1/user_session/').then(function (response) {
+                if (response.status === 'error') {
+                    window.location.href = "/";
+                } else {
+                    _this2.loadProfile(response.data._id);
+                }
+            });
+        }
+    }, {
+        key: 'loadProfile',
+        value: function loadProfile(id) {
+            var _this3 = this;
+
+            var self = this;
+            _jquery2.default.get('/api/v1/users/' + id).then(function (response) {
+                response.data.password = '';
+                self.setState({
+                    profile: _jquery2.default.extend(_this3.state.profile, response.data)
+                });
+            });
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            var target = event.target;
+            //new profile
+            this.new_profile[target.name] = target.value;
+            //set the state
+            this.setState({ profile: this.new_profile });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            //update profile
+            //$.ajax({
+            //    url: '/api/v1/users/' + this.state.profile._id,
+            //    type: 'put',
+            //    data: this.new_profile,
+            //    dataType: 'json',
+            //   success: function(response){
+            //        window.location.href = "/dashboard/edit";
+            //    }
+            //});
+            this.setState({ pending: false });
+            event.preventDefault();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.state.pending && _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'header',
+                        null,
+                        _react2.default.createElement(
+                            'h3',
+                            null,
+                            'Email Confirmed!'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'form',
+                        { onSubmit: this.handleSubmit },
+                        _react2.default.createElement(
+                            'h4',
+                            null,
+                            'Reset your password'
+                        ),
+                        _react2.default.createElement(
+                            'ul',
+                            { className: 'field-list' },
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    'label',
+                                    { htmlFor: 'password1' },
+                                    'New Password'
+                                ),
+                                _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange })
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    'label',
+                                    { htmlFor: 'password2' },
+                                    'Confirm New Password'
+                                ),
+                                _react2.default.createElement('input', { id: 'password2', type: 'password' })
+                            )
+                        ),
+                        _react2.default.createElement('hr', null),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'submit-row' },
+                            _react2.default.createElement('div', { className: 'field' }),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'buttons' },
+                                _react2.default.createElement(
+                                    'a',
+                                    { className: 'button button-white', href: '.' },
+                                    'Close'
+                                ),
+                                _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Reset Password' })
+                            )
+                        )
+                    )
+                ),
+                !this.state.pending && _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'header',
+                        null,
+                        _react2.default.createElement(
+                            'h3',
+                            null,
+                            'Your Password was Reset!'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'field' },
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            'Feel free to explore??'
+                        )
+                    ),
+                    _react2.default.createElement('hr', null),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'submit-row' },
+                        _react2.default.createElement('div', { className: 'field' }),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'buttons' },
+                            _react2.default.createElement(
+                                'a',
+                                { className: 'button button-white', href: '.' },
+                                'Close'
+                            ),
+                            _react2.default.createElement(
+                                'a',
+                                { className: 'button button-red', href: '/dashboard' },
+                                'Go to Dashboard'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ResetPassword;
+}(_react2.default.Component);
+
+if (document.getElementById('reset-password')) _reactDom2.default.render(_react2.default.createElement(ResetPassword, null), document.getElementById('reset-password'));
+
+/***/ }),
 /* 199 */,
 /* 200 */,
 /* 201 */
@@ -34758,7 +34984,9 @@ var Author = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Author.__proto__ || Object.getPrototypeOf(Author)).call(this, props));
 
 		_this.user = new Profile();
+
 		_this.state = {
+			id: id,
 			user: _this.user,
 			following: false
 		};
@@ -35120,7 +35348,7 @@ var Friends = function (_React$Component) {
             var myProfile = users.filter(function (user, index) {
                 return user._id === id;
             });
-            this.setState({ followers: myProfile[0].following_authors, myId: myProfile[0]._id });
+            this.setState({ followers: myProfile[0].following_authors });
         }
     }, {
         key: 'getUsers',
@@ -35149,6 +35377,7 @@ var Friends = function (_React$Component) {
                 if (response.status === "error") {
                     window.location.href = "/";
                 } else {
+                    _this4.setState({ myId: response.data._id });
                     _this4.getUsers(response.data._id);
                 }
             });
@@ -35188,15 +35417,24 @@ var Friends = function (_React$Component) {
                                 user.name
                             )
                         ),
-                        self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                        self.state.myId !== user._id && _react2.default.createElement(
+                            'div',
+                            null,
+                            self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                                'div',
+                                { className: 'control' },
+                                'Following'
+                            ),
+                            !self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                                'div',
+                                { className: 'control add-button', id: user._id, onClick: self.handleFollow },
+                                'Add'
+                            )
+                        ),
+                        self.state.myId === user._id && _react2.default.createElement(
                             'div',
                             { className: 'control' },
-                            'Following'
-                        ),
-                        !self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
-                            'div',
-                            { className: 'control add-button', id: user._id, status: self.state.update, onClick: self.handleFollow },
-                            'Add'
+                            'That\'s you!'
                         )
                     );
                 })

@@ -6,9 +6,14 @@
 			<div class="container email-us">
 				<div class="content-block content-block-standard account-block">
 					<header>
+						<%if (title !== 'Report Sent') { %>
 						<h3>Almost Done!</h3>
 						<h5>Please check your email to <%if (title === 'Check Email') { %>complete activation. <% } else { %> recover your password. <% } %></h5>
-						<p class="lead copy">Didn't recieve an email? Click <a href="javascript(void)" class="modal-trigger">here</a> to send it again.</p>
+						<% } else { %>
+						<h3>Thanks You!</h3>
+						<h5>We have recieved your report</h5>
+						<% } %>
+						<p class="lead copy">Please check your email daily for our response!</p>
 					</header>
 					<div class="submit-row">
 						<div id="button">

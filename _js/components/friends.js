@@ -45,7 +45,7 @@ class Friends extends React.Component{
         var myProfile = users.filter(function(user,index){
             return user._id === id
         });
-        this.setState({followers: myProfile[0].following_authors, myId: myProfile[0]._id});
+        this.setState({followers: myProfile[0].following_authors});
     }
 
     getUsers(id){
@@ -68,6 +68,7 @@ class Friends extends React.Component{
             if(response.status === "error"){
                 window.location.href = "/";
             }else {
+                this.setState({myId: response.data._id});
                 this.getUsers(response.data._id);
             }
         });
@@ -94,11 +95,18 @@ class Friends extends React.Component{
                         </figure>
                         <h5>{user.name}</h5>
                     </a>
-                    {self.isFollowing(user._id,self.state.followers) &&
-                        <div className="control">Following</div>
+                    {self.state.myId !== user._id &&
+                        <div>
+                        {self.isFollowing(user._id,self.state.followers) &&
+                            <div className="control">Following</div>
+                        }
+                        {!self.isFollowing(user._id,self.state.followers) &&
+                            <div className="control add-button" id={user._id} onClick={self.handleFollow}>Add</div>
+                        }
+                        </div>
                     }
-                    {!self.isFollowing(user._id,self.state.followers) &&
-                        <div className="control add-button" id={user._id} status={self.state.update} onClick={self.handleFollow}>Add</div>
+                    {self.state.myId === user._id &&
+                        <div className="control">That's you!</div>
                     }
                 </li>)
                 })}

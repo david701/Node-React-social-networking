@@ -29,7 +29,9 @@ class Author extends React.Component{
 	constructor(props) {
     	super(props);
     	this.user = new Profile();
+
     	this.state = {
+    		id: id,
     		user: this.user,
     		following: false
     	};

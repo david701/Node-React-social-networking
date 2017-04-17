@@ -21,6 +21,14 @@ router.get('/recover-password', (req, res)=>{
 	res.render('email', {title: 'Recover Password'})
 });
 
+router.get('/report-sent', (req, res)=>{
+	res.render('email', {title: 'Report Sent'})
+});
+
+router.get('/reset-password', (req, res)=>{
+	res.render('reset-password', {title: 'Reset Password'})
+});
+
 router.get('/author/:id', (req, res)=>{
 	res.render('author', {title: 'Author Page',id: req.params.id})
 });

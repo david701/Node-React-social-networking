@@ -46,7 +46,7 @@
 						<div class="title-row">
 							<h4>Account Info</h4>
 						</div>
-						<div id="author" profile="<%= id %>"></div>
+						<div id="author"></div>
 						<hr>
 
 
@@ -221,4 +221,9 @@
 	</main>
 	<% include ./partials/sidebar %>
 </div>
+<script>
+var id = <%= id %>
+</script>
 <% include ./partials/end %>
+
+

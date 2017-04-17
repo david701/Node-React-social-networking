@@ -169,7 +169,7 @@ class Report extends React.Component{
 
 	_handleSubmit(event){
 		//code for email submission goes here
-		alert('handle email')
+		window.location.href = "/report-sent";
 	}
 
 	render(){
