@@ -40,115 +40,64 @@
 			<div class="container">
 				<div class="flex-row">
 					<div class="content-block content-block-standard">
-						<header>
-							<h3>Account Info</h3>
-						</header>
-						<div class="title-row">
-							<h4>Account Info</h4>
-						</div>
-						<div class="user-info">
-							<div class="main with-button-row">
-								<figure class="avatar">
-									<img src="/assets/images/avatars/cat-1.png" alt="">
-								</figure>
-								<div class="details">
-									<h5>Author Full Name</h5>
-									<p>Achievement-Placeholder</p>
-									<p>
-										<a href=".">
-											www.mywebsite.com
-										</a>
-									</p>
-									<ul class="social-links">
-										<li>
-											<a href=".">
-												<img src="/assets/images/icons/social/goodreads.svg" alt="Goodreads">
-											</a>
-										</li>
-										<li>
-											<a href=".">
-												<img src="/assets/images/icons/social/amazon.svg" alt="Amazon">
-											</a>
-										</li>
-										<li>
-											<a href=".">
-												<img src="/assets/images/icons/social/wordpress.svg" alt="Wordpress">
-											</a>
-										</li>
-										<li>
-											<a href=".">
-												<img src="/assets/images/icons/social/facebook.svg" alt="Facebook">
-											</a>
-										</li>
-										<li>
-											<a href=".">
-												<img src="/assets/images/icons/social/twitter.svg" alt="Twitter">
-											</a>
-										</li>
-									</ul>
-									<div class="button-row">
-										<a class="button button-small button-blue" href=".">Follow Me</a>
-										<a class="button button-small button-white button-white-blue" href=".">Message Me</a>
-									</div>
-								</div>
-							</div>
-							<div class="progress-meter">
-								<a href="." class="help-link">?</a>
-								<figure>
-									<figcaption>
-										<h4>80%</h4>
-									</figcaption>
-									<div class="meter"></div>
-								</figure>
-							</div>
-						</div>
+						<div id="author"></div>
 						<hr>
+
 
 						<div class="title-row">
 							<h4>Favorite Authors</h4>
-							<a class="control" href=".">See All</a>
+							<!--<a class="control" href=".">See All</a>-->
 						</div>
 						<ul class="user-list">
+							You're not following any authors
+							<!--
 							<li>
-								<a href=".">
+								<a href="/author/">
 									<figure class="avatar">
 										<img src="/assets/images/avatars/cat-3.png" alt="">
 									</figure>
 									<h5>Author Name</h5>
 								</a>
+								<div class="control">Delete</div>
 							</li>
 							<li>
-								<a href=".">
+								<a href="/author/">
 									<figure class="avatar">
 										<img src="/assets/images/avatars/dog-2.png" alt="">
 									</figure>
 									<h5>Author Name</h5>
 								</a>
+								<div class="control">Delete</div>
 							</li>
 							<li>
-								<a href=".">
+								<a href="/author/">
 									<figure class="avatar">
 										<img src="/assets/images/avatars/cat-5.png" alt="">
 									</figure>
 									<h5>Author Name</h5>
 								</a>
+								<div class="control">Delete</div>
 							</li>
 							<li>
-								<a href=".">
+								<a href="/author/">
 									<figure class="avatar">
 										<img src="/assets/images/avatars/dog-5.png" alt="">
 									</figure>
 									<h5>Author Name</h5>
 								</a>
+								<div class="control">Delete</div>
 							</li>
+							-->
 						</ul>
 						<hr>
 
 						<div class="title-row">
-							<h4>[Author Name] Library</h4>
-							<a class="control" href=".">See All</a>
+							<h4><span id="author-name"></span> Library</h4>
+							<!--<a class="control" href=".">See All</a>-->
 						</div>
 						<div class="book-blocks book-blocks-small">
+							You don't have any books in your library
+							<!--
 							<ul>
 								<li>
 									<a href="." class="content-block content-block-book">
@@ -241,6 +190,7 @@
 								<li class="spacing-block"></li>
 								<li class="spacing-block"></li>
 							</ul>
+							-->
 						</div>
 
 					</div>
@@ -265,4 +215,9 @@
 	</main>
 	<% include ./partials/sidebar %>
 </div>
+<script>
+var id = '<%= id %>'
+</script>
 <% include ./partials/end %>
+
+

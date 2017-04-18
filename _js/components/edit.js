@@ -2,16 +2,30 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-//variables that will never change
-const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
-const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Children","Thriller","Mystery","Classic"];
+//list all of the genre's so we can loop through them
+const genres = ["Fantasy","Science Fiction",
+                "Horror","Non-Fiction","Mystery",
+                "Romance","Poetry"];
+//list all of the genre's so we can loop through them
+const themes = ["Contemporary", "Historical",
+                "Drama", "ChickLit", "Tragedy",
+                "Adventure", "Urban", "Epic",
+                "Romance", "Spiritual", "Humor",
+                "Paranormal", "Young Adult",
+                "Middle Grade","Children","Thriller",
+                "Mystery","Classic"];
+
+//should we see our profile or someone elses?
+const profile_id = profile_id;
+
 const Profile = function(){
-		this.avatar = '/assets/images/avatars/cat-1.png';
+      this.id = profile_id;
+		  this.avatar = '';
     	this.name = '';
     	this.password = '';
     	this.email = '';
     	this.bday = '';
-    	this.gender = '';
+    	this.gender = 'Select One';
     	this.social_media = {
     		website: '',
     		good_reads: '',
@@ -31,6 +45,7 @@ class SignUp extends React.Component{
     	super(props);
         this.new_profile = new Profile();
     	this.state = {
+        id: this.new_profile.id,
     		profile: this.new_profile
     	};
     	this.handleChange = this.handleChange.bind(this);
@@ -41,7 +56,8 @@ class SignUp extends React.Component{
         //get user session
         $.get('/api/v1/user_session/').then((response)=>{
             if(!this._objectEmpty(response.data)){
-                this.loadInfo(response.data._id);
+                let id = this.new_profile.id || response.data._id;
+                this.loadInfo(id);
             }else{
                 window.location.href = "/";
             }
@@ -60,7 +76,8 @@ class SignUp extends React.Component{
     loadInfo(id){
         let self = this;
         $.get('/api/v1/users/' + id).then((response)=>{
-            delete response.data.password;
+            let date = new Date(response.data.bday);
+            response.data.bday = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
             self.setState({
                 profile: $.extend(this.state.profile,response.data)
             });
@@ -107,8 +124,9 @@ class SignUp extends React.Component{
         $.ajax({
             url: '/api/v1/users/' + this.state.profile._id,
             type: 'put',
-            data: this.new_profile,
+            data: JSON.stringify(this.new_profile),
             dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
             success: function(response){
                 window.location.href = "/dashboard/edit";
             }
@@ -138,25 +156,32 @@ class SignUp extends React.Component{
 
 	render(){
 		return(
+      <div>
+      {!this.state.id &&
+        <header>
+          <h3>Edit your Profile</h3>
+        </header>
+      }
+      {this.state.id &&
+        <header>
+          <h3>Edit {this.state.profile.name}'s Profile</h3>
+        </header>
+      }
 			<form onSubmit={this.handleSubmit}>
 				<h4>Tell us about yourself</h4>
 				<p>Edit your photo:</p>
 				<div className="avatar-selection">
 					<figure className="avatar"><img src={this.state.profile.avatar} /></figure>
-					<ul className="radio-list">
-						<li>
-							<input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/cat-1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-1.png'}/>
-							<label htmlFor="avatar-1">Intermediate Avatar 1</label>
-						</li>
-						<li>
-							<input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/cat-3.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-3.png'}/>
-							<label htmlFor="avatar-2">Intermediate Avatar 2</label>
-						</li>
-						<li>
-							<input type="radio" name="avatar" id="avatar-3" value="/assets/images/avatars/cat-5.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-5.png'}/>
-							<label htmlFor="avatar-3">Intermediate Avatar 3</label>
-						</li>
-					</ul>
+          <ul className="radio-list">
+            <li>
+              <input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/Dog_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Dog_1.png'}/>
+              <label htmlFor="avatar-1">Apprentice Puppy</label>
+            </li>
+            <li>
+              <input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/Cat_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' || this.state.profile.avatar === '/assets/images/avatars/cat-1.png'}/>
+              <label htmlFor="avatar-2">Apprentice Kitty</label>
+            </li>
+          </ul>
 				</div>
 				<ul className="field-list">
 					<li className="field-error">
@@ -173,7 +198,11 @@ class SignUp extends React.Component{
 					</li>
 					<li>
 						<label htmlFor="gender">Your gender:</label>
-						<input id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}/>
+            <select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
+              <option value="Select One">Select One</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
 					</li>
 				</ul>
 				<hr/>
@@ -205,16 +234,9 @@ class SignUp extends React.Component{
     					</li>
     				</ul>
 				<hr/>
-				<h4>Reset your Password</h4>
+				<h4>Account Details</h4>
 				<ul className="field-list">
-					<li>
-						<label htmlFor="password1">Current Password</label>
-						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} />
-					</li>
-					<li>
-						<label htmlFor="password2">New Password</label>
-						<input id="password2" type="password" />
-					</li>
+					<a href="/reset-password" className="button reset-password">Reset Password</a>
 				</ul>
 				<hr/>
 				<h4>Tell us what you like to see</h4>
@@ -241,6 +263,7 @@ class SignUp extends React.Component{
 					</div>
 				</div>
 			</form>
+      </div>
 		)
 	}
 }

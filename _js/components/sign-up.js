@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import "react-datepicker/dist/react-datepicker.css";
 
 //variables that will never change
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
 const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Children","Thriller","Mystery","Classic"];
 const Profile = function(){
-		this.avatar = '/assets/images/avatars/cat-1.png';
+		this.avatar = '/assets/images/avatars/Dog_1.png';
     	this.name = '';
     	this.password = '';
     	this.email = '';
@@ -56,7 +59,7 @@ class SignUp extends React.Component{
     }
 
   	handleChange(event) {
-  		let target = event.target,
+  		let target = event._isAMomentObject ? {name: "bday", value: event} : event.target,
   		props = target.name.split('.'),
   		value = (target.value === "true") ? true : (target.value === "false") ? false : target.value;
 
@@ -90,7 +93,7 @@ class SignUp extends React.Component{
   	}
 
 	handleSubmit(event){
-		console.log(this.state.profile);
+		this.new_profile.bday = this.new_profile.bday._d
 		//restart profile
 		$.post('/api/v1/users', this.new_profile).then((data)=>{
             if(data.status === "error"){
@@ -134,16 +137,12 @@ class SignUp extends React.Component{
 					<figure className="avatar"><img src={this.state.profile.avatar} /></figure>
 					<ul className="radio-list">
 						<li>
-							<input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/cat-1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-1.png'}/>
-							<label htmlFor="avatar-1">Intermediate Avatar 1</label>
+							<input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/Dog_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Dog_1.png'}/>
+							<label htmlFor="avatar-1">Apprentice Puppy</label>
 						</li>
 						<li>
-							<input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/cat-3.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-3.png'}/>
-							<label htmlFor="avatar-2">Intermediate Avatar 2</label>
-						</li>
-						<li>
-							<input type="radio" name="avatar" id="avatar-3" value="/assets/images/avatars/cat-5.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/cat-5.png'}/>
-							<label htmlFor="avatar-3">Intermediate Avatar 3</label>
+							<input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/Cat_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Cat_1.png'}/>
+							<label htmlFor="avatar-2">Apprentice Kitty</label>
 						</li>
 					</ul>
 				</div>
@@ -158,11 +157,15 @@ class SignUp extends React.Component{
 					</li>
 					<li>
 						<label htmlFor="bday">What is your birth date?</label>
-						<input id="bday" name="bday" type="text" value={this.state.profile.bday} onChange={this.handleChange}/>
+                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange} showYearDropdown maxDate={moment().subtract(1, "days")} />
 					</li>
 					<li>
 						<label htmlFor="gender">What is your gender?</label>
-						<input id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}/>
+						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
+                          <option value="Select One">Select One</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
 					</li>
 				</ul>
 				<hr/>
