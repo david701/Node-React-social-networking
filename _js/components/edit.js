@@ -6,7 +6,8 @@ import $ from 'jquery';
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
 const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Children","Thriller","Mystery","Classic"];
 const Profile = function(){
-		this.avatar = '';
+      this.id = id
+		  this.avatar = '';
     	this.name = '';
     	this.password = '';
     	this.email = '';
@@ -31,6 +32,7 @@ class SignUp extends React.Component{
     	super(props);
         this.new_profile = new Profile();
     	this.state = {
+        id: this.new_profile.id,
     		profile: this.new_profile
     	};
     	this.handleChange = this.handleChange.bind(this);
@@ -41,7 +43,8 @@ class SignUp extends React.Component{
         //get user session
         $.get('/api/v1/user_session/').then((response)=>{
             if(!this._objectEmpty(response.data)){
-                this.loadInfo(response.data._id);
+                let id = this.new_profile.id || response.data._id;
+                this.loadInfo(id);
             }else{
                 window.location.href = "/";
             }
@@ -138,6 +141,17 @@ class SignUp extends React.Component{
 
 	render(){
 		return(
+      <div>
+      {!this.state.id &&
+        <header>
+          <h3>Edit your Profile</h3>
+        </header>
+      }
+      {this.state.id &&
+        <header>
+          <h3>Edit {this.state.profile.name}'s Profile</h3>
+        </header>
+      }
 			<form onSubmit={this.handleSubmit}>
 				<h4>Tell us about yourself</h4>
 				<p>Edit your photo:</p>
@@ -201,16 +215,9 @@ class SignUp extends React.Component{
     					</li>
     				</ul>
 				<hr/>
-				<h4>Reset your Password</h4>
+				<h4>Account Details</h4>
 				<ul className="field-list">
-					<li>
-						<label htmlFor="password1">Current Password</label>
-						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} />
-					</li>
-					<li>
-						<label htmlFor="password2">New Password</label>
-						<input id="password2" type="password" />
-					</li>
+					<a href="/reset-password" className="button reset-password">Reset Password</a>
 				</ul>
 				<hr/>
 				<h4>Tell us what you like to see</h4>
@@ -237,6 +244,7 @@ class SignUp extends React.Component{
 					</div>
 				</div>
 			</form>
+      </div>
 		)
 	}
 }

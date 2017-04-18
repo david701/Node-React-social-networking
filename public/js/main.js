@@ -20139,23 +20139,15 @@ var Parent = function (_React$Component) {
 	}
 
 	_createClass(Parent, [{
-		key: '_objectEmpty',
-		value: function _objectEmpty(obj) {
-			for (var prop in obj) {
-				if (obj.hasOwnProperty(prop)) return false;
-			}
-
-			return JSON.stringify(obj) === JSON.stringify({});
-		}
-	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
 			var _this2 = this;
 
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
-				if (!self._objectEmpty(response.data)) {
+				if (response.status !== "error") {
 					_this2.user.id = response.data._id;
+					//this.user.role = 2;
 					_this2.setState({ user: _this2.user });
 					self.loadUserInfo(_this2.user.id);
 				} else {
@@ -20169,7 +20161,6 @@ var Parent = function (_React$Component) {
 			var _this3 = this;
 
 			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
-				console.log('login info: ' + JSON.stringify(response.data));
 				_this3.setState({
 					user: response.data
 				});
@@ -20180,120 +20171,341 @@ var Parent = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: 'standard-section-with-sidebar' },
 				_react2.default.createElement(
 					'div',
-					{ className: 'user-info' },
-					_react2.default.createElement(
+					{ className: 'container' },
+					this.state.user.role < 1 && _react2.default.createElement(
 						'div',
-						{ className: 'main' },
+						{ className: 'flex-row' },
 						_react2.default.createElement(
-							'figure',
-							{ className: 'avatar' },
-							_react2.default.createElement('img', { src: this.state.user.avatar, alt: '' })
+							'div',
+							{ className: 'content-block content-block-standard' },
+							_react2.default.createElement(
+								'header',
+								null,
+								_react2.default.createElement(
+									'h3',
+									null,
+									'My Account'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'title-row' },
+								_react2.default.createElement(
+									'h4',
+									null,
+									'Account Info'
+								),
+								_react2.default.createElement(
+									'a',
+									{ className: 'control', href: '/dashboard/edit' },
+									'Edit'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'user-info' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'main' },
+									_react2.default.createElement(
+										'figure',
+										{ className: 'avatar' },
+										_react2.default.createElement('img', { src: this.state.user.avatar, alt: '' })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'details' },
+										_react2.default.createElement(
+											'h5',
+											null,
+											this.state.user.name
+										),
+										this.state.user.achievement && _react2.default.createElement(
+											'p',
+											null,
+											'Achievement-Placeholder'
+										),
+										this.state.user.social_media && _react2.default.createElement(
+											'div',
+											{ className: 'basic-profile' },
+											this.state.user.social_media.website && _react2.default.createElement(
+												'p',
+												null,
+												_react2.default.createElement(
+													'a',
+													{ href: this.state.user.social_media.website, target: '_blank' },
+													this.state.user.social_media.website
+												)
+											),
+											_react2.default.createElement(
+												'ul',
+												{ className: 'social-links' },
+												this.state.user.social_media.good_reads && _react2.default.createElement(
+													'li',
+													null,
+													_react2.default.createElement(
+														'a',
+														{ href: this.state.user.social_media.good_reads, target: '_blank' },
+														_react2.default.createElement('img', { src: '/assets/images/icons/social/goodreads.svg', alt: 'Goodreads' })
+													)
+												),
+												this.state.user.social_media.amazon && _react2.default.createElement(
+													'li',
+													null,
+													_react2.default.createElement(
+														'a',
+														{ href: this.state.user.social_media.amazon, target: '_blank' },
+														_react2.default.createElement('img', { src: '/assets/images/icons/social/amazon.svg', alt: 'Amazon' })
+													)
+												),
+												this.state.user.social_media.wordpress && _react2.default.createElement(
+													'li',
+													null,
+													_react2.default.createElement(
+														'a',
+														{ href: this.state.user.social_media.wordpress, target: '_blank' },
+														_react2.default.createElement('img', { src: '/assets/images/icons/social/wordpress.svg', alt: 'Wordpress' })
+													)
+												),
+												this.state.user.social_media.facebook && _react2.default.createElement(
+													'li',
+													null,
+													_react2.default.createElement(
+														'a',
+														{ href: this.state.user.social_media.facebook, target: '_blank' },
+														_react2.default.createElement('img', { src: '/assets/images/icons/social/facebook.svg', alt: 'Facebook' })
+													)
+												),
+												this.state.user.social_media.twitter && _react2.default.createElement(
+													'li',
+													null,
+													_react2.default.createElement(
+														'a',
+														{ href: this.state.user.social_media.twitter, target: '_blank' },
+														_react2.default.createElement('img', { src: '/assets/images/icons/social/twitter.svg', alt: 'Twitter' })
+													)
+												)
+											)
+										)
+									)
+								),
+								this.state.user.achievement && _react2.default.createElement(
+									'div',
+									{ className: 'progress-meter' },
+									_react2.default.createElement(
+										'a',
+										{ href: '.', className: 'help-link' },
+										'?'
+									),
+									_react2.default.createElement(
+										'figure',
+										null,
+										_react2.default.createElement(
+											'figcaption',
+											null,
+											_react2.default.createElement(
+												'h4',
+												null,
+												'80%'
+											)
+										),
+										_react2.default.createElement('div', { className: 'meter' })
+									)
+								)
+							),
+							_react2.default.createElement('hr', null),
+							_react2.default.createElement(
+								'div',
+								{ className: 'title-row' },
+								_react2.default.createElement(
+									'h4',
+									null,
+									'Favorite Authors'
+								),
+								_react2.default.createElement(
+									'a',
+									{ className: 'control', href: '/dashboard/find-friends' },
+									'Find Friends'
+								)
+							),
+							_react2.default.createElement(
+								'ul',
+								{ className: 'user-list' },
+								'You\'re not following any authors'
+							),
+							_react2.default.createElement('hr', null),
+							_react2.default.createElement(
+								'div',
+								{ className: 'title-row' },
+								_react2.default.createElement(
+									'h4',
+									null,
+									'My Library'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'book-blocks book-blocks-small' },
+								'You don\'t have any books in your library'
+							),
+							_react2.default.createElement('hr', null),
+							_react2.default.createElement(
+								'div',
+								{ className: 'title-row' },
+								_react2.default.createElement(
+									'h4',
+									null,
+									'Books I\u2019ve Written'
+								)
+							),
+							'You haven\'t written any books'
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'details' },
+							null,
 							_react2.default.createElement(
-								'h5',
-								null,
-								this.state.user.name
-							),
-							this.state.user.achievement && _react2.default.createElement(
-								'p',
-								null,
-								'Achievement-Placeholder'
-							),
-							this.state.user.social_media && _react2.default.createElement(
 								'div',
-								{ className: 'basic-profile' },
-								this.state.user.social_media.website && _react2.default.createElement(
-									'p',
-									null,
-									_react2.default.createElement(
-										'a',
-										{ href: this.state.user.social_media.website, target: '_blank' },
-										this.state.user.social_media.website
-									)
-								),
+								{ className: 'content-block' },
 								_react2.default.createElement(
-									'ul',
-									{ className: 'social-links' },
-									this.state.user.social_media.good_reads && _react2.default.createElement(
-										'li',
+									'div',
+									{ className: 'placeholder' },
+									_react2.default.createElement(
+										'h4',
 										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.good_reads, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/goodreads.svg', alt: 'Goodreads' })
-										)
-									),
-									this.state.user.social_media.amazon && _react2.default.createElement(
-										'li',
+										'Ad Space'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'content-block' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'placeholder' },
+									_react2.default.createElement(
+										'h4',
 										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.amazon, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/amazon.svg', alt: 'Amazon' })
-										)
-									),
-									this.state.user.social_media.wordpress && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.wordpress, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/wordpress.svg', alt: 'Wordpress' })
-										)
-									),
-									this.state.user.social_media.facebook && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.facebook, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/facebook.svg', alt: 'Facebook' })
-										)
-									),
-									this.state.user.social_media.twitter && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.twitter, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/twitter.svg', alt: 'Twitter' })
-										)
+										'Ad Space'
 									)
 								)
 							)
 						)
 					),
-					this.state.user.achievement && _react2.default.createElement(
+					this.state.user.role >= 1 && _react2.default.createElement(
 						'div',
-						{ className: 'progress-meter' },
+						{ className: 'content-block content-block-standard account-block' },
 						_react2.default.createElement(
-							'a',
-							{ href: '.', className: 'help-link' },
-							'?'
-						),
-						_react2.default.createElement(
-							'figure',
+							'header',
 							null,
 							_react2.default.createElement(
-								'figcaption',
+								'h3',
 								null,
-								_react2.default.createElement(
-									'h4',
-									null,
-									'80%'
-								)
+								'Admin Account'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'title-row' },
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Quick Links'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'user-list' },
+							_react2.default.createElement(
+								'a',
+								{ className: 'admin-link', href: '.' },
+								'Google Analytics'
 							),
-							_react2.default.createElement('div', { className: 'meter' })
+							_react2.default.createElement(
+								'a',
+								{ className: 'admin-link', href: '.' },
+								'Create Newsletter'
+							)
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'div',
+							{ className: 'title-row' },
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Edit Users'
+							)
+						),
+						_react2.default.createElement(
+							'ul',
+							{ className: 'user-list' },
+							'There are no user\'s to edit'
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'div',
+							{ className: 'title-row' },
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Books to Approve'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'book-blocks book-blocks-small' },
+							'You don\'t have any books to approve'
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'div',
+							{ className: 'title-row' },
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Book Claims'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'book-blocks book-blocks-small' },
+							'You don\'t have any book claims'
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'div',
+							{ className: 'title-row' },
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Show or Hide Ads'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'book-blocks book-blocks-small' },
+							'This feature will be built in phase 3'
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'div',
+							{ className: 'title-row' },
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Current Book Brawls'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'book-blocks book-blocks-small' },
+							'This feature will be built in phase 3'
 						)
 					)
-				),
-				_react2.default.createElement('div', null)
+				)
 			);
 		}
 	}]);
@@ -20975,7 +21187,8 @@ var LoginButtons = function (_React$Component) {
 
 		_this.state = {
 			loggedIn: false,
-			title: ''
+			title: '',
+			user: {}
 		};
 		_this._signOut = _this._signOut.bind(_this);
 		_this._objectEmpty = _this._objectEmpty.bind(_this);
@@ -20989,7 +21202,7 @@ var LoginButtons = function (_React$Component) {
 
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				var isLoggedIn = !_this2._objectEmpty(response.data);
-				_this2.setState({ loggedIn: isLoggedIn, title: (0, _jquery2.default)('#login-buttons').attr('title') });
+				_this2.setState({ loggedIn: isLoggedIn, title: (0, _jquery2.default)('#login-buttons').attr('title'), user: response.data });
 			});
 		}
 	}, {
@@ -21126,7 +21339,7 @@ var LoginButtons = function (_React$Component) {
 					{ className: 'sign-in-buttons' },
 					_react2.default.createElement(
 						'li',
-						{ className: this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" ? 'selected' : '' },
+						{ className: this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" || this.state.title === "Edit" || this.state.title === "Author Page" ? 'selected' : '' },
 						_react2.default.createElement(
 							'a',
 							{ href: '/dashboard/' },
@@ -21144,31 +21357,44 @@ var LoginButtons = function (_React$Component) {
 						_react2.default.createElement(
 							'ul',
 							null,
-							_react2.default.createElement(
-								'li',
-								{ className: this.state.title === "Create" ? 'selected' : '' },
+							this.state.user.role < 1 && _react2.default.createElement(
+								'div',
+								null,
 								_react2.default.createElement(
-									'a',
-									{ href: '/dashboard/create/' },
-									'Create'
+									'li',
+									{ className: this.state.title === "Create" ? 'selected' : '' },
+									_react2.default.createElement(
+										'a',
+										{ href: '/dashboard/create/' },
+										'Create'
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									{ className: this.state.title === "Find Friends" ? 'selected' : '' },
+									_react2.default.createElement(
+										'a',
+										{ href: '/dashboard/find-friends/' },
+										'All Friends'
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: 'javascript:void(0)', id: 'report-issue', className: 'modal-trigger modal-trigger-report-issue' },
+										'Report Issue'
+									)
 								)
 							),
-							_react2.default.createElement(
+							this.state.user.role >= 1 && _react2.default.createElement(
 								'li',
 								{ className: this.state.title === "Find Friends" ? 'selected' : '' },
 								_react2.default.createElement(
 									'a',
 									{ href: '/dashboard/find-friends/' },
-									'Find Friends'
-								)
-							),
-							_react2.default.createElement(
-								'li',
-								null,
-								_react2.default.createElement(
-									'a',
-									{ href: 'javascript:void(0)', id: 'report-issue', className: 'modal-trigger modal-trigger-report-issue' },
-									'Report Issue'
+									'All Users'
 								)
 							)
 						)
@@ -34294,6 +34520,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 var Profile = function Profile() {
+  this.id = id;
   this.avatar = '';
   this.name = '';
   this.password = '';
@@ -34323,6 +34550,7 @@ var SignUp = function (_React$Component) {
 
     _this.new_profile = new Profile();
     _this.state = {
+      id: _this.new_profile.id,
       profile: _this.new_profile
     };
     _this.handleChange = _this.handleChange.bind(_this);
@@ -34338,7 +34566,8 @@ var SignUp = function (_React$Component) {
       //get user session
       _jquery2.default.get('/api/v1/user_session/').then(function (response) {
         if (!_this2._objectEmpty(response.data)) {
-          _this2.loadInfo(response.data._id);
+          var _id = _this2.new_profile.id || response.data._id;
+          _this2.loadInfo(_id);
         } else {
           window.location.href = "/";
         }
@@ -34446,247 +34675,256 @@ var SignUp = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'form',
-        { onSubmit: this.handleSubmit },
-        _react2.default.createElement(
-          'h4',
+        'div',
+        null,
+        !this.state.id && _react2.default.createElement(
+          'header',
           null,
-          'Tell us about yourself'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'Edit your photo:'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'avatar-selection' },
           _react2.default.createElement(
-            'figure',
-            { className: 'avatar' },
-            _react2.default.createElement('img', { src: this.state.profile.avatar })
+            'h3',
+            null,
+            'Edit your Profile'
+          )
+        ),
+        this.state.id && _react2.default.createElement(
+          'header',
+          null,
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Edit ',
+            this.state.profile.name,
+            '\'s Profile'
+          )
+        ),
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.handleSubmit },
+          _react2.default.createElement(
+            'h4',
+            null,
+            'Tell us about yourself'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'Edit your photo:'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'avatar-selection' },
+            _react2.default.createElement(
+              'figure',
+              { className: 'avatar' },
+              _react2.default.createElement('img', { src: this.state.profile.avatar })
+            ),
+            _react2.default.createElement(
+              'ul',
+              { className: 'radio-list' },
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Dog_1.png' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'avatar-1' },
+                  'Apprentice Puppy'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' || this.state.profile.avatar === '/assets/images/avatars/cat-1.png' }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'avatar-2' },
+                  'Apprentice Kitty'
+                )
+              )
+            )
           ),
           _react2.default.createElement(
             'ul',
-            { className: 'radio-list' },
+            { className: 'field-list' },
+            _react2.default.createElement(
+              'li',
+              { className: 'field-error' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'name' },
+                'Your name:'
+              ),
+              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, disabled: true })
+            ),
             _react2.default.createElement(
               'li',
               null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Dog_1.png' }),
               _react2.default.createElement(
                 'label',
-                { htmlFor: 'avatar-1' },
-                'Apprentice Puppy'
-              )
+                { htmlFor: 'email' },
+                'Your email:'
+              ),
+              _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange })
             ),
             _react2.default.createElement(
               'li',
               null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' || this.state.profile.avatar === '/assets/images/avatars/cat-1.png' }),
               _react2.default.createElement(
                 'label',
-                { htmlFor: 'avatar-2' },
-                'Apprentice Kitty'
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'field-list' },
-          _react2.default.createElement(
-            'li',
-            { className: 'field-error' },
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'name' },
-              'Your name:'
+                { htmlFor: 'bday' },
+                'Your birth date:'
+              ),
+              _react2.default.createElement('input', { id: 'bday', name: 'bday', type: 'text', value: this.state.profile.bday, onChange: this.handleChange, disabled: true })
             ),
-            _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, disabled: true })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'email' },
-              'Your email:'
-            ),
-            _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'bday' },
-              'Your birth date:'
-            ),
-            _react2.default.createElement('input', { id: 'bday', name: 'bday', type: 'text', value: this.state.profile.bday, onChange: this.handleChange, disabled: true })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'gender' },
-              'Your gender:'
-            ),
-            _react2.default.createElement('input', { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange })
-          )
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h4',
-          null,
-          'Where else can we find you?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'field-list' },
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'website' },
-              'Your website URL'
-            ),
-            _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'good_reads' },
-              'Goodreads URL'
-            ),
-            _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'amazon' },
-              'Amazon URL'
-            ),
-            _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'wordpress' },
-              'WordPress URL'
-            ),
-            _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'facebook' },
-              'Facebook URL'
-            ),
-            _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'twitter' },
-              'Twitter URL'
-            ),
-            _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, type: 'text' })
-          )
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h4',
-          null,
-          'Reset your Password'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'field-list' },
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'password1' },
-              'Current Password'
-            ),
-            _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'password2' },
-              'New Password'
-            ),
-            _react2.default.createElement('input', { id: 'password2', type: 'password' })
-          )
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h4',
-          null,
-          'Tell us what you like to see'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'What Genres do you like?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'toggle-list' },
-          this.createCheckboxes(genres, 'genres'),
-          _react2.default.createElement('li', { className: 'spacing-block' }),
-          _react2.default.createElement('li', { className: 'spacing-block' })
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'What type of Fiction Themes?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'toggle-list' },
-          this.createCheckboxes(themes, 'themes'),
-          _react2.default.createElement('li', { className: 'spacing-block' }),
-          _react2.default.createElement('li', { className: 'spacing-block' })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'submit-row' },
-          _react2.default.createElement(
-            'div',
-            { className: 'field' },
-            _react2.default.createElement('input', { type: 'checkbox', name: 'newsletter', id: 'newsletter', value: !this.state.profile.newsletter, onChange: this.handleChange, checked: this.state.profile.newsletter }),
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'newsletter' },
-              'I want to subscribe to newsletters'
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'gender' },
+                'Your gender:'
+              ),
+              _react2.default.createElement('input', { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange })
             )
           ),
+          _react2.default.createElement('hr', null),
           _react2.default.createElement(
-            'div',
-            { className: 'buttons' },
+            'h4',
+            null,
+            'Where else can we find you?'
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'field-list' },
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'website' },
+                'Your website URL'
+              ),
+              _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, type: 'text' })
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'good_reads' },
+                'Goodreads URL'
+              ),
+              _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, type: 'text' })
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'amazon' },
+                'Amazon URL'
+              ),
+              _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, type: 'text' })
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'wordpress' },
+                'WordPress URL'
+              ),
+              _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, type: 'text' })
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'facebook' },
+                'Facebook URL'
+              ),
+              _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, type: 'text' })
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'twitter' },
+                'Twitter URL'
+              ),
+              _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, type: 'text' })
+            )
+          ),
+          _react2.default.createElement('hr', null),
+          _react2.default.createElement(
+            'h4',
+            null,
+            'Account Details'
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'field-list' },
             _react2.default.createElement(
               'a',
-              { className: 'button button-white', href: '.' },
-              'Close'
+              { href: '/reset-password', className: 'button reset-password' },
+              'Reset Password'
+            )
+          ),
+          _react2.default.createElement('hr', null),
+          _react2.default.createElement(
+            'h4',
+            null,
+            'Tell us what you like to see'
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'What Genres do you like?'
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'toggle-list' },
+            this.createCheckboxes(genres, 'genres'),
+            _react2.default.createElement('li', { className: 'spacing-block' }),
+            _react2.default.createElement('li', { className: 'spacing-block' })
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            'What type of Fiction Themes?'
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'toggle-list' },
+            this.createCheckboxes(themes, 'themes'),
+            _react2.default.createElement('li', { className: 'spacing-block' }),
+            _react2.default.createElement('li', { className: 'spacing-block' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'submit-row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'field' },
+              _react2.default.createElement('input', { type: 'checkbox', name: 'newsletter', id: 'newsletter', value: !this.state.profile.newsletter, onChange: this.handleChange, checked: this.state.profile.newsletter }),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'newsletter' },
+                'I want to subscribe to newsletters'
+              )
             ),
-            _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Edit Profile' })
+            _react2.default.createElement(
+              'div',
+              { className: 'buttons' },
+              _react2.default.createElement(
+                'a',
+                { className: 'button button-white', href: '.' },
+                'Close'
+              ),
+              _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Edit Profile' })
+            )
           )
         )
       );
@@ -34819,7 +35057,7 @@ var ResetPassword = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            'Email Confirmed!'
+                            'Reset your Password'
                         )
                     ),
                     _react2.default.createElement(
@@ -34828,7 +35066,7 @@ var ResetPassword = function (_React$Component) {
                         _react2.default.createElement(
                             'h4',
                             null,
-                            'Reset your password'
+                            'Enter your new password below'
                         ),
                         _react2.default.createElement(
                             'ul',
@@ -34955,7 +35193,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Profile = function Profile() {
-	this.id = (0, _jquery2.default)('#author').attr('profile');
+	this.id = id;
 	this.avatar = '';
 	this.name = '';
 	this.password = '';
@@ -34984,9 +35222,9 @@ var Author = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Author.__proto__ || Object.getPrototypeOf(Author)).call(this, props));
 
 		_this.user = new Profile();
-
 		_this.state = {
 			id: id,
+			me: _this.user,
 			user: _this.user,
 			following: false
 		};
@@ -35029,7 +35267,8 @@ var Author = function (_React$Component) {
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				if (!status.error) {
-					self.loadUserInfo(response.data._id, _this3.user.id);
+					self.setState({ me: response.data });
+					self.loadUserInfo(response.data._id, _this3.state.id);
 				} else {
 					window.location.href = "/";
 				}
@@ -35049,7 +35288,7 @@ var Author = function (_React$Component) {
 
 			_jquery2.default.get('/api/v1/users/' + profileId).then(function (response) {
 				//figure out if we're following the user
-				_this4.isFollowing(userId, response.data.followers);
+				//this.isFollowing(userId,response.data.followers)
 				//in the meantime setup user data
 				_this4.setState({
 					user: response.data
@@ -35061,136 +35300,159 @@ var Author = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'user-info' },
+				null,
 				_react2.default.createElement(
 					'div',
-					{ className: 'main' },
+					{ className: 'title-row' },
 					_react2.default.createElement(
-						'figure',
-						{ className: 'avatar' },
-						_react2.default.createElement('img', { src: this.state.user.avatar, alt: '' })
+						'h4',
+						null,
+						'Account Info'
 					),
 					_react2.default.createElement(
+						'a',
+						{ className: 'control', href: '/author/' + this.state.user._id + '/edit' },
+						'Edit'
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'user-info' },
+					_react2.default.createElement(
 						'div',
-						{ className: 'details' },
+						{ className: 'main' },
 						_react2.default.createElement(
-							'h5',
-							null,
-							this.state.user.name
-						),
-						this.state.user.achievement && _react2.default.createElement(
-							'p',
-							null,
-							'Achievement-Placeholder'
+							'figure',
+							{ className: 'avatar' },
+							_react2.default.createElement('img', { src: this.state.user.avatar, alt: '' })
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'basic-profile' },
-							this.state.user.social_media && _react2.default.createElement(
-								'div',
+							{ className: 'details' },
+							_react2.default.createElement(
+								'h5',
 								null,
-								this.state.user.social_media.website && _react2.default.createElement(
-									'p',
-									null,
-									_react2.default.createElement(
-										'a',
-										{ href: this.state.user.social_media.website, target: '_blank' },
-										this.state.user.social_media.website
-									)
-								),
-								_react2.default.createElement(
-									'ul',
-									{ className: 'social-links' },
-									this.state.user.social_media.good_reads && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.good_reads, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/goodreads.svg', alt: 'Goodreads' })
-										)
-									),
-									this.state.user.social_media.amazon && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.amazon, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/amazon.svg', alt: 'Amazon' })
-										)
-									),
-									this.state.user.social_media.wordpress && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.wordpress, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/wordpress.svg', alt: 'Wordpress' })
-										)
-									),
-									this.state.user.social_media.facebook && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.facebook, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/facebook.svg', alt: 'Facebook' })
-										)
-									),
-									this.state.user.social_media.twitter && _react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: this.state.user.social_media.twitter, target: '_blank' },
-											_react2.default.createElement('img', { src: '/assets/images/icons/social/twitter.svg', alt: 'Twitter' })
-										)
-									)
-								)
+								this.state.user.name
+							),
+							this.state.user.achievement && _react2.default.createElement(
+								'p',
+								null,
+								'Achievement-Placeholder'
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'button-row' },
-								this.state.following && _react2.default.createElement(
-									'a',
-									{ className: 'button button-small button-blue', href: 'javascript:void(0)' },
-									'Following'
+								{ className: 'basic-profile' },
+								this.state.user.social_media && _react2.default.createElement(
+									'div',
+									null,
+									this.state.user.social_media.website && _react2.default.createElement(
+										'p',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: this.state.user.social_media.website, target: '_blank' },
+											this.state.user.social_media.website
+										)
+									),
+									_react2.default.createElement(
+										'ul',
+										{ className: 'social-links' },
+										this.state.user.social_media.good_reads && _react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: this.state.user.social_media.good_reads, target: '_blank' },
+												_react2.default.createElement('img', { src: '/assets/images/icons/social/goodreads.svg', alt: 'Goodreads' })
+											)
+										),
+										this.state.user.social_media.amazon && _react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: this.state.user.social_media.amazon, target: '_blank' },
+												_react2.default.createElement('img', { src: '/assets/images/icons/social/amazon.svg', alt: 'Amazon' })
+											)
+										),
+										this.state.user.social_media.wordpress && _react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: this.state.user.social_media.wordpress, target: '_blank' },
+												_react2.default.createElement('img', { src: '/assets/images/icons/social/wordpress.svg', alt: 'Wordpress' })
+											)
+										),
+										this.state.user.social_media.facebook && _react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: this.state.user.social_media.facebook, target: '_blank' },
+												_react2.default.createElement('img', { src: '/assets/images/icons/social/facebook.svg', alt: 'Facebook' })
+											)
+										),
+										this.state.user.social_media.twitter && _react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: this.state.user.social_media.twitter, target: '_blank' },
+												_react2.default.createElement('img', { src: '/assets/images/icons/social/twitter.svg', alt: 'Twitter' })
+											)
+										)
+									)
 								),
-								!this.state.following && _react2.default.createElement(
+								this.state.me.role < 1 && _react2.default.createElement(
+									'div',
+									{ className: 'button-row' },
+									this.state.user.following && _react2.default.createElement(
+										'a',
+										{ className: 'button button-small button-blue', href: 'javascript:void(0)' },
+										'Following'
+									),
+									!this.state.user.following && _react2.default.createElement(
+										'a',
+										{ className: 'button button-small button-blue', href: 'javascript:void(0)', onClick: this.handleFollow },
+										'Follow Me'
+									),
+									_react2.default.createElement(
+										'a',
+										{ className: 'button button-small button-white button-white-blue', href: '.' },
+										'Message Me'
+									)
+								),
+								this.state.me.role >= 1 && _react2.default.createElement(
 									'a',
 									{ className: 'button button-small button-blue', href: 'javascript:void(0)', onClick: this.handleFollow },
-									'Follow Me'
-								),
-								_react2.default.createElement(
-									'a',
-									{ className: 'button button-small button-white button-white-blue', href: '.' },
-									'Message Me'
+									'Delete Account'
 								)
 							)
 						)
-					)
-				),
-				this.state.user.achievement && _react2.default.createElement(
-					'div',
-					{ className: 'progress-meter' },
-					_react2.default.createElement(
-						'a',
-						{ href: '.', className: 'help-link' },
-						'?'
 					),
-					_react2.default.createElement(
-						'figure',
-						null,
+					this.state.user.achievement && _react2.default.createElement(
+						'div',
+						{ className: 'progress-meter' },
 						_react2.default.createElement(
-							'figcaption',
+							'a',
+							{ href: '.', className: 'help-link' },
+							'?'
+						),
+						_react2.default.createElement(
+							'figure',
 							null,
 							_react2.default.createElement(
-								'h4',
+								'figcaption',
 								null,
-								'80%'
-							)
-						),
-						_react2.default.createElement('div', { className: 'meter' })
+								_react2.default.createElement(
+									'h4',
+									null,
+									'80%'
+								)
+							),
+							_react2.default.createElement('div', { className: 'meter' })
+						)
 					)
 				)
 			);
@@ -35228,10 +35490,12 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
+			var _this6 = this;
+
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				if (!self._objectEmpty(response.data)) {
-					self.loadUserInfo((0, _jquery2.default)('#author').attr('profile'));
+					self.loadUserInfo(_this6.state.id);
 				} else {
 					window.location.href = "/";
 				}
@@ -35240,13 +35504,14 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'loadUserInfo',
 		value: function loadUserInfo(id) {
-			var _this6 = this;
+			var _this7 = this;
 
 			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
-				console.log('login info: ' + JSON.stringify(response.data));
-				_this6.setState({
-					name: response.data.name + "'s"
-				});
+				if (response.data) {
+					_this7.setState({
+						name: response.data.name + "'s"
+					});
+				}
 			});
 		}
 	}, {
@@ -35309,8 +35574,7 @@ var Friends = function (_React$Component) {
         _this.users = Users;
         _this.books = Books;
         _this.state = {
-            myId: 0,
-            followers: [],
+            me: {},
             users: _this.users,
             books: _this.books
         };
@@ -35321,9 +35585,11 @@ var Friends = function (_React$Component) {
 
     _createClass(Friends, [{
         key: 'isFollowing',
-        value: function isFollowing(userId, followers) {
-            if (followers.length) {
-                return followers.includes(userId);
+        value: function isFollowing(userId, me) {
+            if (me) {
+                if (me.following_authors) {
+                    return me.following_authors.includes(userId);
+                }
             }
         }
     }, {
@@ -35338,7 +35604,7 @@ var Friends = function (_React$Component) {
                 if (response.status === "error") {
                     alert(response.message);
                 } else {
-                    _this2.getUsers(_this2.state.myId);
+                    _this2.getUsers(_this2.state.me._id);
                 }
             });
         }
@@ -35348,7 +35614,7 @@ var Friends = function (_React$Component) {
             var myProfile = users.filter(function (user, index) {
                 return user._id === id;
             });
-            this.setState({ followers: myProfile[0].following_authors });
+            this.setState({ me: myProfile[0] });
         }
     }, {
         key: 'getUsers',
@@ -35377,8 +35643,8 @@ var Friends = function (_React$Component) {
                 if (response.status === "error") {
                     window.location.href = "/";
                 } else {
-                    _this4.setState({ myId: response.data._id });
-                    _this4.getUsers(response.data._id);
+                    _this4.setState({ me: response.data });
+                    _this4.getUsers(_this4.state.me._id);
                 }
             });
         }
@@ -35417,21 +35683,26 @@ var Friends = function (_React$Component) {
                                 user.name
                             )
                         ),
-                        self.state.myId !== user._id && _react2.default.createElement(
+                        self.state.me._id !== user._id && self.state.me.role < 1 && _react2.default.createElement(
                             'div',
                             null,
-                            self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                            self.isFollowing(user._id, self.state.me) && _react2.default.createElement(
                                 'div',
                                 { className: 'control' },
                                 'Following'
                             ),
-                            !self.isFollowing(user._id, self.state.followers) && _react2.default.createElement(
+                            !self.isFollowing(user._id, self.state.me) && _react2.default.createElement(
                                 'div',
                                 { className: 'control add-button', id: user._id, onClick: self.handleFollow },
                                 'Add'
                             )
                         ),
-                        self.state.myId === user._id && _react2.default.createElement(
+                        self.state.me.role >= 1 && _react2.default.createElement(
+                            'a',
+                            { className: 'control add-button', href: '/author/' + user._id },
+                            'Edit'
+                        ),
+                        self.state.me._id === user._id && _react2.default.createElement(
                             'div',
                             { className: 'control' },
                             'That\'s you!'

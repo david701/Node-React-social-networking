@@ -13,8 +13,7 @@ class Friends extends React.Component{
         this.users = Users;
         this.books = Books;
     	this.state = {
-            myId: 0,
-            followers: [],
+            me: {},
     		users: this.users,
             books: this.books,
     	};
@@ -22,9 +21,11 @@ class Friends extends React.Component{
         this.handleFollow = this.handleFollow.bind(this);
   	}
 
-    isFollowing(userId,followers){
-        if(followers.length){
-            return followers.includes(userId);
+    isFollowing(userId,me){
+        if(me){
+            if(me.following_authors){
+                return me.following_authors.includes(userId);
+            }
         }
     }
 
@@ -36,7 +37,7 @@ class Friends extends React.Component{
             if(response.status === "error"){
                 alert(response.message)
             }else{
-                this.getUsers(this.state.myId)
+                this.getUsers(this.state.me._id)
             }
         });
     }
@@ -45,7 +46,7 @@ class Friends extends React.Component{
         var myProfile = users.filter(function(user,index){
             return user._id === id
         });
-        this.setState({followers: myProfile[0].following_authors});
+        this.setState({me: myProfile[0]});
     }
 
     getUsers(id){
@@ -68,8 +69,8 @@ class Friends extends React.Component{
             if(response.status === "error"){
                 window.location.href = "/";
             }else {
-                this.setState({myId: response.data._id});
-                this.getUsers(response.data._id);
+                this.setState({me: response.data});
+                this.getUsers(this.state.me._id);
             }
         });
     }
@@ -95,17 +96,20 @@ class Friends extends React.Component{
                         </figure>
                         <h5>{user.name}</h5>
                     </a>
-                    {self.state.myId !== user._id &&
+                    {(self.state.me._id !== user._id && self.state.me.role < 1) &&
                         <div>
-                        {self.isFollowing(user._id,self.state.followers) &&
+                        {self.isFollowing(user._id,self.state.me) &&
                             <div className="control">Following</div>
                         }
-                        {!self.isFollowing(user._id,self.state.followers) &&
+                        {!self.isFollowing(user._id,self.state.me) &&
                             <div className="control add-button" id={user._id} onClick={self.handleFollow}>Add</div>
                         }
                         </div>
                     }
-                    {self.state.myId === user._id &&
+                    {self.state.me.role >= 1 &&
+                        <a className="control add-button" href={'/author/' + user._id}>Edit</a>
+                    }
+                    {self.state.me._id === user._id &&
                         <div className="control">That's you!</div>
                     }
                 </li>)

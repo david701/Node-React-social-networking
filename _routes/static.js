@@ -33,6 +33,10 @@ router.get('/author/:id', (req, res)=>{
 	res.render('author', {title: 'Author Page',id: req.params.id})
 });
 
+router.get('/author/:id/edit', (req, res)=>{
+	res.render('edit', {title: 'Author Page',id: req.params.id})
+});
+
 router.get('/dashboard', (req, res)=>{
 	if(req.session){
 		res.render('dashboard', {title: 'Dashboard'});

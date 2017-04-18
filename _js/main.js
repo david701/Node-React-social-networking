@@ -25,7 +25,8 @@ class LoginButtons extends React.Component{
     	super(props);
     	this.state = {
     		loggedIn: false,
-    		title: ''
+    		title: '',
+    		user: {}
     	};
     	this._signOut = this._signOut.bind(this);
     	this._objectEmpty = this._objectEmpty.bind(this);
@@ -34,7 +35,7 @@ class LoginButtons extends React.Component{
 	componentDidMount(){
 		$.get('/api/v1/user_session/').then((response)=>{
 			let isLoggedIn = !this._objectEmpty(response.data);
-			this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title')});
+			this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title'), user: response.data});
 		});
 
 	}
@@ -108,7 +109,7 @@ class LoginButtons extends React.Component{
 	            	}
 	            	{this.state.loggedIn &&
 	            		<div className="sign-in-buttons">
-	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" ? 'selected' : ''}>
+	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" || this.state.title === "Edit" || this.state.title === "Author Page" ? 'selected' : ''}>
 			                    <a href="/dashboard/">
 			                        <div className="icon">
 			                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
@@ -116,15 +117,24 @@ class LoginButtons extends React.Component{
 			                        <span>Dashboard</span>
 			                    </a>
 			                    <ul>
-			                        <li className={this.state.title === "Create" ? 'selected' : ''}>
-			                            <a href="/dashboard/create/">Create</a>
-			                        </li>
+			                        {this.state.user.role < 1 &&
+			                        <div>
+			                        	<li className={this.state.title === "Create" ? 'selected' : ''}>
+				                            <a href="/dashboard/create/">Create</a>
+				                        </li>
+				                        <li className={this.state.title === "Find Friends" ? 'selected' : ''}>
+				                            <a href="/dashboard/find-friends/">All Friends</a>
+				                        </li>
+				                        <li>
+				                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
+				                        </li>
+			                        </div>
+			                    	}
+			                    	{this.state.user.role >= 1 &&
 			                        <li className={this.state.title === "Find Friends" ? 'selected' : ''}>
-			                            <a href="/dashboard/find-friends/">Find Friends</a>
+			                            <a href="/dashboard/find-friends/">All Users</a>
 			                        </li>
-			                        <li>
-			                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
-			                        </li>
+			                    	}
 			                    </ul>
 			                </li>
 			                <li className={this.state.title === "Forum" || this.state.title === "Create" ? 'selected' : ''}>

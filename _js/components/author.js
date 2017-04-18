@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 const Profile = function(){
-		this.id = $('#author').attr('profile');
+		this.id = id;
 		this.avatar = '';
     	this.name = '';
     	this.password = '';
@@ -29,9 +29,9 @@ class Author extends React.Component{
 	constructor(props) {
     	super(props);
     	this.user = new Profile();
-
     	this.state = {
     		id: id,
+    		me: this.user,
     		user: this.user,
     		following: false
     	};
@@ -66,7 +66,8 @@ class Author extends React.Component{
 		let self = this;
 		$.get('/api/v1/user_session/').then((response)=>{
 			if(!status.error){
-				self.loadUserInfo(response.data._id,this.user.id);
+				self.setState({me: response.data})
+				self.loadUserInfo(response.data._id,this.state.id);
 			}else {
 				window.location.href = "/";
 			}
@@ -82,7 +83,7 @@ class Author extends React.Component{
 	loadUserInfo(userId,profileId){
 		$.get('/api/v1/users/' + profileId).then((response)=>{
 			//figure out if we're following the user
-			this.isFollowing(userId,response.data.followers)
+			//this.isFollowing(userId,response.data.followers)
 			//in the meantime setup user data
 			this.setState({
 				user: response.data
@@ -92,6 +93,11 @@ class Author extends React.Component{
 
 	render(){
 		return(
+			<div>
+			<div className="title-row">
+				<h4>Account Info</h4>
+				<a className="control" href={'/author/' + this.state.user._id + '/edit'}>Edit</a>
+			</div>
 			<div className="user-info">
 				<div className="main">
 					<figure className="avatar">
@@ -151,15 +157,20 @@ class Author extends React.Component{
 									</ul>
 								</div>
 								}
+								{this.state.me.role < 1 &&
 								<div className="button-row">
-									{this.state.following &&
+									{this.state.user.following &&
 										<a className="button button-small button-blue" href="javascript:void(0)">Following</a>
 									}
-									{!this.state.following &&
+									{!this.state.user.following &&
 										<a className="button button-small button-blue" href="javascript:void(0)" onClick={this.handleFollow}>Follow Me</a>
 									}
 									<a className="button button-small button-white button-white-blue" href=".">Message Me</a>
 								</div>
+								}
+								{this.state.me.role >= 1 &&
+									<a className="button button-small button-blue" href="javascript:void(0)" onClick={this.handleFollow}>Delete Account</a>
+								}
 							</div>
 					</div>
 				</div>
@@ -174,6 +185,7 @@ class Author extends React.Component{
 						</figure>
 					</div>
 				}
+			</div>
 			</div>
 		)
 	}
@@ -205,7 +217,7 @@ class Book extends React.Component{
 		let self = this;
 		$.get('/api/v1/user_session/').then((response)=>{
 			if(!self._objectEmpty(response.data)){
-				self.loadUserInfo($('#author').attr('profile'));
+				self.loadUserInfo(this.state.id);
 			}else {
 				window.location.href = "/";
 			}
@@ -214,10 +226,11 @@ class Book extends React.Component{
 
 	loadUserInfo(id){
 		$.get('/api/v1/users/' + id).then((response)=>{
-			console.log('login info: ' + JSON.stringify(response.data));
-			this.setState({
-				name: response.data.name + "'s"
-			});
+			if(response.data){
+				this.setState({
+					name: response.data.name + "'s"
+				});
+			}
 		});
 	}
 

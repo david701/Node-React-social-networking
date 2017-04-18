@@ -72,10 +72,10 @@ class ResetPassword extends React.Component{
                 {this.state.pending &&
                     <div>
                         <header>
-                            <h3>Email Confirmed!</h3>
+                            <h3>Reset your Password</h3>
                         </header>
             			<form onSubmit={this.handleSubmit}>
-            				<h4>Reset your password</h4>
+            				<h4>Enter your new password below</h4>
             				<ul className="field-list">
             					<li>
             						<label htmlFor="password1">New Password</label>
