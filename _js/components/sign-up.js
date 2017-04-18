@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import datepicker from "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 //variables that will never change
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
@@ -59,7 +59,7 @@ class SignUp extends React.Component{
     }
 
   	handleChange(event) {
-  		let target = event.target,
+  		let target = event._isAMomentObject ? {name: "bday", value: event} : event.target,
   		props = target.name.split('.'),
   		value = (target.value === "true") ? true : (target.value === "false") ? false : target.value;
 
@@ -157,7 +157,7 @@ class SignUp extends React.Component{
 					</li>
 					<li>
 						<label htmlFor="bday">What is your birth date?</label>
-                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange}/>
+                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange} showYearDropdown maxDate={moment().subtract(1, "days")} />
 					</li>
 					<li>
 						<label htmlFor="gender">What is your gender?</label>
