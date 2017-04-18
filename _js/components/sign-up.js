@@ -93,7 +93,7 @@ class SignUp extends React.Component{
   	}
 
 	handleSubmit(event){
-		console.log(this.state.profile);
+		this.new_profile.bday = this.new_profile.bday._d
 		//restart profile
 		$.post('/api/v1/users', this.new_profile).then((data)=>{
             if(data.status === "error"){

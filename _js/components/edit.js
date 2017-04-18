@@ -63,7 +63,8 @@ class SignUp extends React.Component{
     loadInfo(id){
         let self = this;
         $.get('/api/v1/users/' + id).then((response)=>{
-            delete response.data.password;
+            let date = new Date(response.data.bday);
+            response.data.bday = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
             self.setState({
                 profile: $.extend(this.state.profile,response.data)
             });

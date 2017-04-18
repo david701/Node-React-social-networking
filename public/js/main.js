@@ -35798,7 +35798,8 @@ var SignUp = function (_React$Component) {
 
       var self = this;
       _jquery2.default.get('/api/v1/users/' + id).then(function (response) {
-        delete response.data.password;
+        var date = new Date(response.data.bday);
+        response.data.bday = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
         self.setState({
           profile: _jquery2.default.extend(_this3.state.profile, response.data)
         });
@@ -37609,7 +37610,7 @@ var SignUp = function (_React$Component) {
     value: function handleSubmit(event) {
       var _this3 = this;
 
-      console.log(this.state.profile);
+      this.new_profile.bday = this.new_profile.bday._d;
       //restart profile
       _jquery2.default.post('/api/v1/users', this.new_profile).then(function (data) {
         if (data.status === "error") {
