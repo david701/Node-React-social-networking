@@ -12,7 +12,7 @@ const Profile = function(){
     	this.password = '';
     	this.email = '';
     	this.bday = '';
-    	this.gender = '';
+    	this.gender = 'Select One';
     	this.social_media = {
     		website: '',
     		good_reads: '',
@@ -183,7 +183,11 @@ class SignUp extends React.Component{
 					</li>
 					<li>
 						<label htmlFor="gender">Your gender:</label>
-						<input id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}/>
+            <select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
+              <option value="Select One">Select One</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
 					</li>
 				</ul>
 				<hr/>

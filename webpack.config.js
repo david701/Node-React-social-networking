@@ -16,12 +16,17 @@ module.exports = {
 								loader: 'babel-loader',
 						},
 						{
+			                    loadertest: /\.css$/,
+			                    loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+			            },
+
+						{
 								test: /\.scss$/,
 								loader: ExtractTextPlugin.extract({ fallback: "style-loader", use: "css-loader!sass-loader"})
 						}
 				]
 		},
 		plugins: [
-				new ExtractTextPlugin('./public/css/main.css')
+				new ExtractTextPlugin('./public/css/[name].css')
 		]
 }

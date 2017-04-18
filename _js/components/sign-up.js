@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import datepicker from "react-datepicker/dist/react-datepicker.css";
 
 //variables that will never change
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
@@ -154,11 +157,15 @@ class SignUp extends React.Component{
 					</li>
 					<li>
 						<label htmlFor="bday">What is your birth date?</label>
-						<input id="bday" name="bday" type="text" value={this.state.profile.bday} onChange={this.handleChange}/>
+                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange}/>
 					</li>
 					<li>
 						<label htmlFor="gender">What is your gender?</label>
-						<input id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}/>
+						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
+                          <option value="Select One">Select One</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
 					</li>
 				</ul>
 				<hr/>
