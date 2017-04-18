@@ -5,6 +5,14 @@ const express = require('express'),
 
 const mongoUser = mongo.schema.user;
 
+function makeToken(){
+		var text = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		for( var i=0; i < 12; i++ )
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+		return text;
+}
+
 //// GET USERS LIST
 exports.getUsers = (req, res) => {
 	var limit = req.query.limit || 0,
@@ -48,7 +56,7 @@ exports.createUser = (req, res)=>{
 
 /// GET SINGLE USER BY ID
 exports.getUserById = (req, res)=>{
-	mongoUser.findOne({_id: req.params.id})
+	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar')
 		.then((user)=>{
 			res.json({status:'ok', data: user})
 		})
@@ -159,7 +167,7 @@ exports.resetRequest = (req, res)=>{
 			res.json({status:'error', message: 'Email not on file.'});
 		}else{
 			var date = new Date(),
-					token = 'lkjasdfk';
+					token = makeToken();
 			user.update({token: token, reset_request: date}).then((update)=>{
 				/// TODO: Email link with token
 				console.log(token);
@@ -221,7 +229,19 @@ exports.followAuthor = (req, res)=>{
 			if(following.indexOf(req.body.authorId) == -1){
 				following.push(req.body.authorId)
 				userInfo.update({following_authors: following}).then((update)=>{
-					res.json({status: 'ok', data: update});
+					mongoUser.findOne({_id: req.body.authorId}).then((autherInfo)=>{
+						var followed = autherInfo.followers;
+						if(followed.indexOf(userInfo._id.toString()) == -1){
+							followed.push(userInfo._id.toString());
+							autherInfo.update({followers: followed}).then((update)=>{
+								res.json({status: 'ok', data: update});
+							}).catch((err)=>{
+								res.json({status: 'error', message: err.message})
+							})
+						}else{
+							res.json({status: 'error', message: 'Already following'});
+						}
+					})
 				})
 			}else{
 				res.json({status: 'error', message: 'Already following'});
@@ -231,6 +251,32 @@ exports.followAuthor = (req, res)=>{
 			res.json({status: 'error', message: err.message})
 		})
 		;
+	}else{
+		res.json({status: 'error', message: 'Not logged in'});
+	}
+}
+
+// USER UNFOLLOW AUTHOR
+exports.unfollowAuthor = (req, res)=>{
+	var user = req.session;
+	if(user && user._id){
+		mongoUser.findOne({_id: user._id}).then((user)=>{
+			user.following_authors.remove(req.body.authorId);
+			user.save().then(()=>{
+				mongoUser.findOne({_id: req.body.authorId}).then((author)=>{
+					author.followers.remove(user._id)
+					author.save().then(()=>{
+						res.json({status: 'ok'})
+					}).catch((err)=>{
+						res.json({status: 'error', message: err.message})
+					})
+				});
+			}).catch((err)=>{
+				res.json({status: 'error', message: err.message})
+			});
+		}).catch((err)=>{
+			res.json({status: 'error', message: err.message})
+		})
 	}else{
 		res.json({status: 'error', message: 'Not logged in'});
 	}
