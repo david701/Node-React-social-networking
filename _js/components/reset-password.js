@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { validate } from '../plugins/validation.js';
 
 const Profile = function(){
         this.id = 0;
@@ -76,14 +77,21 @@ class ResetPassword extends React.Component{
                         </header>
             			<form onSubmit={this.handleSubmit}>
             				<h4>Enter your new password below</h4>
+                            <span className="instructions">Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).</span>
             				<ul className="field-list">
             					<li>
-            						<label htmlFor="password1">New Password</label>
-            						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} />
+                                    <div className="title">
+                                        <label htmlFor="password1"><span>*</span>New Password</label>
+                                        <span className="help-text">Please enter your new password</span>
+                                    </div>
+            						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-validation="password,required"/>
             					</li>
             					<li>
-            						<label htmlFor="password2">Confirm New Password</label>
-            						<input id="password2" type="password" />
+                                    <div className="title">
+                                        <label htmlFor="password2"><span>*</span>Confirm Password</label>
+                                        <span className="help-text">This password does not match</span>
+                                    </div>
+            						<input id="password2" type="password" onBlur={validate} data-password={this.state.profile.password} data-validation="confirmPassword,required"/>
             					</li>
             				</ul>
             				<hr/>

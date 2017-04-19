@@ -661,12 +661,18 @@ a:hover .avatar {
 .content-block-small h3 {
   text-align: center; }
 
-.content-block-standard .help-text {
+.title .help-text {
   color: red;
   font-size: 0.875em;
   display: none; }
 
-.content-block-standard .title {
+#log-in .field-list .title .help-text {
+  font-size: 16px; }
+
+label span {
+  color: red; }
+
+.title {
   display: flex;
   justify-content: space-between; }
 
@@ -1002,6 +1008,13 @@ body.modal-showing .overlay.is-hidden .content-block {
   #search .user-list li {
     float: left;
     margin: 0 30px 30px 0; }
+
+form .instructions {
+  font-size: 14px;
+  line-height: 20px;
+  vertical-align: initial;
+  display: block;
+  margin: 0 0 20px 0; }
 
 .content-block {
   background-color: #FFFFFF;

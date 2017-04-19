@@ -4,6 +4,7 @@ import $ from 'jquery';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
+import { validate } from '../plugins/validation.js';
 
 //variables that will never change
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
@@ -147,22 +148,34 @@ class SignUp extends React.Component{
 					</ul>
 				</div>
 				<ul className="field-list">
-					<li className="field-error">
-						<label htmlFor="name">What is your name?</label>
-						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange}/>
+					<li>
+                        <div className="title">
+                            <label htmlFor="name"><span>*</span>What is your name?</label>
+                            <span className="help-text">Please enter your full name</span>
+                        </div>
+						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} onBlur={validate} data-validation="name,required"/>
 					</li>
 					<li>
-						<label htmlFor="email">What is your email?</label>
-						<input id="email" name="email" type="text" value={this.state.profile.email} onChange={this.handleChange}/>
+                        <div className="title">
+                            <label htmlFor="email"><span>*</span>What is your email?</label>
+                            <span className="help-text">Invalid email address</span>
+                        </div>
+						<input id="email" name="email" type="text" value={this.state.profile.email} onChange={this.handleChange} onBlur={validate} data-validation="email,required"/>
 					</li>
 					<li>
-						<label htmlFor="bday">What is your birth date?</label>
-                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange} showYearDropdown maxDate={moment().subtract(1, "days")} />
+                        <div className="title">
+                            <label htmlFor="bday"><span>*</span>What is your birth date?</label>
+                            <span className="help-text">Please enter a date</span>
+                        </div>
+                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange} showYearDropdown maxDate={moment()} onBlur={validate} data-validation="date,required"/>
 					</li>
 					<li>
-						<label htmlFor="gender">What is your gender?</label>
-						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
-                          <option value="Select One">Select One</option>
+                        <div className="title">
+                            <label htmlFor="gender"><span>*</span>Your gender:</label>
+                            <span className="help-text">Please select your gender</span>
+                        </div>
+						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange} onBlur={validate} data-validation="required">
+                          <option value="">Select One</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </select>
@@ -172,40 +185,65 @@ class SignUp extends React.Component{
 				<h4><span>Step 2.</span> Where else can we find you?</h4>
     				<ul className="field-list">
     					<li>
-    						<label htmlFor="website">Your website URL</label>
-    						<input id="website" name="social_media.website" value={this.state.profile.social_media.website} onChange={this.handleChange} type="text"/>
+                            <div className="title">
+                                <label htmlFor="website">Your website URL</label>
+                                <span className="help-text">Url must include http(s)</span>
+                            </div>
+    						<input id="website" name="social_media.website" value={this.state.profile.social_media.website} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="good_reads">Goodreads URL</label>
-    						<input id="good_reads" name="social_media.good_reads" value={this.state.profile.social_media.good_reads} onChange={this.handleChange} type="text"/>
+                            <div className="title">
+                                <label htmlFor="good_reads">Goodreads URL</label>
+                                <span className="help-text">Url must include http(s)</span>
+                            </div>
+    						<input id="good_reads" name="social_media.good_reads" value={this.state.profile.social_media.good_reads} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="amazon">Amazon URL</label>
-    						<input id="amazon" name="social_media.amazon" value={this.state.profile.social_media.amazon} onChange={this.handleChange} type="text"/>
+                            <div className="title">
+                                <label htmlFor="amazon">Amazon URL</label>
+                                <span className="help-text">Url must include http(s)</span>
+                            </div>
+    						<input id="amazon" name="social_media.amazon" value={this.state.profile.social_media.amazon} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="wordpress">WordPress URL</label>
-    						<input id="wordpress" name="social_media.wordpress" value={this.state.profile.social_media.wordpress} onChange={this.handleChange}  type="text"/>
+                            <div className="title">
+                                <label htmlFor="wordpress">WordPress URL</label>
+                                <span className="help-text">Url must include http(s)</span>
+                            </div>
+    						<input id="wordpress" name="social_media.wordpress" value={this.state.profile.social_media.wordpress} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="facebook">Facebook URL</label>
-    						<input id="facebook" name="social_media.facebook" value={this.state.profile.social_media.facebook} onChange={this.handleChange}  type="text"/>
+                            <div className="title">
+                                <label htmlFor="facebook">Facebook URL</label>
+                                <span className="help-text">Url must include http(s)</span>
+                            </div>
+    						<input id="facebook" name="social_media.facebook" value={this.state.profile.social_media.facebook} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="twitter">Twitter URL</label>
-    						<input id="twitter" name="social_media.twitter" value={this.state.profile.social_media.twitter} onChange={this.handleChange} type="text"/>
+                            <div className="title">
+                                <label htmlFor="twitter">Twitter URL</label>
+                                <span className="help-text">Url must include http(s)</span>
+                            </div>
+    						<input id="twitter" name="social_media.twitter" value={this.state.profile.social_media.twitter} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     				</ul>
 				<hr/>
-				<h4><span>Step 3.</span> Create a secure password</h4>
+				<h4><span>Step 3.</span><span>*</span> Create a secure password</h4>
+                <span className="instructions">Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).</span>
 				<ul className="field-list">
 					<li>
-						<label htmlFor="password1">Password</label>
-						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} />
+                        <div className="title">
+                            <label htmlFor="password1"><span>*</span>Password</label>
+                            <span className="help-text">Password must match above format</span>
+                        </div>
+						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-validation="password,required" />
 					</li>
 					<li>
-						<label htmlFor="password2">Confirm Password</label>
-						<input id="password2" type="password" />
+                        <div className="title">
+                            <label htmlFor="password2"><span>*</span>Confirm Password</label>
+                            <span className="help-text">This password does not match</span>
+                        </div>
+						<input id="password2" type="password" onBlur={validate} data-password={this.state.profile.password} data-validation="confirmPassword,required"/>
 					</li>
 				</ul>
 				<hr/>
@@ -229,7 +267,7 @@ class SignUp extends React.Component{
 					</div>
 					<div className="buttons">
 						<a className="button button-white" href=".">Close</a>
-						<input className="button button-red" type="submit" value="Sign Up" />
+						<input className="button button-red" type="submit" value="Sign Up" disabled/>
 					</div>
 				</div>
 			</form>

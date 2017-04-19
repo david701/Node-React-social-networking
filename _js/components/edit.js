@@ -208,7 +208,7 @@ class SignUp extends React.Component{
 					</li>
 					<li>
             <div className="title">
-						  <label htmlFor="gender">Your gender:</label>
+						  <label htmlFor="gender"><span>*</span>Your gender:</label>
               <span className="help-text">Please select your gender</span>
             </div>
             <select id="gender" name="gender" type="text" value={profile.gender} onChange={this.handleChange} onBlur={validate} data-validation="required">
@@ -224,42 +224,42 @@ class SignUp extends React.Component{
     					<li>
                 <div className="title">
     						  <label htmlFor="website">Your website URL</label>
-                  <span className="help-text">Invalid url</span>
+                  <span className="help-text">Url must include http(s)</span>
                 </div>
     						<input id="website" name="social_media.website" value={profile.social_media.website} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                 <div className="title">
     						  <label htmlFor="good_reads">Goodreads URL</label>
-                  <span className="help-text">Invalid url</span>
+                  <span className="help-text">Url must include http(s)</span>
                 </div>
     						<input id="good_reads" name="social_media.good_reads" value={profile.social_media.good_reads} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                 <div className="title">
     						  <label htmlFor="amazon">Amazon URL</label>
-                  <span className="help-text">Invalid url</span>
+                  <span className="help-text">Url must include http(s)</span>
                 </div>
     						<input id="amazon" name="social_media.amazon" value={profile.social_media.amazon} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                 <div className="title">
     						  <label htmlFor="wordpress">WordPress URL</label>
-                  <span className="help-text">Invalid url</span>
+                  <span className="help-text">Url must include http(s)</span>
                 </div>
     						<input id="wordpress" name="social_media.wordpress" value={profile.social_media.wordpress} onChange={this.handleChange} onBlur={validate} data-validation="url"  type="text"/>
     					</li>
     					<li>
                 <div className="title">
     						  <label htmlFor="facebook">Facebook URL</label>
-                  <span className="help-text">Invalid url</span>
+                  <span className="help-text">Url must include http(s)</span>
                 </div>
-    						<input id="facebook" name="social_media.facebook" value={profile.social_media.facebook} onChange={this.handleChange} onBlur={validate} data-validation="url"  type="text"/>
+    						<input id="facebook" name="social_media.facebook" value={profile.social_media.facebook} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                 <div className="title">
     						  <label htmlFor="twitter">Twitter URL</label>
-                  <span className="help-text">Invalid url</span>
+                  <span className="help-text">Url must include http(s)</span>
                 </div>
     						<input id="twitter" name="social_media.twitter" value={profile.social_media.twitter} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>

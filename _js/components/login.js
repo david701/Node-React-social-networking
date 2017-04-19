@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { validate } from '../plugins/validation.js';
 
 //variables that will never change
 const Profile = function(){
@@ -16,7 +17,8 @@ class Login extends React.Component{
     	this.state = {
     		profile: this.profile,
             error: '',
-            isFlipped: false
+            isFlipped: false,
+            formState: true
     	};
     	this.handleChange = this.handleChange.bind(this);
     	this.handleLogin = this.handleLogin.bind(this);
@@ -36,11 +38,11 @@ class Login extends React.Component{
         //set value
         this.profile[target.name] = target.value;
         //set state
-        this.setState({profile: this.profile, error: ''});
+        this.setState({profile: this.profile, error: '', formState: null});
     }
 
     flipWindow(event){
-        this.setState({isFlipped: !this.state.isFlipped});
+        this.setState({isFlipped: !this.state.isFlipped, formState: true});
         this.resetProfile();
         event.preventDefault();
     }
@@ -99,18 +101,24 @@ class Login extends React.Component{
                                 <form onSubmit={this.handleLogin}>
                                     <ul className="field-list field-list-small">
                                         <li>
-                                            <label htmlFor="email">Email Address</label>
-                                            <input id="email" name="email" value={this.state.profile.email} onChange={this.handleChange} type="text"/>
+                                            <div className="title">
+                                                <label htmlFor="email"><span>*</span>Email Address</label>
+                                                <span className="help-text">Please enter email address</span>
+                                            </div>
+                                            <input id="email" name="email" value={this.state.profile.email} onChange={this.handleChange} onBlur={validate} data-validation="required,email" type="text"/>
                                         </li>
                                         <li>
-                                            <label htmlFor="passwprd">Password</label>
-                                            <input id="password" name="password" value={this.state.profile.password} onChange={this.handleChange} type="password"/>
+                                            <div className="title">
+                                                <label htmlFor="passwprd"><span>*</span>Password</label>
+                                                <span className="help-text">Please enter your password</span>
+                                            </div>
+                                            <input id="password" name="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-validation="required" type="password"/>
                                         </li>
                                     </ul>
                                     <div className="submit-row submit-row-small">
                                         <div className="buttons">
                                             <a className="button button-white" href="javascript:void(0)" onClick={this.closeLogin}>Close</a>
-                                            <input className="button button-red" type="submit" value="Login" />
+                                            <input className="button button-red" type="submit" value="Login" disabled={this.state.formState}/>
                                         </div>
                                         <div className="controls">
                                             <p>Forgot your Password? <a className="modal-trigger-password" href="javascript:void(0)" onClick={this.flipWindow}>Reset it here.</a></p>
@@ -130,14 +138,17 @@ class Login extends React.Component{
                                 <form onSubmit={this.handleResetPassword}>
                                     <ul className="field-list field-list-small">
                                         <li>
-                                            <label htmlFor="email">Email Address</label>
-                                            <input id="email" name="email" value={this.state.profile.email} onChange={this.handleChange} type="text"/>
+                                            <div className="title">
+                                                <label htmlFor="email"><span>*</span>Email Address</label>
+                                                <span className="help-text">Please enter email address</span>
+                                            </div>
+                                            <input id="email" name="email" value={this.state.profile.email} onChange={this.handleChange} onBlur={validate} data-validation="required,email" type="text"/>
                                         </li>
                                     </ul>
                                     <div className="submit-row submit-row-small">
                                         <div className="buttons">
                                             <a className="button button-white" href="javascript:void(0)" onClick={this.closeLogin}>Close</a>
-                                            <input className="button button-red" type="submit" value="Reset Password" />
+                                            <input className="button button-red" type="submit" value="Reset Password" disabled={this.state.formState}/>
                                         </div>
                                         <div className="controls">
                                             <p>Know your password? <a className="modal-trigger-password link" onClick={this.flipWindow} href="javascript:void(0)">Login Here</a>.</p>

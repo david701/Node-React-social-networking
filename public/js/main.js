@@ -36018,6 +36018,11 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'label',
                   { htmlFor: 'gender' },
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    '*'
+                  ),
                   'Your gender:'
                 ),
                 _react2.default.createElement(
@@ -36070,7 +36075,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Invalid url'
+                  'Url must include http(s)'
                 )
               ),
               _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -36089,7 +36094,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Invalid url'
+                  'Url must include http(s)'
                 )
               ),
               _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -36108,7 +36113,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Invalid url'
+                  'Url must include http(s)'
                 )
               ),
               _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -36127,7 +36132,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Invalid url'
+                  'Url must include http(s)'
                 )
               ),
               _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -36146,7 +36151,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Invalid url'
+                  'Url must include http(s)'
                 )
               ),
               _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -36165,7 +36170,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Invalid url'
+                  'Url must include http(s)'
                 )
               ),
               _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -36459,6 +36464,8 @@ var _jquery = __webpack_require__(15);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _validation = __webpack_require__(389);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36485,7 +36492,8 @@ var Login = function (_React$Component) {
         _this.state = {
             profile: _this.profile,
             error: '',
-            isFlipped: false
+            isFlipped: false,
+            formState: true
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleLogin = _this.handleLogin.bind(_this);
@@ -36509,12 +36517,12 @@ var Login = function (_React$Component) {
             //set value
             this.profile[target.name] = target.value;
             //set state
-            this.setState({ profile: this.profile, error: '' });
+            this.setState({ profile: this.profile, error: '', formState: null });
         }
     }, {
         key: 'flipWindow',
         value: function flipWindow(event) {
-            this.setState({ isFlipped: !this.state.isFlipped });
+            this.setState({ isFlipped: !this.state.isFlipped, formState: true });
             this.resetProfile();
             event.preventDefault();
         }
@@ -36604,21 +36612,49 @@ var Login = function (_React$Component) {
                                         'li',
                                         null,
                                         _react2.default.createElement(
-                                            'label',
-                                            { htmlFor: 'email' },
-                                            'Email Address'
+                                            'div',
+                                            { className: 'title' },
+                                            _react2.default.createElement(
+                                                'label',
+                                                { htmlFor: 'email' },
+                                                _react2.default.createElement(
+                                                    'span',
+                                                    null,
+                                                    '*'
+                                                ),
+                                                'Email Address'
+                                            ),
+                                            _react2.default.createElement(
+                                                'span',
+                                                { className: 'help-text' },
+                                                'Please enter email address'
+                                            )
                                         ),
-                                        _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, type: 'text' })
+                                        _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required,email', type: 'text' })
                                     ),
                                     _react2.default.createElement(
                                         'li',
                                         null,
                                         _react2.default.createElement(
-                                            'label',
-                                            { htmlFor: 'passwprd' },
-                                            'Password'
+                                            'div',
+                                            { className: 'title' },
+                                            _react2.default.createElement(
+                                                'label',
+                                                { htmlFor: 'passwprd' },
+                                                _react2.default.createElement(
+                                                    'span',
+                                                    null,
+                                                    '*'
+                                                ),
+                                                'Password'
+                                            ),
+                                            _react2.default.createElement(
+                                                'span',
+                                                { className: 'help-text' },
+                                                'Please enter your password'
+                                            )
                                         ),
-                                        _react2.default.createElement('input', { id: 'password', name: 'password', value: this.state.profile.password, onChange: this.handleChange, type: 'password' })
+                                        _react2.default.createElement('input', { id: 'password', name: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required', type: 'password' })
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36632,7 +36668,7 @@ var Login = function (_React$Component) {
                                             { className: 'button button-white', href: 'javascript:void(0)', onClick: this.closeLogin },
                                             'Close'
                                         ),
-                                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Login' })
+                                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Login', disabled: this.state.formState })
                                     ),
                                     _react2.default.createElement(
                                         'div',
@@ -36683,11 +36719,25 @@ var Login = function (_React$Component) {
                                         'li',
                                         null,
                                         _react2.default.createElement(
-                                            'label',
-                                            { htmlFor: 'email' },
-                                            'Email Address'
+                                            'div',
+                                            { className: 'title' },
+                                            _react2.default.createElement(
+                                                'label',
+                                                { htmlFor: 'email' },
+                                                _react2.default.createElement(
+                                                    'span',
+                                                    null,
+                                                    '*'
+                                                ),
+                                                'Email Address'
+                                            ),
+                                            _react2.default.createElement(
+                                                'span',
+                                                { className: 'help-text' },
+                                                'Please enter email address'
+                                            )
                                         ),
-                                        _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, type: 'text' })
+                                        _react2.default.createElement('input', { id: 'email', name: 'email', value: this.state.profile.email, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required,email', type: 'text' })
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36701,7 +36751,7 @@ var Login = function (_React$Component) {
                                             { className: 'button button-white', href: 'javascript:void(0)', onClick: this.closeLogin },
                                             'Close'
                                         ),
-                                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Reset Password' })
+                                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Reset Password', disabled: this.state.formState })
                                     ),
                                     _react2.default.createElement(
                                         'div',
@@ -37278,6 +37328,8 @@ var _jquery = __webpack_require__(15);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _validation = __webpack_require__(389);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37390,27 +37442,60 @@ var ResetPassword = function (_React$Component) {
                             'Enter your new password below'
                         ),
                         _react2.default.createElement(
+                            'span',
+                            { className: 'instructions' },
+                            'Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).'
+                        ),
+                        _react2.default.createElement(
                             'ul',
                             { className: 'field-list' },
                             _react2.default.createElement(
                                 'li',
                                 null,
                                 _react2.default.createElement(
-                                    'label',
-                                    { htmlFor: 'password1' },
-                                    'New Password'
+                                    'div',
+                                    { className: 'title' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { htmlFor: 'password1' },
+                                        _react2.default.createElement(
+                                            'span',
+                                            null,
+                                            '*'
+                                        ),
+                                        'New Password'
+                                    ),
+                                    _react2.default.createElement(
+                                        'span',
+                                        { className: 'help-text' },
+                                        'Please enter your new password'
+                                    )
                                 ),
-                                _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange })
+                                _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'password,required' })
                             ),
                             _react2.default.createElement(
                                 'li',
                                 null,
                                 _react2.default.createElement(
-                                    'label',
-                                    { htmlFor: 'password2' },
-                                    'Confirm New Password'
+                                    'div',
+                                    { className: 'title' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { htmlFor: 'password2' },
+                                        _react2.default.createElement(
+                                            'span',
+                                            null,
+                                            '*'
+                                        ),
+                                        'Confirm Password'
+                                    ),
+                                    _react2.default.createElement(
+                                        'span',
+                                        { className: 'help-text' },
+                                        'This password does not match'
+                                    )
                                 ),
-                                _react2.default.createElement('input', { id: 'password2', type: 'password' })
+                                _react2.default.createElement('input', { id: 'password2', type: 'password', onBlur: _validation.validate, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
                             )
                         ),
                         _react2.default.createElement('hr', null),
@@ -37587,6 +37672,8 @@ var _moment = __webpack_require__(0);
 var _moment2 = _interopRequireDefault(_moment);
 
 __webpack_require__(211);
+
+var _validation = __webpack_require__(389);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37795,48 +37882,104 @@ var SignUp = function (_React$Component) {
           { className: 'field-list' },
           _react2.default.createElement(
             'li',
-            { className: 'field-error' },
+            null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'name' },
-              'What is your name?'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'name' },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '*'
+                ),
+                'What is your name?'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Please enter your full name'
+              )
             ),
-            _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange })
+            _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'name,required' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'email' },
-              'What is your email?'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'email' },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '*'
+                ),
+                'What is your email?'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Invalid email address'
+              )
             ),
-            _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange })
+            _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'email,required' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'bday' },
-              'What is your birth date?'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'bday' },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '*'
+                ),
+                'What is your birth date?'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Please enter a date'
+              )
             ),
-            _react2.default.createElement(_reactDatepicker2.default, { id: 'bday', name: 'bday', selected: this.state.profile.bday, onChange: this.handleChange, showYearDropdown: true, maxDate: (0, _moment2.default)().subtract(1, "days") })
+            _react2.default.createElement(_reactDatepicker2.default, { id: 'bday', name: 'bday', selected: this.state.profile.bday, onChange: this.handleChange, showYearDropdown: true, maxDate: (0, _moment2.default)(), onBlur: _validation.validate, 'data-validation': 'date,required' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'gender' },
-              'What is your gender?'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'gender' },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '*'
+                ),
+                'Your gender:'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Please select your gender'
+              )
             ),
             _react2.default.createElement(
               'select',
-              { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange },
+              { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required' },
               _react2.default.createElement(
                 'option',
-                { value: 'Select One' },
+                { value: '' },
                 'Select One'
               ),
               _react2.default.createElement(
@@ -37870,61 +38013,115 @@ var SignUp = function (_React$Component) {
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'website' },
-              'Your website URL'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'website' },
+                'Your website URL'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Url must include http(s)'
+              )
             ),
-            _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, type: 'text' })
+            _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'good_reads' },
-              'Goodreads URL'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'good_reads' },
+                'Goodreads URL'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Url must include http(s)'
+              )
             ),
-            _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, type: 'text' })
+            _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'amazon' },
-              'Amazon URL'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'amazon' },
+                'Amazon URL'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Url must include http(s)'
+              )
             ),
-            _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, type: 'text' })
+            _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'wordpress' },
-              'WordPress URL'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'wordpress' },
+                'WordPress URL'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Url must include http(s)'
+              )
             ),
-            _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, type: 'text' })
+            _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'facebook' },
-              'Facebook URL'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'facebook' },
+                'Facebook URL'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Url must include http(s)'
+              )
             ),
-            _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, type: 'text' })
+            _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'twitter' },
-              'Twitter URL'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'twitter' },
+                'Twitter URL'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Url must include http(s)'
+              )
             ),
-            _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, type: 'text' })
+            _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
           )
         ),
         _react2.default.createElement('hr', null),
@@ -37936,7 +38133,17 @@ var SignUp = function (_React$Component) {
             null,
             'Step 3.'
           ),
+          _react2.default.createElement(
+            'span',
+            null,
+            '*'
+          ),
           ' Create a secure password'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'instructions' },
+          'Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).'
         ),
         _react2.default.createElement(
           'ul',
@@ -37945,21 +38152,49 @@ var SignUp = function (_React$Component) {
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'password1' },
-              'Password'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'password1' },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '*'
+                ),
+                'Password'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'Password must match above format'
+              )
             ),
-            _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange })
+            _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'password,required' })
           ),
           _react2.default.createElement(
             'li',
             null,
             _react2.default.createElement(
-              'label',
-              { htmlFor: 'password2' },
-              'Confirm Password'
+              'div',
+              { className: 'title' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'password2' },
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '*'
+                ),
+                'Confirm Password'
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'help-text' },
+                'This password does not match'
+              )
             ),
-            _react2.default.createElement('input', { id: 'password2', type: 'password' })
+            _react2.default.createElement('input', { id: 'password2', type: 'password', onBlur: _validation.validate, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
           )
         ),
         _react2.default.createElement('hr', null),
@@ -38018,7 +38253,7 @@ var SignUp = function (_React$Component) {
               { className: 'button button-white', href: '.' },
               'Close'
             ),
-            _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up' })
+            _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up', disabled: true })
           )
         )
       );
@@ -55553,17 +55788,47 @@ var _validator2 = _interopRequireDefault(_validator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var isValid = function isValid(validate, value) {
-    var valid = true;
+var formValid = function formValid(input) {
+    var errors = false;
+    var form = (0, _jquery2.default)(input).closest('form');
+
+    (0, _jquery2.default)(form).find('label span').each(function () {
+        var $this = (0, _jquery2.default)(this).closest('li');
+        var input = $this.find('input,select');
+        errors = errors || $this.hasClass('field-error') || input.val() === "";
+    });
+
+    if (errors) {
+        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', 'disabled');
+    } else {
+        (0, _jquery2.default)(form).find('input[type="submit"]').removeAttr('disabled');
+    }
+};
+
+var isValid = function isValid(validate, input) {
+    var valid = true,
+        value = input.value;
     switch (validate) {
+        case "name":
+            valid = /^([^0-9]*)$/.test(value);
+            break;
         case "email":
             valid = _validator2.default.isEmail(value);
             break;
         case "url":
-            valid = _validator2.default.isURL(value);
+            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true });
             break;
         case "required":
-            valid = value.length > 0;
+            valid = !_validator2.default.isEmpty(value);
+            break;
+        case "password":
+            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value);
+            break;
+        case "confirmPassword":
+            valid = _validator2.default.equals(value, input.dataset.password);
+            break;
+        case "date":
+            valid = _validator2.default.isBefore(value);
             break;
     }
     return valid;
@@ -55572,23 +55837,25 @@ var isValid = function isValid(validate, value) {
 //validates one value at a time
 var validate = function validate(event) {
     var input = event.target,
-        validations = input.dataset.validation.split(','),
+        validations = input.dataset.validation ? input.dataset.validation.split(',') : ["date", "required"],
         all_valid = true;
 
     validations.map(function (validation, index) {
         //only validate if there is a value or required
         if (input.value.length || validation === "required") {
-            all_valid = all_valid && isValid(validation, input.value);
+            all_valid = all_valid && isValid(validation, input);
         }
     });
 
     if (all_valid) {
-        input.parentNode.classList.remove('field-error');
-        (0, _jquery2.default)(input.parentNode).find('.help-text').hide();
+        (0, _jquery2.default)(input).closest('li').removeClass('field-error');
+        (0, _jquery2.default)(input).closest('li').find('.help-text').hide();
     } else {
-        input.parentNode.classList.add('field-error');
-        (0, _jquery2.default)(input.parentNode).find('.help-text').show();
+        (0, _jquery2.default)(input).closest('li').addClass('field-error');
+        (0, _jquery2.default)(input).closest('li').find('.help-text').show();
     }
+
+    formValid(input);
 };
 
 exports.validate = validate;
