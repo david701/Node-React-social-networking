@@ -92,6 +92,13 @@ select, input, textarea {
 	border-radius: $br-normal;
 	background-color: $shade-gray;
 
+	&:disabled,disabled:hover {
+		background: $disabled-gray !important;
+		color: $dark-gray !important;
+		box-shadow: none !important;
+		cursor: default;
+	}
+
 	&:focus {
 		outline: none;
 		box-shadow: inset 0 0 0 1px $light-gray;

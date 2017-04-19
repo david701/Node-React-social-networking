@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { validate } from '../plugins/validation.js';
 
 //list all of the genre's so we can loop through them
 const genres = ["Fantasy","Science Fiction",
@@ -19,34 +20,35 @@ const themes = ["Contemporary", "Historical",
 const profile_id = profile_id;
 
 const Profile = function(){
-      this.id = profile_id;
-		  this.avatar = '';
-    	this.name = '';
-    	this.password = '';
-    	this.email = '';
-    	this.bday = '';
-    	this.gender = 'Select One';
-    	this.social_media = {
-    		website: '',
-    		good_reads: '',
-    		amazon: '',
-    		wordpress: '',
-    		facebook: '',
-    		twitter: ''
-    	}
-    	this.genres = [];
-    	this.themes = [];
-    	this.newsletter = true;
- 	}
+        this.id = profile_id;
+  		  this.avatar = '';
+      	this.name = '';
+      	this.password = '';
+      	this.email = '';
+      	this.bday = '';
+      	this.gender = 'Select One';
+      	this.social_media = {
+      		website: '',
+      		good_reads: '',
+      		amazon: '',
+      		wordpress: '',
+      		facebook: '',
+      		twitter: ''
+      	}
+      	this.genres = [];
+      	this.themes = [];
+      	this.newsletter = true;
+}
 
 class SignUp extends React.Component{
 
 	constructor(props) {
     	super(props);
-        this.new_profile = new Profile();
+      this.new_profile = new Profile();
     	this.state = {
         id: this.new_profile.id,
-    		profile: this.new_profile
+    		profile: this.new_profile,
+        formState: true
     	};
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,7 +91,6 @@ class SignUp extends React.Component{
   		props = target.name.split('.'),
   		value = (target.value === "true") ? true : (target.value === "false") ? false : target.value;
 
-
   		//if the property is nested, dig 1 level deeper
   		if(props.length > 1){
   			// add sub properties here
@@ -115,7 +116,7 @@ class SignUp extends React.Component{
   			this.new_profile[target.name] = value;
   		}
   		//set the state
-    	this.setState({profile: this.new_profile});
+    	this.setState({profile: this.new_profile, formState: null});
   	}
 
 	handleSubmit(event){
@@ -131,6 +132,7 @@ class SignUp extends React.Component{
                 window.location.href = "/dashboard/edit";
             }
         });
+        this.setState({formState: null});
         event.preventDefault();
 	}
 
@@ -155,6 +157,7 @@ class SignUp extends React.Component{
 	}
 
 	render(){
+    let profile = this.state.profile;
 		return(
       <div>
       {!this.state.id &&
@@ -164,42 +167,52 @@ class SignUp extends React.Component{
       }
       {this.state.id &&
         <header>
-          <h3>Edit {this.state.profile.name}'s Profile</h3>
+          <h3>Edit {profile.name}'s Profile</h3>
         </header>
       }
 			<form onSubmit={this.handleSubmit}>
 				<h4>Tell us about yourself</h4>
 				<p>Edit your photo:</p>
 				<div className="avatar-selection">
-					<figure className="avatar"><img src={this.state.profile.avatar} /></figure>
+					<figure className="avatar"><img src={profile.avatar} /></figure>
           <ul className="radio-list">
             <li>
-              <input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/Dog_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Dog_1.png'}/>
+              <input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/Dog_1.png" onChange={this.handleChange} checked={profile.avatar === '/assets/images/avatars/Dog_1.png'}/>
               <label htmlFor="avatar-1">Apprentice Puppy</label>
             </li>
             <li>
-              <input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/Cat_1.png" onChange={this.handleChange} checked={this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' || this.state.profile.avatar === '/assets/images/avatars/cat-1.png'}/>
+              <input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/Cat_1.png" onChange={this.handleChange} checked={profile.avatar === '/assets/images/avatars/Cat_1.png' || profile.avatar === '/assets/images/avatars/cat-1.png'}/>
               <label htmlFor="avatar-2">Apprentice Kitty</label>
             </li>
           </ul>
 				</div>
 				<ul className="field-list">
-					<li className="field-error">
-						<label htmlFor="name">Your name:</label>
-						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} disabled/>
+					<li>
+						<div className="title">
+              <label htmlFor="name">Your name:</label>
+            </div>
+						<input id="name" name="name" type="text" value={profile.name} disabled/>
+
 					</li>
 					<li>
-						<label htmlFor="email">Your email:</label>
-						<input id="email" name="email" type="text" value={this.state.profile.email} onChange={this.handleChange}/>
+            <div className="title">
+						  <label htmlFor="email">Your email:</label>
+            </div>
+						<input id="email" name="email" type="text" value={profile.email} disabled/>
 					</li>
 					<li>
-						<label htmlFor="bday">Your birth date:</label>
-						<input id="bday" name="bday" type="text" value={this.state.profile.bday} onChange={this.handleChange} disabled/>
+						<div className="title">
+              <label htmlFor="bday">Your birth date:</label>
+            </div>
+						<input id="bday" name="bday" type="text" value={profile.bday} disabled/>
 					</li>
 					<li>
-						<label htmlFor="gender">Your gender:</label>
-            <select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
-              <option value="Select One">Select One</option>
+            <div className="title">
+						  <label htmlFor="gender">Your gender:</label>
+              <span className="help-text">Please select your gender</span>
+            </div>
+            <select id="gender" name="gender" type="text" value={profile.gender} onChange={this.handleChange} onBlur={validate} data-validation="required">
+              <option value="">Select One</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
@@ -209,28 +222,46 @@ class SignUp extends React.Component{
 				<h4>Where else can we find you?</h4>
     				<ul className="field-list">
     					<li>
-    						<label htmlFor="website">Your website URL</label>
-    						<input id="website" name="social_media.website" value={this.state.profile.social_media.website} onChange={this.handleChange} type="text"/>
+                <div className="title">
+    						  <label htmlFor="website">Your website URL</label>
+                  <span className="help-text">Invalid url</span>
+                </div>
+    						<input id="website" name="social_media.website" value={profile.social_media.website} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="good_reads">Goodreads URL</label>
-    						<input id="good_reads" name="social_media.good_reads" value={this.state.profile.social_media.good_reads} onChange={this.handleChange} type="text"/>
+                <div className="title">
+    						  <label htmlFor="good_reads">Goodreads URL</label>
+                  <span className="help-text">Invalid url</span>
+                </div>
+    						<input id="good_reads" name="social_media.good_reads" value={profile.social_media.good_reads} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="amazon">Amazon URL</label>
-    						<input id="amazon" name="social_media.amazon" value={this.state.profile.social_media.amazon} onChange={this.handleChange} type="text"/>
+                <div className="title">
+    						  <label htmlFor="amazon">Amazon URL</label>
+                  <span className="help-text">Invalid url</span>
+                </div>
+    						<input id="amazon" name="social_media.amazon" value={profile.social_media.amazon} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="wordpress">WordPress URL</label>
-    						<input id="wordpress" name="social_media.wordpress" value={this.state.profile.social_media.wordpress} onChange={this.handleChange}  type="text"/>
+                <div className="title">
+    						  <label htmlFor="wordpress">WordPress URL</label>
+                  <span className="help-text">Invalid url</span>
+                </div>
+    						<input id="wordpress" name="social_media.wordpress" value={profile.social_media.wordpress} onChange={this.handleChange} onBlur={validate} data-validation="url"  type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="facebook">Facebook URL</label>
-    						<input id="facebook" name="social_media.facebook" value={this.state.profile.social_media.facebook} onChange={this.handleChange}  type="text"/>
+                <div className="title">
+    						  <label htmlFor="facebook">Facebook URL</label>
+                  <span className="help-text">Invalid url</span>
+                </div>
+    						<input id="facebook" name="social_media.facebook" value={profile.social_media.facebook} onChange={this.handleChange} onBlur={validate} data-validation="url"  type="text"/>
     					</li>
     					<li>
-    						<label htmlFor="twitter">Twitter URL</label>
-    						<input id="twitter" name="social_media.twitter" value={this.state.profile.social_media.twitter} onChange={this.handleChange} type="text"/>
+                <div className="title">
+    						  <label htmlFor="twitter">Twitter URL</label>
+                  <span className="help-text">Invalid url</span>
+                </div>
+    						<input id="twitter" name="social_media.twitter" value={profile.social_media.twitter} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     				</ul>
 				<hr/>
@@ -254,12 +285,12 @@ class SignUp extends React.Component{
 				</ul>
 				<div className="submit-row">
 					<div className="field">
-						<input type="checkbox" name="newsletter" id="newsletter" value={!this.state.profile.newsletter} onChange={this.handleChange} checked={this.state.profile.newsletter}/>
+						<input type="checkbox" name="newsletter" id="newsletter" value={!profile.newsletter} onChange={this.handleChange} checked={profile.newsletter}/>
 						<label htmlFor="newsletter">I want to subscribe to newsletters</label>
 					</div>
 					<div className="buttons">
 						<a className="button button-white" href=".">Close</a>
-						<input className="button button-red" type="submit" value="Edit Profile" />
+						<input className="button button-red" type="submit" value="Save Changes" disabled={this.state.formState}/>
 					</div>
 				</div>
 			</form>

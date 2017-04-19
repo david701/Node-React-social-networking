@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+//components
 import './components/scripts.js';
 import './components/sign-up.js';
 import './components/profile.js';
@@ -13,7 +14,7 @@ import './components/reset-password.js';
 import '../_sass/main.scss';
 
 function mapObject(object, callback) {
-  return Object.keys(object).map( (key) => {
+  return Object.keys(object).map((key) => {
     return callback(key, object[key]);
   });
 }

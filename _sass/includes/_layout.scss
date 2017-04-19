@@ -18,6 +18,16 @@
         text-align: center;
     }
 }
+.content-block-standard .help-text {
+    color: red;
+    font-size: 0.875em;
+    display: none;
+}
+
+.content-block-standard .title {
+    display: flex;
+    justify-content: space-between;
+}
 
 .user-list li .control {
     font-size: 14px;
