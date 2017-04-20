@@ -1,18 +1,27 @@
 const express = require('express'),
 			mongo = require('../../mongo.js'),
 			bcrypt = require('bcrypt'),
-			salt = bcrypt.genSaltSync(11);
+			salt = bcrypt.genSaltSync(11),
+			mandrill = require('mandrill-api/mandrill'),
+			var mandrill_client = new mandrill.Mandrill('CdbvIytAJInbYckp3pj1Jg');
 
 const mongoUser = mongo.schema.user;
 
-function makeToken(){
+const makeToken = ()=>{
 		var text = "";
 		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		for( var i=0; i < 12; i++ )
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
 		return text;
-
 }
+
+const sendEmail = (template, email, vars, cb)=>{
+	/// Mandrill
+	console.log(body);
+	cb(null, 'sent');
+}
+
+
 
 //// GET USERS LIST
 exports.getUsers = (req, res) => {
@@ -280,5 +289,22 @@ exports.unfollowAuthor = (req, res)=>{
 		})
 	}else{
 		res.json({status: 'error', message: 'Not logged in'});
+	}
+}
+
+exports.reports = (req, res)=>{
+	var user = req.session;
+	if(!user){
+		res.json({status:'error', message: 'Not logged in'})
+		return;
+	}else{
+		var vars = [{name: 'content', content: req.body.message}];
+		sendEmail('template', vars, user.email, (err, resp)=>{
+			if(!err){
+				res.json({status: 'ok'})
+			}else{
+				res.json({status: 'error', message: err});
+			}
+		});
 	}
 }
