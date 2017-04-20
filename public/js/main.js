@@ -36211,7 +36211,7 @@ var Author = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var following = "They're not following any authors",
+			var following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
 			    authors = this.state.user.following_authors;
 
 			if (authors) {
@@ -36396,17 +36396,37 @@ var Author = function (_React$Component) {
 				_react2.default.createElement('hr', null),
 				_react2.default.createElement(
 					'div',
-					{ 'class': 'title-row' },
+					{ className: 'title-row' },
 					_react2.default.createElement(
 						'h4',
 						null,
-						'Favorite Authors'
+						this.state.user.name + "'s Favorite Authors"
 					)
 				),
 				_react2.default.createElement(
 					'ul',
 					{ className: 'user-list' },
 					following
+				),
+				_react2.default.createElement('hr', null),
+				_react2.default.createElement(
+					'div',
+					{ className: 'title-row' },
+					_react2.default.createElement(
+						'h4',
+						null,
+						_react2.default.createElement(
+							'span',
+							{ id: 'author-name' },
+							this.state.user.name + "'s"
+						),
+						' Library'
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'book-blocks book-blocks-small' },
+					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
 				)
 			);
 		}
@@ -36520,7 +36540,6 @@ var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", 
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 
 var Profile = function Profile() {
-  this.id = profile_id || 0;
   this.avatar = '';
   this.name = '';
   this.password = '';
@@ -36566,17 +36585,21 @@ var SignUp = function (_React$Component) {
         type: 'DELETE',
         success: function success(response) {
           if (response.status === "ok") {
-            alert(response.status);
-            self.signOut();
+            if (self.state.me.role < 1) {
+              self.signOut();
+            } else {
+              window.location.href = "/dashboard/find-friends";
+            }
           }
         }
       });
     };
 
     _this.new_profile = new Profile();
+    _this.new_profile.id = profile_id;
     _this.state = {
-      id: _this.new_profile.id,
       profile: _this.new_profile,
+      me: _this.new_profile,
       formState: true
     };
     _this.handleChange = _this.handleChange.bind(_this);
@@ -36591,8 +36614,9 @@ var SignUp = function (_React$Component) {
 
       //get user session
       _jquery2.default.get('/api/v1/user_session/').then(function (response) {
-        if (!_this2._objectEmpty(response.data)) {
-          var id = _this2.new_profile.id || response.data._id;
+        if (response.status !== "error") {
+          _this2.setState({ me: response.data });
+          var id = _this2.new_profile.id !== "0" ? _this2.new_profile.id : response.data._id;
           _this2.loadInfo(id);
         } else {
           window.location.href = "/";
@@ -36660,6 +36684,7 @@ var SignUp = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
+      var self = this;
       //update profile
       delete this.new_profile.password;
       _jquery2.default.ajax({
@@ -36669,7 +36694,7 @@ var SignUp = function (_React$Component) {
         dataType: 'json',
         contentType: 'application/json; charset=UTF-8',
         success: function success(response) {
-          if (profile_id) {
+          if (self.state.me.role > 0) {
             window.location.href = "/author/" + profile_id + '/edit';
           } else {
             window.location.href = "/dashboard/edit";
@@ -36712,19 +36737,15 @@ var SignUp = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        !this.state.id && _react2.default.createElement(
+        _react2.default.createElement(
           'header',
           null,
-          _react2.default.createElement(
+          this.state.me.role < 1 && _react2.default.createElement(
             'h3',
             null,
             'Edit your Profile'
-          )
-        ),
-        this.state.id && _react2.default.createElement(
-          'header',
-          null,
-          _react2.default.createElement(
+          ),
+          this.state.me.role > 0 && _react2.default.createElement(
             'h3',
             null,
             'Edit ',
@@ -37715,6 +37736,9 @@ var Parent = function (_React$Component) {
 			});
 		}
 	}, {
+		key: 'editProfile',
+		value: function editProfile(event) {}
+	}, {
 		key: 'handleUnfollow',
 		value: function handleUnfollow(event) {
 			var _this3 = this;
@@ -37746,11 +37770,15 @@ var Parent = function (_React$Component) {
 		value: function render() {
 
 			var following = "You're not following any authors",
-			    authors = this.state.user.following_authors;
+			    authors = this.state.user.following_authors,
+			    button = "Unfollow",
+			    func = this.handleUnfollow;
 
 			if (this.state.user.role > 0) {
 				following = "There are no user's to edit";
 				authors = this.state.all_users;
+				button = "Edit";
+				func = this.editProfile;
 			}
 
 			if (authors) {
@@ -37777,8 +37805,8 @@ var Parent = function (_React$Component) {
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'control unfollow', id: authors[i]._id, onClick: this.handleUnfollow },
-								'Unfollow'
+								{ className: 'control unfollow', id: authors[i]._id, onClick: func },
+								button
 							)
 						));
 					}

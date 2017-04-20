@@ -17,7 +17,6 @@ const themes = ["Contemporary", "Historical",
                 "Mystery","Classic"];
 
 const Profile = function(){
-        this.id = profile_id || 0;
   		  this.avatar = '';
       	this.name = '';
       	this.password = '';
@@ -42,9 +41,10 @@ class SignUp extends React.Component{
 	constructor(props) {
     	super(props);
       this.new_profile = new Profile();
+      this.new_profile.id = profile_id;
     	this.state = {
-        id: this.new_profile.id,
     		profile: this.new_profile,
+        me: this.new_profile,
         formState: true
     	};
     	this.handleChange = this.handleChange.bind(this);
@@ -54,8 +54,9 @@ class SignUp extends React.Component{
     componentWillMount(){
         //get user session
         $.get('/api/v1/user_session/').then((response)=>{
-            if(!this._objectEmpty(response.data)){
-                let id = this.new_profile.id || response.data._id;
+            if(response.status !== "error"){
+                this.setState({me: response.data});
+                let id = this.new_profile.id !== "0" ? this.new_profile.id : response.data._id;
                 this.loadInfo(id);
             }else{
                 window.location.href = "/";
@@ -102,8 +103,11 @@ class SignUp extends React.Component{
           type: 'DELETE',
           success: function(response){
             if(response.status === "ok"){
-              alert(response.status)
-              self.signOut();
+              if(self.state.me.role < 1){
+                self.signOut();
+              }else{
+                window.location.href = "/dashboard/find-friends";
+              }
             }
           }
       });
@@ -144,6 +148,7 @@ class SignUp extends React.Component{
   	}
 
 	handleSubmit(event){
+        var self = this;
         //update profile
         delete this.new_profile.password;
         $.ajax({
@@ -153,7 +158,7 @@ class SignUp extends React.Component{
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',
             success: function(response){
-              if(profile_id){
+              if(self.state.me.role > 0){
                  window.location.href = "/author/" + profile_id + '/edit';
               }else{
                  window.location.href = "/dashboard/edit";
@@ -188,16 +193,14 @@ class SignUp extends React.Component{
     let profile = this.state.profile;
 		return(
       <div>
-      {!this.state.id &&
-        <header>
+      <header>
+      {this.state.me.role < 1 &&
           <h3>Edit your Profile</h3>
-        </header>
       }
-      {this.state.id &&
-        <header>
+      {this.state.me.role > 0 &&
           <h3>Edit {profile.name}'s Profile</h3>
-        </header>
       }
+      </header>
 			<form onSubmit={this.handleSubmit}>
 				<h4>Tell us about yourself</h4>
 				<p>Edit your photo:</p>

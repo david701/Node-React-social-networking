@@ -68,6 +68,9 @@ class Parent extends React.Component{
 		});
 	}
 
+    editProfile(event){
+
+    }
 
     handleUnfollow(event){
         var data = {
@@ -92,11 +95,15 @@ class Parent extends React.Component{
 	render(){
 
 		let following = "You're not following any authors",
-		authors = this.state.user.following_authors;
+		authors = this.state.user.following_authors,
+		button = "Unfollow",
+		func = this.handleUnfollow;
 
 		if(this.state.user.role > 0){
 			following = "There are no user's to edit";
 			authors = this.state.all_users;
+			button = "Edit";
+			func = this.editProfile;
 		}
 
 
@@ -105,7 +112,7 @@ class Parent extends React.Component{
 				let limit = authors.length > 5 ? 5 : authors.length;
 				following = [];
 				for (var i = 0; i < limit; i++) {
-				  following.push(<li key={i}><a href={'/author/' + authors[i]._id}><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>{authors[i].name}</h5></a><div className="control unfollow" id={authors[i]._id} onClick={this.handleUnfollow}>Unfollow</div></li>);
+				  following.push(<li key={i}><a href={'/author/' + authors[i]._id}><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>{authors[i].name}</h5></a><div className="control unfollow" id={authors[i]._id} onClick={func}>{button}</div></li>);
 				}
 			}
 		}

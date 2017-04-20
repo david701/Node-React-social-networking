@@ -101,7 +101,7 @@ class Author extends React.Component{
 	}
 
 	render(){
-		let following = "They're not following any authors",
+		let following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
 		authors = this.state.user.following_authors;
 
 		if(authors){
@@ -206,12 +206,54 @@ class Author extends React.Component{
 				}
 			</div>
 			<hr/>
-				<div class="title-row">
-					<h4>Favorite Authors</h4>
+				<div className="title-row">
+					<h4>{this.state.user.name + "'s Favorite Authors"}</h4>
 				</div>
 				<ul className="user-list">
 					{following}
 				</ul>
+			<hr/>
+
+
+
+				<div className="title-row">
+					<h4><span id="author-name">{this.state.user.name + "'s"}</span> Library</h4>
+					{/*<a className="control" href=".">See All</a>*/}
+				</div>
+				<div className="book-blocks book-blocks-small">
+					{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
+					{/*
+					<ul>
+						<li>
+							<a href="." className="content-block content-block-book">
+								<figure>
+									<div className="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
+										<div className="overlay">
+											<button className="button button-red" href=".">View Book</button>
+										</div>
+									</div>
+									<figcaption>
+										<h4>Title Area</h4>
+										<p>By [Author Name]</p>
+										<ul className="rating-display">
+											<li className="filled"></li>
+											<li className="filled"></li>
+											<li className="filled"></li>
+											<li className="filled"></li>
+											<li></li>
+										</ul>
+									</figcaption>
+								</figure>
+							</a>
+						</li>
+					</ul>
+					*/}
+				</div>
+
+
+
+
+
 			</div>
 		)
 	}
