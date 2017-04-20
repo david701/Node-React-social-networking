@@ -15,5 +15,9 @@
 	</main>
 	<% include ./partials/sidebar %>
 </div>
-<% if (this.id) { %><script> var profile_id = <%= id %></script><% } %>
+<script>
+	<% if (id) { %>
+	var profile_id = '<%= id %>'
+	<% } %>
+</script>
 <% include ./partials/end %>

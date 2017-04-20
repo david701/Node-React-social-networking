@@ -32,7 +32,26 @@ class Parent extends React.Component{
     	this.state = {
     		user: this.user
     	};
+    	this.handleUnfollow = this.handleUnfollow.bind(this);
   	}
+
+  	removeMyProfile = (id,users) => {
+        return users.filter(function(user,index){
+            return user._id !== id
+        });
+    }
+
+  	getUsers = (id) => {
+        $.get('/api/v1/users/').then((response)=>{
+            if(response.status === "error"){
+                alert(response.message);
+            }else{
+                this.users = this.removeMyProfile(id,response.data);
+                this.setState({all_users: this.users});
+            }
+        });
+    }
+
 
 	componentWillMount(){
 		let self = this;
@@ -42,11 +61,26 @@ class Parent extends React.Component{
 				//this.user.role = 2;
 				this.setState({user: this.user});
 				self.loadUserInfo(this.user.id);
+				self.getUsers(this.user.id);
 			}else {
 				window.location.href = "/";
 			}
 		});
 	}
+
+
+    handleUnfollow(event){
+        var data = {
+                authorId: event.target.id
+        };
+        $.post('/api/v1/unfollow_author',data).then((response)=>{
+            if(response.status === "error"){
+                alert(response.message)
+            }else{
+            	this.loadUserInfo(this.user.id);
+            }
+        });
+    }
 
 	loadUserInfo(id){
 		$.get('/api/v1/users/' + id).then((response)=>{
@@ -55,8 +89,27 @@ class Parent extends React.Component{
 			});
 		});
 	}
-
 	render(){
+
+		let following = "You're not following any authors",
+		authors = this.state.user.following_authors;
+
+		if(this.state.user.role > 0){
+			following = "There are no user's to edit";
+			authors = this.state.all_users;
+		}
+
+
+		if(authors){
+			if(authors.length){
+				let limit = authors.length > 5 ? 5 : authors.length;
+				following = [];
+				for (var i = 0; i < limit; i++) {
+				  following.push(<li key={i}><a href={'/author/' + authors[i]._id}><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>{authors[i].name}</h5></a><div className="control unfollow" id={authors[i]._id} onClick={this.handleUnfollow}>Unfollow</div></li>);
+				}
+			}
+		}
+
 		return(
 			<div className="standard-section-with-sidebar">
 				<div className="container">
@@ -148,18 +201,7 @@ class Parent extends React.Component{
 								<a className="control" href="/dashboard/find-friends">Find Friends</a>
 							</div>
 							<ul className="user-list">
-								You're not following any authors
-								{/*
-								<li>
-									<a href="/author/">
-										<figure className="avatar">
-											<img src="/assets/images/avatars/cat-3.png" alt="">
-										</figure>
-										<h5>Author Name</h5>
-									</a>
-									<div className="control">Delete</div>
-								</li>
-								*/}
+								{following}
 							</ul>
 						<hr/>
 							<div className="title-row">
@@ -218,7 +260,7 @@ class Parent extends React.Component{
 					</div>
 				</div>
 				}
-				{this.state.user.role >= 1 &&
+				{this.state.user.role > 0 &&
 					<div className="content-block content-block-standard account-block">
 						<header>
 							<h3>Admin Account</h3>
@@ -235,18 +277,7 @@ class Parent extends React.Component{
 								<h4>Edit Users</h4>
 							</div>
 							<ul className="user-list">
-								There are no user's to edit
-								{/*
-								<li>
-									<a href="/author/">
-										<figure className="avatar">
-											<img src="/assets/images/avatars/cat-3.png" alt="">
-										</figure>
-										<h5>Author Name</h5>
-									</a>
-									<div className="control">Delete</div>
-								</li>
-								*/}
+								{following}
 							</ul>
 						<hr/>
 						<div className="title-row">

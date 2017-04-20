@@ -8,6 +8,9 @@
     background-color: $dark-blue;
     overflow: hidden;
 }
+.unfollow {
+    cursor: pointer;
+}
 .main-view {
     order: 2;
     flex-grow: 1;

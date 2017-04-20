@@ -16,11 +16,8 @@ const themes = ["Contemporary", "Historical",
                 "Middle Grade","Children","Thriller",
                 "Mystery","Classic"];
 
-//should we see our profile or someone elses?
-const profile_id = profile_id;
-
 const Profile = function(){
-        this.id = profile_id;
+        this.id = profile_id || 0;
   		  this.avatar = '';
       	this.name = '';
       	this.password = '';
@@ -86,6 +83,32 @@ class SignUp extends React.Component{
         });
     }
 
+    signOut = () => {
+      let self = this;
+      $.get('/api/v1/logout').then((response)=>{
+        let isLoggedIn = response.status = "ok" ? false : true;
+        self.setState({loggedIn: isLoggedIn });
+        if(!isLoggedIn){
+          window.location.href = "/";
+        }
+      });
+    }
+
+
+    handleDelete = (event) => {
+      let self = this;
+      $.ajax({
+          url: '/api/v1/users/' + this.state.profile._id,
+          type: 'DELETE',
+          success: function(response){
+            if(response.status === "ok"){
+              alert(response.status)
+              self.signOut();
+            }
+          }
+      });
+    };
+
   	handleChange(event) {
   		let target = event.target,
   		props = target.name.split('.'),
@@ -130,7 +153,11 @@ class SignUp extends React.Component{
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',
             success: function(response){
-                window.location.href = "/dashboard/edit";
+              if(profile_id){
+                 window.location.href = "/author/" + profile_id + '/edit';
+              }else{
+                 window.location.href = "/dashboard/edit";
+              }
             }
         });
         this.setState({formState: null});
@@ -266,9 +293,10 @@ class SignUp extends React.Component{
     					</li>
     				</ul>
 				<hr/>
-				<h4>Account Details</h4>
-				<ul className="field-list">
+				<h4>Account Settings</h4>
+				<ul className="field-list account-settings">
 					<a href="/reset-password" className="button reset-password">Reset Password</a>
+          <div onClick={this.handleDelete} className="button button-red reset-password">Delete Account</div>
 				</ul>
 				<hr/>
 				<h4>Tell us what you like to see</h4>

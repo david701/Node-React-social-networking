@@ -86,17 +86,19 @@ class Friends extends React.Component{
 
 	render(){
         let self = this;
+
 		return(
             <ul className="user-list">
                 {this.state.users.map(function(user, i){
+                let myProfile = self.state.me._id === user._id;
                 return (<li key={user._id}>
-                    <a href={'/author/' + user._id}>
+                    <a href={myProfile ? '/dashboard/' : '/author/' + user._id}>
                         <figure className="avatar">
                             <img src={user.avatar} alt="" id={user._id}/>
                         </figure>
                         <h5>{user.name}</h5>
                     </a>
-                    {(self.state.me._id !== user._id && self.state.me.role < 1) &&
+                    {(!myProfile && self.state.me.role < 1) &&
                         <div>
                         {self.isFollowing(user._id,self.state.me) &&
                             <div className="control">Following</div>
@@ -106,10 +108,10 @@ class Friends extends React.Component{
                         }
                         </div>
                     }
-                    {self.state.me.role >= 1 &&
+                    {!myProfile && self.state.me.role >= 1 &&
                         <a className="control add-button" href={'/author/' + user._id}>Edit</a>
                     }
-                    {self.state.me._id === user._id &&
+                    {myProfile &&
                         <div className="control">That's you!</div>
                     }
                 </li>)

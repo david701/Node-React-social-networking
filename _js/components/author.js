@@ -35,21 +35,13 @@ class Author extends React.Component{
     		user: this.user,
     		following: false
     	};
-    	this.handleFollow = this.handleFollow.bind(this)
+    	this.handleFollow = this.handleFollow.bind(this);
+    	this.isFollowing = this.isFollowing.bind(this);
   	}
-
-  	_objectEmpty(obj){
-	    for(var prop in obj) {
-	        if(obj.hasOwnProperty(prop))
-	            return false;
-	    }
-
-    	return JSON.stringify(obj) === JSON.stringify({});
-	}
 
 	handleFollow(){
 		var data = {
-				authorId: this.state.user._id
+			authorId: this.state.user._id
 		};
 		$.post('/api/v1/follow_author',data).then((response)=>{
 			if(response.status === "error"){
@@ -61,6 +53,21 @@ class Author extends React.Component{
 			}
 		});
 	}
+
+	handleUnfollow = (event) => {
+        var data = {
+                authorId: this.state.user._id
+        };
+        $.post('/api/v1/unfollow_author',data).then((response)=>{
+            if(response.status === "error"){
+                alert(response.message)
+            }else{
+				this.setState({
+					following: false
+				})
+            }
+        });
+    }
 
 	componentWillMount(){
 		let self = this;
@@ -74,24 +81,39 @@ class Author extends React.Component{
 		});
 	}
 
-	isFollowing(user,followers){
-		this.setState({
-			following: followers.includes(user)
+	isFollowing(userId,followers){
+		let myAccount = followers.filter(function(follower,index){
+			return follower._id === userId;
 		});
+
+		return myAccount.length > 0;
 	}
 
 	loadUserInfo(userId,profileId){
+		let $this = this;
 		$.get('/api/v1/users/' + profileId).then((response)=>{
-			//figure out if we're following the user
-			//this.isFollowing(userId,response.data.followers)
 			//in the meantime setup user data
 			this.setState({
-				user: response.data
+				user: response.data,
+				following: $this.isFollowing(userId,response.data.followers)
 			});
 		});
 	}
 
 	render(){
+		let following = "They're not following any authors",
+		authors = this.state.user.following_authors;
+
+		if(authors){
+			if(authors.length){
+				let limit = authors.length > 5 ? 5 : authors.length;
+				following = [];
+				for (var i = 0; i < limit; i++) {
+				  following.push(<li key={i}><a href={'/author/' + authors[i]._id}><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>{authors[i].name}</h5></a></li>);
+				}
+			}
+		}
+
 		return(
 			<div>
 			<div className="title-row">
@@ -159,17 +181,14 @@ class Author extends React.Component{
 								}
 								{this.state.me.role < 1 &&
 								<div className="button-row">
-									{this.state.user.following &&
-										<a className="button button-small button-blue" href="javascript:void(0)">Following</a>
+									{this.state.following &&
+										<a className="button button-small button-blue" href="javascript:void(0)" onClick={this.handleUnfollow}>Unfollow me</a>
 									}
-									{!this.state.user.following &&
-										<a className="button button-small button-blue" href="javascript:void(0)" onClick={this.handleFollow}>Follow Me</a>
+									{!this.state.following &&
+										<a className="button button-small button-blue" href="javascript:void(0)" onClick={this.handleFollow}>Follow me</a>
 									}
 									<a className="button button-small button-white button-white-blue" href=".">Message Me</a>
 								</div>
-								}
-								{this.state.me.role >= 1 &&
-									<a className="button button-small button-blue" href="javascript:void(0)" onClick={this.handleFollow}>Delete Account</a>
 								}
 							</div>
 					</div>
@@ -186,6 +205,13 @@ class Author extends React.Component{
 					</div>
 				}
 			</div>
+			<hr/>
+				<div class="title-row">
+					<h4>Favorite Authors</h4>
+				</div>
+				<ul className="user-list">
+					{following}
+				</ul>
 			</div>
 		)
 	}
