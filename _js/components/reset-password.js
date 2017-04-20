@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { validate } from '../plugins/validation.js';
+import { validate, formValid } from '../plugins/validation.js';
 
 const Profile = function(){
         this.id = 0;
@@ -50,6 +50,8 @@ class ResetPassword extends React.Component{
   		this.new_profile[target.name] = target.value;
   		//set the state
     	this.setState({profile: this.new_profile});
+
+        formValid(event);
   	}
 
 	handleSubmit(event){
@@ -91,7 +93,7 @@ class ResetPassword extends React.Component{
                                         <label htmlFor="password2"><span>*</span>Confirm Password</label>
                                         <span className="help-text">This password does not match</span>
                                     </div>
-            						<input id="password2" type="password" onBlur={validate} data-password={this.state.profile.password} data-validation="confirmPassword,required"/>
+            						<input id="password2" type="password" onBlur={validate} data-password={this.state.profile.password} onChange={this.handleChange} data-validation="confirmPassword,required"/>
             					</li>
             				</ul>
             				<hr/>
@@ -100,7 +102,7 @@ class ResetPassword extends React.Component{
                                 </div>
                                 <div className="buttons">
                                     <a className="button button-white" href=".">Close</a>
-                                    <input className="button button-red" type="submit" value="Reset Password" />
+                                    <input className="button button-red" type="submit" value="Reset Password" disabled/>
                                 </div>
                             </div>
             			</form>

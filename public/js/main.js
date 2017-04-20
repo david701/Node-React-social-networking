@@ -35819,7 +35819,8 @@ var SignUp = function (_React$Component) {
       var target = event.target,
           props = target.name.split('.'),
           value = target.value === "true" ? true : target.value === "false" ? false : target.value;
-
+      //run form validation
+      (0, _validation.formValid)(event);
       //if the property is nested, dig 1 level deeper
       if (props.length > 1) {
         // add sub properties here
@@ -35845,7 +35846,7 @@ var SignUp = function (_React$Component) {
             this.new_profile[target.name] = value;
           }
       //set the state
-      this.setState({ profile: this.new_profile, formState: null });
+      this.setState({ profile: this.new_profile });
     }
   }, {
     key: 'handleSubmit',
@@ -35878,7 +35879,7 @@ var SignUp = function (_React$Component) {
     value: function createCheckboxes(items, type) {
       var self = this;
       return items.map(function (item, index) {
-        var id = item.replace(/\s+/g, '-').toLowerCase();
+        var id = type + '-' + item.replace(/\s+/g, '-').toLowerCase();
         return _react2.default.createElement(
           'li',
           { key: id },
@@ -36506,24 +36507,34 @@ var Login = function (_React$Component) {
     _createClass(Login, [{
         key: 'resetProfile',
         value: function resetProfile() {
-            this.new_profile = new Profile();
-            this.setState({ profile: this.new_profile });
+            this.profile = new Profile();
+            this.setState({ profile: this.profile });
+        }
+    }, {
+        key: 'resetErrors',
+        value: function resetErrors(event) {
+            var form = (0, _jquery2.default)(event.target).closest('form');
+            form.find('.help-text').hide();
+            form.find('.field-error').removeClass('field-error');
         }
     }, {
         key: 'handleChange',
         value: function handleChange(event) {
             //get target
             var target = event.target;
+            //run form validation
+            (0, _validation.formValid)(event);
             //set value
             this.profile[target.name] = target.value;
             //set state
-            this.setState({ profile: this.profile, error: '', formState: null });
+            this.setState({ profile: this.profile, error: '' });
         }
     }, {
         key: 'flipWindow',
         value: function flipWindow(event) {
             this.setState({ isFlipped: !this.state.isFlipped, formState: true });
             this.resetProfile();
+            this.resetErrors(event);
             event.preventDefault();
         }
     }, {
@@ -37398,6 +37409,8 @@ var ResetPassword = function (_React$Component) {
             this.new_profile[target.name] = target.value;
             //set the state
             this.setState({ profile: this.new_profile });
+
+            (0, _validation.formValid)(event);
         }
     }, {
         key: 'handleSubmit',
@@ -37495,7 +37508,7 @@ var ResetPassword = function (_React$Component) {
                                         'This password does not match'
                                     )
                                 ),
-                                _react2.default.createElement('input', { id: 'password2', type: 'password', onBlur: _validation.validate, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
+                                _react2.default.createElement('input', { id: 'password2', type: 'password', onBlur: _validation.validate, 'data-password': this.state.profile.password, onChange: this.handleChange, 'data-validation': 'confirmPassword,required' })
                             )
                         ),
                         _react2.default.createElement('hr', null),
@@ -37511,7 +37524,7 @@ var ResetPassword = function (_React$Component) {
                                     { className: 'button button-white', href: '.' },
                                     'Close'
                                 ),
-                                _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Reset Password' })
+                                _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Reset Password', disabled: true })
                             )
                         )
                     )
@@ -37747,10 +37760,12 @@ var SignUp = function (_React$Component) {
   }, {
     key: 'handleChange',
     value: function handleChange(event) {
+      //the date doesn't show, so I created it from scratch
       var target = event._isAMomentObject ? { name: "bday", value: event } : event.target,
           props = target.name.split('.'),
           value = target.value === "true" ? true : target.value === "false" ? false : target.value;
-
+      //toggle submit
+      (0, _validation.formValid)(event);
       //if the property is nested, dig 1 level deeper
       if (props.length > 1) {
         // add sub properties here
@@ -37781,17 +37796,19 @@ var SignUp = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
-      var _this3 = this;
-
       this.new_profile.bday = this.new_profile.bday._d;
       //restart profile
-      _jquery2.default.post('/api/v1/users', this.new_profile).then(function (data) {
-        if (data.status === "error") {
-          _this3.error = data.message;
-        } else {
+      _jquery2.default.ajax({
+        url: '/api/v1/users/',
+        type: 'post',
+        data: JSON.stringify(this.new_profile),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        success: function success(response) {
           window.location.href = "/email";
         }
       });
+
       this.new_profile = new Profile();
       this.setState({ profile: this.new_profile });
       event.preventDefault();
@@ -37808,8 +37825,9 @@ var SignUp = function (_React$Component) {
     key: 'createCheckboxes',
     value: function createCheckboxes(items, type) {
       var self = this;
+
       return items.map(function (item, index) {
-        var id = item.replace(/\s+/g, '-').toLowerCase();
+        var id = type + '-' + item.replace(/\s+/g, '-').toLowerCase();
 
         return _react2.default.createElement(
           'li',
@@ -38194,7 +38212,7 @@ var SignUp = function (_React$Component) {
                 'This password does not match'
               )
             ),
-            _react2.default.createElement('input', { id: 'password2', type: 'password', onBlur: _validation.validate, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
+            _react2.default.createElement('input', { id: 'password2', name: 'passwordConfirmation', type: 'password', onBlur: _validation.validate, onChange: this.handleChange, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
           )
         ),
         _react2.default.createElement('hr', null),
@@ -38250,7 +38268,7 @@ var SignUp = function (_React$Component) {
             { className: 'buttons' },
             _react2.default.createElement(
               'a',
-              { className: 'button button-white', href: '.' },
+              { className: 'button button-white', href: '/' },
               'Close'
             ),
             _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up', disabled: true })
@@ -55776,7 +55794,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validate = undefined;
+exports.formValid = exports.validate = undefined;
 
 var _jquery = __webpack_require__(15);
 
@@ -55788,20 +55806,34 @@ var _validator2 = _interopRequireDefault(_validator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var formValid = function formValid(input) {
-    var errors = false;
-    var form = (0, _jquery2.default)(input).closest('form');
+//validates overall form to toggle submit
+var formValid = function formValid(event) {
+    //hacks for the date plugin
+    var requiredValuesExist = true,
 
-    (0, _jquery2.default)(form).find('label span').each(function () {
-        var $this = (0, _jquery2.default)(this).closest('li');
-        var input = $this.find('input,select');
-        errors = errors || $this.hasClass('field-error') || input.val() === "";
+    //the horrible date plugin hack
+    input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
+        validations = input.dataset.validation.split(','),
+
+    //doing more hacks for this damn date plugin
+    form = input.name === "bday" ? (0, _jquery2.default)('#bday').closest('form') : (0, _jquery2.default)(input).closest('form');
+
+    //Validate the input field you're typing in. This gives us real time status.
+    validate(event);
+
+    //lastly check if there are values in required fields
+    (0, _jquery2.default)(form).find('label span').closest('li').each(function () {
+        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select').val().length > 0;
     });
 
-    if (errors) {
+    //Check to see if any errors are showing.
+    var formErrors = (0, _jquery2.default)(form).find('.field-error').length > 0;
+
+    //is the current input invalid or any other errors showing?
+    if (formErrors || !requiredValuesExist) {
         (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', 'disabled');
     } else {
-        (0, _jquery2.default)(form).find('input[type="submit"]').removeAttr('disabled');
+        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', null);
     }
 };
 
@@ -55836,10 +55868,11 @@ var isValid = function isValid(validate, input) {
 
 //validates one value at a time
 var validate = function validate(event) {
-    var input = event.target,
-        validations = input.dataset.validation ? input.dataset.validation.split(',') : ["date", "required"],
+    var input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
+        validations = input.dataset.validation.split(','),
         all_valid = true;
 
+    //run all validations on input field
     validations.map(function (validation, index) {
         //only validate if there is a value or required
         if (input.value.length || validation === "required") {
@@ -55847,6 +55880,7 @@ var validate = function validate(event) {
         }
     });
 
+    //if its valid, toggle error
     if (all_valid) {
         (0, _jquery2.default)(input).closest('li').removeClass('field-error');
         (0, _jquery2.default)(input).closest('li').find('.help-text').hide();
@@ -55854,11 +55888,10 @@ var validate = function validate(event) {
         (0, _jquery2.default)(input).closest('li').addClass('field-error');
         (0, _jquery2.default)(input).closest('li').find('.help-text').show();
     }
-
-    formValid(input);
 };
 
 exports.validate = validate;
+exports.formValid = formValid;
 
 /***/ })
 /******/ ]);

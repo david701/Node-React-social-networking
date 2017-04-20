@@ -4,7 +4,7 @@ import $ from 'jquery';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
-import { validate } from '../plugins/validation.js';
+import { validate, formValid } from '../plugins/validation.js';
 
 //variables that will never change
 const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
@@ -60,11 +60,12 @@ class SignUp extends React.Component{
     }
 
   	handleChange(event) {
+        //the date doesn't show, so I created it from scratch
   		let target = event._isAMomentObject ? {name: "bday", value: event} : event.target,
   		props = target.name.split('.'),
   		value = (target.value === "true") ? true : (target.value === "false") ? false : target.value;
-
-
+        //toggle submit
+        formValid(event);
   		//if the property is nested, dig 1 level deeper
   		if(props.length > 1){
   			// add sub properties here
@@ -96,13 +97,18 @@ class SignUp extends React.Component{
 	handleSubmit(event){
 		this.new_profile.bday = this.new_profile.bday._d
 		//restart profile
-		$.post('/api/v1/users', this.new_profile).then((data)=>{
-            if(data.status === "error"){
-                this.error = data.message;
-            }else{
-			    window.location.href = "/email";
+        $.ajax({
+            url: '/api/v1/users/',
+            type: 'post',
+            data: JSON.stringify(this.new_profile),
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            success: function(response){
+                window.location.href = "/email";
             }
-		});
+        });
+
+
 		this.new_profile = new Profile();
 		this.setState({profile: this.new_profile});
 		event.preventDefault();
@@ -117,8 +123,9 @@ class SignUp extends React.Component{
 
 	createCheckboxes(items,type){
 		let self = this;
+
 		return items.map(function(item,index){
-			let id = item.replace(/\s+/g,'-').toLowerCase();
+			let id = type + '-' + item.replace(/\s+/g,'-').toLowerCase();
 
 			return (
 				<li key={id}>
@@ -243,7 +250,7 @@ class SignUp extends React.Component{
                             <label htmlFor="password2"><span>*</span>Confirm Password</label>
                             <span className="help-text">This password does not match</span>
                         </div>
-						<input id="password2" type="password" onBlur={validate} data-password={this.state.profile.password} data-validation="confirmPassword,required"/>
+						<input id="password2" name="passwordConfirmation" type="password" onBlur={validate} onChange={this.handleChange} data-password={this.state.profile.password} data-validation="confirmPassword,required"/>
 					</li>
 				</ul>
 				<hr/>
@@ -266,7 +273,7 @@ class SignUp extends React.Component{
 						<label htmlFor="newsletter">I want to subscribe to newsletters</label>
 					</div>
 					<div className="buttons">
-						<a className="button button-white" href=".">Close</a>
+						<a className="button button-white" href="/">Close</a>
 						<input className="button button-red" type="submit" value="Sign Up" disabled/>
 					</div>
 				</div>

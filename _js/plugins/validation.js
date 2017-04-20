@@ -1,20 +1,32 @@
 import $ from 'jquery';
 import validator from 'validator';
 
-const formValid = (input) => {
-    let errors = false;
-    let form = $(input).closest('form');
+//validates overall form to toggle submit
+const formValid = (event) => {
+    //hacks for the date plugin
+    let requiredValuesExist = true,
+    //the horrible date plugin hack
+    input = event._isAMomentObject || !('validation' in event.target.dataset) ? {name: "bday", value: $('#bday').val(), dataset: {validation: "date,required" }} : event.target,
+    validations = input.dataset.validation.split(','),
+    //doing more hacks for this damn date plugin
+    form = (input.name === "bday") ? $('#bday').closest('form') : $(input).closest('form');
 
-    $(form).find('label span').each(function(){
-        let $this = $(this).closest('li');
-        let input = $this.find('input,select');
-        errors = errors || ($this.hasClass('field-error') || input.val() === "");
-    })
+    //Validate the input field you're typing in. This gives us real time status.
+    validate(event);
 
-    if(errors){
+    //lastly check if there are values in required fields
+    $(form).find('label span').closest('li').each(function(){
+        requiredValuesExist = requiredValuesExist && $(this).find('input,select').val().length > 0;
+    });
+
+    //Check to see if any errors are showing.
+    let formErrors = $(form).find('.field-error').length > 0;
+
+    //is the current input invalid or any other errors showing?
+    if(formErrors || !requiredValuesExist){
         $(form).find('input[type="submit"]').attr('disabled','disabled');
     }else{
-        $(form).find('input[type="submit"]').removeAttr('disabled');
+        $(form).find('input[type="submit"]').attr('disabled',null);
     }
 }
 
@@ -49,10 +61,11 @@ const isValid = (validate,input) => {
 
 //validates one value at a time
 const validate = (event) => {
-    let input = event.target,
-    validations = input.dataset.validation ? input.dataset.validation.split(',') : ["date","required"],
+    let input = event._isAMomentObject || !('validation' in event.target.dataset) ? {name: "bday", value: $('#bday').val(), dataset: {validation: "date,required" }} : event.target,
+    validations = input.dataset.validation.split(','),
     all_valid = true;
 
+    //run all validations on input field
     validations.map(function(validation,index){
         //only validate if there is a value or required
         if(input.value.length || validation === "required"){
@@ -60,6 +73,7 @@ const validate = (event) => {
         }
     });
 
+    //if its valid, toggle error
     if(all_valid){
         $(input).closest('li').removeClass('field-error');
         $(input).closest('li').find('.help-text').hide();
@@ -67,8 +81,6 @@ const validate = (event) => {
         $(input).closest('li').addClass('field-error');
         $(input).closest('li').find('.help-text').show();
     }
-
-    formValid(input)
 }
 
-export { validate };
+export { validate, formValid };

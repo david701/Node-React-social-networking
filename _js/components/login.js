@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { validate } from '../plugins/validation.js';
+import { validate, formValid } from '../plugins/validation.js';
 
 //variables that will never change
 const Profile = function(){
@@ -28,22 +28,31 @@ class Login extends React.Component{
   	}
 
     resetProfile(){
-        this.new_profile = new Profile();
-        this.setState({profile: this.new_profile});
+        this.profile = new Profile();
+        this.setState({profile: this.profile});
+    }
+
+    resetErrors(event){
+        let form = $(event.target).closest('form');
+        form.find('.help-text').hide();
+        form.find('.field-error').removeClass('field-error');
     }
 
     handleChange(event) {
         //get target
         let target = event.target;
+        //run form validation
+        formValid(event);
         //set value
         this.profile[target.name] = target.value;
         //set state
-        this.setState({profile: this.profile, error: '', formState: null});
+        this.setState({profile: this.profile, error: ''});
     }
 
     flipWindow(event){
         this.setState({isFlipped: !this.state.isFlipped, formState: true});
         this.resetProfile();
+        this.resetErrors(event);
         event.preventDefault();
     }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { validate } from '../plugins/validation.js';
+import { validate, formValid } from '../plugins/validation.js';
 
 //list all of the genre's so we can loop through them
 const genres = ["Fantasy","Science Fiction",
@@ -90,7 +90,8 @@ class SignUp extends React.Component{
   		let target = event.target,
   		props = target.name.split('.'),
   		value = (target.value === "true") ? true : (target.value === "false") ? false : target.value;
-
+      //run form validation
+      formValid(event);
   		//if the property is nested, dig 1 level deeper
   		if(props.length > 1){
   			// add sub properties here
@@ -116,7 +117,7 @@ class SignUp extends React.Component{
   			this.new_profile[target.name] = value;
   		}
   		//set the state
-    	this.setState({profile: this.new_profile, formState: null});
+    	this.setState({profile: this.new_profile});
   	}
 
 	handleSubmit(event){
@@ -146,7 +147,7 @@ class SignUp extends React.Component{
 	createCheckboxes(items,type){
 		let self = this;
 		return items.map(function(item,index){
-			let id = item.replace(/\s+/g,'-').toLowerCase();
+			let id = type + '-' + item.replace(/\s+/g,'-').toLowerCase();
 			return (
 				<li key={id}>
 					<input id={id} type="checkbox" name={type} value={item} onChange={self.handleChange} checked={self.isChecked(self.state.profile[type],item)}/>
