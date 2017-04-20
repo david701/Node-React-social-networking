@@ -17,6 +17,12 @@ a {
 	transition: opacity $timing-normal;
 	cursor: pointer;
 }
+.admin-link {
+    display: block;
+    width: 100%;
+    text-decoration: underline;
+    color: #0FAFFF;
+}
 .copy {
 	a {
 		color: $dark-blue;
@@ -29,7 +35,9 @@ a {
 		margin-bottom: 1em;
 	}
 }
-
+#accountInfo {
+	width: 100%;
+}
 strong {
 	font-weight: $medium;
 }
@@ -276,6 +284,8 @@ button, .button {
 		background-repeat: no-repeat;
 		background-position: right center;
 		padding-right: em(17);
+		line-height: 14px;
+    	margin: -10px 0 0 0;
 		&:hover {
 			opacity: 0.625;
 		}
@@ -339,4 +349,7 @@ a:hover .avatar {
 			margin-right: 1.5em;
 		}
 	}
+}
+.button.reset-password {
+	width: 200px;
 }

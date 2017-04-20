@@ -21,8 +21,20 @@ router.get('/recover-password', (req, res)=>{
 	res.render('email', {title: 'Recover Password'})
 });
 
-router.get('/author', (req, res)=>{
-	res.render('author', {title: 'Author Page'})
+router.get('/report-sent', (req, res)=>{
+	res.render('email', {title: 'Report Sent'})
+});
+
+router.get('/reset-password', (req, res)=>{
+	res.render('reset-password', {title: 'Reset Password'})
+});
+
+router.get('/author/:id', (req, res)=>{
+	res.render('author', {title: 'Author Page',id: req.params.id})
+});
+
+router.get('/author/:id/edit', (req, res)=>{
+	res.render('edit', {title: 'Author Page',id: req.params.id})
 });
 
 router.get('/dashboard', (req, res)=>{
@@ -43,6 +55,10 @@ router.get('/dashboard/create', (req, res)=>{
 	}else{
 		res.redirect('/login');
 	}
+});
+
+router.get('/dashboard/find-friends', (req, res)=>{
+	res.render('friends', {title: 'Find Friends'});
 });
 
 router.get('/forum', (req, res)=>{
