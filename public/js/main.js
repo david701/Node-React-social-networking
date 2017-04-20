@@ -37655,6 +37655,8 @@ var _jquery = __webpack_require__(13);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _validation = __webpack_require__(31);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38168,6 +38170,10 @@ var Report = function (_React$Component2) {
 		var _this5 = _possibleConstructorReturn(this, (Report.__proto__ || Object.getPrototypeOf(Report)).call(this, props));
 
 		_this5._handleSubmit = _this5._handleSubmit.bind(_this5);
+		_this5._handleChange = _this5._handleChange.bind(_this5);
+		_this5.state = {
+			body: ""
+		};
 		return _this5;
 	}
 
@@ -38181,10 +38187,29 @@ var Report = function (_React$Component2) {
 			return JSON.stringify(obj) === JSON.stringify({});
 		}
 	}, {
+		key: '_handleChange',
+		value: function _handleChange(event) {
+			this.setState({
+				body: event.target.value
+			});
+			(0, _validation.formValid)(event);
+		}
+	}, {
 		key: '_handleSubmit',
 		value: function _handleSubmit(event) {
-			//code for email submission goes here
-			window.location.href = "/report-sent";
+			var _this6 = this;
+
+			_jquery2.default.post('/api/v1/reports', this.state).then(function (response) {
+				if (response.status === "error") {
+					alert(response.message);
+				} else {
+					_this6.setState({
+						body: ""
+					});
+					window.location.href = "/report-sent";
+				}
+			});
+			event.preventDefault();
 		}
 	}, {
 		key: 'render',
@@ -38196,39 +38221,48 @@ var Report = function (_React$Component2) {
 					'div',
 					{ className: 'content-block-small content-block', id: 'reset' },
 					_react2.default.createElement(
-						'h3',
-						null,
-						'Report Issue'
-					),
-					_react2.default.createElement(
-						'p',
-						{ className: 'instructions' },
-						'Please report your issue below and we will get back to you in X amount of time.'
-					),
-					_react2.default.createElement(
-						'ul',
-						{ className: 'field-list field-list-small' },
+						'form',
+						{ onSubmit: this._handleSubmit },
 						_react2.default.createElement(
-							'li',
+							'h3',
 							null,
-							_react2.default.createElement('textarea', { name: 'name', rows: '5', cols: '80' })
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'submit-row submit-row-small' },
+							'Report Issue'
+						),
+						_react2.default.createElement(
+							'p',
+							{ className: 'instructions' },
+							'Please report your issue below and we will get back to you in X amount of time.'
+						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'buttons' },
+							{ className: 'title' },
 							_react2.default.createElement(
-								'a',
-								{ className: 'button button-white', href: '/dashboard/' },
-								'Close'
-							),
+								'span',
+								{ className: 'help-text' },
+								'Please enter your report before pressing enter'
+							)
+						),
+						_react2.default.createElement(
+							'ul',
+							{ className: 'field-list field-list-small' },
 							_react2.default.createElement(
-								'a',
-								{ className: 'button button-red', href: 'javascript:void(0)', onClick: this._handleSubmit },
-								'Submit'
+								'li',
+								null,
+								_react2.default.createElement('textarea', { name: 'body', rows: '5', cols: '80', onChange: this._handleChange, onBlur: _validation.validate, 'data-validation': 'required' })
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'submit-row submit-row-small' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'buttons' },
+								_react2.default.createElement(
+									'a',
+									{ className: 'button button-white', href: '/dashboard/' },
+									'Close'
+								),
+								_react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up', disabled: true })
 							)
 						)
 					)

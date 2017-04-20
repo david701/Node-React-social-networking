@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { validate, formValid } from '../plugins/validation.js';
 
 const Profile = function(){
 		this.id = ''
@@ -337,6 +338,10 @@ class Report extends React.Component{
 	constructor(props) {
     	super(props);
     	this._handleSubmit = this._handleSubmit.bind(this);
+    	this._handleChange = this._handleChange.bind(this);
+    	this.state = {
+    		body: ""
+    	};
   	}
 
   	_objectEmpty(obj){
@@ -348,28 +353,49 @@ class Report extends React.Component{
     	return JSON.stringify(obj) === JSON.stringify({});
 	}
 
+	_handleChange(event){
+		this.setState({
+			body: event.target.value
+		})
+		formValid(event);
+	}
+
 	_handleSubmit(event){
-		//code for email submission goes here
-		window.location.href = "/report-sent";
+		$.post('/api/v1/reports',this.state).then((response)=>{
+			if(response.status === "error"){
+				alert(response.message)
+			}else {
+				this.setState({
+					body: ""
+				})
+				window.location.href = "/report-sent";
+			}
+		});
+		event.preventDefault();
 	}
 
 	render(){
 		return(
 			<div className="overlay">
 				<div className="content-block-small content-block" id="reset">
-					<h3>Report Issue</h3>
-					<p className="instructions">Please report your issue below and we will get back to you in X amount of time.</p>
-					<ul className="field-list field-list-small">
-						<li>
-							<textarea name="name" rows="5" cols="80"></textarea>
-						</li>
-					</ul>
-					<div className="submit-row submit-row-small">
-						<div className="buttons">
-							<a className="button button-white" href="/dashboard/">Close</a>
-							<a className="button button-red" href="javascript:void(0)" onClick={this._handleSubmit}>Submit</a>
+					<form onSubmit={this._handleSubmit}>
+						<h3>Report Issue</h3>
+						<p className="instructions">Please report your issue below and we will get back to you in X amount of time.</p>
+						<div className="title">
+							<span className="help-text">Please enter your report before pressing enter</span>
 						</div>
-					</div>
+						<ul className="field-list field-list-small">
+							<li>
+								<textarea name="body" rows="5" cols="80" onChange={this._handleChange} onBlur={validate} data-validation="required"></textarea>
+							</li>
+						</ul>
+						<div className="submit-row submit-row-small">
+							<div className="buttons">
+								<a className="button button-white" href="/dashboard/">Close</a>
+								<input className="button button-red" type="submit" value="Sign Up" disabled/>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		)
