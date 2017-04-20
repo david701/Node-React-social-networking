@@ -11,12 +11,13 @@ function makeToken(){
 		for( var i=0; i < 12; i++ )
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
 		return text;
+
 }
 
 //// GET USERS LIST
 exports.getUsers = (req, res) => {
-	var limit = req.query.limit || 0,
-			skip = req.query.skip || 0,
+	var limit = parseInt(req.query.limit) || 0,
+			skip = parseInt(req.query.skip) || 0,
 			query = {},
 			sort = {};
 
