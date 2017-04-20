@@ -71,14 +71,13 @@ class Login extends React.Component{
             email: this.state.profile.email
         }
         //restart profile
-        //$.post('/api/v1/some-link',new_profile).then((data)=>{
-        //    if(data.status === "error"){
-        //        this.setState({error: data.message});
-        //    }else{
-        //        //send email
-        //    }
-        //});
-        window.location.href = "/recover-password";
+        $.post('/api/v1/reset_request',new_profile).then((data)=>{
+            if(data.status === "error"){
+                this.setState({error: data.message});
+            }else{
+                window.location.href = "/recover-password";
+            }
+        });
         this.resetProfile();
         event.preventDefault();
     }

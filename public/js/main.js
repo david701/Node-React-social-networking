@@ -37393,30 +37393,31 @@ var Login = function (_React$Component) {
     }, {
         key: 'handleResetPassword',
         value: function handleResetPassword(event) {
+            var _this2 = this;
+
             var new_profile = {
                 email: this.state.profile.email
             };
             //restart profile
-            //$.post('/api/v1/some-link',new_profile).then((data)=>{
-            //    if(data.status === "error"){
-            //        this.setState({error: data.message});
-            //    }else{
-            //        //send email
-            //    }
-            //});
-            window.location.href = "/recover-password";
+            _jquery2.default.post('/api/v1/reset_request', new_profile).then(function (data) {
+                if (data.status === "error") {
+                    _this2.setState({ error: data.message });
+                } else {
+                    window.location.href = "/recover-password";
+                }
+            });
             this.resetProfile();
             event.preventDefault();
         }
     }, {
         key: 'handleLogin',
         value: function handleLogin(event) {
-            var _this2 = this;
+            var _this3 = this;
 
             //restart profile
             _jquery2.default.post('/api/v1/login', this.profile).then(function (data) {
                 if (data.status === "error") {
-                    _this2.setState({ error: data.message });
+                    _this3.setState({ error: data.message });
                 } else {
                     window.location.href = "/dashboard";
                 }
