@@ -4,9 +4,9 @@ import $ from 'jquery';
 import { validate, formValid } from '../plugins/validation.js';
 
 const Profile = function(){
-        this.id = 0;
     	this.password = '';
-    	this.email = '';
+    	this.userId = '';
+        this.role = 0;
  	}
 
 class ResetPassword extends React.Component{
@@ -14,13 +14,13 @@ class ResetPassword extends React.Component{
 	constructor(props) {
     	super(props);
         this.new_profile = new Profile();
+        this.new_profile.userId = id;
     	this.state = {
             pending: true,
     		profile: this.new_profile
     	};
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
-        this.loadProfile = this.loadProfile.bind(this);
   	}
 
     componentWillMount(){
@@ -28,54 +28,52 @@ class ResetPassword extends React.Component{
         $.get('/api/v1/user_session/').then((response)=>{
             if(response.status === 'error'){
                 window.location.href = "/";
-            }else{
-                this.loadProfile(response.data._id);
             }
-        });
-    }
-
-    loadProfile(id){
-        let self = this;
-        $.get('/api/v1/users/' + id).then((response)=>{
-            response.data.password = '';
-            self.setState({
-                profile: $.extend(this.state.profile,response.data)
-            });
+            //are you the user or admin? if else, kick them out
+            else if ( (response.data._id === this.new_profile.userId) || (response.data.role > 0) ) {
+                this.new_profile.userId = response.data._id;
+                this.new_profile.role = response.role;
+                this.setState({profile: this.new_profile});
+            } else {
+               window.location.href = "/dashboard";
+            }
         });
     }
 
   	handleChange(event) {
   		let target = event.target;
         //new profile
-  		this.new_profile[target.name] = target.value;
-  		//set the state
-    	this.setState({profile: this.new_profile});
-
+        if(target.name in this.new_profile) {
+  		    this.new_profile[target.name] = target.value;
+            this.setState({profile: this.new_profile});
+        }
+        //toggle submit button
         formValid(event);
   	}
 
 	handleSubmit(event){
         //update profile
-        //$.ajax({
-        //    url: '/api/v1/users/' + this.state.profile._id,
-        //    type: 'put',
-        //    data: this.new_profile,
-        //    dataType: 'json',
-         //   success: function(response){
-        //        window.location.href = "/dashboard/edit";
-        //    }
-        //});
+        $.ajax({
+            url: '/api/v1/reset_password',
+            type: 'post',
+            data: this.state,
+            dataType: 'json',
+            success: function(response){
+                window.location.href = "/dashboard/edit";
+            }
+        });
         this.setState({pending: false});
         event.preventDefault();
 	}
 
 	render(){
+        let title = this.state.profile.role > 0 ? "Reset " + this.state.profile.name + "'s password." : "Reset your Password";
 		return(
             <div>
                 {this.state.pending &&
                     <div>
                         <header>
-                            <h3>Reset your Password</h3>
+                            <h3>{title}</h3>
                         </header>
             			<form onSubmit={this.handleSubmit}>
             				<h4>Enter your new password below</h4>

@@ -25,16 +25,16 @@ router.get('/report-sent', (req, res)=>{
 	res.render('email', {title: 'Report Sent'})
 });
 
-router.get('/reset-password', (req, res)=>{
-	res.render('reset-password', {title: 'Reset Password'})
-});
-
 router.get('/author/:id', (req, res)=>{
 	res.render('author', {title: 'Author Page',id: req.params.id})
 });
 
 router.get('/author/:id/edit', (req, res)=>{
 	res.render('edit', {title: 'Author Page',id: req.params.id})
+});
+
+router.get('/author/:id/reset-password', (req, res)=>{
+	res.render('reset-password', {title: 'Reset Password',id: req.params.id})
 });
 
 router.get('/dashboard', (req, res)=>{

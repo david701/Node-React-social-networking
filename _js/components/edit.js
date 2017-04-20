@@ -298,7 +298,7 @@ class SignUp extends React.Component{
 				<hr/>
 				<h4>Account Settings</h4>
 				<ul className="field-list account-settings">
-					<a href="/reset-password" className="button reset-password">Reset Password</a>
+					<a href={"/author/" + profile._id + "/reset-password"} className="button reset-password">Reset Password</a>
           <div onClick={this.handleDelete} className="button button-red reset-password">Delete Account</div>
 				</ul>
 				<hr/>

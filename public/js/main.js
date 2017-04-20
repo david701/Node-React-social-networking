@@ -37022,7 +37022,7 @@ var SignUp = function (_React$Component) {
             { className: 'field-list account-settings' },
             _react2.default.createElement(
               'a',
-              { href: '/reset-password', className: 'button reset-password' },
+              { href: "/author/" + profile._id + "/reset-password", className: 'button reset-password' },
               'Reset Password'
             ),
             _react2.default.createElement(
@@ -38309,9 +38309,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Profile = function Profile() {
-    this.id = 0;
     this.password = '';
-    this.email = '';
+    this.userId = '';
+    this.role = 0;
 };
 
 var ResetPassword = function (_React$Component) {
@@ -38323,13 +38323,13 @@ var ResetPassword = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (ResetPassword.__proto__ || Object.getPrototypeOf(ResetPassword)).call(this, props));
 
         _this.new_profile = new Profile();
+        _this.new_profile.userId = id;
         _this.state = {
             pending: true,
             profile: _this.new_profile
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
-        _this.loadProfile = _this.loadProfile.bind(_this);
         return _this;
     }
 
@@ -38342,22 +38342,15 @@ var ResetPassword = function (_React$Component) {
             _jquery2.default.get('/api/v1/user_session/').then(function (response) {
                 if (response.status === 'error') {
                     window.location.href = "/";
-                } else {
-                    _this2.loadProfile(response.data._id);
                 }
-            });
-        }
-    }, {
-        key: 'loadProfile',
-        value: function loadProfile(id) {
-            var _this3 = this;
-
-            var self = this;
-            _jquery2.default.get('/api/v1/users/' + id).then(function (response) {
-                response.data.password = '';
-                self.setState({
-                    profile: _jquery2.default.extend(_this3.state.profile, response.data)
-                });
+                //are you the user or admin? if else, kick them out
+                else if (response.data._id === _this2.new_profile.userId || response.data.role > 0) {
+                        _this2.new_profile.userId = response.data._id;
+                        _this2.new_profile.role = response.role;
+                        _this2.setState({ profile: _this2.new_profile });
+                    } else {
+                        window.location.href = "/dashboard";
+                    }
             });
         }
     }, {
@@ -38365,31 +38358,33 @@ var ResetPassword = function (_React$Component) {
         value: function handleChange(event) {
             var target = event.target;
             //new profile
-            this.new_profile[target.name] = target.value;
-            //set the state
-            this.setState({ profile: this.new_profile });
-
+            if (target.name in this.new_profile) {
+                this.new_profile[target.name] = target.value;
+                this.setState({ profile: this.new_profile });
+            }
+            //toggle submit button
             (0, _validation.formValid)(event);
         }
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
             //update profile
-            //$.ajax({
-            //    url: '/api/v1/users/' + this.state.profile._id,
-            //    type: 'put',
-            //    data: this.new_profile,
-            //    dataType: 'json',
-            //   success: function(response){
-            //        window.location.href = "/dashboard/edit";
-            //    }
-            //});
+            _jquery2.default.ajax({
+                url: '/api/v1/reset_password',
+                type: 'post',
+                data: this.state,
+                dataType: 'json',
+                success: function success(response) {
+                    window.location.href = "/dashboard/edit";
+                }
+            });
             this.setState({ pending: false });
             event.preventDefault();
         }
     }, {
         key: 'render',
         value: function render() {
+            var title = this.state.profile.role > 0 ? "Reset " + this.state.profile.name + "'s password." : "Reset your Password";
             return _react2.default.createElement(
                 'div',
                 null,
@@ -38402,7 +38397,7 @@ var ResetPassword = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            'Reset your Password'
+                            title
                         )
                     ),
                     _react2.default.createElement(
