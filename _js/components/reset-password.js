@@ -7,6 +7,7 @@ const Profile = function(){
     	this.password = '';
     	this.userId = '';
         this.role = 0;
+        this.name = '';
  	}
 
 class ResetPassword extends React.Component{
@@ -21,6 +22,7 @@ class ResetPassword extends React.Component{
     	};
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
+        this.signOut = this.signOut.bind(this);
   	}
 
     componentWillMount(){
@@ -31,8 +33,8 @@ class ResetPassword extends React.Component{
             }
             //are you the user or admin? if else, kick them out
             else if ( (response.data._id === this.new_profile.userId) || (response.data.role > 0) ) {
-                this.new_profile.userId = response.data._id;
-                this.new_profile.role = response.role;
+                this.new_profile.role = response.data.role;
+                this.new_profile.name = response.data.name;
                 this.setState({profile: this.new_profile});
             } else {
                window.location.href = "/dashboard";
@@ -51,7 +53,19 @@ class ResetPassword extends React.Component{
         formValid(event);
   	}
 
+    signOut(){
+        let self = this;
+        $.get('/api/v1/logout').then((response)=>{
+            let isLoggedIn = response.status = "ok" ? false : true;
+            self.setState({loggedIn: isLoggedIn });
+            if(!isLoggedIn){
+                window.location.href = "/";
+            }
+        });
+    }
+
 	handleSubmit(event){
+        let $this = this;
         //update profile
         $.ajax({
             url: '/api/v1/reset_password',
@@ -59,7 +73,13 @@ class ResetPassword extends React.Component{
             data: this.state,
             dataType: 'json',
             success: function(response){
-                window.location.href = "/dashboard/edit";
+                if(response.status !== "error"){
+                    if(this.state.profile < 1){
+                        window.location.href = "/dashboard/edit";
+                    }else{
+                        window.location.href = "/author/" + this.state.profile.userId;
+                    }
+                }
             }
         });
         this.setState({pending: false});

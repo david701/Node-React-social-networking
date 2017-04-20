@@ -17682,6 +17682,115 @@ module.exports = React;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.formValid = exports.validate = undefined;
+
+var _jquery = __webpack_require__(13);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _validator = __webpack_require__(331);
+
+var _validator2 = _interopRequireDefault(_validator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//validates overall form to toggle submit
+var formValid = function formValid(event) {
+    //hacks for the date plugin
+    var requiredValuesExist = true,
+
+    //the horrible date plugin hack
+    input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
+        validations = input.dataset.validation.split(','),
+
+    //doing more hacks for this damn date plugin
+    form = input.name === "bday" ? (0, _jquery2.default)('#bday').closest('form') : (0, _jquery2.default)(input).closest('form');
+
+    //Validate the input field you're typing in. This gives us real time status.
+    validate(event);
+
+    //lastly check if there are values in required fields
+    (0, _jquery2.default)(form).find('label span').closest('li').each(function () {
+        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select').val().length > 0;
+    });
+
+    //Check to see if any errors are showing.
+    var formErrors = (0, _jquery2.default)(form).find('.field-error').length > 0;
+
+    //is the current input invalid or any other errors showing?
+    if (formErrors || !requiredValuesExist) {
+        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', 'disabled');
+    } else {
+        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', null);
+    }
+};
+
+var isValid = function isValid(validate, input) {
+    var valid = true,
+        value = input.value;
+    switch (validate) {
+        case "name":
+            valid = /^([^0-9]*)$/.test(value);
+            break;
+        case "email":
+            valid = _validator2.default.isEmail(value);
+            break;
+        case "url":
+            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true });
+            break;
+        case "required":
+            valid = !_validator2.default.isEmpty(value);
+            break;
+        case "password":
+            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value);
+            break;
+        case "confirmPassword":
+            valid = _validator2.default.equals(value, input.dataset.password);
+            break;
+        case "date":
+            valid = _validator2.default.isBefore(value);
+            break;
+    }
+    return valid;
+};
+
+//validates one value at a time
+var validate = function validate(event) {
+    var input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
+        validations = input.dataset.validation.split(','),
+        all_valid = true;
+
+    //run all validations on input field
+    validations.map(function (validation, index) {
+        //only validate if there is a value or required
+        if (input.value.length || validation === "required") {
+            all_valid = all_valid && isValid(validation, input);
+        }
+    });
+
+    //if its valid, toggle error
+    if (all_valid) {
+        (0, _jquery2.default)(input).closest('li').removeClass('field-error');
+        (0, _jquery2.default)(input).closest('li').find('.help-text').hide();
+    } else {
+        (0, _jquery2.default)(input).closest('li').addClass('field-error');
+        (0, _jquery2.default)(input).closest('li').find('.help-text').show();
+    }
+};
+
+exports.validate = validate;
+exports.formValid = formValid;
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17962,7 +18071,7 @@ module.exports = EventPluginHub;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17978,7 +18087,7 @@ module.exports = EventPluginHub;
 
 
 
-var EventPluginHub = __webpack_require__(26);
+var EventPluginHub = __webpack_require__(27);
 var EventPluginUtils = __webpack_require__(42);
 
 var accumulateInto = __webpack_require__(193);
@@ -18102,7 +18211,7 @@ module.exports = EventPropagators;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18155,7 +18264,7 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18219,7 +18328,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 module.exports = SyntheticUIEvent;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18241,115 +18350,6 @@ function merge() {
   return obj;
 }
 module.exports = exports['default'];
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.formValid = exports.validate = undefined;
-
-var _jquery = __webpack_require__(13);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _validator = __webpack_require__(331);
-
-var _validator2 = _interopRequireDefault(_validator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//validates overall form to toggle submit
-var formValid = function formValid(event) {
-    //hacks for the date plugin
-    var requiredValuesExist = true,
-
-    //the horrible date plugin hack
-    input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
-        validations = input.dataset.validation.split(','),
-
-    //doing more hacks for this damn date plugin
-    form = input.name === "bday" ? (0, _jquery2.default)('#bday').closest('form') : (0, _jquery2.default)(input).closest('form');
-
-    //Validate the input field you're typing in. This gives us real time status.
-    validate(event);
-
-    //lastly check if there are values in required fields
-    (0, _jquery2.default)(form).find('label span').closest('li').each(function () {
-        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select').val().length > 0;
-    });
-
-    //Check to see if any errors are showing.
-    var formErrors = (0, _jquery2.default)(form).find('.field-error').length > 0;
-
-    //is the current input invalid or any other errors showing?
-    if (formErrors || !requiredValuesExist) {
-        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', 'disabled');
-    } else {
-        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', null);
-    }
-};
-
-var isValid = function isValid(validate, input) {
-    var valid = true,
-        value = input.value;
-    switch (validate) {
-        case "name":
-            valid = /^([^0-9]*)$/.test(value);
-            break;
-        case "email":
-            valid = _validator2.default.isEmail(value);
-            break;
-        case "url":
-            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true });
-            break;
-        case "required":
-            valid = !_validator2.default.isEmpty(value);
-            break;
-        case "password":
-            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value);
-            break;
-        case "confirmPassword":
-            valid = _validator2.default.equals(value, input.dataset.password);
-            break;
-        case "date":
-            valid = _validator2.default.isBefore(value);
-            break;
-    }
-    return valid;
-};
-
-//validates one value at a time
-var validate = function validate(event) {
-    var input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
-        validations = input.dataset.validation.split(','),
-        all_valid = true;
-
-    //run all validations on input field
-    validations.map(function (validation, index) {
-        //only validate if there is a value or required
-        if (input.value.length || validation === "required") {
-            all_valid = all_valid && isValid(validation, input);
-        }
-    });
-
-    //if its valid, toggle error
-    if (all_valid) {
-        (0, _jquery2.default)(input).closest('li').removeClass('field-error');
-        (0, _jquery2.default)(input).closest('li').find('.help-text').hide();
-    } else {
-        (0, _jquery2.default)(input).closest('li').addClass('field-error');
-        (0, _jquery2.default)(input).closest('li').find('.help-text').show();
-    }
-};
-
-exports.validate = validate;
-exports.formValid = formValid;
 
 /***/ }),
 /* 32 */
@@ -18962,7 +18962,7 @@ module.exports = ReactBrowserEventEmitter;
 
 
 
-var SyntheticUIEvent = __webpack_require__(29);
+var SyntheticUIEvent = __webpack_require__(30);
 var ViewportMetrics = __webpack_require__(192);
 
 var getEventModifierState = __webpack_require__(50);
@@ -20439,7 +20439,7 @@ module.exports = ReactErrorUtils;
 var _prodInvariant = __webpack_require__(5);
 
 var ReactCurrentOwner = __webpack_require__(16);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(29);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactUpdates = __webpack_require__(15);
 
@@ -21578,7 +21578,7 @@ var _assertString = __webpack_require__(2);
 
 var _assertString2 = _interopRequireDefault(_assertString);
 
-var _merge = __webpack_require__(30);
+var _merge = __webpack_require__(31);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -34016,7 +34016,7 @@ var ReactDOMComponentTree = __webpack_require__(7);
 var ReactDOMContainerInfo = __webpack_require__(262);
 var ReactDOMFeatureFlags = __webpack_require__(264);
 var ReactFeatureFlags = __webpack_require__(186);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(29);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactMarkupChecksum = __webpack_require__(284);
 var ReactReconciler = __webpack_require__(24);
@@ -35743,7 +35743,7 @@ var _assertString = __webpack_require__(2);
 
 var _assertString2 = _interopRequireDefault(_assertString);
 
-var _merge = __webpack_require__(30);
+var _merge = __webpack_require__(31);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -36524,7 +36524,7 @@ var _jquery = __webpack_require__(13);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(31);
+var _validation = __webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37306,7 +37306,7 @@ var _jquery = __webpack_require__(13);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(31);
+var _validation = __webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37656,7 +37656,7 @@ var _jquery = __webpack_require__(13);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(31);
+var _validation = __webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38198,16 +38198,20 @@ var Report = function (_React$Component2) {
 	}, {
 		key: '_handleSubmit',
 		value: function _handleSubmit(event) {
-			var _this6 = this;
-
-			_jquery2.default.post('/api/v1/reports', this.state).then(function (response) {
-				if (response.status === "error") {
-					alert(response.message);
-				} else {
-					_this6.setState({
-						body: ""
-					});
-					window.location.href = "/report-sent";
+			_jquery2.default.ajax({
+				url: '/api/v1/reports',
+				type: 'post',
+				data: this.state,
+				dataType: 'json',
+				success: function success(response) {
+					if (response.status === "error") {
+						alert(response.message);
+					} else {
+						this.setState({
+							body: ""
+						});
+						window.location.href = "/report-sent";
+					}
 				}
 			});
 			event.preventDefault();
@@ -38298,7 +38302,7 @@ var _jquery = __webpack_require__(13);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(31);
+var _validation = __webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38312,6 +38316,7 @@ var Profile = function Profile() {
     this.password = '';
     this.userId = '';
     this.role = 0;
+    this.name = '';
 };
 
 var ResetPassword = function (_React$Component) {
@@ -38330,6 +38335,7 @@ var ResetPassword = function (_React$Component) {
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.signOut = _this.signOut.bind(_this);
         return _this;
     }
 
@@ -38345,8 +38351,8 @@ var ResetPassword = function (_React$Component) {
                 }
                 //are you the user or admin? if else, kick them out
                 else if (response.data._id === _this2.new_profile.userId || response.data.role > 0) {
-                        _this2.new_profile.userId = response.data._id;
-                        _this2.new_profile.role = response.role;
+                        _this2.new_profile.role = response.data.role;
+                        _this2.new_profile.name = response.data.name;
                         _this2.setState({ profile: _this2.new_profile });
                     } else {
                         window.location.href = "/dashboard";
@@ -38366,8 +38372,21 @@ var ResetPassword = function (_React$Component) {
             (0, _validation.formValid)(event);
         }
     }, {
+        key: 'signOut',
+        value: function signOut() {
+            var self = this;
+            _jquery2.default.get('/api/v1/logout').then(function (response) {
+                var isLoggedIn = response.status = "ok" ? false : true;
+                self.setState({ loggedIn: isLoggedIn });
+                if (!isLoggedIn) {
+                    window.location.href = "/";
+                }
+            });
+        }
+    }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
+            var $this = this;
             //update profile
             _jquery2.default.ajax({
                 url: '/api/v1/reset_password',
@@ -38375,7 +38394,13 @@ var ResetPassword = function (_React$Component) {
                 data: this.state,
                 dataType: 'json',
                 success: function success(response) {
-                    window.location.href = "/dashboard/edit";
+                    if (response.status !== "error") {
+                        if (this.state.profile < 1) {
+                            window.location.href = "/dashboard/edit";
+                        } else {
+                            window.location.href = "/author/" + this.state.profile.userId;
+                        }
+                    }
                 }
             });
             this.setState({ pending: false });
@@ -38640,7 +38665,7 @@ var _moment2 = _interopRequireDefault(_moment);
 
 __webpack_require__(228);
 
-var _validation = __webpack_require__(31);
+var _validation = __webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42598,7 +42623,7 @@ module.exports = AutoFocusUtils;
 
 
 
-var EventPropagators = __webpack_require__(27);
+var EventPropagators = __webpack_require__(28);
 var ExecutionEnvironment = __webpack_require__(8);
 var FallbackCompositionState = __webpack_require__(255);
 var SyntheticCompositionEvent = __webpack_require__(298);
@@ -43203,8 +43228,8 @@ module.exports = CSSPropertyOperations;
 
 
 
-var EventPluginHub = __webpack_require__(26);
-var EventPropagators = __webpack_require__(27);
+var EventPluginHub = __webpack_require__(27);
+var EventPropagators = __webpack_require__(28);
 var ExecutionEnvironment = __webpack_require__(8);
 var ReactDOMComponentTree = __webpack_require__(7);
 var ReactUpdates = __webpack_require__(15);
@@ -43639,7 +43664,7 @@ module.exports = DefaultEventPluginOrder;
 
 
 
-var EventPropagators = __webpack_require__(27);
+var EventPropagators = __webpack_require__(28);
 var ReactDOMComponentTree = __webpack_require__(7);
 var SyntheticMouseEvent = __webpack_require__(34);
 
@@ -44287,7 +44312,7 @@ var React = __webpack_require__(25);
 var ReactComponentEnvironment = __webpack_require__(45);
 var ReactCurrentOwner = __webpack_require__(16);
 var ReactErrorUtils = __webpack_require__(46);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(29);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactNodeTypes = __webpack_require__(190);
 var ReactReconciler = __webpack_require__(24);
@@ -45316,7 +45341,7 @@ var DOMLazyTree = __webpack_require__(23);
 var DOMNamespaces = __webpack_require__(41);
 var DOMProperty = __webpack_require__(18);
 var DOMPropertyOperations = __webpack_require__(182);
-var EventPluginHub = __webpack_require__(26);
+var EventPluginHub = __webpack_require__(27);
 var EventPluginRegistry = __webpack_require__(32);
 var ReactBrowserEventEmitter = __webpack_require__(33);
 var ReactDOMComponentFlags = __webpack_require__(183);
@@ -48414,7 +48439,7 @@ module.exports = REACT_ELEMENT_TYPE;
 
 
 
-var EventPluginHub = __webpack_require__(26);
+var EventPluginHub = __webpack_require__(27);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -48652,7 +48677,7 @@ module.exports = ReactHostOperationHistoryHook;
 
 
 var DOMProperty = __webpack_require__(18);
-var EventPluginHub = __webpack_require__(26);
+var EventPluginHub = __webpack_require__(27);
 var EventPluginUtils = __webpack_require__(42);
 var ReactComponentEnvironment = __webpack_require__(45);
 var ReactEmptyComponent = __webpack_require__(185);
@@ -48791,7 +48816,7 @@ module.exports = ReactMarkupChecksum;
 var _prodInvariant = __webpack_require__(5);
 
 var ReactComponentEnvironment = __webpack_require__(45);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(29);
 var ReactInstrumentation = __webpack_require__(10);
 
 var ReactCurrentOwner = __webpack_require__(16);
@@ -50220,7 +50245,7 @@ module.exports = SVGDOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(27);
+var EventPropagators = __webpack_require__(28);
 var ExecutionEnvironment = __webpack_require__(8);
 var ReactDOMComponentTree = __webpack_require__(7);
 var ReactInputSelection = __webpack_require__(188);
@@ -50420,7 +50445,7 @@ module.exports = SelectEventPlugin;
 var _prodInvariant = __webpack_require__(5);
 
 var EventListener = __webpack_require__(60);
-var EventPropagators = __webpack_require__(27);
+var EventPropagators = __webpack_require__(28);
 var ReactDOMComponentTree = __webpack_require__(7);
 var SyntheticAnimationEvent = __webpack_require__(296);
 var SyntheticClipboardEvent = __webpack_require__(297);
@@ -50431,7 +50456,7 @@ var SyntheticMouseEvent = __webpack_require__(34);
 var SyntheticDragEvent = __webpack_require__(299);
 var SyntheticTouchEvent = __webpack_require__(303);
 var SyntheticTransitionEvent = __webpack_require__(304);
-var SyntheticUIEvent = __webpack_require__(29);
+var SyntheticUIEvent = __webpack_require__(30);
 var SyntheticWheelEvent = __webpack_require__(305);
 
 var emptyFunction = __webpack_require__(12);
@@ -50819,7 +50844,7 @@ module.exports = SyntheticDragEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(29);
+var SyntheticUIEvent = __webpack_require__(30);
 
 /**
  * @interface FocusEvent
@@ -50902,7 +50927,7 @@ module.exports = SyntheticInputEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(29);
+var SyntheticUIEvent = __webpack_require__(30);
 
 var getEventCharCode = __webpack_require__(49);
 var getEventKey = __webpack_require__(311);
@@ -50991,7 +51016,7 @@ module.exports = SyntheticKeyboardEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(29);
+var SyntheticUIEvent = __webpack_require__(30);
 
 var getEventModifierState = __webpack_require__(50);
 
@@ -51375,7 +51400,7 @@ var _prodInvariant = __webpack_require__(5);
 
 var ReactCurrentOwner = __webpack_require__(16);
 var ReactDOMComponentTree = __webpack_require__(7);
-var ReactInstanceMap = __webpack_require__(28);
+var ReactInstanceMap = __webpack_require__(29);
 
 var getHostComponentFromComposite = __webpack_require__(195);
 var invariant = __webpack_require__(3);
@@ -54618,7 +54643,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = isCurrency;
 
-var _merge = __webpack_require__(30);
+var _merge = __webpack_require__(31);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -55507,7 +55532,7 @@ var _isIP = __webpack_require__(212);
 
 var _isIP2 = _interopRequireDefault(_isIP);
 
-var _merge = __webpack_require__(30);
+var _merge = __webpack_require__(31);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -55789,7 +55814,7 @@ var _isEmail = __webpack_require__(208);
 
 var _isEmail2 = _interopRequireDefault(_isEmail);
 
-var _merge = __webpack_require__(30);
+var _merge = __webpack_require__(31);
 
 var _merge2 = _interopRequireDefault(_merge);
 

@@ -26,6 +26,8 @@ router.post('/unfollow_author', Users.unfollowAuthor)
 router.post('/reset_request', Users.resetRequest)
 router.post('/reset_auth', Users.resetTokenAuth)
 router.post('/reset_password', Users.resetPassword)
+
+router.post('/reports', Users.reports)
 /// END USER API ///
 
 

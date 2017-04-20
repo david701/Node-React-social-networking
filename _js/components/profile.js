@@ -361,16 +361,22 @@ class Report extends React.Component{
 	}
 
 	_handleSubmit(event){
-		$.post('/api/v1/reports',this.state).then((response)=>{
-			if(response.status === "error"){
-				alert(response.message)
-			}else {
-				this.setState({
-					body: ""
-				})
-				window.location.href = "/report-sent";
-			}
-		});
+	    $.ajax({
+	        url: '/api/v1/reports',
+	        type: 'post',
+	        data: this.state,
+	        dataType: 'json',
+	        success: function(response){
+				if(response.status === "error"){
+					alert(response.message)
+				}else {
+					this.setState({
+						body: ""
+					})
+					window.location.href = "/report-sent";
+				}
+        	}
+        })
 		event.preventDefault();
 	}
 

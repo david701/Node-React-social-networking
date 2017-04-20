@@ -27,7 +27,8 @@ const userSchema = new Schema({
 	last_active: { type: Date, default: Date.now },
 	status: Number,
 	token: String,
-	reset_request: Date
+	reset_request: Date,
+	newsletter: Boolean
 });
 
 const bookSchema = new Schema({
