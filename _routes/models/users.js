@@ -68,16 +68,17 @@ exports.getUsers = (req, res) => {
 exports.createUser = (req, res)=>{
 	mongoUser.findOne({email: req.body.email}).then((user)=>{
 			if(!user){
+				var token = makeToken();
 				var userData = req.body
 				userData.password =  bcrypt.hashSync(req.body.password, salt);
 				userData.role = 0;
 				userData.level = 0;
 				userData.status = 1;
-
+				userData.token = token;
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
-					var link = req.protocol + '://' + req.get('host')+'/verify?token='+ makeToken();
+					var link = req.protocol + '://' + req.get('host')+'/verify?token='+ token;
 					var vars = [{name:'verify_link', content: link}]
 					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 						res.json({status:'ok', data: userInfo})
