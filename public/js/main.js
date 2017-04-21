@@ -38545,7 +38545,7 @@ var ResetPassword = function (_React$Component) {
                 dataType: 'json',
                 success: function success(response) {
                     if (response.status !== "error") {
-                        if ($this.state.me.role > 0 && $this.state.me._id !== $this.state.profile._id) {
+                        if ($this.state.me.role > 0 && $this.state.me.userId !== $this.state.profile.userId) {
                             $this.setState({ pending: false });
                         } else {
                             $this.signOut();
