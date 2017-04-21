@@ -94,7 +94,11 @@ exports.createUser = (req, res)=>{
 exports.getUserById = (req, res)=>{
 	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar')
 		.then((user)=>{
-			res.json({status:'ok', data: user})
+			if(user.status > 0){
+				res.json({status:'ok', data: user})
+			}else{
+				res.json({status:'error', message: 'User has been removed'});
+			}
 		})
 		.catch((err)=>{
 			res.json({status:'error', message: err.message});
@@ -106,7 +110,11 @@ exports.getUserByEmail = (req, res)=>{
 		if(err){
 			res.json({status:'error', message: err});
 		}else{
-			res.json({status:'ok', data: user})
+			if(user.status > 0){
+				res.json({status:'ok', data: user})
+			}else{
+				res.json({status:'error', message: 'User has been removed'});
+			}
 		}
 	})
 }
