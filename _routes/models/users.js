@@ -1,5 +1,6 @@
 const express = require('express'),
 			mongo = require('../../mongo.js'),
+			async = require('async'),
 			bcrypt = require('bcrypt'),
 			salt = bcrypt.genSaltSync(11),
 			mandrill = require('mandrill-api/mandrill'),
@@ -157,6 +158,23 @@ exports.removeUser = (req, res)=>{
 					// TODO: REMOVE FOLLOWS
 					// TODO: REMOVE FOLLOWER
 					res.json({status: 'ok', data: req.params.id});
+					// mongoUser.find({followers: req.params.id}).then((follow)=>{
+							// async.each(follow, (item, cb)=>{
+							//
+							// })
+					// 	if(follow){
+					// 		follow.followers.remove(req.params.id);
+					// 		follow.save();
+					// 	}
+					// 	mongoUser.find({following_authors: req.params.id}).then((author)=>{
+					// 		if(author){
+					// 			author.following_authors.remove(req.params.id);
+					// 			author.save();
+					// 		}
+					// 	})
+					// }).catch((err)=>{
+					// 	res.json({status: 'error', message: err.message})
+					// })
 				})
 				.catch((err)=>{
 					res.json({status: 'error', message: err.message})
