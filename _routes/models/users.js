@@ -241,7 +241,6 @@ exports.resetRequest = (req, res)=>{
 				sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 					res.json({status:'ok', data: userInfo})
 				})
-				res.json({status:'ok'});
 			}).catch((err)=>{
 				res.json({status:'error', message: err});
 			})
