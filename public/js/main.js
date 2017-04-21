@@ -36609,19 +36609,23 @@ var SignUp = function (_React$Component) {
 
     _this.handleDelete = function (event) {
       var self = _this;
-      _jquery2.default.ajax({
-        url: '/api/v1/users/' + _this.state.profile._id,
-        type: 'DELETE',
-        success: function success(response) {
-          if (response.status === "ok") {
-            if (self.state.me.role < 1) {
-              self.signOut();
-            } else {
-              window.location.href = "/dashboard/find-friends";
+      var check = confirm('Are you sure that you want to delete the account?');
+
+      if (check) {
+        _jquery2.default.ajax({
+          url: '/api/v1/users/' + _this.state.profile._id,
+          type: 'DELETE',
+          success: function success(response) {
+            if (response.status === "ok") {
+              if (self.state.me.role < 1) {
+                self.signOut();
+              } else {
+                window.location.href = "/dashboard/find-friends";
+              }
             }
           }
-        }
-      });
+        });
+      }
     };
 
     _this.new_profile = new Profile();

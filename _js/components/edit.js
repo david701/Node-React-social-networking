@@ -112,19 +112,23 @@ class SignUp extends React.Component{
 
     handleDelete = (event) => {
       let self = this;
-      $.ajax({
-          url: '/api/v1/users/' + this.state.profile._id,
-          type: 'DELETE',
-          success: function(response){
-            if(response.status === "ok"){
-              if(self.state.me.role < 1){
-                self.signOut();
-              }else{
-                window.location.href = "/dashboard/find-friends";
+      let check = confirm('Are you sure that you want to delete the account?');
+
+      if(check){
+        $.ajax({
+            url: '/api/v1/users/' + this.state.profile._id,
+            type: 'DELETE',
+            success: function(response){
+              if(response.status === "ok"){
+                if(self.state.me.role < 1){
+                  self.signOut();
+                }else{
+                  window.location.href = "/dashboard/find-friends";
+                }
               }
             }
-          }
-      });
+        });
+      }
     };
 
   	handleChange(event) {
