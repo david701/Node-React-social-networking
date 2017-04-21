@@ -1,5 +1,5 @@
 var express = require('express'),
-		mongo = require('../../mongo.js'),
+		mongo = require('../mongo.js'),
 		router = express.Router();
 
 const mongoUser = mongo.schema.user;
