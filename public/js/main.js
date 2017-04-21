@@ -36882,10 +36882,20 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'label',
                   { htmlFor: 'name' },
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    '*'
+                  ),
                   'Your name:'
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'help-text' },
+                  'Please enter your full name'
                 )
               ),
-              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: profile.name, disabled: true })
+              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'name,required' })
             ),
             _react2.default.createElement(
               'li',

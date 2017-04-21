@@ -260,9 +260,10 @@ class SignUp extends React.Component{
 				<ul className="field-list">
 					<li>
 						<div className="title">
-              <label htmlFor="name">Your name:</label>
+              <label htmlFor="name"><span>*</span>Your name:</label>
+              <span className="help-text">Please enter your full name</span>
             </div>
-						<input id="name" name="name" type="text" value={profile.name} disabled/>
+						<input id="name" name="name" type="text" value={profile.name} onChange={this.handleChange} onBlur={validate} data-validation="name,required"/>
 
 					</li>
 					<li>
