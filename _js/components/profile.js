@@ -405,7 +405,7 @@ class Report extends React.Component{
 						<div className="submit-row submit-row-small">
 							<div className="buttons">
 								<a className="button button-white" href="/dashboard/">Close</a>
-								<input className="button button-red" type="submit" value="Sign Up" disabled/>
+								<input className="button button-red" type="submit" value="Report Issue" disabled/>
 							</div>
 						</div>
 					</form>

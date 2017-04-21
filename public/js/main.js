@@ -37461,16 +37461,16 @@ var Login = function (_React$Component) {
         value: function handleLogin(event) {
             var _this3 = this;
 
-            //restart profile
             _jquery2.default.post('/api/v1/login', this.profile).then(function (data) {
                 if (data.status === "error") {
                     _this3.setState({ error: data.message });
                 } else {
                     window.location.href = "/dashboard";
                 }
+                _this3.resetProfile();
+                _this3.resetErrors();
             });
-            this.resetProfile();
-            this.resetErrors();
+            //restart profile
             event.preventDefault();
         }
     }, {
@@ -38338,7 +38338,7 @@ var Report = function (_React$Component2) {
 									{ className: 'button button-white', href: '/dashboard/' },
 									'Close'
 								),
-								_react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up', disabled: true })
+								_react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Report Issue', disabled: true })
 							)
 						)
 					)
@@ -38482,7 +38482,7 @@ var ResetPassword = function (_React$Component) {
             _jquery2.default.ajax({
                 url: '/api/v1/reset_password',
                 type: 'post',
-                data: this.state,
+                data: this.state.profile,
                 dataType: 'json',
                 success: function success(response) {
                     if (response.status !== "error") {
@@ -38869,8 +38869,9 @@ var SignUp = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
-      $this = this;
+      var $this = this;
       this.new_profile.bday = this.new_profile.bday._d;
+
       //restart profile
       _jquery2.default.ajax({
         url: '/api/v1/users/',
@@ -38884,11 +38885,11 @@ var SignUp = function (_React$Component) {
           } else {
             $this.setState({ error: response.message });
           }
+          this.new_profile = new Profile();
+          this.setState({ profile: this.new_profile });
         }
       });
 
-      this.new_profile = new Profile();
-      this.setState({ profile: this.new_profile });
       event.preventDefault();
     }
   }, {

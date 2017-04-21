@@ -86,16 +86,17 @@ class Login extends React.Component{
     }
 
 	handleLogin(event){
-		//restart profile
-		$.post('/api/v1/login', this.profile).then((data)=>{
+
+        $.post('/api/v1/login', this.profile).then((data)=>{
             if(data.status === "error"){
                 this.setState({error: data.message});
             }else{
                 window.location.href = "/dashboard";
             }
-		});
-        this.resetProfile();
-        this.resetErrors();
+            this.resetProfile();
+            this.resetErrors();
+        });
+        //restart profile
 		event.preventDefault();
 	}
 

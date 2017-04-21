@@ -88,7 +88,7 @@ class ResetPassword extends React.Component{
         $.ajax({
             url: '/api/v1/reset_password',
             type: 'post',
-            data: this.state,
+            data: this.state.profile,
             dataType: 'json',
             success: function(response){
                 if(response.status !== "error"){
