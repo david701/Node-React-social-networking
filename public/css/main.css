@@ -1654,7 +1654,7 @@ form .instructions {
 
 .user-list {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap; }
   .user-list li {
     width: auto;
