@@ -109,16 +109,25 @@ class Author extends React.Component{
 				let limit = authors.length > 5 ? 5 : authors.length;
 				following = [];
 				for (var i = 0; i < limit; i++) {
-				  following.push(<li key={i}><a href={'/author/' + authors[i]._id}><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>{authors[i].name}</h5></a></li>);
+				  	if(authors[i]._id === this.state.me._id){
+				  		following.push(<li key={i}><a href="/dashboard"><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>Me</h5></a></li>);
+					}else{
+						following.push(<li key={i}><a href={'/author/' + authors[i]._id}><figure className="avatar"><img src={authors[i].avatar} alt=""/></figure><h5>{authors[i].name}</h5></a></li>);
+					}
 				}
 			}
 		}
 
 		return(
 			<div>
+			<header>
+				<h3>{this.state.user.name + " 's Account"} </h3>
+			</header>
 			<div className="title-row">
 				<h4>Account Info</h4>
+				{this.state.me.role > 0 &&
 				<a className="control" href={'/author/' + this.state.user._id + '/edit'}>Edit</a>
+				}
 			</div>
 			<div className="user-info">
 				<div className="main">
@@ -213,9 +222,6 @@ class Author extends React.Component{
 					{following}
 				</ul>
 			<hr/>
-
-
-
 				<div className="title-row">
 					<h4><span id="author-name">{this.state.user.name + "'s"}</span> Library</h4>
 					{/*<a className="control" href=".">See All</a>*/}

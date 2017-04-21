@@ -46,17 +46,15 @@ label span {
     color: #0FAFFF !important;
     padding: 0 0 5px 0;
 }
+.user-list li .control,
 .user-list li .control.add-button {
-    color: #fff !important;
     cursor: pointer;
-    padding: 5px 30px;
-    background-color: #0FAFFF;
-    transition: background-color 0.1875s ease-out, box-shadow 0.1875s ease-out;
-    box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);
+    padding: 0 30px;
+    font-size: 13px;
 }
 
 #friends li {
-    margin: 10px;
+    margin: 20px;
 }
 
 .title-row {

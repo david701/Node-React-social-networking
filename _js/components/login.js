@@ -59,6 +59,8 @@ class Login extends React.Component{
     closeLogin(event){
         $('body').removeClass('modal-showing');
         this.setState({isFlipped: false});
+        this.resetProfile();
+        this.resetErrors(event);
         $('.login-modal').css({visibility: 'hidden', opacity: 0});
     }
 
@@ -79,6 +81,7 @@ class Login extends React.Component{
             }
         });
         this.resetProfile();
+        this.resetErrors();
         event.preventDefault();
     }
 
@@ -91,7 +94,8 @@ class Login extends React.Component{
                 window.location.href = "/dashboard";
             }
 		});
-		this.resetProfile();
+        this.resetProfile();
+        this.resetErrors();
 		event.preventDefault();
 	}
 

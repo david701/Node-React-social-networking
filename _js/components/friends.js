@@ -85,38 +85,43 @@ class Friends extends React.Component{
     }
 
 	render(){
-        let self = this;
-
+        let self = this,
+        accountAction = this.state.me.role > 0 ? "edit:" : "follow:";
 		return(
-            <ul className="user-list">
-                {this.state.users.map(function(user, i){
-                let myProfile = self.state.me._id === user._id;
-                return (<li key={user._id}>
-                    <a href={myProfile ? '/dashboard/' : '/author/' + user._id}>
-                        <figure className="avatar">
-                            <img src={user.avatar} alt="" id={user._id}/>
-                        </figure>
-                        <h5>{user.name}</h5>
-                    </a>
-                    {(!myProfile && self.state.me.role < 1) &&
-                        <div>
-                        {self.isFollowing(user._id,self.state.me) &&
-                            <div className="control">Following</div>
+            <div>
+                <div className="title-row">
+                    <h4>{"Choose user(s) to " + accountAction}</h4>
+                </div>
+                <ul className="user-list">
+                    {this.state.users.map(function(user, i){
+                    let myProfile = self.state.me._id === user._id;
+                    return (<li key={user._id}>
+                        <a href={myProfile ? '/dashboard/' : '/author/' + user._id}>
+                            <figure className="avatar">
+                                <img src={user.avatar} alt="" id={user._id}/>
+                            </figure>
+                            <h5>{user.name}</h5>
+                        </a>
+                        {(!myProfile && self.state.me.role < 1) &&
+                            <div>
+                            {self.isFollowing(user._id,self.state.me) &&
+                                <div className="control">Following</div>
+                            }
+                            {!self.isFollowing(user._id,self.state.me) &&
+                                <div className="control add-button" id={user._id} onClick={self.handleFollow}>Add</div>
+                            }
+                            </div>
                         }
-                        {!self.isFollowing(user._id,self.state.me) &&
-                            <div className="control add-button" id={user._id} onClick={self.handleFollow}>Add</div>
+                        {!myProfile && self.state.me.role > 0 &&
+                            <a className="control add-button" href={'/author/' + user._id + '/edit'}>Edit</a>
                         }
-                        </div>
-                    }
-                    {!myProfile && self.state.me.role >= 1 &&
-                        <a className="control add-button" href={'/author/' + user._id}>Edit</a>
-                    }
-                    {myProfile &&
-                        <div className="control">That's you!</div>
-                    }
-                </li>)
-                })}
-            </ul>
+                        {myProfile &&
+                            <div className="control">That's you!</div>
+                        }
+                    </li>)
+                    })}
+                </ul>
+            </div>
 		)
 	}
 }

@@ -35,9 +35,9 @@ class SignUp extends React.Component{
     	super(props);
         this.new_profile = new Profile();
     	this.state = {
-    		profile: this.new_profile
+    		profile: this.new_profile,
+        error: ''
     	};
-        this.error = '';
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
   	}
@@ -95,7 +95,8 @@ class SignUp extends React.Component{
   	}
 
 	handleSubmit(event){
-		this.new_profile.bday = this.new_profile.bday._d
+    $this = this;
+		this.new_profile.bday = this.new_profile.bday._d;
 		//restart profile
         $.ajax({
             url: '/api/v1/users/',
@@ -104,7 +105,11 @@ class SignUp extends React.Component{
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',
             success: function(response){
-                window.location.href = "/email";
+                if(response.status !== "error"){
+                  window.location.href = "/email";
+                }else{
+                  $this.setState({error: response.message});
+                }
             }
         });
 
@@ -267,6 +272,11 @@ class SignUp extends React.Component{
 					<li className="spacing-block"></li>
 					<li className="spacing-block"></li>
 				</ul>
+        {this.state.error.length > 0 &&
+          <p className="error-message">
+          {this.state.error}
+          </p>
+        }
 				<div className="submit-row">
 					<div className="field">
 						<input type="checkbox" name="newsletter" id="newsletter" value={!this.state.profile.newsletter} onChange={this.handleChange} checked={this.state.profile.newsletter}/>

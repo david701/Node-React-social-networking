@@ -21,6 +21,11 @@ router.get('/recover-password', (req, res)=>{
 	res.render('email', {title: 'Recover Password'})
 });
 
+router.get('/password-reset', (req, res)=>{
+	res.render('email', {title: 'Password Reset'})
+});
+
+
 router.get('/report-sent', (req, res)=>{
 	res.render('email', {title: 'Report Sent'})
 });
@@ -59,6 +64,10 @@ router.get('/dashboard/create', (req, res)=>{
 
 router.get('/dashboard/find-friends', (req, res)=>{
 	res.render('friends', {title: 'Find Friends'});
+});
+
+router.get('/dashboard/all-users', (req, res)=>{
+	res.render('friends', {title: 'All Users'});
 });
 
 router.get('/forum', (req, res)=>{

@@ -18,10 +18,12 @@ class ResetPassword extends React.Component{
         this.new_profile.userId = id;
     	this.state = {
             pending: true,
+            me: this.new_profile,
     		profile: this.new_profile
     	};
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
+        this.loadProfile = this.loadProfile.bind(this);
         this.signOut = this.signOut.bind(this);
   	}
 
@@ -30,14 +32,21 @@ class ResetPassword extends React.Component{
         $.get('/api/v1/user_session/').then((response)=>{
             if(response.status === 'error'){
                 window.location.href = "/";
-            }
-            //are you the user or admin? if else, kick them out
-            else if ( (response.data._id === this.new_profile.userId) || (response.data.role > 0) ) {
-                this.new_profile.role = response.data.role;
-                this.new_profile.name = response.data.name;
-                this.setState({profile: this.new_profile});
-            } else {
-               window.location.href = "/dashboard";
+            }else{
+                //set my profile so I can use it in our logic
+                let myProfile = new Profile();
+                myProfile.role = response.data.role;
+                myProfile.userId = response.data._id;
+                this.setState({me: myProfile})
+                //are you the user or admin, if so load user's profile
+                if (response.data.role > 0) {
+                    this.loadProfile(this.state.profile.userId)
+                }
+                else {
+                    this.new_profile.role = response.data.role;
+                    this.new_profile.name = response.data.name;
+                    this.setState({profile: this.new_profile});
+                }
             }
         });
     }
@@ -56,17 +65,26 @@ class ResetPassword extends React.Component{
     signOut(){
         let self = this;
         $.get('/api/v1/logout').then((response)=>{
-            let isLoggedIn = response.status = "ok" ? false : true;
-            self.setState({loggedIn: isLoggedIn });
-            if(!isLoggedIn){
-                window.location.href = "/";
-            }
+            if(response.status !== "error") window.location.href = "/password-reset";
+        });
+    }
+
+    loadProfile(id){
+        let $this = this;
+        $.get('/api/v1/users/' + id).then((response)=>{
+            //in the meantime setup user data
+            this.new_profile.role = response.data.role;
+            this.new_profile.name = response.data.name;
+            this.setState({
+                profile: this.new_profile
+            });
         });
     }
 
 	handleSubmit(event){
         let $this = this;
         //update profile
+
         $.ajax({
             url: '/api/v1/reset_password',
             type: 'post',
@@ -74,20 +92,24 @@ class ResetPassword extends React.Component{
             dataType: 'json',
             success: function(response){
                 if(response.status !== "error"){
-                    if(this.state.profile < 1){
-                        window.location.href = "/dashboard/edit";
+                    if($this.state.me.role > 0){
+                        $this.setState({pending: false});
                     }else{
-                        window.location.href = "/author/" + this.state.profile.userId;
+                        $this.signOut()
                     }
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert(errorThrown);
+
             }
         });
-        this.setState({pending: false});
+
         event.preventDefault();
 	}
 
 	render(){
-        let title = this.state.profile.role > 0 ? "Reset " + this.state.profile.name + "'s password." : "Reset your Password";
+        let title = (this.state.me.role > 0) && (this.state.me.userId !== this.state.profile.userId)  ? "Reset " + this.state.profile.name + "'s password." : "Reset your Password";
 		return(
             <div>
                 {this.state.pending &&
@@ -129,10 +151,10 @@ class ResetPassword extends React.Component{
                 {!this.state.pending &&
                     <div>
                         <header>
-                            <h3>Your Password was Reset!</h3>
+                            <h3>{this.state.profile.name + "'s Password was Reset!"}</h3>
                         </header>
                         <div className="field">
-                            <span>Feel free to explore??</span>
+                            <span>What would you like to do next?</span>
                         </div>
                         <hr/>
                         <div className="submit-row">

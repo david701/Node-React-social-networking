@@ -70,7 +70,8 @@ class Parent extends React.Component{
 	}
 
     editProfile(event){
-
+    	let target = event.target;
+    	window.location.href = "/author/"+ target.id +"/edit";
     }
 
     handleUnfollow(event){
@@ -277,12 +278,13 @@ class Parent extends React.Component{
 							<h4>Quick Links</h4>
 						</div>
 						<div className="user-list">
-							<a className="admin-link" href=".">Google Analytics</a>
-							<a className="admin-link" href=".">Create Newsletter</a>
+							<a className="admin-link" href="https://analytics.google.com">Google Analytics</a>
+							<a className="admin-link" href="http://www.mandrill.com/">Create Newsletter</a>
 						</div>
 						<hr/>
 							<div className="title-row">
 								<h4>Edit Users</h4>
+								<a class="control" href="/dashboard/all-users">See All</a>
 							</div>
 							<ul className="user-list">
 								{following}
@@ -319,6 +321,11 @@ class Parent extends React.Component{
 						<div className="book-blocks book-blocks-small">
 							This feature will be built in phase 3
 						</div>
+						<hr/>
+							<h4>Account Settings</h4>
+							<ul className="field-list account-settings">
+								<a href={"/author/" + this.state.user._id + "/reset-password"} className="button reset-password">Reset Password</a>
+							</ul>
 					</div>
 				}
 				{/* <div id="myBooks"></div> */}

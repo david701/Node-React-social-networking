@@ -36219,24 +36219,45 @@ var Author = function (_React$Component) {
 					var limit = authors.length > 5 ? 5 : authors.length;
 					following = [];
 					for (var i = 0; i < limit; i++) {
-						following.push(_react2.default.createElement(
-							'li',
-							{ key: i },
-							_react2.default.createElement(
-								'a',
-								{ href: '/author/' + authors[i]._id },
+						if (authors[i]._id === this.state.me._id) {
+							following.push(_react2.default.createElement(
+								'li',
+								{ key: i },
 								_react2.default.createElement(
-									'figure',
-									{ className: 'avatar' },
-									_react2.default.createElement('img', { src: authors[i].avatar, alt: '' })
-								),
-								_react2.default.createElement(
-									'h5',
-									null,
-									authors[i].name
+									'a',
+									{ href: '/dashboard' },
+									_react2.default.createElement(
+										'figure',
+										{ className: 'avatar' },
+										_react2.default.createElement('img', { src: authors[i].avatar, alt: '' })
+									),
+									_react2.default.createElement(
+										'h5',
+										null,
+										'Me'
+									)
 								)
-							)
-						));
+							));
+						} else {
+							following.push(_react2.default.createElement(
+								'li',
+								{ key: i },
+								_react2.default.createElement(
+									'a',
+									{ href: '/author/' + authors[i]._id },
+									_react2.default.createElement(
+										'figure',
+										{ className: 'avatar' },
+										_react2.default.createElement('img', { src: authors[i].avatar, alt: '' })
+									),
+									_react2.default.createElement(
+										'h5',
+										null,
+										authors[i].name
+									)
+								)
+							));
+						}
 					}
 				}
 			}
@@ -36245,6 +36266,16 @@ var Author = function (_React$Component) {
 				'div',
 				null,
 				_react2.default.createElement(
+					'header',
+					null,
+					_react2.default.createElement(
+						'h3',
+						null,
+						this.state.user.name + " 's Account",
+						' '
+					)
+				),
+				_react2.default.createElement(
 					'div',
 					{ className: 'title-row' },
 					_react2.default.createElement(
@@ -36252,7 +36283,7 @@ var Author = function (_React$Component) {
 						null,
 						'Account Info'
 					),
-					_react2.default.createElement(
+					this.state.me.role > 0 && _react2.default.createElement(
 						'a',
 						{ className: 'control', href: '/author/' + this.state.user._id + '/edit' },
 						'Edit'
@@ -37226,56 +37257,69 @@ var Friends = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var self = this;
-
+            var self = this,
+                accountAction = this.state.me.role > 0 ? "edit:" : "follow:";
             return _react2.default.createElement(
-                'ul',
-                { className: 'user-list' },
-                this.state.users.map(function (user, i) {
-                    var myProfile = self.state.me._id === user._id;
-                    return _react2.default.createElement(
-                        'li',
-                        { key: user._id },
-                        _react2.default.createElement(
-                            'a',
-                            { href: myProfile ? '/dashboard/' : '/author/' + user._id },
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'title-row' },
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        "Choose user(s) to " + accountAction
+                    )
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'user-list' },
+                    this.state.users.map(function (user, i) {
+                        var myProfile = self.state.me._id === user._id;
+                        return _react2.default.createElement(
+                            'li',
+                            { key: user._id },
                             _react2.default.createElement(
-                                'figure',
-                                { className: 'avatar' },
-                                _react2.default.createElement('img', { src: user.avatar, alt: '', id: user._id })
+                                'a',
+                                { href: myProfile ? '/dashboard/' : '/author/' + user._id },
+                                _react2.default.createElement(
+                                    'figure',
+                                    { className: 'avatar' },
+                                    _react2.default.createElement('img', { src: user.avatar, alt: '', id: user._id })
+                                ),
+                                _react2.default.createElement(
+                                    'h5',
+                                    null,
+                                    user.name
+                                )
                             ),
-                            _react2.default.createElement(
-                                'h5',
+                            !myProfile && self.state.me.role < 1 && _react2.default.createElement(
+                                'div',
                                 null,
-                                user.name
-                            )
-                        ),
-                        !myProfile && self.state.me.role < 1 && _react2.default.createElement(
-                            'div',
-                            null,
-                            self.isFollowing(user._id, self.state.me) && _react2.default.createElement(
+                                self.isFollowing(user._id, self.state.me) && _react2.default.createElement(
+                                    'div',
+                                    { className: 'control' },
+                                    'Following'
+                                ),
+                                !self.isFollowing(user._id, self.state.me) && _react2.default.createElement(
+                                    'div',
+                                    { className: 'control add-button', id: user._id, onClick: self.handleFollow },
+                                    'Add'
+                                )
+                            ),
+                            !myProfile && self.state.me.role > 0 && _react2.default.createElement(
+                                'a',
+                                { className: 'control add-button', href: '/author/' + user._id + '/edit' },
+                                'Edit'
+                            ),
+                            myProfile && _react2.default.createElement(
                                 'div',
                                 { className: 'control' },
-                                'Following'
-                            ),
-                            !self.isFollowing(user._id, self.state.me) && _react2.default.createElement(
-                                'div',
-                                { className: 'control add-button', id: user._id, onClick: self.handleFollow },
-                                'Add'
+                                'That\'s you!'
                             )
-                        ),
-                        !myProfile && self.state.me.role >= 1 && _react2.default.createElement(
-                            'a',
-                            { className: 'control add-button', href: '/author/' + user._id },
-                            'Edit'
-                        ),
-                        myProfile && _react2.default.createElement(
-                            'div',
-                            { className: 'control' },
-                            'That\'s you!'
-                        )
-                    );
-                })
+                        );
+                    })
+                )
             );
         }
     }]);
@@ -37383,6 +37427,8 @@ var Login = function (_React$Component) {
         value: function closeLogin(event) {
             (0, _jquery2.default)('body').removeClass('modal-showing');
             this.setState({ isFlipped: false });
+            this.resetProfile();
+            this.resetErrors(event);
             (0, _jquery2.default)('.login-modal').css({ visibility: 'hidden', opacity: 0 });
         }
     }, {
@@ -37407,6 +37453,7 @@ var Login = function (_React$Component) {
                 }
             });
             this.resetProfile();
+            this.resetErrors();
             event.preventDefault();
         }
     }, {
@@ -37423,6 +37470,7 @@ var Login = function (_React$Component) {
                 }
             });
             this.resetProfile();
+            this.resetErrors();
             event.preventDefault();
         }
     }, {
@@ -37740,7 +37788,10 @@ var Parent = function (_React$Component) {
 		}
 	}, {
 		key: 'editProfile',
-		value: function editProfile(event) {}
+		value: function editProfile(event) {
+			var target = event.target;
+			window.location.href = "/author/" + target.id + "/edit";
+		}
 	}, {
 		key: 'handleUnfollow',
 		value: function handleUnfollow(event) {
@@ -38067,12 +38118,12 @@ var Parent = function (_React$Component) {
 							{ className: 'user-list' },
 							_react2.default.createElement(
 								'a',
-								{ className: 'admin-link', href: '.' },
+								{ className: 'admin-link', href: 'https://analytics.google.com' },
 								'Google Analytics'
 							),
 							_react2.default.createElement(
 								'a',
-								{ className: 'admin-link', href: '.' },
+								{ className: 'admin-link', href: 'http://www.mandrill.com/' },
 								'Create Newsletter'
 							)
 						),
@@ -38084,6 +38135,11 @@ var Parent = function (_React$Component) {
 								'h4',
 								null,
 								'Edit Users'
+							),
+							_react2.default.createElement(
+								'a',
+								{ 'class': 'control', href: '/dashboard/all-users' },
+								'See All'
 							)
 						),
 						_react2.default.createElement(
@@ -38150,6 +38206,21 @@ var Parent = function (_React$Component) {
 							'div',
 							{ className: 'book-blocks book-blocks-small' },
 							'This feature will be built in phase 3'
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'h4',
+							null,
+							'Account Settings'
+						),
+						_react2.default.createElement(
+							'ul',
+							{ className: 'field-list account-settings' },
+							_react2.default.createElement(
+								'a',
+								{ href: "/author/" + this.state.user._id + "/reset-password", className: 'button reset-password' },
+								'Reset Password'
+							)
 						)
 					)
 				)
@@ -38331,10 +38402,12 @@ var ResetPassword = function (_React$Component) {
         _this.new_profile.userId = id;
         _this.state = {
             pending: true,
+            me: _this.new_profile,
             profile: _this.new_profile
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.loadProfile = _this.loadProfile.bind(_this);
         _this.signOut = _this.signOut.bind(_this);
         return _this;
     }
@@ -38348,15 +38421,21 @@ var ResetPassword = function (_React$Component) {
             _jquery2.default.get('/api/v1/user_session/').then(function (response) {
                 if (response.status === 'error') {
                     window.location.href = "/";
-                }
-                //are you the user or admin? if else, kick them out
-                else if (response.data._id === _this2.new_profile.userId || response.data.role > 0) {
+                } else {
+                    //set my profile so I can use it in our logic
+                    var myProfile = new Profile();
+                    myProfile.role = response.data.role;
+                    myProfile.userId = response.data._id;
+                    _this2.setState({ me: myProfile });
+                    //are you the user or admin, if so load user's profile
+                    if (response.data.role > 0) {
+                        _this2.loadProfile(_this2.state.profile.userId);
+                    } else {
                         _this2.new_profile.role = response.data.role;
                         _this2.new_profile.name = response.data.name;
                         _this2.setState({ profile: _this2.new_profile });
-                    } else {
-                        window.location.href = "/dashboard";
                     }
+                }
             });
         }
     }, {
@@ -38376,11 +38455,22 @@ var ResetPassword = function (_React$Component) {
         value: function signOut() {
             var self = this;
             _jquery2.default.get('/api/v1/logout').then(function (response) {
-                var isLoggedIn = response.status = "ok" ? false : true;
-                self.setState({ loggedIn: isLoggedIn });
-                if (!isLoggedIn) {
-                    window.location.href = "/";
-                }
+                if (response.status !== "error") window.location.href = "/password-reset";
+            });
+        }
+    }, {
+        key: 'loadProfile',
+        value: function loadProfile(id) {
+            var _this3 = this;
+
+            var $this = this;
+            _jquery2.default.get('/api/v1/users/' + id).then(function (response) {
+                //in the meantime setup user data
+                _this3.new_profile.role = response.data.role;
+                _this3.new_profile.name = response.data.name;
+                _this3.setState({
+                    profile: _this3.new_profile
+                });
             });
         }
     }, {
@@ -38388,6 +38478,7 @@ var ResetPassword = function (_React$Component) {
         value: function handleSubmit(event) {
             var $this = this;
             //update profile
+
             _jquery2.default.ajax({
                 url: '/api/v1/reset_password',
                 type: 'post',
@@ -38395,21 +38486,24 @@ var ResetPassword = function (_React$Component) {
                 dataType: 'json',
                 success: function success(response) {
                     if (response.status !== "error") {
-                        if (this.state.profile < 1) {
-                            window.location.href = "/dashboard/edit";
+                        if ($this.state.me.role > 0) {
+                            $this.setState({ pending: false });
                         } else {
-                            window.location.href = "/author/" + this.state.profile.userId;
+                            $this.signOut();
                         }
                     }
+                },
+                error: function error(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
                 }
             });
-            this.setState({ pending: false });
+
             event.preventDefault();
         }
     }, {
         key: 'render',
         value: function render() {
-            var title = this.state.profile.role > 0 ? "Reset " + this.state.profile.name + "'s password." : "Reset your Password";
+            var title = this.state.me.role > 0 && this.state.me.userId !== this.state.profile.userId ? "Reset " + this.state.profile.name + "'s password." : "Reset your Password";
             return _react2.default.createElement(
                 'div',
                 null,
@@ -38517,7 +38611,7 @@ var ResetPassword = function (_React$Component) {
                         _react2.default.createElement(
                             'h3',
                             null,
-                            'Your Password was Reset!'
+                            this.state.profile.name + "'s Password was Reset!"
                         )
                     ),
                     _react2.default.createElement(
@@ -38526,7 +38620,7 @@ var ResetPassword = function (_React$Component) {
                         _react2.default.createElement(
                             'span',
                             null,
-                            'Feel free to explore??'
+                            'What would you like to do next?'
                         )
                     ),
                     _react2.default.createElement('hr', null),
@@ -38708,9 +38802,9 @@ var SignUp = function (_React$Component) {
 
     _this.new_profile = new Profile();
     _this.state = {
-      profile: _this.new_profile
+      profile: _this.new_profile,
+      error: ''
     };
-    _this.error = '';
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     return _this;
@@ -38775,6 +38869,7 @@ var SignUp = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
+      $this = this;
       this.new_profile.bday = this.new_profile.bday._d;
       //restart profile
       _jquery2.default.ajax({
@@ -38784,7 +38879,11 @@ var SignUp = function (_React$Component) {
         dataType: 'json',
         contentType: 'application/json; charset=UTF-8',
         success: function success(response) {
-          window.location.href = "/email";
+          if (response.status !== "error") {
+            window.location.href = "/email";
+          } else {
+            $this.setState({ error: response.message });
+          }
         }
       });
 
@@ -39229,6 +39328,11 @@ var SignUp = function (_React$Component) {
           _react2.default.createElement('li', { className: 'spacing-block' }),
           _react2.default.createElement('li', { className: 'spacing-block' })
         ),
+        this.state.error.length > 0 && _react2.default.createElement(
+          'p',
+          { className: 'error-message' },
+          this.state.error
+        ),
         _react2.default.createElement(
           'div',
           { className: 'submit-row' },
@@ -39540,7 +39644,7 @@ var LoginButtons = function (_React$Component) {
 								{ className: this.state.title === "Find Friends" ? 'selected' : '' },
 								_react2.default.createElement(
 									'a',
-									{ href: '/dashboard/find-friends/' },
+									{ href: '/dashboard/all-users/' },
 									'All Users'
 								)
 							)
