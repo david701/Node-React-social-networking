@@ -39714,7 +39714,7 @@ var LoginButtons = function (_React$Component) {
 									_react2.default.createElement(
 										'a',
 										{ href: '/dashboard/find-friends/' },
-										'All Friends'
+										'Find Friends'
 									)
 								),
 								_react2.default.createElement(
