@@ -37451,9 +37451,9 @@ var Login = function (_React$Component) {
                 } else {
                     window.location.href = "/recover-password";
                 }
+                _this2.resetProfile();
+                _this2.resetErrors();
             });
-            this.resetProfile();
-            this.resetErrors();
             event.preventDefault();
         }
     }, {

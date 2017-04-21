@@ -79,9 +79,9 @@ class Login extends React.Component{
             }else{
                 window.location.href = "/recover-password";
             }
+            this.resetProfile();
+            this.resetErrors();
         });
-        this.resetProfile();
-        this.resetErrors();
         event.preventDefault();
     }
 
