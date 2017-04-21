@@ -92,7 +92,7 @@ class ResetPassword extends React.Component{
             dataType: 'json',
             success: function(response){
                 if(response.status !== "error"){
-                    if($this.state.me.role > 0){
+                    if($this.state.me.role > 0 && $this.state.me._id !== $this.state.profile._id){
                         $this.setState({pending: false});
                     }else{
                         $this.signOut()

@@ -36599,10 +36599,8 @@ var SignUp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
 
     _this.signOut = function () {
-      var self = _this;
       _jquery2.default.get('/api/v1/logout').then(function (response) {
         var isLoggedIn = response.status = "ok" ? false : true;
-        self.setState({ loggedIn: isLoggedIn });
         if (!isLoggedIn) {
           window.location.href = "/";
         }
@@ -38487,7 +38485,7 @@ var ResetPassword = function (_React$Component) {
                 dataType: 'json',
                 success: function success(response) {
                     if (response.status !== "error") {
-                        if ($this.state.me.role > 0) {
+                        if ($this.state.me.role > 0 && $this.state.me._id !== $this.state.profile._id) {
                             $this.setState({ pending: false });
                         } else {
                             $this.signOut();

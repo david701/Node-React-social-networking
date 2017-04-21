@@ -85,10 +85,8 @@ class SignUp extends React.Component{
     }
 
     signOut = () => {
-      let self = this;
       $.get('/api/v1/logout').then((response)=>{
         let isLoggedIn = response.status = "ok" ? false : true;
-        self.setState({loggedIn: isLoggedIn });
         if(!isLoggedIn){
           window.location.href = "/";
         }
