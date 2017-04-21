@@ -17,12 +17,12 @@ const Profile = function(){
     	this.bday = '';
     	this.gender = '';
     	this.social_media = {
-    		website: '',
-    		good_reads: '',
-    		amazon: '',
-    		wordpress: '',
-    		facebook: '',
-    		twitter: ''
+    		website: 'http://',
+    		good_reads: 'http://',
+    		amazon: 'http://',
+    		wordpress: 'http://',
+    		facebook: 'http://',
+    		twitter: 'http://'
     	}
     	this.genres = [];
     	this.themes = [];
@@ -69,8 +69,13 @@ class SignUp extends React.Component{
   		//if the property is nested, dig 1 level deeper
   		if(props.length > 1){
   			// add sub properties here
+        let http = 'http://',
+        realValue = value.replace(http,"");
+
   			if(props[0] === "social_media"){
-  				this.new_profile.social_media[props[1]] = value;
+          if(realValue !== "http:/"){
+  				  this.new_profile.social_media[props[1]] = http + realValue;
+          }
   			}
   		}
   		//if its a checkbox, add/delete values in an array
@@ -199,42 +204,42 @@ class SignUp extends React.Component{
     					<li>
                             <div className="title">
                                 <label htmlFor="website">Your website URL</label>
-                                <span className="help-text">Url must include http(s)</span>
+                                <span className="help-text">Invalid Url</span>
                             </div>
     						<input id="website" name="social_media.website" value={this.state.profile.social_media.website} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                             <div className="title">
                                 <label htmlFor="good_reads">Goodreads URL</label>
-                                <span className="help-text">Url must include http(s)</span>
+                                <span className="help-text">Invalid Url</span>
                             </div>
     						<input id="good_reads" name="social_media.good_reads" value={this.state.profile.social_media.good_reads} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                             <div className="title">
                                 <label htmlFor="amazon">Amazon URL</label>
-                                <span className="help-text">Url must include http(s)</span>
+                                <span className="help-text">Invalid Url</span>
                             </div>
     						<input id="amazon" name="social_media.amazon" value={this.state.profile.social_media.amazon} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                             <div className="title">
                                 <label htmlFor="wordpress">WordPress URL</label>
-                                <span className="help-text">Url must include http(s)</span>
+                                <span className="help-text">Invalid Url</span>
                             </div>
     						<input id="wordpress" name="social_media.wordpress" value={this.state.profile.social_media.wordpress} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                             <div className="title">
                                 <label htmlFor="facebook">Facebook URL</label>
-                                <span className="help-text">Url must include http(s)</span>
+                                <span className="help-text">Invalid Url</span>
                             </div>
     						<input id="facebook" name="social_media.facebook" value={this.state.profile.social_media.facebook} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>
     					<li>
                             <div className="title">
                                 <label htmlFor="twitter">Twitter URL</label>
-                                <span className="help-text">Url must include http(s)</span>
+                                <span className="help-text">Invalid Url</span>
                             </div>
     						<input id="twitter" name="social_media.twitter" value={this.state.profile.social_media.twitter} onChange={this.handleChange} onBlur={validate} data-validation="url" type="text"/>
     					</li>

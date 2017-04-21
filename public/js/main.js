@@ -17741,7 +17741,7 @@ var isValid = function isValid(validate, input) {
             valid = _validator2.default.isEmail(value);
             break;
         case "url":
-            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true });
+            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true }) || value === "http://" || value === "http:/";
             break;
         case "required":
             valid = !_validator2.default.isEmpty(value);
@@ -38779,12 +38779,12 @@ var Profile = function Profile() {
   this.bday = '';
   this.gender = '';
   this.social_media = {
-    website: '',
-    good_reads: '',
-    amazon: '',
-    wordpress: '',
-    facebook: '',
-    twitter: ''
+    website: 'http://',
+    good_reads: 'http://',
+    amazon: 'http://',
+    wordpress: 'http://',
+    facebook: 'http://',
+    twitter: 'http://'
   };
   this.genres = [];
   this.themes = [];
@@ -38841,8 +38841,13 @@ var SignUp = function (_React$Component) {
       //if the property is nested, dig 1 level deeper
       if (props.length > 1) {
         // add sub properties here
+        var http = 'http://',
+            realValue = value.replace(http, "");
+
         if (props[0] === "social_media") {
-          this.new_profile.social_media[props[1]] = value;
+          if (realValue !== "http:/") {
+            this.new_profile.social_media[props[1]] = http + realValue;
+          }
         }
       }
       //if its a checkbox, add/delete values in an array
@@ -39119,7 +39124,7 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'help-text' },
-                'Url must include http(s)'
+                'Invalid Url'
               )
             ),
             _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -39138,7 +39143,7 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'help-text' },
-                'Url must include http(s)'
+                'Invalid Url'
               )
             ),
             _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -39157,7 +39162,7 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'help-text' },
-                'Url must include http(s)'
+                'Invalid Url'
               )
             ),
             _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -39176,7 +39181,7 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'help-text' },
-                'Url must include http(s)'
+                'Invalid Url'
               )
             ),
             _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -39195,7 +39200,7 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'help-text' },
-                'Url must include http(s)'
+                'Invalid Url'
               )
             ),
             _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -39214,7 +39219,7 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'help-text' },
-                'Url must include http(s)'
+                'Invalid Url'
               )
             ),
             _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })

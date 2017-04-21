@@ -41,7 +41,7 @@ const isValid = (validate,input) => {
             valid = validator.isEmail(value);
             break;
         case "url":
-            valid = validator.isURL(value,{protocols: ['http','https'],require_protocol: true});
+            valid = validator.isURL(value,{protocols: ['http','https'],require_protocol: true}) || value === "http://" || value === "http:/";
             break;
         case "required":
             valid = !validator.isEmpty(value);
