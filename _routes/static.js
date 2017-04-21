@@ -80,12 +80,54 @@ router.get('/search', (req, res)=>{
 
 router.get('/verify', (req, res)=>{
 	var token = req.query.token;
-	res.redirect('/dashboard');
+	mongoUser.findOne({token: token}, (err, user)=>{
+		if(err || !user){
+			req.session = null;
+			res.json({status:'error', message: 'Invalid Token'});
+		}else{
+			if(user.status == 0){
+				res.json({status:'error', message: 'This user has been removed'});
+			}else{
+						var userData = {
+							_id: user._id.toString(),
+							email: user.email,
+							name: user.name,
+							avatar: user.avatar,
+							level: user.level,
+							role: user.role,
+							status: user.status
+						}
+						req.session = userData;
+						res.redirect('/dashboard');
+				};
+			}
+		})
 });
 
 router.get('/reset_password', (req, res)=>{
 	var token = req.query.token;
-	res.redirect('/dashboard');
+	mongoUser.findOne({token: token}, (err, user)=>{
+		if(err || !user){
+			req.session = null;
+			res.json({status:'error', message: 'Invalid Token'});
+		}else{
+			if(user.status == 0){
+				res.json({status:'error', message: 'This user has been removed'});
+			}else{
+						var userData = {
+							_id: user._id.toString(),
+							email: user.email,
+							name: user.name,
+							avatar: user.avatar,
+							level: user.level,
+							role: user.role,
+							status: user.status
+						}
+						req.session = userData;
+						res.redirect('/author/'+userData._id+'/reset-password');
+				};
+			}
+		})
 });
 
 router.get('/admin', (req, res)=>{
