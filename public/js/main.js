@@ -36578,12 +36578,12 @@ var Profile = function Profile() {
   this.bday = '';
   this.gender = 'Select One';
   this.social_media = {
-    website: '',
-    good_reads: '',
-    amazon: '',
-    wordpress: '',
-    facebook: '',
-    twitter: ''
+    website: 'http://',
+    good_reads: 'http://',
+    amazon: 'http://',
+    wordpress: 'http://',
+    facebook: 'http://',
+    twitter: 'http://'
   };
   this.genres = [];
   this.themes = [];
@@ -36662,6 +36662,21 @@ var SignUp = function (_React$Component) {
       return JSON.stringify(obj) === JSON.stringify({});
     }
   }, {
+    key: 'populateUrls',
+    value: function populateUrls(links) {
+
+      for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if (links[key] === "") {
+          links[key] = "http://";
+        }
+      }
+
+      return links;
+    }
+  }, {
     key: 'loadInfo',
     value: function loadInfo(id) {
       var _this3 = this;
@@ -36670,6 +36685,7 @@ var SignUp = function (_React$Component) {
       _jquery2.default.get('/api/v1/users/' + id).then(function (response) {
         var date = new Date(response.data.bday);
         response.data.bday = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+        response.data.social_media = _this3.populateUrls(response.data.social_media);
         self.setState({
           profile: _jquery2.default.extend(_this3.state.profile, response.data)
         });
@@ -36686,8 +36702,13 @@ var SignUp = function (_React$Component) {
       //if the property is nested, dig 1 level deeper
       if (props.length > 1) {
         // add sub properties here
+        var http = 'http://',
+            realValue = value.replace(http, "");
+
         if (props[0] === "social_media") {
-          this.new_profile.social_media[props[1]] = value;
+          if (realValue !== "http:/") {
+            this.new_profile.social_media[props[1]] = http + realValue;
+          }
         }
       }
       //if its a checkbox, add/delete values in an array
@@ -36711,11 +36732,28 @@ var SignUp = function (_React$Component) {
       this.setState({ profile: this.new_profile });
     }
   }, {
+    key: 'cleanUrls',
+    value: function cleanUrls(links) {
+
+      for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if (links[key] === "http://") {
+          links[key] = "";
+        }
+      }
+
+      return links;
+    }
+  }, {
     key: 'handleSubmit',
     value: function handleSubmit(event) {
       var self = this;
       //update profile
       delete this.new_profile.password;
+      this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
+
       _jquery2.default.ajax({
         url: '/api/v1/users/' + this.state.profile._id,
         type: 'put',
@@ -38733,6 +38771,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         (0, _jquery2.default)('.login-modal').css({ visibility: 'visible', opacity: 1 });
         e.preventDefault();
     });
+
+    (0, _jquery2.default)('#deleteButton').click(function (e) {
+        (0, _jquery2.default)('.delete-modal').css({ visibility: 'visible', opacity: 1 });
+        e.preventDefault();
+    });
 });
 
 /***/ }),
@@ -38780,601 +38823,619 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 var Profile = function Profile() {
-  this.avatar = '/assets/images/avatars/Dog_1.png';
-  this.name = '';
-  this.password = '';
-  this.email = '';
-  this.bday = '';
-  this.gender = '';
-  this.social_media = {
-    website: 'http://',
-    good_reads: 'http://',
-    amazon: 'http://',
-    wordpress: 'http://',
-    facebook: 'http://',
-    twitter: 'http://'
-  };
-  this.genres = [];
-  this.themes = [];
-  this.newsletter = true;
+    this.avatar = '/assets/images/avatars/Dog_1.png';
+    this.name = '';
+    this.password = '';
+    this.email = '';
+    this.bday = '';
+    this.gender = '';
+    this.social_media = {
+        website: 'http://',
+        good_reads: 'http://',
+        amazon: 'http://',
+        wordpress: 'http://',
+        facebook: 'http://',
+        twitter: 'http://'
+    };
+    this.genres = [];
+    this.themes = [];
+    this.newsletter = true;
 };
 
 var SignUp = function (_React$Component) {
-  _inherits(SignUp, _React$Component);
+    _inherits(SignUp, _React$Component);
 
-  function SignUp(props) {
-    _classCallCheck(this, SignUp);
+    function SignUp(props) {
+        _classCallCheck(this, SignUp);
 
-    var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
 
-    _this.new_profile = new Profile();
-    _this.state = {
-      profile: _this.new_profile,
-      error: ''
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    return _this;
-  }
-
-  _createClass(SignUp, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _this2 = this;
-
-      //get user session
-      _jquery2.default.get('/api/v1/user_session/').then(function (response) {
-        if (!_this2._objectEmpty(response.data)) {
-          window.location.href = "/";
-        }
-      });
+        _this.new_profile = new Profile();
+        _this.state = {
+            profile: _this.new_profile,
+            error: ''
+        };
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.cleanUrls = _this.cleanUrls.bind(_this);
+        return _this;
     }
-  }, {
-    key: '_objectEmpty',
-    value: function _objectEmpty(obj) {
-      for (var prop in obj) {
-        if (obj.hasOwnProperty(prop)) return false;
-      }
-      return JSON.stringify(obj) === JSON.stringify({});
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(event) {
-      //the date doesn't show, so I created it from scratch
-      var target = event._isAMomentObject ? { name: "bday", value: event } : event.target,
-          props = target.name.split('.'),
-          value = target.value === "true" ? true : target.value === "false" ? false : target.value;
-      //toggle submit
-      (0, _validation.formValid)(event);
-      //if the property is nested, dig 1 level deeper
-      if (props.length > 1) {
-        // add sub properties here
-        var http = 'http://',
-            realValue = value.replace(http, "");
 
-        if (props[0] === "social_media") {
-          if (realValue !== "http:/") {
-            this.new_profile.social_media[props[1]] = http + realValue;
-          }
+    _createClass(SignUp, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            //get user session
+            _jquery2.default.get('/api/v1/user_session/').then(function (response) {
+                if (!_this2._objectEmpty(response.data)) {
+                    window.location.href = "/";
+                }
+            });
         }
-      }
-      //if its a checkbox, add/delete values in an array
-      else if (target.type === "checkbox" && Array.isArray(this.new_profile[target.name])) {
-          //get index of value
-          var index = this.new_profile[target.name].indexOf(value);
-          //if checked, add value
-          if (target.checked) {
-            this.new_profile[target.name].push(value);
-          }
-          //if not checked, remove value
-          else {
-              this.new_profile[target.name].splice(index, 1);
+    }, {
+        key: '_objectEmpty',
+        value: function _objectEmpty(obj) {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) return false;
             }
+            return JSON.stringify(obj) === JSON.stringify({});
         }
-        //if it isn't a checkbox or a sub property
-        else {
-            this.new_profile[target.name] = value;
-          }
-      //set the state
-      this.setState({ profile: this.new_profile });
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(event) {
-      var $this = this;
-      this.new_profile.bday = this.new_profile.bday._d;
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            //the date doesn't show, so I created it from scratch
+            var target = event._isAMomentObject ? { name: "bday", value: event } : event.target,
+                props = target.name.split('.'),
+                value = target.value === "true" ? true : target.value === "false" ? false : target.value;
+            //toggle submit
+            (0, _validation.formValid)(event);
+            //if the property is nested, dig 1 level deeper
+            if (props.length > 1) {
+                // add sub properties here
+                var http = 'http://',
+                    realValue = value.replace(http, "");
 
-      //restart profile
-      _jquery2.default.ajax({
-        url: '/api/v1/users/',
-        type: 'post',
-        data: JSON.stringify(this.new_profile),
-        dataType: 'json',
-        contentType: 'application/json; charset=UTF-8',
-        success: function success(response) {
-          if (response.status !== "error") {
-            window.location.href = "/email";
-          } else {
-            $this.setState({ error: response.message });
-          }
-          this.new_profile = new Profile();
-          this.setState({ profile: this.new_profile });
+                if (props[0] === "social_media") {
+                    if (realValue !== "http:/") {
+                        this.new_profile.social_media[props[1]] = http + realValue;
+                    }
+                }
+            }
+            //if its a checkbox, add/delete values in an array
+            else if (target.type === "checkbox" && Array.isArray(this.new_profile[target.name])) {
+                    //get index of value
+                    var index = this.new_profile[target.name].indexOf(value);
+                    //if checked, add value
+                    if (target.checked) {
+                        this.new_profile[target.name].push(value);
+                    }
+                    //if not checked, remove value
+                    else {
+                            this.new_profile[target.name].splice(index, 1);
+                        }
+                }
+                //if it isn't a checkbox or a sub property
+                else {
+                        this.new_profile[target.name] = value;
+                    }
+            //set the state
+            this.setState({ profile: this.new_profile });
         }
-      });
+    }, {
+        key: 'cleanUrls',
+        value: function cleanUrls(links) {
 
-      event.preventDefault();
-    }
-  }, {
-    key: 'isChecked',
-    value: function isChecked(array, value) {
-      var val = array.filter(function (item, index) {
-        return item === value;
-      });
-      return val.length ? true : false;
-    }
-  }, {
-    key: 'createCheckboxes',
-    value: function createCheckboxes(items, type) {
-      var self = this;
+            for (var key in links) {
+                // skip loop if the property is from prototype
+                if (!links.hasOwnProperty(key)) continue;
+                //clear out empty urls
+                if (links[key] === "http://") {
+                    links[key] = "";
+                }
+            }
 
-      return items.map(function (item, index) {
-        var id = type + '-' + item.replace(/\s+/g, '-').toLowerCase();
+            return links;
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            var $this = this;
+            this.new_profile.bday = this.new_profile.bday._d;
 
-        return _react2.default.createElement(
-          'li',
-          { key: id },
-          _react2.default.createElement('input', { id: id, type: 'checkbox', name: type, value: item, onChange: self.handleChange, checked: self.isChecked(self.state.profile[type], item) }),
-          _react2.default.createElement(
-            'label',
-            { htmlFor: id },
-            item
-          )
-        );
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'form',
-        { onSubmit: this.handleSubmit },
-        _react2.default.createElement(
-          'h4',
-          null,
-          _react2.default.createElement(
-            'span',
-            null,
-            'Step 1.'
-          ),
-          ' Tell us about yourself'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'Add your photo:'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'avatar-selection' },
-          _react2.default.createElement(
-            'figure',
-            { className: 'avatar' },
-            _react2.default.createElement('img', { src: this.state.profile.avatar })
-          ),
-          _react2.default.createElement(
-            'ul',
-            { className: 'radio-list' },
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Dog_1.png' }),
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'avatar-1' },
-                'Apprentice Puppy'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' }),
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'avatar-2' },
-                'Apprentice Kitty'
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'field-list' },
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'name' },
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  '*'
-                ),
-                'What is your name?'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Please enter your full name'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'name,required' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'email' },
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  '*'
-                ),
-                'What is your email?'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid email address'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'email,required' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'bday' },
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  '*'
-                ),
-                'What is your birth date?'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Please enter a date'
-              )
-            ),
-            _react2.default.createElement(_reactDatepicker2.default, { id: 'bday', name: 'bday', selected: this.state.profile.bday, onChange: this.handleChange, showYearDropdown: true, maxDate: (0, _moment2.default)(), onBlur: _validation.validate, 'data-validation': 'date,required' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'gender' },
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  '*'
-                ),
-                'Your gender:'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Please select your gender'
-              )
-            ),
-            _react2.default.createElement(
-              'select',
-              { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required' },
-              _react2.default.createElement(
-                'option',
-                { value: '' },
-                'Select One'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Male' },
-                'Male'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: 'Female' },
-                'Female'
-              )
-            )
-          )
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h4',
-          null,
-          _react2.default.createElement(
-            'span',
-            null,
-            'Step 2.'
-          ),
-          ' Where else can we find you?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'field-list' },
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'website' },
-                'Your website URL'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'good_reads' },
-                'Goodreads URL'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'amazon' },
-                'Amazon URL'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'wordpress' },
-                'WordPress URL'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'facebook' },
-                'Facebook URL'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'twitter' },
-                'Twitter URL'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
-          )
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h4',
-          null,
-          _react2.default.createElement(
-            'span',
-            null,
-            'Step 3.'
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            '*'
-          ),
-          ' Create a secure password'
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'instructions' },
-          'Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'field-list' },
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'password1' },
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  '*'
-                ),
-                'Password'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Password must match above format'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'password,required' })
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'password2' },
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  '*'
-                ),
-                'Confirm Password'
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'This password does not match'
-              )
-            ),
-            _react2.default.createElement('input', { id: 'password2', name: 'passwordConfirmation', type: 'password', onBlur: _validation.validate, onChange: this.handleChange, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
-          )
-        ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
-          'h4',
-          null,
-          _react2.default.createElement(
-            'span',
-            null,
-            'Step 4.'
-          ),
-          ' Tell us what you like to see'
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'What Genres do you like?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'toggle-list' },
-          this.createCheckboxes(genres, 'genres'),
-          _react2.default.createElement('li', { className: 'spacing-block' }),
-          _react2.default.createElement('li', { className: 'spacing-block' })
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'What type of Fiction Themes?'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'toggle-list' },
-          this.createCheckboxes(themes, 'themes'),
-          _react2.default.createElement('li', { className: 'spacing-block' }),
-          _react2.default.createElement('li', { className: 'spacing-block' })
-        ),
-        this.state.error.length > 0 && _react2.default.createElement(
-          'p',
-          { className: 'error-message' },
-          this.state.error
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'submit-row' },
-          _react2.default.createElement(
-            'div',
-            { className: 'field' },
-            _react2.default.createElement('input', { type: 'checkbox', name: 'newsletter', id: 'newsletter', value: !this.state.profile.newsletter, onChange: this.handleChange, checked: this.state.profile.newsletter }),
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'newsletter' },
-              'I want to subscribe to newsletters'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'buttons' },
-            _react2.default.createElement(
-              'a',
-              { className: 'button button-white', href: '/' },
-              'Close'
-            ),
-            _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up', disabled: true })
-          )
-        )
-      );
-    }
-  }]);
+            this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
 
-  return SignUp;
+            //restart profile
+            _jquery2.default.ajax({
+                url: '/api/v1/users/',
+                type: 'post',
+                data: JSON.stringify(this.new_profile),
+                dataType: 'json',
+                contentType: 'application/json; charset=UTF-8',
+                success: function success(response) {
+                    if (response.status !== "error") {
+                        window.location.href = "/email";
+                    } else {
+                        $this.setState({ error: response.message });
+                    }
+                    this.new_profile = new Profile();
+                    this.setState({ profile: this.new_profile });
+                }
+            });
+
+            event.preventDefault();
+        }
+    }, {
+        key: 'isChecked',
+        value: function isChecked(array, value) {
+            var val = array.filter(function (item, index) {
+                return item === value;
+            });
+            return val.length ? true : false;
+        }
+    }, {
+        key: 'createCheckboxes',
+        value: function createCheckboxes(items, type) {
+            var self = this;
+
+            return items.map(function (item, index) {
+                var id = type + '-' + item.replace(/\s+/g, '-').toLowerCase();
+
+                return _react2.default.createElement(
+                    'li',
+                    { key: id },
+                    _react2.default.createElement('input', { id: id, type: 'checkbox', name: type, value: item, onChange: self.handleChange, checked: self.isChecked(self.state.profile[type], item) }),
+                    _react2.default.createElement(
+                        'label',
+                        { htmlFor: id },
+                        item
+                    )
+                );
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'form',
+                { onSubmit: this.handleSubmit },
+                _react2.default.createElement(
+                    'h4',
+                    null,
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Step 1.'
+                    ),
+                    ' Tell us about yourself'
+                ),
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    'Add your photo:'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'avatar-selection' },
+                    _react2.default.createElement(
+                        'figure',
+                        { className: 'avatar' },
+                        _react2.default.createElement('img', { src: this.state.profile.avatar })
+                    ),
+                    _react2.default.createElement(
+                        'ul',
+                        { className: 'radio-list' },
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Dog_1.png' }),
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'avatar-1' },
+                                'Apprentice Puppy'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: this.state.profile.avatar === '/assets/images/avatars/Cat_1.png' }),
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'avatar-2' },
+                                'Apprentice Kitty'
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'field-list' },
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'name' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
+                                'What is your name?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Please enter your full name'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'name,required' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'email' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
+                                'What is your email?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid email address'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'email', name: 'email', type: 'text', value: this.state.profile.email, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'email,required' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'bday' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
+                                'What is your birth date?'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Please enter a date'
+                            )
+                        ),
+                        _react2.default.createElement(_reactDatepicker2.default, { id: 'bday', name: 'bday', selected: this.state.profile.bday, onChange: this.handleChange, showYearDropdown: true, maxDate: (0, _moment2.default)(), onBlur: _validation.validate, 'data-validation': 'date,required' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'gender' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
+                                'Your gender:'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Please select your gender'
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'select',
+                            { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required' },
+                            _react2.default.createElement(
+                                'option',
+                                { value: '' },
+                                'Select One'
+                            ),
+                            _react2.default.createElement(
+                                'option',
+                                { value: 'Male' },
+                                'Male'
+                            ),
+                            _react2.default.createElement(
+                                'option',
+                                { value: 'Female' },
+                                'Female'
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement('hr', null),
+                _react2.default.createElement(
+                    'h4',
+                    null,
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Step 2.'
+                    ),
+                    ' Where else can we find you?'
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'field-list' },
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'website' },
+                                'Your website URL'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid Url'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: this.state.profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'good_reads' },
+                                'Goodreads URL'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid Url'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: this.state.profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'amazon' },
+                                'Amazon URL'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid Url'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: this.state.profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'wordpress' },
+                                'WordPress URL'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid Url'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: this.state.profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'facebook' },
+                                'Facebook URL'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid Url'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: this.state.profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'twitter' },
+                                'Twitter URL'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Invalid Url'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: this.state.profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
+                    )
+                ),
+                _react2.default.createElement('hr', null),
+                _react2.default.createElement(
+                    'h4',
+                    null,
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Step 3.'
+                    ),
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        '*'
+                    ),
+                    ' Create a secure password'
+                ),
+                _react2.default.createElement(
+                    'span',
+                    { className: 'instructions' },
+                    'Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).'
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'field-list' },
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'password1' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
+                                'Password'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'Password must match above format'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'password,required' })
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'title' },
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'password2' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
+                                'Confirm Password'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'help-text' },
+                                'This password does not match'
+                            )
+                        ),
+                        _react2.default.createElement('input', { id: 'password2', name: 'passwordConfirmation', type: 'password', onBlur: _validation.validate, onChange: this.handleChange, 'data-password': this.state.profile.password, 'data-validation': 'confirmPassword,required' })
+                    )
+                ),
+                _react2.default.createElement('hr', null),
+                _react2.default.createElement(
+                    'h4',
+                    null,
+                    _react2.default.createElement(
+                        'span',
+                        null,
+                        'Step 4.'
+                    ),
+                    ' Tell us what you like to see'
+                ),
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    'What Genres do you like?'
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'toggle-list' },
+                    this.createCheckboxes(genres, 'genres'),
+                    _react2.default.createElement('li', { className: 'spacing-block' }),
+                    _react2.default.createElement('li', { className: 'spacing-block' })
+                ),
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    'What type of Fiction Themes?'
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'toggle-list' },
+                    this.createCheckboxes(themes, 'themes'),
+                    _react2.default.createElement('li', { className: 'spacing-block' }),
+                    _react2.default.createElement('li', { className: 'spacing-block' })
+                ),
+                this.state.error.length > 0 && _react2.default.createElement(
+                    'p',
+                    { className: 'error-message' },
+                    this.state.error
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'submit-row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'field' },
+                        _react2.default.createElement('input', { type: 'checkbox', name: 'newsletter', id: 'newsletter', value: !this.state.profile.newsletter, onChange: this.handleChange, checked: this.state.profile.newsletter }),
+                        _react2.default.createElement(
+                            'label',
+                            { htmlFor: 'newsletter' },
+                            'I want to subscribe to newsletters'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'buttons' },
+                        _react2.default.createElement(
+                            'a',
+                            { className: 'button button-white', href: '/' },
+                            'Close'
+                        ),
+                        _react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Sign Up', disabled: true })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return SignUp;
 }(_react2.default.Component);
 
 if (document.getElementById('sign-up')) _reactDom2.default.render(_react2.default.createElement(SignUp, null), document.getElementById('sign-up'));

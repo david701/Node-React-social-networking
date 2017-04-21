@@ -40,6 +40,7 @@ class SignUp extends React.Component{
     	};
     	this.handleChange = this.handleChange.bind(this);
     	this.handleSubmit = this.handleSubmit.bind(this);
+      this.cleanUrls = this.cleanUrls.bind(this);
   	}
 
     componentWillMount(){
@@ -99,9 +100,26 @@ class SignUp extends React.Component{
     	this.setState({profile: this.new_profile});
   	}
 
-	handleSubmit(event){
+  cleanUrls(links){
+
+    for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if(links[key] === "http://"){
+          links[key] = ""
+        }
+    }
+
+    return links;
+
+  }
+
+  handleSubmit(event){
     let $this = this;
 		this.new_profile.bday = this.new_profile.bday._d;
+
+    this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
 
     //restart profile
     $.ajax({

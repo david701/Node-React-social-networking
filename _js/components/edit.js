@@ -24,12 +24,12 @@ const Profile = function(){
       	this.bday = '';
       	this.gender = 'Select One';
       	this.social_media = {
-      		website: '',
-      		good_reads: '',
-      		amazon: '',
-      		wordpress: '',
-      		facebook: '',
-      		twitter: ''
+      		website: 'http://',
+      		good_reads: 'http://',
+      		amazon: 'http://',
+      		wordpress: 'http://',
+      		facebook: 'http://',
+      		twitter: 'http://'
       	}
       	this.genres = [];
       	this.themes = [];
@@ -73,11 +73,27 @@ class SignUp extends React.Component{
         return JSON.stringify(obj) === JSON.stringify({});
     }
 
+    populateUrls(links){
+
+      for (var key in links) {
+          // skip loop if the property is from prototype
+          if (!links.hasOwnProperty(key)) continue;
+          //clear out empty urls
+          if(links[key] === ""){
+            links[key] = "http://"
+          }
+      }
+
+      return links;
+
+    }
+
     loadInfo(id){
         let self = this;
         $.get('/api/v1/users/' + id).then((response)=>{
             let date = new Date(response.data.bday);
             response.data.bday = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+            response.data.social_media = this.populateUrls(response.data.social_media);
             self.setState({
                 profile: $.extend(this.state.profile,response.data)
             });
@@ -119,10 +135,15 @@ class SignUp extends React.Component{
       formValid(event);
   		//if the property is nested, dig 1 level deeper
   		if(props.length > 1){
-  			// add sub properties here
-  			if(props[0] === "social_media"){
-  				this.new_profile.social_media[props[1]] = value;
-  			}
+        // add sub properties here
+        let http = 'http://',
+        realValue = value.replace(http,"");
+
+        if(props[0] === "social_media"){
+          if(realValue !== "http:/"){
+            this.new_profile.social_media[props[1]] = http + realValue;
+          }
+        }
   		}
   		//if its a checkbox, add/delete values in an array
   		else if(target.type === "checkbox" && Array.isArray(this.new_profile[target.name])){
@@ -145,10 +166,27 @@ class SignUp extends React.Component{
     	this.setState({profile: this.new_profile});
   	}
 
+  cleanUrls(links){
+
+    for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if(links[key] === "http://"){
+          links[key] = ""
+        }
+    }
+
+    return links;
+
+  }
+
 	handleSubmit(event){
         var self = this;
         //update profile
         delete this.new_profile.password;
+        this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
+
         $.ajax({
             url: '/api/v1/users/' + this.state.profile._id,
             type: 'put',
@@ -331,3 +369,6 @@ class SignUp extends React.Component{
 
 if(document.getElementById('edit-page'))
 	ReactDOM.render(<SignUp />, document.getElementById('edit-page'))
+
+
+

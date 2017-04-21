@@ -62,4 +62,10 @@ $(document).ready(function() {
 		$('.login-modal').css({visibility: 'visible', opacity: 1});
         e.preventDefault();
 	})
+
+    $('#deleteButton').click(function(e){
+        $('.delete-modal').css({visibility: 'visible', opacity: 1});
+        e.preventDefault();
+    })
+
 });
