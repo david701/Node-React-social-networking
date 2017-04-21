@@ -69,6 +69,16 @@ router.get('/search', (req, res)=>{
 	res.render('search', {title: 'Search'})
 });
 
+router.get('/verify', (req, res)=>{
+	var token = req.query.token;
+	res.redirect('/dashboard');
+});
+
+router.get('/reset_password', (req, res)=>{
+	var token = req.query.token;
+	res.redirect('/dashboard');
+});
+
 router.get('/admin', (req, res)=>{
 	if(req.session && req.session.role > 0){
 		res.render('search', {title: 'Search'})

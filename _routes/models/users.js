@@ -3,7 +3,7 @@ const express = require('express'),
 			bcrypt = require('bcrypt'),
 			salt = bcrypt.genSaltSync(11),
 			mandrill = require('mandrill-api/mandrill'),
-			var mandrill_client = new mandrill.Mandrill('CdbvIytAJInbYckp3pj1Jg');
+			mandrill_client = new mandrill.Mandrill('CdbvIytAJInbYckp3pj1Jg');
 
 const mongoUser = mongo.schema.user;
 
@@ -15,10 +15,33 @@ const makeToken = ()=>{
 		return text;
 }
 
-const sendEmail = (template, email, vars, cb)=>{
-	/// Mandrill
-	console.log(body);
-	cb(null, 'sent');
+const sendEmail = (template, subject, options, email, cb)=>{
+	var template_content = [];
+	var replyTo = options.replyTo || "info@bookbrawl.com";
+	var render = options.render || 'mailchimp';
+	var message = {
+	    "subject": subject,
+	    "from_email": "info@bookbrawl.com",
+	    "from_name": "Book Brawl",
+			"merge_language": render,
+	    "to": [{
+	            "email": email,
+	            "type": "to"
+	        }],
+	    "headers": {
+	        "Reply-To": replyTo,
+					"X-MC-MergeLanguage": render
+	    },
+	    "merge_vars": [{
+	            "rcpt": email,
+							"vars": options.vars
+	        }],
+	};
+		mandrill_client.messages.sendTemplate({"template_name": template, "template_content": template_content, "message": message}, function(result) {
+			cb(null, result);
+		}, function(e) {
+			cb('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+		});
 }
 
 
@@ -53,7 +76,10 @@ exports.createUser = (req, res)=>{
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
-					res.json({status:'ok', data: userInfo})
+					var vars = [{name:'verify_link', content:'http://localhost:9000/verify?token='+ makeToken()}]
+					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
+						res.json({status:'ok', data: userInfo})
+					})
 				})
 			}else{
 				res.json({status:'error', message:'Email is already in use.'});
@@ -179,8 +205,10 @@ exports.resetRequest = (req, res)=>{
 			var date = new Date(),
 					token = makeToken();
 			user.update({token: token, reset_request: date}).then((update)=>{
-				/// TODO: Email link with token
-				console.log(token);
+				var vars =[{name: 'verify_link', content:'http://localhost:9000/reset_password?token='+token}]
+				sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
+					res.json({status:'ok', data: userInfo})
+				})
 				res.json({status:'ok'});
 			}).catch((err)=>{
 				res.json({status:'error', message: err});
@@ -298,8 +326,8 @@ exports.reports = (req, res)=>{
 		res.json({status:'error', message: 'Not logged in'})
 		return;
 	}else{
-		var vars = [{name: 'content', content: req.body.message}];
-		sendEmail('template', vars, user.email, (err, resp)=>{
+		var vars = [{name: 'content', content: req.body.message}, {name:'email', content: user.email}];
+		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'michaelrway@gmail.com', (err, resp)=>{
 			if(!err){
 				res.json({status: 'ok'})
 			}else{
