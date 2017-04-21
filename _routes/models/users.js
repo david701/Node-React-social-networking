@@ -239,7 +239,7 @@ exports.resetRequest = (req, res)=>{
 			user.update({token: token, reset_request: date}).then((update)=>{
 				console.log('update done');
 				var vars =[{name: 'verify_link', content: link}]
-				sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
+				sendEmail('Reset Password', 'Book Brawl Reset Password Request', {vars: vars}, userInfo.email, (err, resp)=>{
 					console.log('email sent');
 					res.json({status:'ok', data: userInfo})
 				})
