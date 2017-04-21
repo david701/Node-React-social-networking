@@ -77,7 +77,8 @@ exports.createUser = (req, res)=>{
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
-					var vars = [{name:'verify_link', content:'http://localhost:9000/verify?token='+ makeToken()}]
+					var link = req.protocol + '://' + req.get('host')+'/verify?token='+ makeToken();
+					var vars = [{name:'verify_link', content: link}]
 					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 						res.json({status:'ok', data: userInfo})
 					})
@@ -234,8 +235,9 @@ exports.resetRequest = (req, res)=>{
 		}else{
 			var date = new Date(),
 					token = makeToken();
+					var link = req.protocol + '://' + req.get('host')+'/reset_password?token='+token;
 			user.update({token: token, reset_request: date}).then((update)=>{
-				var vars =[{name: 'verify_link', content:'http://localhost:9000/reset_password?token='+token}]
+				var vars =[{name: 'verify_link', content: link}]
 				sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 					res.json({status:'ok', data: userInfo})
 				})
