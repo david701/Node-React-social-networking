@@ -1,5 +1,6 @@
 const express = require('express'),
 			mongo = require('../../mongo.js'),
+			async = require('async'),
 			bcrypt = require('bcrypt'),
 			salt = bcrypt.genSaltSync(11),
 			mandrill = require('mandrill-api/mandrill'),
@@ -76,7 +77,8 @@ exports.createUser = (req, res)=>{
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
-					var vars = [{name:'verify_link', content:'http://localhost:9000/verify?token='+ makeToken()}]
+					var link = req.protocol + '://' + req.get('host')+'/verify?token='+ makeToken();
+					var vars = [{name:'verify_link', content: link}]
 					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 						res.json({status:'ok', data: userInfo})
 					})
@@ -157,6 +159,23 @@ exports.removeUser = (req, res)=>{
 					// TODO: REMOVE FOLLOWS
 					// TODO: REMOVE FOLLOWER
 					res.json({status: 'ok', data: req.params.id});
+					// mongoUser.find({followers: req.params.id}).then((follow)=>{
+							// async.each(follow, (item, cb)=>{
+							//
+							// })
+					// 	if(follow){
+					// 		follow.followers.remove(req.params.id);
+					// 		follow.save();
+					// 	}
+					// 	mongoUser.find({following_authors: req.params.id}).then((author)=>{
+					// 		if(author){
+					// 			author.following_authors.remove(req.params.id);
+					// 			author.save();
+					// 		}
+					// 	})
+					// }).catch((err)=>{
+					// 	res.json({status: 'error', message: err.message})
+					// })
 				})
 				.catch((err)=>{
 					res.json({status: 'error', message: err.message})
@@ -216,8 +235,9 @@ exports.resetRequest = (req, res)=>{
 		}else{
 			var date = new Date(),
 					token = makeToken();
+					var link = req.protocol + '://' + req.get('host')+'/reset_password?token='+token;
 			user.update({token: token, reset_request: date}).then((update)=>{
-				var vars =[{name: 'verify_link', content:'http://localhost:9000/reset_password?token='+token}]
+				var vars =[{name: 'verify_link', content: link}]
 				sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 					res.json({status:'ok', data: userInfo})
 				})

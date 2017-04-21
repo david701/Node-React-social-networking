@@ -61,7 +61,7 @@ class Friends extends React.Component{
             if(response.status === "error"){
                 alert(response.message);
             }else{
-                this.users = response.data;
+                this.users = this.removeAdmin(response.data);
                 this.setState({users: this.users});
                 if(id){
                     this.myProfile(id,this.state.users);
