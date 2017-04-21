@@ -175,24 +175,28 @@ exports.login = (req, res)=>{
 			req.session = null;
 			res.json({status:'error', message: 'Invalid Username or Password'});
 		}else{
-			bcrypt.compare(req.body.password, user.password, function(err, auth) {
-				if(auth){
-					var userData = {
-						_id: user._id.toString(),
-						email: user.email,
-						name: user.name,
-						avatar: user.avatar,
-						level: user.level,
-						role: user.role,
-						status: user.status
+			if(user.status == 0){
+				res.json({status:'error', message: 'This user has been removed'});
+			}else{
+				bcrypt.compare(req.body.password, user.password, function(err, auth) {
+					if(auth){
+						var userData = {
+							_id: user._id.toString(),
+							email: user.email,
+							name: user.name,
+							avatar: user.avatar,
+							level: user.level,
+							role: user.role,
+							status: user.status
+						}
+						req.session = userData;
+						res.json({status: 'ok'});
+					}else{
+						req.session = null;
+						res.json({status:'error', message: 'Invalid Username or Password'});
 					}
-					req.session = userData;
-					res.json({status: 'ok'});
-				}else{
-					req.session = null;
-					res.json({status:'error', message: 'Invalid Username or Password'});
-				}
-			});
+				});
+			}
 		}
 	});
 }
