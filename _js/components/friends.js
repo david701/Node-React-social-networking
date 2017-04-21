@@ -19,6 +19,7 @@ class Friends extends React.Component{
     	};
     	this.handleChange = this.handleChange.bind(this);
         this.handleFollow = this.handleFollow.bind(this);
+        this.removeAdmin = this.removeAdmin.bind(this);
   	}
 
     isFollowing(userId,me){
@@ -39,6 +40,12 @@ class Friends extends React.Component{
             }else{
                 this.getUsers(this.state.me._id)
             }
+        });
+    }
+
+    removeAdmin(users){
+        return users.filter(function(user,index){
+            return user.role < 1;
         });
     }
 

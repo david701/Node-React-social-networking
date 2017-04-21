@@ -37174,6 +37174,7 @@ var Friends = function (_React$Component) {
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleFollow = _this.handleFollow.bind(_this);
+        _this.removeAdmin = _this.removeAdmin.bind(_this);
         return _this;
     }
 
@@ -37200,6 +37201,13 @@ var Friends = function (_React$Component) {
                 } else {
                     _this2.getUsers(_this2.state.me._id);
                 }
+            });
+        }
+    }, {
+        key: 'removeAdmin',
+        value: function removeAdmin(users) {
+            return users.filter(function (user, index) {
+                return user.role < 1;
             });
         }
     }, {
