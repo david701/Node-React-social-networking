@@ -1,5 +1,8 @@
 var express = require('express'),
+		mongo = require('../../mongo.js'),
 		router = express.Router();
+
+const mongoUser = mongo.schema.user;
 
 router.get('/', (req, res)=>{
 	res.render('home', {title: 'Browse'})
