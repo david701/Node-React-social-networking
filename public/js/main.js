@@ -38244,7 +38244,7 @@ var Report = function (_React$Component2) {
 		_this5._handleSubmit = _this5._handleSubmit.bind(_this5);
 		_this5._handleChange = _this5._handleChange.bind(_this5);
 		_this5.state = {
-			body: ""
+			message: ""
 		};
 		return _this5;
 	}
@@ -38262,13 +38262,14 @@ var Report = function (_React$Component2) {
 		key: '_handleChange',
 		value: function _handleChange(event) {
 			this.setState({
-				body: event.target.value
+				message: event.target.value
 			});
 			(0, _validation.formValid)(event);
 		}
 	}, {
 		key: '_handleSubmit',
 		value: function _handleSubmit(event) {
+			var $this = this;
 			_jquery2.default.ajax({
 				url: '/api/v1/reports',
 				type: 'post',
@@ -38278,8 +38279,8 @@ var Report = function (_React$Component2) {
 					if (response.status === "error") {
 						alert(response.message);
 					} else {
-						this.setState({
-							body: ""
+						$this.setState({
+							message: ""
 						});
 						window.location.href = "/report-sent";
 					}

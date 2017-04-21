@@ -347,7 +347,7 @@ class Report extends React.Component{
     	this._handleSubmit = this._handleSubmit.bind(this);
     	this._handleChange = this._handleChange.bind(this);
     	this.state = {
-    		body: ""
+    		message: ""
     	};
   	}
 
@@ -362,12 +362,13 @@ class Report extends React.Component{
 
 	_handleChange(event){
 		this.setState({
-			body: event.target.value
+			message: event.target.value
 		})
 		formValid(event);
 	}
 
 	_handleSubmit(event){
+		let $this = this;
 	    $.ajax({
 	        url: '/api/v1/reports',
 	        type: 'post',
@@ -377,8 +378,8 @@ class Report extends React.Component{
 				if(response.status === "error"){
 					alert(response.message)
 				}else {
-					this.setState({
-						body: ""
+					$this.setState({
+						message: ""
 					})
 					window.location.href = "/report-sent";
 				}
