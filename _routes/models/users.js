@@ -53,7 +53,7 @@ exports.getUsers = (req, res) => {
 			query = {},
 			sort = {};
 
-	var query = mongoUser.find(query).limit(limit).skip(skip).sort(sort).exec();
+	var query = mongoUser.find(query).where('status').gt(0).limit(limit).skip(skip).sort(sort).exec();
 
 	query.then((users)=>{
 		res.json({status:'ok', data:users});
