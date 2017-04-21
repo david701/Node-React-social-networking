@@ -15,10 +15,33 @@ const makeToken = ()=>{
 		return text;
 }
 
-const sendEmail = (template, email, vars, cb)=>{
-	/// Mandrill
-	console.log(body);
-	cb(null, 'sent');
+const sendEmail = (template, subject, options, email, cb)=>{
+	var template_content = [];
+	var replyTo = options.replyTo || "info@bookbrawl.com";
+	var render = options.render || 'mailchimp';
+	var message = {
+	    "subject": subject,
+	    "from_email": "info@bookbrawl.com",
+	    "from_name": "Book Brawl",
+			"merge_language": render,
+	    "to": [{
+	            "email": email,
+	            "type": "to"
+	        }],
+	    "headers": {
+	        "Reply-To": replyTo,
+					"X-MC-MergeLanguage": render
+	    },
+	    "merge_vars": [{
+	            "rcpt": email,
+							"vars": options.vars
+	        }],
+	};
+		mandrill_client.messages.sendTemplate({"template_name": template, "template_content": template_content, "message": message}, function(result) {
+			cb(null, result);
+		}, function(e) {
+			cb('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+		});
 }
 
 
@@ -30,7 +53,7 @@ exports.getUsers = (req, res) => {
 			query = {},
 			sort = {};
 
-	var query = mongoUser.find(query).limit(limit).skip(skip).sort(sort).exec();
+	var query = mongoUser.find(query).where('status').gt(0).limit(limit).skip(skip).sort(sort).exec();
 
 	query.then((users)=>{
 		res.json({status:'ok', data:users});
@@ -53,7 +76,10 @@ exports.createUser = (req, res)=>{
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
-					res.json({status:'ok', data: userInfo})
+					var vars = [{name:'verify_link', content:'http://localhost:9000/verify?token='+ makeToken()}]
+					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
+						res.json({status:'ok', data: userInfo})
+					})
 				})
 			}else{
 				res.json({status:'error', message:'Email is already in use.'});
@@ -68,7 +94,11 @@ exports.createUser = (req, res)=>{
 exports.getUserById = (req, res)=>{
 	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar')
 		.then((user)=>{
-			res.json({status:'ok', data: user})
+			if(user.status > 0){
+				res.json({status:'ok', data: user})
+			}else{
+				res.json({status:'error', message: 'User has been removed'});
+			}
 		})
 		.catch((err)=>{
 			res.json({status:'error', message: err.message});
@@ -80,7 +110,11 @@ exports.getUserByEmail = (req, res)=>{
 		if(err){
 			res.json({status:'error', message: err});
 		}else{
-			res.json({status:'ok', data: user})
+			if(user.status > 0){
+				res.json({status:'ok', data: user})
+			}else{
+				res.json({status:'error', message: 'User has been removed'});
+			}
 		}
 	})
 }
@@ -141,24 +175,28 @@ exports.login = (req, res)=>{
 			req.session = null;
 			res.json({status:'error', message: 'Invalid Username or Password'});
 		}else{
-			bcrypt.compare(req.body.password, user.password, function(err, auth) {
-				if(auth){
-					var userData = {
-						_id: user._id.toString(),
-						email: user.email,
-						name: user.name,
-						avatar: user.avatar,
-						level: user.level,
-						role: user.role,
-						status: user.status
+			if(user.status == 0){
+				res.json({status:'error', message: 'This user has been removed'});
+			}else{
+				bcrypt.compare(req.body.password, user.password, function(err, auth) {
+					if(auth){
+						var userData = {
+							_id: user._id.toString(),
+							email: user.email,
+							name: user.name,
+							avatar: user.avatar,
+							level: user.level,
+							role: user.role,
+							status: user.status
+						}
+						req.session = userData;
+						res.json({status: 'ok'});
+					}else{
+						req.session = null;
+						res.json({status:'error', message: 'Invalid Username or Password'});
 					}
-					req.session = userData;
-					res.json({status: 'ok'});
-				}else{
-					req.session = null;
-					res.json({status:'error', message: 'Invalid Username or Password'});
-				}
-			});
+				});
+			}
 		}
 	});
 }
@@ -179,8 +217,10 @@ exports.resetRequest = (req, res)=>{
 			var date = new Date(),
 					token = makeToken();
 			user.update({token: token, reset_request: date}).then((update)=>{
-				/// TODO: Email link with token
-				console.log(token);
+				var vars =[{name: 'verify_link', content:'http://localhost:9000/reset_password?token='+token}]
+				sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
+					res.json({status:'ok', data: userInfo})
+				})
 				res.json({status:'ok'});
 			}).catch((err)=>{
 				res.json({status:'error', message: err});
@@ -298,8 +338,8 @@ exports.reports = (req, res)=>{
 		res.json({status:'error', message: 'Not logged in'})
 		return;
 	}else{
-		var vars = [{name: 'content', content: req.body.message}];
-		sendEmail('template', vars, user.email, (err, resp)=>{
+		var vars = [{name: 'content', content: req.body.message}, {name:'email', content: user.email}];
+		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'michaelrway@gmail.com', (err, resp)=>{
 			if(!err){
 				res.json({status: 'ok'})
 			}else{
