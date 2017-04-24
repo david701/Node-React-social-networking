@@ -17,10 +17,9 @@ _This assumes that you have the latest verion of [Node and NPM](https://www.npmj
 
 1. Clone the repo
 2. In terminal in root directory run `npm install`
-3. In same directory run `npm run watch-dev`
-4. In new terminal window or tab in same directory run `npm run start-dev`
-5. Go to localhost:9000 in your browser
-6. Start developing!
+3. In same directory run `npm run dev`
+4. Go to localhost:9000 in your browser
+5. Start developing!
 
 This project is using Webpack to process and bundle all necessary assets. You can make your life easier by globally installing webpack. (`npm install -g webpack`)
 
