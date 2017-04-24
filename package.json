@@ -7,7 +7,8 @@
     "start": "npm run build && node server",
     "build": "./node_modules/.bin/webpack -p",
     "start-dev": "nodemon server",
-    "watch-dev": "./node_modules/.bin/webpack --colors --watch"
+    "watch-dev": "./node_modules/.bin/webpack --colors --watch",
+    "dev": "npm-run-all --parallel start-dev watch-dev"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "node-sass": "^4.5.2",
     "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
     "webpack": "^2.3.3"
