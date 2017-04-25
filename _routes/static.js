@@ -57,7 +57,7 @@ router.get('/dashboard/edit', (req, res)=>{
 	res.render('edit', {title: 'Edit', id: 0});
 });
 
-router.get('/dashboard/create', (req, res)=>{
+router.get('/dashboard/create', (req, res) => {
 	if(req.session){
 		res.render('dashboard-create', {title: 'Create'})
 	}else{

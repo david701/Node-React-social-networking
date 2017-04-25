@@ -11,6 +11,7 @@ import './components/login.js';
 import './components/edit.js';
 import './components/friends.js';
 import './components/reset-password.js';
+import './components/dashboard/create';
 import '../_sass/main.scss';
 
 function mapObject(object, callback) {
@@ -34,7 +35,7 @@ class LoginButtons extends React.Component{
   	}
 
 	componentDidMount(){
-		$.get('/api/v1/user_session/').then((response)=>{
+		$.get('/api/v1/user_session/').then((response) => {
 			let isLoggedIn = !this._objectEmpty(response.data);
 			this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title'), user: response.data});
 		});
@@ -52,7 +53,7 @@ class LoginButtons extends React.Component{
 
 	_signOut(){
 		let self = this;
-		$.get('/api/v1/logout').then((response)=>{
+		$.get('/api/v1/logout').then((response) => {
 			let isLoggedIn = response.status = "ok" ? false : true;
 			self.setState({loggedIn: isLoggedIn });
 			if(!isLoggedIn){
@@ -183,7 +184,7 @@ if(document.getElementById('login-buttons'))
 class UploadCover extends React.Component{
 	state = {title:'', coverFile: false}
 
-	coverAdd = (e)=>{
+	coverAdd = (e) => {
 		var reader = new FileReader();
 		var file = e.target.files[0];
 		reader.onload = (upload) => {
@@ -202,7 +203,7 @@ class UploadCover extends React.Component{
 	_onSubmit = (e) => {
 		e.preventDefault();
 		var postData = {title: this.state.title, cover: this.state.coverFile}
-		$.post('/api/v1/mybooks', postData).then((data)=>{
+		$.post('/api/v1/mybooks', postData).then((data) => {
 			window.location.href = "/dashboard";
 		});
 	}
@@ -280,7 +281,7 @@ if(document.getElementById('uploadCover'))
 class MyBooks extends React.Component{
 	state = {books: []};
 	componentDidMount(){
-		$.get('/api/v1/mybooks').then((data)=>{
+		$.get('/api/v1/mybooks').then((data) => {
 			console.log(data);
 			this.setState({books:data});
 		});
@@ -288,7 +289,7 @@ class MyBooks extends React.Component{
 
 	render(){
 
-		var books = mapObject(this.state.books, (key, item)=>{
+		var books = mapObject(this.state.books, (key, item) => {
 			var cover = "url('"+item.cover+"')";
 			return(
 				<li key={key}>
