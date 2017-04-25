@@ -7,7 +7,7 @@ const themes = ["Contemporary", "Historical",
                 "Romance", "Spiritual", "Humor",
                 "Paranormal", "Young Adult",
                 "Middle Grade","Children","Thriller",
-                "Mystery","Classic"];
+                "Mystery", "Classic"];
 
 const genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
 
@@ -18,16 +18,23 @@ class DashboardCreate extends React.Component {
         <header>
           <h3>Create Your Book</h3>
         </header>
+        <form>
+          <div id="uploadCover" />
+          <hr />
+        </form>
         <UploadCover />
         <hr />
-        <GenresList genres={genres} />
-        <ThemesList themes={themes} />
       </div>
     );
   }
 }
 
-// remove spacing-block/refactor later ?
+/* 
+        <GenresList genres={genres} />
+        <ThemesList themes={themes} />
+*/
+
+/*// remove spacing-block/refactor later ?
 const GenresList = ({ genres }) => (
   <ul class="toggle-list">
     {genres.map((genre, index) => (
@@ -53,6 +60,6 @@ const WarningsList = ({ warnings }) => (
   <ul class="toggle-list">
     <li>Warning 1</li>
   </ul>
-);
+);*/
 
 export default DashboardCreate;
