@@ -133,7 +133,10 @@ exports.updateUser = (req, res)=>{
 			if(req.body.password) delete req.body['password'];
 			user.update(req.body)
 				.then((userUpdate)=>{
-					res.json({status: 'ok', data: userUpdate});
+					mongoUser.findOne({_id: req.params.id}).then((user)=>{
+						delete user.password;
+						res.json({status: 'ok', data: user});
+					})
 				})
 				.catch((err)=>{
 					res.json({status: 'error', message: err.message})

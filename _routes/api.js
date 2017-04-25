@@ -2,7 +2,8 @@ const express = require('express'),
 			router = express.Router(),
 			fs = require('fs')
 
-const Users = require('./models/users.js');
+const Users = require('./models/users.js'),
+			Books = require('./models/books.js');
 
 /// USER API ///
 router.route('/users')
@@ -29,6 +30,20 @@ router.post('/reset_password', Users.resetPassword)
 
 router.post('/reports', Users.reports)
 /// END USER API ///
+
+
+/// BOOKS API ///
+
+router.route('/books')
+	.get(Books.getBooks)
+	.post(Books.createBook)
+
+router.route('/books/:id')
+	.get(Books.getUserBooks)
+	.put(Books.editBook)
+	.delete(Books.removeBook)
+
+/// END BOOKS API ///
 
 
 
