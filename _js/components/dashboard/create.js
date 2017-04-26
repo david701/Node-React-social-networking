@@ -1,55 +1,96 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import UploadCover from './UploadCover';
+import Checkbox from './Checkbox';
+import SocialMedia from './SocialMedia';
 
 const themes = ["Contemporary", "Historical",
                 "Drama", "ChickLit", "Tragedy",
                 "Adventure", "Urban", "Epic",
                 "Romance", "Spiritual", "Humor",
                 "Paranormal", "Young Adult",
-                "Middle Grade","Children", "Thriller",
+                "Middle Grade", "Children", "Thriller",
                 "Mystery", "Classic"];
-
 const genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
+const warnings = ["Warning 1", "Warning 2", "Warning 3", "Warning 4"];
 
-// function changeType(newType) {
-//   return (prevState, currentProps) => {
-//     return {...prevState, type: newType };
-//   };
-// }
+const sources  = [
+  {slug: "website", sanitized: "Website"},
+  {slug: "good_reads", sanitized: "Goodreads"},
+  {slug: "amazon", sanitized: "Amazon"},
+  {slug: "wordpress", sanitized: "WordPress"},
+  {slug: "facebook", sanitized: "Facebook"},
+  {slug: "twitter", sanitized: "Twitter"}
+];
 
-class DashboardCreate extends React.Component {
+class DashboardCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
       description: '',
       type: '',
-      genres: []
+      genres: [],
+      themes: [],
+      warnings: [],
+      social_media: {
+        website: 'https://',
+        good_reads: 'https://',
+    		amazon: 'https://',
+    		wordpress: 'https://',
+    		facebook: 'https://',
+    		twitter: 'https://'
+      }
     };
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
     fetch('/api/v1/books').then((res) => {
       console.log('hi');
     });
+    this.selectedCheckboxes = new Set();
   }
 
-  _handleChange = (e) => {
+  toggleCheckbox = label => {
+    if (this.selectedCheckboxes.has(label)) {
+      this.selectedCheckboxes.delete(label);
+    } else {
+      this.selectedCheckboxes.add(label);
+    }
+  }
+
+  createCheckbox = label => (
+    <Checkbox
+      label={label}
+      handleCheckboxChange={this.toggleCheckbox}
+      key={label}
+      onClick={this.handleCheckbox}
+    />
+  )
+
+  createCheckboxes = genres => (
+    genres.map(this.createCheckbox)
+  )
+
+  _handleChange = e => {
     this.setState({ description: e.target.value });
   }
+  
+  _handleCheckbox = e => {
+    this.setState({});
+  }
 
-  _handleGenre = (genre) => {
+  _handleGenre = genre => {
     let newArray = this.state.genres.slice();
     newArray.push(genre);
     this.setState({ genres: newArray }, () => console.log(this.state.genres));
   }
 
-  _handleType = (e) => {
+  _handleType = e => {
     const newType = e.target.value;
-    this.setState({type: newType}, () => console.log(this.state));
+    this.setState({type: newType}, () => console.log(this.state.type));
   }
 
-  _handleSubmit = (e) => {
+  _handleSubmit = e => {
     e.preventDefault();
   }
 
@@ -86,13 +127,24 @@ class DashboardCreate extends React.Component {
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
           <p>Select up to <strong>three</strong> genres for your book to be listed.</p>
-          <ul className="toggle-list">
-            {genres.map((genre, index) => (
-              <li key={index} onClick={() => {this._handleGenre(genre)}}>
-                {genre}
-              </li>
-            ))}
-          </ul>
+          <div className="submit-row">
+            {this.createCheckboxes(genres)}
+          </div>
+          <p>Select up to <strong>three</strong> tags that best describe your book.</p>
+          <div className="submit-row">
+            {this.createCheckboxes(themes)}
+          </div>
+          <p>Content warning</p>
+          <div className="submit-row">
+            {this.createCheckboxes(warnings)}
+          </div>
+          <hr />
+          <h4><span>Step 4.</span> Where is your book published?</h4>
+          <SocialMedia sources={sources} />
+          <hr />
+          <h4><span>Step 5.</span> Chapter Title</h4>
+          <label htmlFor="website">What is the title of this chapter?</label>
+          <input id="website" type="text" />
         </form>
       </div>
     );
@@ -101,37 +153,3 @@ class DashboardCreate extends React.Component {
 
 if(document.getElementById('dashboard-create'))
 	ReactDOM.render(<DashboardCreate />, document.getElementById('dashboard-create'))
-
-/*
-        <GenresList genres={genres} />
-        <genresList genres={genres} />
-*/
-
-/*// remove spacing-block/refactor later ?
-const GenresList = ({ genres }) => (
-  <ul class="toggle-list">
-    {genres.map((genre, index) => (
-      <li>{genre}</li>
-    ))}
-    <li class="spacing-block"></li>
-    <li class="spacing-block"></li>
-  </ul>
-);
-
-const genresList = ({ genres }) => (
-  <ul className="toggle-list">
-    {genres.map((genre, index) => (
-      <li>{genre}</li>
-    ))}
-    <li class="spacing-block"></li>
-    <li class="spacing-block"></li>
-  </ul>
-);
-
-// Add custom warnings later(?)
-const WarningsList = ({ warnings }) => (
-  <ul class="toggle-list">
-    <li>Warning 1</li>
-  </ul>
-);*/
-
