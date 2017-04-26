@@ -36541,6 +36541,13 @@ if (document.getElementById('author-name')) _reactDom2.default.render(_react2.de
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BookType = exports.ChapterTitle = exports.Warnings = exports.Themes = exports.Genres = exports.Description = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(9);
@@ -36565,6 +36572,8 @@ var _SocialMedia2 = _interopRequireDefault(_SocialMedia);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -36575,7 +36584,16 @@ var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adv
 var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
 var warnings = ["Warning 1", "Warning 2", "Warning 3", "Warning 4"];
 
-var sources = [{ slug: "website", sanitized: "Website" }, { slug: "good_reads", sanitized: "Goodreads" }, { slug: "amazon", sanitized: "Amazon" }, { slug: "wordpress", sanitized: "WordPress" }, { slug: "facebook", sanitized: "Facebook" }, { slug: "twitter", sanitized: "Twitter" }];
+// const sources  = [
+//   {slug: "website", sanitized: "Website"},
+//   {slug: "good_reads", sanitized: "Goodreads"},
+//   {slug: "amazon", sanitized: "Amazon"},
+//   {slug: "wordpress", sanitized: "WordPress"},
+//   {slug: "facebook", sanitized: "Facebook"},
+//   {slug: "twitter", sanitized: "Twitter"}
+// ];
+
+var types = ["Serial", "Published"];
 
 var DashboardCreate = function (_Component) {
   _inherits(DashboardCreate, _Component);
@@ -36589,49 +36607,40 @@ var DashboardCreate = function (_Component) {
       fetch('/api/v1/books').then(function (res) {
         console.log('hi');
       });
-      _this.selectedCheckboxes = new Set();
-    };
-
-    _this.toggleCheckbox = function (label) {
-      if (_this.selectedCheckboxes.has(label)) {
-        _this.selectedCheckboxes.delete(label);
-      } else {
-        _this.selectedCheckboxes.add(label);
-      }
-    };
-
-    _this.createCheckbox = function (label) {
-      return _react2.default.createElement(_Checkbox2.default, {
-        label: label,
-        handleCheckboxChange: _this.toggleCheckbox,
-        key: label,
-        onClick: _this.handleCheckbox
-      });
-    };
-
-    _this.createCheckboxes = function (genres) {
-      return genres.map(_this.createCheckbox);
     };
 
     _this._handleChange = function (e) {
-      _this.setState({ description: e.target.value });
+      _this.setState(_defineProperty({}, e.target.id, e.target.value), function () {
+        return console.log(_this.state);
+      });
     };
 
-    _this._handleCheckbox = function (e) {
-      _this.setState({});
-    };
-
-    _this._handleGenre = function (genre) {
+    _this._handleGenres = function (e) {
       var newArray = _this.state.genres.slice();
-      newArray.push(genre);
+      newArray.push(e);
       _this.setState({ genres: newArray }, function () {
         return console.log(_this.state.genres);
       });
     };
 
+    _this._handleThemes = function (e) {
+      var newArray = _this.state.themes.slice();
+      newArray.push(e);
+      _this.setState({ themes: newArray }, function () {
+        return console.log(_this.state.themes);
+      });
+    };
+
+    _this._handleWarnings = function (e) {
+      var newArray = _this.state.warnings.slice();
+      newArray.push(e);
+      _this.setState({ warnings: newArray }, function () {
+        return console.log(_this.state.warnings);
+      });
+    };
+
     _this._handleType = function (e) {
-      var newType = e.target.value;
-      _this.setState({ type: newType }, function () {
+      _this.setState({ type: e.target.value }, function () {
         return console.log(_this.state.type);
       });
     };
@@ -36640,29 +36649,52 @@ var DashboardCreate = function (_Component) {
       e.preventDefault();
     };
 
+    _this._onUrlChange = function (e) {
+      _this.setState({
+        socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value))
+      });
+      console.log(_this.state.socialMedia);
+    };
+
     _this.state = {
+      coverFile: false,
+      title: '',
       description: '',
       type: '',
       genres: [],
       themes: [],
       warnings: [],
-      social_media: {
+      socialMedia: {
         website: 'https://',
-        good_reads: 'https://',
+        goodreads: 'https://',
         amazon: 'https://',
         wordpress: 'https://',
         facebook: 'https://',
         twitter: 'https://'
-      }
+      },
+      chapter_title: ''
     };
     return _this;
   }
+
+  // _handleCover = e => {
+  //   const reader = new FileReader();
+  //   const file = e.target.files[0];
+  //   reader.onload = upload => {
+  //     const coverFile = upload.target.result;
+  //   }
+  //   reader.readAsDataURL(file);
+  //   this.setState({ coverFile: true }, () => console.log(this.state.coverFile));
+  // }
 
   _createClass(DashboardCreate, [{
     key: 'render',
     value: function render() {
       var _state = this.state,
+          coverFile = _state.coverFile,
           description = _state.description,
+          socialMedia = _state.socialMedia,
+          title = _state.title,
           type = _state.type;
 
       return _react2.default.createElement(
@@ -36683,67 +36715,9 @@ var DashboardCreate = function (_Component) {
         _react2.default.createElement(
           'form',
           { onSubmit: this._handleSubmit },
-          _react2.default.createElement(
-            'h4',
-            null,
-            _react2.default.createElement(
-              'span',
-              null,
-              'Step 1.'
-            ),
-            ' Upload Cover Art'
-          ),
           _react2.default.createElement(_UploadCover2.default, null),
-          _react2.default.createElement(
-            'h4',
-            null,
-            _react2.default.createElement(
-              'span',
-              null,
-              'Step 2.'
-            ),
-            ' Tell us about your book'
-          ),
-          _react2.default.createElement(
-            'label',
-            { htmlFor: 'description' },
-            'Description'
-          ),
-          _react2.default.createElement('textarea', {
-            rows: '5',
-            placeholder: 'Add a 250 character description here.',
-            onChange: this._handleChange,
-            value: description
-          }),
-          _react2.default.createElement(
-            'p',
-            null,
-            'What type of book is it?'
-          ),
-          _react2.default.createElement(
-            'ul',
-            { className: 'radio-list radio-list-inline' },
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', onChange: this._handleType, value: 'serial' }),
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'avatar-1' },
-                'Serial'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', onChange: this._handleType, value: 'published' }),
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'avatar-2' },
-                'Published'
-              )
-            )
-          ),
+          _react2.default.createElement(Description, { description: description, handleChange: this._handleChange }),
+          _react2.default.createElement(BookType, { types: types, handleChange: this._handleType }),
           _react2.default.createElement('hr', null),
           _react2.default.createElement(
             'h4',
@@ -36755,77 +36729,12 @@ var DashboardCreate = function (_Component) {
             ),
             ' How would you like users to find you?'
           ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Select up to ',
-            _react2.default.createElement(
-              'strong',
-              null,
-              'three'
-            ),
-            ' genres for your book to be listed.'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'submit-row' },
-            this.createCheckboxes(genres)
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Select up to ',
-            _react2.default.createElement(
-              'strong',
-              null,
-              'three'
-            ),
-            ' tags that best describe your book.'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'submit-row' },
-            this.createCheckboxes(themes)
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Content warning'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'submit-row' },
-            this.createCheckboxes(warnings)
-          ),
+          _react2.default.createElement(Genres, { genres: genres, handleCheckbox: this._handleGenres }),
+          _react2.default.createElement(Themes, { themes: themes, handleCheckbox: this._handleThemes }),
+          _react2.default.createElement(Warnings, { warnings: warnings, handleCheckbox: this._handleWarnings }),
           _react2.default.createElement('hr', null),
-          _react2.default.createElement(
-            'h4',
-            null,
-            _react2.default.createElement(
-              'span',
-              null,
-              'Step 4.'
-            ),
-            ' Where is your book published?'
-          ),
-          _react2.default.createElement(_SocialMedia2.default, { sources: sources }),
-          _react2.default.createElement('hr', null),
-          _react2.default.createElement(
-            'h4',
-            null,
-            _react2.default.createElement(
-              'span',
-              null,
-              'Step 5.'
-            ),
-            ' Chapter Title'
-          ),
-          _react2.default.createElement(
-            'label',
-            { htmlFor: 'website' },
-            'What is the title of this chapter?'
-          ),
-          _react2.default.createElement('input', { id: 'website', type: 'text' })
+          type === "Published" ? _react2.default.createElement(_SocialMedia2.default, { sources: socialMedia, onUrlChange: this._onUrlChange }) : "",
+          _react2.default.createElement(ChapterTitle, { type: type, title: title, handleChange: this._handleChange })
         )
       );
     }
@@ -36833,6 +36742,176 @@ var DashboardCreate = function (_Component) {
 
   return DashboardCreate;
 }(_react.Component);
+
+var Description = exports.Description = function Description(props) {
+  var description = props.description,
+      handleChange = props.handleChange;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h4',
+      null,
+      _react2.default.createElement(
+        'span',
+        null,
+        'Step 2.'
+      ),
+      ' Tell us about your book'
+    ),
+    _react2.default.createElement(
+      'label',
+      { htmlFor: 'description' },
+      'Description'
+    ),
+    _react2.default.createElement('textarea', {
+      id: 'description',
+      rows: '5',
+      placeholder: 'Add a 250 character description here.',
+      onChange: handleChange,
+      value: description
+    })
+  );
+};
+
+var Genres = exports.Genres = function Genres(props) {
+  var genres = props.genres,
+      handleCheckbox = props.handleCheckbox;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'Select up to ',
+      _react2.default.createElement(
+        'strong',
+        null,
+        'three'
+      ),
+      ' genres for your book to be listed.'
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'submit-row' },
+      genres.map(function (genre, index) {
+        return _react2.default.createElement(_Checkbox2.default, { label: genre, key: index, handleCheckboxChange: handleCheckbox });
+      })
+    )
+  );
+};
+
+var Themes = exports.Themes = function Themes(props) {
+  var themes = props.themes,
+      handleCheckbox = props.handleCheckbox;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'Select up to ',
+      _react2.default.createElement(
+        'strong',
+        null,
+        'three'
+      ),
+      ' tags that best describe your book.'
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'submit-row' },
+      themes.map(function (theme, index) {
+        return _react2.default.createElement(_Checkbox2.default, { label: theme, key: index, handleCheckboxChange: handleCheckbox });
+      })
+    )
+  );
+};
+
+var Warnings = exports.Warnings = function Warnings(props) {
+  var warnings = props.warnings,
+      handleCheckbox = props.handleCheckbox;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'Content warning'
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'submit-row' },
+      warnings.map(function (warning, index) {
+        return _react2.default.createElement(_Checkbox2.default, { label: warning, key: index, handleCheckboxChange: handleCheckbox });
+      })
+    )
+  );
+};
+
+var ChapterTitle = exports.ChapterTitle = function ChapterTitle(props) {
+  var chapterTitle = props.chapterTitle,
+      handleChange = props.handleChange,
+      type = props.type;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h4',
+      null,
+      _react2.default.createElement(
+        'span',
+        null,
+        'Step ',
+        type === "Published" ? "5" : "4",
+        '.'
+      ),
+      ' Chapter Title'
+    ),
+    _react2.default.createElement(
+      'label',
+      { htmlFor: 'chapterTitle' },
+      'What is the title of this chapter?'
+    ),
+    _react2.default.createElement('input', { id: 'chapterTitle', type: 'text', value: chapterTitle, onChange: handleChange })
+  );
+};
+
+var BookType = exports.BookType = function BookType(props) {
+  var types = props.types,
+      handleChange = props.handleChange;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'What kind of book is it?'
+    ),
+    _react2.default.createElement(
+      'ul',
+      { className: 'radio-list radio-list-inline' },
+      types.map(function (type, index) {
+        return _react2.default.createElement(
+          'li',
+          { key: index },
+          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), value: type, onChange: handleChange }),
+          _react2.default.createElement(
+            'label',
+            { htmlFor: "avatar-" + (index + 1) },
+            type
+          )
+        );
+      })
+    )
+  );
+};
 
 if (document.getElementById('dashboard-create')) _reactDom2.default.render(_react2.default.createElement(DashboardCreate, null), document.getElementById('dashboard-create'));
 
@@ -39845,22 +39924,22 @@ var UploadCover = function (_React$Component) {
   }*/
 
 		value: function render() {
+			var _state = this.state,
+			    title = _state.title,
+			    coverFile = _state.coverFile;
+
 			var cover = _react2.default.createElement(
 				'div',
 				{ className: 'cover' },
-				' ',
 				_react2.default.createElement(
 					'div',
 					{ className: 'flex' },
-					' ',
 					_react2.default.createElement(
 						'h4',
 						null,
-						'Cover'
-					),
-					' '
-				),
-				' '
+						title ? title : "Cover"
+					)
+				)
 			);
 			if (this.state.coverFile) {
 				cover = _react2.default.createElement(
@@ -39869,122 +39948,136 @@ var UploadCover = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'flex' },
-						_react2.default.createElement('img', { src: this.state.coverFile })
+						_react2.default.createElement('img', { src: coverFile })
 					)
 				);
 			}
 
 			var bookTitle = 'Title Area';
-			if (this.state.title) {
-				bookTitle = this.state.title;
+			if (title) {
+				bookTitle = title;
 			}
 
 			return _react2.default.createElement(
-				'ul',
-				{ className: 'field-list field-list-split' },
+				'div',
+				null,
 				_react2.default.createElement(
-					'li',
+					'h4',
 					null,
 					_react2.default.createElement(
-						'div',
-						{ className: 'copy' },
-						_react2.default.createElement(
-							'p',
-							null,
-							'Preview'
-						)
+						'span',
+						null,
+						'Step 1.'
 					),
+					' Upload Cover Art'
+				),
+				_react2.default.createElement(
+					'ul',
+					{ className: 'field-list field-list-split' },
 					_react2.default.createElement(
-						'div',
-						{ className: 'book-blocks book-blocks-single book-blocks-preview' },
+						'li',
+						null,
 						_react2.default.createElement(
-							'ul',
-							null,
+							'div',
+							{ className: 'copy' },
 							_react2.default.createElement(
-								'li',
+								'p',
+								null,
+								'Preview'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'book-blocks book-blocks-single book-blocks-preview' },
+							_react2.default.createElement(
+								'ul',
 								null,
 								_react2.default.createElement(
-									'div',
-									{ className: 'content-block content-block-book' },
+									'li',
+									null,
 									_react2.default.createElement(
-										'figure',
-										null,
-										cover,
+										'div',
+										{ className: 'content-block content-block-book' },
 										_react2.default.createElement(
-											'figcaption',
+											'figure',
 											null,
+											cover,
 											_react2.default.createElement(
-												'h4',
+												'figcaption',
 												null,
-												bookTitle
-											),
-											_react2.default.createElement(
-												'p',
-												null,
-												'By [Author Name]'
-											),
-											_react2.default.createElement(
-												'ul',
-												{ className: 'rating-display' },
-												_react2.default.createElement('li', null),
-												_react2.default.createElement('li', null),
-												_react2.default.createElement('li', null),
-												_react2.default.createElement('li', null),
-												_react2.default.createElement('li', null)
+												_react2.default.createElement(
+													'h4',
+													null,
+													bookTitle
+												),
+												_react2.default.createElement(
+													'p',
+													null,
+													'By [Author Name]'
+												),
+												_react2.default.createElement(
+													'ul',
+													{ className: 'rating-display' },
+													_react2.default.createElement('li', null),
+													_react2.default.createElement('li', null),
+													_react2.default.createElement('li', null),
+													_react2.default.createElement('li', null),
+													_react2.default.createElement('li', null)
+												)
 											)
 										)
 									)
 								)
 							)
 						)
-					)
-				),
-				_react2.default.createElement(
-					'li',
-					null,
+					),
 					_react2.default.createElement(
-						'div',
-						{ className: 'copy' },
+						'li',
+						null,
 						_react2.default.createElement(
-							'p',
-							null,
-							'Add Basic Information'
-						),
-						_react2.default.createElement(
-							'form',
-							{ id: 'coverForm', onSubmit: this._onSubmit },
+							'div',
+							{ className: 'copy' },
 							_react2.default.createElement(
-								'ul',
-								{ className: 'inner-fields' },
+								'p',
+								null,
+								'Add Basic Information'
+							),
+							_react2.default.createElement(
+								'form',
+								{ id: 'coverForm', onSubmit: this._onSubmit },
 								_react2.default.createElement(
-									'li',
-									null,
+									'ul',
+									{ className: 'inner-fields' },
 									_react2.default.createElement(
-										'label',
-										{ htmlFor: 'title' },
-										'Book Title'
-									),
-									_react2.default.createElement('input', { id: 'title', name: 'title', type: 'text', onChange: this._onChange, value: this.state.title })
-								),
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										'label',
-										{ htmlFor: 'cover' },
-										'Upload Cover Art'
-									),
-									_react2.default.createElement('input', { id: 'cover', type: 'file', onChange: this.coverAdd }),
-									_react2.default.createElement(
-										'small',
+										'li',
 										null,
-										'Max size of 15 MB',
-										_react2.default.createElement('br', null),
-										'Dimensions are X by X',
-										_react2.default.createElement('br', null),
-										'Needs to be jpg, png, or gif'
+										_react2.default.createElement(
+											'label',
+											{ htmlFor: 'title' },
+											'Book Title'
+										),
+										_react2.default.createElement('input', { id: 'title', name: 'title', type: 'text', onChange: this._onChange, value: title })
 									),
-									_react2.default.createElement('button', { id: 'coverSubmit', type: 'submit', style: { display: 'none' } })
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'label',
+											{ htmlFor: 'cover' },
+											'Upload Cover Art'
+										),
+										_react2.default.createElement('input', { id: 'cover', type: 'file', onChange: this.coverAdd }),
+										_react2.default.createElement(
+											'small',
+											null,
+											'Max size of 15 MB',
+											_react2.default.createElement('br', null),
+											'Dimensions are X by X',
+											_react2.default.createElement('br', null),
+											'Needs to be jpg, png, or gif'
+										),
+										_react2.default.createElement('button', { id: 'coverSubmit', type: 'submit', style: { display: 'none' } })
+									)
 								)
 							)
 						)
@@ -60184,101 +60277,72 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _React = __webpack_require__(417);
 
 var _React2 = _interopRequireDefault(_React);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var SocialMedia = function SocialMedia(props) {
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  var _handleChange = function _handleChange(e) {
+    props.onUrlChange(e);
+  };
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+  var sources = props.sources;
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SocialMedia = function (_Component) {
-  _inherits(SocialMedia, _Component);
-
-  function SocialMedia() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, SocialMedia);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SocialMedia.__proto__ || Object.getPrototypeOf(SocialMedia)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      social_media: {
-        website: 'https://',
-        good_reads: 'https://',
-        amazon: 'https://',
-        wordpress: 'https://',
-        facebook: 'https://',
-        twitter: 'https://'
-      }
-    }, _this._handleChange = function (e) {
-      _this.setState({
-        social_media: _extends({}, _this.state.social_media, _defineProperty({}, e.target.id, e.target.value))
-      });
-    }, _temp), _possibleConstructorReturn(_this, _ret);
-  }
-
-  _createClass(SocialMedia, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var sources = this.props.sources;
-
-      return _React2.default.createElement(
-        'ul',
-        { className: 'field-list' },
-        sources.map(function (source, index) {
-          return _React2.default.createElement(
-            'li',
-            { key: index },
+  return _React2.default.createElement(
+    "div",
+    null,
+    _React2.default.createElement(
+      "h4",
+      null,
+      _React2.default.createElement(
+        "span",
+        null,
+        "Step 4."
+      ),
+      " Where is your book published?"
+    ),
+    _React2.default.createElement(
+      "ul",
+      { className: "field-list" },
+      Object.keys(sources).map(function (source, index) {
+        return _React2.default.createElement(
+          "li",
+          { key: index },
+          _React2.default.createElement(
+            "div",
+            { className: "title" },
             _React2.default.createElement(
-              'div',
-              { className: 'title' },
-              _React2.default.createElement(
-                'label',
-                { htmlFor: source.slug },
-                'Your ',
-                source.sanitized,
-                ' URL'
-              ),
-              _React2.default.createElement(
-                'span',
-                { className: 'help-text' },
-                'Invalid Url'
-              )
+              "label",
+              { htmlFor: source },
+              "Your ",
+              source,
+              " URL"
             ),
-            _React2.default.createElement('input', {
-              id: source.slug,
-              name: "social_media." + source.slug,
-              onChange: function onChange(e) {
-                return _this2._handleChange(e);
-              },
-              type: 'text',
-              value: _this2.state.social_media[source.slug]
-            })
-          );
-        })
-      );
-    }
-  }]);
-
-  return SocialMedia;
-}(_React.Component);
+            _React2.default.createElement(
+              "span",
+              { className: "help-text" },
+              "Invalid Url"
+            )
+          ),
+          _React2.default.createElement("input", {
+            id: source,
+            name: "social_media." + source,
+            onChange: function onChange(e) {
+              return _handleChange(e);
+            },
+            type: "text",
+            value: sources[source]
+          })
+        );
+      })
+    ),
+    _React2.default.createElement("hr", null)
+  );
+};
 
 exports.default = SocialMedia;
 

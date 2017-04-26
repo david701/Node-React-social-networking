@@ -1,46 +1,38 @@
-import React, { Component } from 'React';
+import React from 'React';
 
-export default class SocialMedia extends Component {
-  state = {
-    social_media: {
-        website: 'https://',
-        good_reads: 'https://',
-    		amazon: 'https://',
-    		wordpress: 'https://',
-    		facebook: 'https://',
-    		twitter: 'https://'
-      }
-  };
+const SocialMedia = props => {
 
-  _handleChange = (e) => {
-    this.setState({
-      social_media: {
-        ...this.state.social_media,
-        [e.target.id]: e.target.value,
-      }
-    });
+  const _handleChange = e => {
+    props.onUrlChange(e);
   }
 
-  render() {
-    const { sources } = this.props;
-    return (
+  const { sources } = props;
+
+  return (
+    <div>
+      <h4><span>Step 4.</span> Where is your book published?</h4>
       <ul className="field-list">
-        {sources.map((source, index) => (
-          <li key={index}>
-            <div className="title">
-              <label htmlFor={source.slug}>Your {source.sanitized} URL</label>
-              <span className="help-text">Invalid Url</span>
-            </div>
-            <input
-              id={source.slug}
-              name={"social_media." + source.slug}
-              onChange={(e) => this._handleChange(e)}
-              type="text"
-              value={this.state.social_media[source.slug]}
-            />
-          </li>
-        ))}
+        {Object.keys(sources).map((source, index) => {
+          return (
+            <li key={index}>
+              <div className="title">
+                <label htmlFor={source}>Your {source} URL</label>
+                <span className="help-text">Invalid Url</span>
+              </div>
+              <input
+                id={source}
+                name={"social_media." + source}
+                onChange={(e) => _handleChange(e)}
+                type="text"
+                value={sources[source]}
+              />
+            </li>
+          );
+        })}
       </ul>
-    );
-  }
+      <hr />
+    </div>
+  );
 }
+
+export default SocialMedia;
