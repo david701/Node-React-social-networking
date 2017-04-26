@@ -39,10 +39,11 @@ class DashboardCreate extends React.Component {
   }
 
   _handleGenre = (genre) => {
-    // this.setState({ genres: this.state.genres.concat});
-    console.log(genre);
+    let newArray = this.state.genres.slice();
+    newArray.push(genre);
+    this.setState({ genres: newArray }, () => console.log(this.state.genres));
   }
-  
+
   _handleType = (e) => {
     const newType = e.target.value;
     this.setState({type: newType}, () => console.log(this.state));
@@ -65,7 +66,7 @@ class DashboardCreate extends React.Component {
           <UploadCover />
           <h4><span>Step 2.</span> Tell us about your book</h4>
           <label htmlFor="description">Description</label>
-          <textarea 
+          <textarea
             rows="5"
             placeholder="Add a 250 character description here."
             onChange={this._handleChange}
@@ -86,9 +87,9 @@ class DashboardCreate extends React.Component {
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
           <p>Select up to <strong>three</strong> genres for your book to be listed.</p>
           <ul className="toggle-list">
-            {themes.map((theme, index) => (
-              <li key={index} onClick={(theme) => this._handleGenre(theme)}>
-                {theme}
+            {genres.map((genre, index) => (
+              <li key={index} onClick={() => {this._handleGenre(genre)}}>
+                {genre}
               </li>
             ))}
           </ul>
@@ -103,7 +104,7 @@ if(document.getElementById('dashboard-create'))
 
 /*
         <GenresList genres={genres} />
-        <ThemesList themes={themes} />
+        <genresList genres={genres} />
 */
 
 /*// remove spacing-block/refactor later ?
@@ -117,10 +118,10 @@ const GenresList = ({ genres }) => (
   </ul>
 );
 
-const ThemesList = ({ themes }) => (
+const genresList = ({ genres }) => (
   <ul className="toggle-list">
-    {themes.map((theme, index) => (
-      <li>{theme}</li>
+    {genres.map((genre, index) => (
+      <li>{genre}</li>
     ))}
     <li class="spacing-block"></li>
     <li class="spacing-block"></li>
