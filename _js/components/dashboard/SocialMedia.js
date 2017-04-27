@@ -6,6 +6,17 @@ const SocialMedia = props => {
     props.onUrlChange(e);
   }
 
+  const sanitize = source => {
+    switch(source) {
+      case "itunes":
+        return "iTunes";
+      case "barnesandnoble":
+        return "Barnes and Noble";
+      default:
+        return source.charAt(0).toUpperCase() + source.slice(1);
+    }
+  }
+
   const { sources } = props;
 
   return (
@@ -16,7 +27,7 @@ const SocialMedia = props => {
           return (
             <li key={index}>
               <div className="title">
-                <label htmlFor={source}>Your {source} URL</label>
+                <label htmlFor={source}>{sanitize(source)} URL</label>
                 <span className="help-text">Invalid Url</span>
               </div>
               <input

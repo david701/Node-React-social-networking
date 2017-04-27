@@ -37,14 +37,14 @@ class DashboardCreate extends Component {
       themes: [],
       warnings: [],
       socialMedia: {
-        website: 'https://',
-        goodreads: 'https://',
-    		amazon: 'https://',
-    		wordpress: 'https://',
-    		facebook: 'https://',
+        amazon: 'https://',
+        kobo: 'https://',
+    		smashword: 'https://',
+    		itunes: 'https://',
+    		barnesandnoble: 'https://',
     		twitter: 'https://'
       },
-      chapter_title: ''
+      chapterTitle: ''
     };
   }
 
@@ -55,14 +55,15 @@ class DashboardCreate extends Component {
   }
 
   _handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value }, () => console.log(this.state));
+    this.setState({ [e.target.id]: e.target.value }, () => console.log(this.state));
   }
 
   _handleCheckbox = e => {
-    this.setState({
-      ...this.state,
-      [e.target.name]: e.target.value,
-    }, () => console.log(this.state));
+    const newVal = e.target.value;
+    console.log(newVal);
+    this.setState(prevState => ({
+      genres: prevState.genres.push(newVal)
+    }), () => console.log(this.state));
   }
 
   _handleCover = e => {
@@ -75,23 +76,41 @@ class DashboardCreate extends Component {
     this.setState({ coverFile: true }, () => console.log(this.state.coverFile));
   }
   
-  // _handleGenres = e => {
-  //   let newArray = this.state.genres.slice();
-  //   newArray.push(e);
-  //   this.setState({ genres: newArray }, () => console.log(this.state.genres));
-  // }
+  _handleGenres = e => {
+    const { genres } = this.state;
+    const newGenre = e.target.value;
+    if (!genres.includes(newGenre)) {
+      const newAry = [...genres, newGenre];
+      this.setState({ genres: newAry }, () => console.log(this.state.genres));
+    } else if (genres.includes(newGenre)) {
+      const newAry = genres.filter(genre => genre !== newGenre);
+      this.setState({ genres: newAry }, () => console.log(this.state.genres));
+    }
+  }
 
-  // _handleThemes = e => {
-  //   let newArray = this.state.themes.slice();
-  //   newArray.push(e);
-  //   this.setState({ themes: newArray }, () => console.log(this.state.themes));
-  // }
+  _handleThemes = e => {
+    const { themes } = this.state;
+    const newTheme = e.target.value;
+    if (!themes.includes(newTheme)) {
+      const newAry = [...themes, newTheme];
+      this.setState({ themes: newAry }, () => console.log(this.state.themes));
+    } else if (themes.includes(newTheme)) {
+      const newAry = themes.filter(theme => theme !== newTheme);
+      this.setState({ themes: newAry }, () => console.log(this.state.themes));
+    }
+  }
 
-  // _handleWarnings = e => {
-  //   let newArray = this.state.warnings.slice();
-  //   newArray.push(e);
-  //   this.setState({ warnings: newArray }, () => console.log(this.state.warnings));
-  // }
+  _handleWarnings = e => {
+    const { warnings } = this.state;
+    const newWarning = e.target.value;
+    if (!warnings.includes(newWarning)) {
+      const newAry = [...warnings, newWarning];
+      this.setState({ warnings: newAry }, () => console.log(this.state.warnings));
+    } else if (warnings.includes(newWarning)) {
+      const newAry = warnings.filter(warning => warning !== newWarning);
+      this.setState({ warnings: newAry }, () => console.log(this.state.warnings));
+    }
+  }
 
   _handleType = e => {
     this.setState({ type: e.target.value }, () => console.log(this.state.type));
@@ -125,9 +144,9 @@ class DashboardCreate extends Component {
           <BookType types={types} handleChange={this._handleType}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
-          <Genres genres={genres} handleCheckbox={this._handleCheckbox} />
-          <Themes themes={themes} handleCheckbox={this._handleCheckbox} />
-          <Warnings warnings={warnings} handleCheckbox={this._handleCheckbox} />
+          <Genres genres={genres} handleCheckbox={this._handleGenres} />
+          <Themes themes={themes} handleCheckbox={this._handleThemes} />
+          <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
           <ChapterTitle type={type} title={title} handleChange={this._handleChange}/>
