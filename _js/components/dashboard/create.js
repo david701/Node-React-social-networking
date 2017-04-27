@@ -42,7 +42,7 @@ class DashboardCreate extends Component {
 
   componentWillMount = () => {
     fetch('/api/v1/books').then((res) => {
-      console.log('hi');
+      console.log(res);
     });
   }
 
@@ -141,7 +141,13 @@ class DashboardCreate extends Component {
           <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
-          <ChapterTitle type={type} title={title} handleChange={this._handleChange}/>
+          <ChapterTitle type={type} title={title} handleChange={this._handleChange} />
+          <div className="submit-row submit-row-single">
+            <div className="buttons">
+              <a href="/views/dashboard/" className="button button-white">Cancel</a>
+              <a id="bookSubmit" href="#" className="button button-red">Create</a>
+            </div>
+          </div>
         </form>
       </div>
     );
@@ -153,8 +159,10 @@ export const Description = props => {
   return (
     <div>
       <h4><span>Step 2.</span> Tell us about your book</h4>
-      <label htmlFor="description"><span>*</span>Description</label>
-      <span className="help-text">Please enter a description.</span>
+      <div className="title">
+        <label htmlFor="description"><span>*</span>Description</label>
+        <span className="help-text">Please enter a description.</span>
+      </div>
       <textarea
         id="description"
         rows="5"
@@ -186,7 +194,10 @@ export const Themes = props => {
   const { themes, handleCheckbox } = props;
   return (
     <div>
-      <p><span>*</span>Select up to <strong>three</strong> tags that best describe your book.</p>
+      <div className="title">
+        <p><span>*</span>Select up to <strong>three</strong> tags that best describe your book.</p>
+        <span className="help-text">Please select at least one tag.</span>
+      </div>
       <div className="new-create-books-row">
         {themes.map((theme, index) => (
           <Checkbox name="themes" label={theme} key={index} handleCheckboxChange={handleCheckbox} />
@@ -215,8 +226,11 @@ export const ChapterTitle = props => {
   return (
     <div>
       <h4><span>Step {type === "Published" ? "5" : "4"}.</span> Chapter Title</h4>
-      <label htmlFor="chapterTitle"><span>*</span>What is the title of this chapter?</label>
-      <input id="chapterTitle" type="text" value={chapterTitle} onChange={handleChange} />
+      <div className="title">
+        <label htmlFor="chapterTitle"><span>*</span>What is the title of this chapter?</label>
+        <span className="help-text">Please give your first chapter a title.</span>
+      </div>
+      <input id="chapterTitle" type="text" value={chapterTitle} onChange={handleChange} data-validation="name, required" />
     </div>
   );
 };

@@ -1158,6 +1158,7 @@ form .instructions {
     justify-content: space-between; }
     .content-block .submit-row .field {
       width: calc(50% - 0.75em);
+      display: flex;
       align-items: center;
       margin: 0.5em 0; }
       .content-block .submit-row .field label {

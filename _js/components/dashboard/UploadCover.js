@@ -80,7 +80,7 @@ const Rating = ({ stars = 5 }) => {
 };
 
 const Information = props => {
-  const { title, coverFile, handleChange, coverAdd } = props;
+  const { title, coverFile, handleChange, coverAdd, validate } = props;
 
   return (
     <div className="copy">
@@ -89,7 +89,7 @@ const Information = props => {
         <ul className="inner-fields">
           <li>
             <label htmlFor="title"><span>*</span>Book Title</label>
-            <input id="title" name="title" type="text" onChange={handleChange} value={title} />
+            <input id="title" name="title" type="text" onBlur={validate} onChange={handleChange} value={title} data-validation="name, required" />
           </li>
           <li>
             <label htmlFor="cover"><span>*</span>Upload Cover Art</label>

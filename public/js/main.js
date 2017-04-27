@@ -37986,7 +37986,7 @@ var DashboardCreate = function (_Component) {
 
     _this.componentWillMount = function () {
       fetch('/api/v1/books').then(function (res) {
-        console.log('hi');
+        console.log(res);
       });
     };
 
@@ -38162,7 +38162,25 @@ var DashboardCreate = function (_Component) {
           _react2.default.createElement(Warnings, { warnings: warnings, handleCheckbox: this._handleWarnings }),
           _react2.default.createElement('hr', null),
           type === "Published" ? _react2.default.createElement(_SocialMedia2.default, { sources: socialMedia, onUrlChange: this._onUrlChange }) : "",
-          _react2.default.createElement(ChapterTitle, { type: type, title: title, handleChange: this._handleChange })
+          _react2.default.createElement(ChapterTitle, { type: type, title: title, handleChange: this._handleChange }),
+          _react2.default.createElement(
+            'div',
+            { className: 'submit-row submit-row-single' },
+            _react2.default.createElement(
+              'div',
+              { className: 'buttons' },
+              _react2.default.createElement(
+                'a',
+                { href: '/views/dashboard/', className: 'button button-white' },
+                'Cancel'
+              ),
+              _react2.default.createElement(
+                'a',
+                { id: 'bookSubmit', href: '#', className: 'button button-red' },
+                'Create'
+              )
+            )
+          )
         )
       );
     }
@@ -38189,19 +38207,23 @@ var Description = exports.Description = function Description(props) {
       ' Tell us about your book'
     ),
     _react2.default.createElement(
-      'label',
-      { htmlFor: 'description' },
+      'div',
+      { className: 'title' },
+      _react2.default.createElement(
+        'label',
+        { htmlFor: 'description' },
+        _react2.default.createElement(
+          'span',
+          null,
+          '*'
+        ),
+        'Description'
+      ),
       _react2.default.createElement(
         'span',
-        null,
-        '*'
-      ),
-      'Description'
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: 'help-text' },
-      'Please enter a description.'
+        { className: 'help-text' },
+        'Please enter a description.'
+      )
     ),
     _react2.default.createElement('textarea', {
       id: 'description',
@@ -38256,20 +38278,29 @@ var Themes = exports.Themes = function Themes(props) {
     'div',
     null,
     _react2.default.createElement(
-      'p',
-      null,
+      'div',
+      { className: 'title' },
+      _react2.default.createElement(
+        'p',
+        null,
+        _react2.default.createElement(
+          'span',
+          null,
+          '*'
+        ),
+        'Select up to ',
+        _react2.default.createElement(
+          'strong',
+          null,
+          'three'
+        ),
+        ' tags that best describe your book.'
+      ),
       _react2.default.createElement(
         'span',
-        null,
-        '*'
-      ),
-      'Select up to ',
-      _react2.default.createElement(
-        'strong',
-        null,
-        'three'
-      ),
-      ' tags that best describe your book.'
+        { className: 'help-text' },
+        'Please select at least one tag.'
+      )
     ),
     _react2.default.createElement(
       'div',
@@ -38324,16 +38355,25 @@ var ChapterTitle = exports.ChapterTitle = function ChapterTitle(props) {
       ' Chapter Title'
     ),
     _react2.default.createElement(
-      'label',
-      { htmlFor: 'chapterTitle' },
+      'div',
+      { className: 'title' },
+      _react2.default.createElement(
+        'label',
+        { htmlFor: 'chapterTitle' },
+        _react2.default.createElement(
+          'span',
+          null,
+          '*'
+        ),
+        'What is the title of this chapter?'
+      ),
       _react2.default.createElement(
         'span',
-        null,
-        '*'
-      ),
-      'What is the title of this chapter?'
+        { className: 'help-text' },
+        'Please give your first chapter a title.'
+      )
     ),
-    _react2.default.createElement('input', { id: 'chapterTitle', type: 'text', value: chapterTitle, onChange: handleChange })
+    _react2.default.createElement('input', { id: 'chapterTitle', type: 'text', value: chapterTitle, onChange: handleChange, 'data-validation': 'name, required' })
   );
 };
 
@@ -60353,7 +60393,8 @@ var Information = function Information(props) {
   var title = props.title,
       coverFile = props.coverFile,
       handleChange = props.handleChange,
-      coverAdd = props.coverAdd;
+      coverAdd = props.coverAdd,
+      validate = props.validate;
 
 
   return _react2.default.createElement(
@@ -60383,7 +60424,7 @@ var Information = function Information(props) {
             ),
             'Book Title'
           ),
-          _react2.default.createElement('input', { id: 'title', name: 'title', type: 'text', onChange: handleChange, value: title })
+          _react2.default.createElement('input', { id: 'title', name: 'title', type: 'text', onBlur: validate, onChange: handleChange, value: title, 'data-validation': 'name, required' })
         ),
         _react2.default.createElement(
           'li',
