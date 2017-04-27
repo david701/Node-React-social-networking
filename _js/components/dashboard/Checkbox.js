@@ -19,7 +19,7 @@ class Checkbox extends Component {
     const { label, name } = this.props;
     const { isChecked } = this.state;
     return (
-      <div className="field">
+      <div className="new-field">
         <input
           type="checkbox"
           value={label}

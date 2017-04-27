@@ -37944,9 +37944,9 @@ var _reactDom = __webpack_require__(13);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _NewUploadCover = __webpack_require__(252);
+var _UploadCover = __webpack_require__(419);
 
-var _NewUploadCover2 = _interopRequireDefault(_NewUploadCover);
+var _UploadCover2 = _interopRequireDefault(_UploadCover);
 
 var _Checkbox = __webpack_require__(251);
 
@@ -37955,6 +37955,8 @@ var _Checkbox2 = _interopRequireDefault(_Checkbox);
 var _SocialMedia = __webpack_require__(253);
 
 var _SocialMedia2 = _interopRequireDefault(_SocialMedia);
+
+var _validation = __webpack_require__(28);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37968,18 +37970,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
+var themes = ["Contemporary", "Historical", "Drama", "Chick Lit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
 var warnings = ["Warning 1", "Warning 2", "Warning 3", "Warning 4"];
-
-// const sources  = [
-//   {slug: "website", sanitized: "Website"},
-//   {slug: "good_reads", sanitized: "Goodreads"},
-//   {slug: "amazon", sanitized: "Amazon"},
-//   {slug: "wordpress", sanitized: "WordPress"},
-//   {slug: "facebook", sanitized: "Facebook"},
-//   {slug: "twitter", sanitized: "Twitter"}
-// ];
 
 var types = ["Serial", "Published"];
 
@@ -38150,7 +38143,7 @@ var DashboardCreate = function (_Component) {
         _react2.default.createElement(
           'form',
           { onSubmit: this._handleSubmit },
-          _react2.default.createElement(_NewUploadCover2.default, { title: title, handleChange: this._handleChange, coverAdd: this._handleCover }),
+          _react2.default.createElement(_UploadCover2.default, { title: title, handleChange: this._handleChange, coverAdd: this._handleCover }),
           _react2.default.createElement(Description, { description: description, handleChange: this._handleChange }),
           _react2.default.createElement(BookType, { types: types, handleChange: this._handleType }),
           _react2.default.createElement('hr', null),
@@ -38198,12 +38191,24 @@ var Description = exports.Description = function Description(props) {
     _react2.default.createElement(
       'label',
       { htmlFor: 'description' },
+      _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ),
       'Description'
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: 'help-text' },
+      'Please enter a description.'
     ),
     _react2.default.createElement('textarea', {
       id: 'description',
       rows: '5',
       placeholder: 'Add a 250 character description here.',
+      'data-validation': 'required',
+      onBlur: _validation.validate,
       onChange: handleChange,
       value: description
     })
@@ -38220,6 +38225,11 @@ var Genres = exports.Genres = function Genres(props) {
     _react2.default.createElement(
       'p',
       null,
+      _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ),
       'Select up to ',
       _react2.default.createElement(
         'strong',
@@ -38230,7 +38240,7 @@ var Genres = exports.Genres = function Genres(props) {
     ),
     _react2.default.createElement(
       'div',
-      { className: 'submit-row' },
+      { className: 'new-create-books-row' },
       genres.map(function (genre, index) {
         return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox });
       })
@@ -38248,6 +38258,11 @@ var Themes = exports.Themes = function Themes(props) {
     _react2.default.createElement(
       'p',
       null,
+      _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ),
       'Select up to ',
       _react2.default.createElement(
         'strong',
@@ -38258,7 +38273,7 @@ var Themes = exports.Themes = function Themes(props) {
     ),
     _react2.default.createElement(
       'div',
-      { className: 'submit-row' },
+      { className: 'new-create-books-row' },
       themes.map(function (theme, index) {
         return _react2.default.createElement(_Checkbox2.default, { name: 'themes', label: theme, key: index, handleCheckboxChange: handleCheckbox });
       })
@@ -38280,7 +38295,7 @@ var Warnings = exports.Warnings = function Warnings(props) {
     ),
     _react2.default.createElement(
       'div',
-      { className: 'submit-row' },
+      { className: 'new-create-books-row' },
       warnings.map(function (warning, index) {
         return _react2.default.createElement(_Checkbox2.default, { name: 'warnings', label: warning, key: index, handleCheckboxChange: handleCheckbox });
       })
@@ -38311,6 +38326,11 @@ var ChapterTitle = exports.ChapterTitle = function ChapterTitle(props) {
     _react2.default.createElement(
       'label',
       { htmlFor: 'chapterTitle' },
+      _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ),
       'What is the title of this chapter?'
     ),
     _react2.default.createElement('input', { id: 'chapterTitle', type: 'text', value: chapterTitle, onChange: handleChange })
@@ -38327,6 +38347,11 @@ var BookType = exports.BookType = function BookType(props) {
     _react2.default.createElement(
       'p',
       null,
+      _react2.default.createElement(
+        'span',
+        null,
+        '*'
+      ),
       'What kind of book is it?'
     ),
     _react2.default.createElement(
@@ -43176,7 +43201,7 @@ var Checkbox = function (_Component) {
 
       return _react2.default.createElement(
         "div",
-        { className: "field" },
+        { className: "new-field" },
         _react2.default.createElement("input", {
           type: "checkbox",
           value: label,
@@ -43200,228 +43225,7 @@ var Checkbox = function (_Component) {
 exports.default = Checkbox;
 
 /***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(9);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var UploadCover = function UploadCover(props) {
-  var author = props.author,
-      title = props.title,
-      coverFile = props.coverFile,
-      handleChange = props.handleChange,
-      coverAdd = props.coverAdd;
-
-
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "h4",
-      null,
-      _react2.default.createElement(
-        "span",
-        null,
-        "Step 1."
-      ),
-      " Upload Cover Art"
-    ),
-    _react2.default.createElement(
-      "ul",
-      { className: "field-list field-list-split" },
-      _react2.default.createElement(
-        "li",
-        null,
-        _react2.default.createElement(
-          "div",
-          { className: "copy" },
-          _react2.default.createElement(
-            "p",
-            null,
-            "Preview"
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "book-blocks book-blocks-single book-blocks-preview" },
-          _react2.default.createElement(
-            "ul",
-            null,
-            _react2.default.createElement(
-              "li",
-              null,
-              _react2.default.createElement(
-                "div",
-                { className: "content-block content-block-book" },
-                _react2.default.createElement(
-                  "figure",
-                  null,
-                  _react2.default.createElement(Cover, { title: title, coverFile: coverFile }),
-                  _react2.default.createElement(Caption, { title: title })
-                )
-              )
-            )
-          )
-        )
-      ),
-      _react2.default.createElement(
-        "li",
-        null,
-        _react2.default.createElement(Information, {
-          cover: coverFile,
-          title: title,
-          handleChange: handleChange,
-          coverAdd: coverAdd
-        })
-      )
-    )
-  );
-};
-
-var Caption = function Caption(_ref) {
-  var title = _ref.title,
-      _ref$author = _ref.author,
-      author = _ref$author === undefined ? "Kjartan" : _ref$author,
-      rating = _ref.rating;
-  return _react2.default.createElement(
-    "figcaption",
-    null,
-    _react2.default.createElement(BookTitle, { title: title }),
-    _react2.default.createElement(AuthorName, { author: author }),
-    _react2.default.createElement(Rating, { stars: 5 })
-  );
-};
-
-var Cover = function Cover(_ref2) {
-  var title = _ref2.title,
-      coverFile = _ref2.coverFile;
-
-  if (coverFile) {
-    return _react2.default.createElement(
-      "div",
-      { className: "cover" },
-      _react2.default.createElement(
-        "div",
-        { className: "flex" },
-        _react2.default.createElement("img", { src: coverFile })
-      )
-    );
-  } else {
-    return _react2.default.createElement(
-      "div",
-      { className: "cover" },
-      _react2.default.createElement(
-        "div",
-        { className: "flex" },
-        title ? title : "Cover"
-      )
-    );
-  }
-};
-
-var BookTitle = function BookTitle(_ref3) {
-  var title = _ref3.title;
-  return _react2.default.createElement(
-    "h4",
-    null,
-    title ? title : "Title Area"
-  );
-};
-var AuthorName = function AuthorName(_ref4) {
-  var author = _ref4.author;
-  return _react2.default.createElement(
-    "p",
-    null,
-    "by ",
-    author ? author : "[Author Name]"
-  );
-};
-
-var Rating = function Rating(_ref5) {
-  var _ref5$stars = _ref5.stars,
-      stars = _ref5$stars === undefined ? 5 : _ref5$stars;
-
-  var starsRated = [];
-  for (var i = 0; i < stars; i++) {
-    starsRated.push(_react2.default.createElement("li", { key: i }));
-  }
-  return _react2.default.createElement(
-    "ul",
-    { className: "rating-display" },
-    starsRated
-  );
-};
-
-var Information = function Information(props) {
-  var title = props.title,
-      coverFile = props.coverFile,
-      handleChange = props.handleChange,
-      coverAdd = props.coverAdd;
-
-
-  return _react2.default.createElement(
-    "div",
-    { className: "copy" },
-    _react2.default.createElement(
-      "p",
-      null,
-      "Add Basic Information"
-    ),
-    _react2.default.createElement(
-      "form",
-      { id: "coverForm" },
-      _react2.default.createElement(
-        "ul",
-        { className: "inner-fields" },
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "label",
-            { htmlFor: "title" },
-            "Book Title"
-          ),
-          _react2.default.createElement("input", { id: "title", name: "title", type: "text", onChange: handleChange, value: title })
-        ),
-        _react2.default.createElement(
-          "li",
-          null,
-          _react2.default.createElement(
-            "label",
-            { htmlFor: "cover" },
-            "Upload Cover Art"
-          ),
-          _react2.default.createElement("input", { id: "cover", type: "file", onChange: coverAdd }),
-          _react2.default.createElement(
-            "small",
-            null,
-            "Max size of 15 MB",
-            _react2.default.createElement("br", null),
-            "Dimensions are X by X",
-            _react2.default.createElement("br", null),
-            "Needs to be jpg, png, or gif"
-          ),
-          _react2.default.createElement("button", { id: "coverSubmit", type: "submit", style: { display: 'none' } })
-        )
-      )
-    )
-  );
-};
-
-exports.default = UploadCover;
-
-/***/ }),
+/* 252 */,
 /* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -60368,6 +60172,250 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(9);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _validation = __webpack_require__(28);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var UploadCover = function UploadCover(props) {
+  var author = props.author,
+      title = props.title,
+      coverFile = props.coverFile,
+      handleChange = props.handleChange,
+      coverAdd = props.coverAdd;
+
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h4',
+      null,
+      _react2.default.createElement(
+        'span',
+        null,
+        'Step 1.'
+      ),
+      ' Upload Cover Art'
+    ),
+    _react2.default.createElement(
+      'ul',
+      { className: 'field-list field-list-split' },
+      _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'copy' },
+          _react2.default.createElement(
+            'p',
+            null,
+            'Preview'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'book-blocks book-blocks-single book-blocks-preview' },
+          _react2.default.createElement(
+            'ul',
+            null,
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'content-block content-block-book' },
+                _react2.default.createElement(
+                  'figure',
+                  null,
+                  _react2.default.createElement(Cover, { title: title, coverFile: coverFile }),
+                  _react2.default.createElement(Caption, { title: title })
+                )
+              )
+            )
+          )
+        )
+      ),
+      _react2.default.createElement(
+        'li',
+        null,
+        _react2.default.createElement(Information, {
+          cover: coverFile,
+          title: title,
+          handleChange: handleChange,
+          coverAdd: coverAdd
+        })
+      )
+    )
+  );
+};
+
+var Caption = function Caption(_ref) {
+  var title = _ref.title,
+      _ref$author = _ref.author,
+      author = _ref$author === undefined ? "Kjartan" : _ref$author,
+      rating = _ref.rating;
+  return _react2.default.createElement(
+    'figcaption',
+    null,
+    _react2.default.createElement(BookTitle, { title: title }),
+    _react2.default.createElement(AuthorName, { author: author }),
+    _react2.default.createElement(Rating, { stars: 5 })
+  );
+};
+
+var Cover = function Cover(_ref2) {
+  var title = _ref2.title,
+      coverFile = _ref2.coverFile;
+
+  if (coverFile) {
+    return _react2.default.createElement(
+      'div',
+      { className: 'cover' },
+      _react2.default.createElement(
+        'div',
+        { className: 'flex' },
+        _react2.default.createElement('img', { src: coverFile })
+      )
+    );
+  } else {
+    return _react2.default.createElement(
+      'div',
+      { className: 'cover' },
+      _react2.default.createElement(
+        'div',
+        { className: 'flex' },
+        title ? title : "Cover"
+      )
+    );
+  }
+};
+
+var BookTitle = function BookTitle(_ref3) {
+  var title = _ref3.title;
+  return _react2.default.createElement(
+    'h4',
+    null,
+    title ? title : "Title Area"
+  );
+};
+var AuthorName = function AuthorName(_ref4) {
+  var author = _ref4.author;
+  return _react2.default.createElement(
+    'p',
+    null,
+    'by ',
+    author ? author : "[Author Name]"
+  );
+};
+
+var Rating = function Rating(_ref5) {
+  var _ref5$stars = _ref5.stars,
+      stars = _ref5$stars === undefined ? 5 : _ref5$stars;
+
+  var starsRated = [];
+  for (var i = 0; i < stars; i++) {
+    starsRated.push(_react2.default.createElement('li', { key: i }));
+  }
+  return _react2.default.createElement(
+    'ul',
+    { className: 'rating-display' },
+    starsRated
+  );
+};
+
+var Information = function Information(props) {
+  var title = props.title,
+      coverFile = props.coverFile,
+      handleChange = props.handleChange,
+      coverAdd = props.coverAdd;
+
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'copy' },
+    _react2.default.createElement(
+      'p',
+      null,
+      'Add Basic Information'
+    ),
+    _react2.default.createElement(
+      'form',
+      { id: 'coverForm' },
+      _react2.default.createElement(
+        'ul',
+        { className: 'inner-fields' },
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            'label',
+            { htmlFor: 'title' },
+            _react2.default.createElement(
+              'span',
+              null,
+              '*'
+            ),
+            'Book Title'
+          ),
+          _react2.default.createElement('input', { id: 'title', name: 'title', type: 'text', onChange: handleChange, value: title })
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            'label',
+            { htmlFor: 'cover' },
+            _react2.default.createElement(
+              'span',
+              null,
+              '*'
+            ),
+            'Upload Cover Art'
+          ),
+          _react2.default.createElement('input', { id: 'cover', type: 'file', onChange: coverAdd }),
+          _react2.default.createElement(
+            'small',
+            null,
+            'Max size of 15 MB',
+            _react2.default.createElement('br', null),
+            'Dimensions are X by X',
+            _react2.default.createElement('br', null),
+            'Needs to be jpg, png, or gif'
+          ),
+          _react2.default.createElement('button', { id: 'coverSubmit', type: 'submit', style: { display: 'none' } })
+        )
+      )
+    )
+  );
+};
+
+exports.default = UploadCover;
 
 /***/ })
 /******/ ]);

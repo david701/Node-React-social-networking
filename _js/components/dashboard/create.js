@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import UploadCover from './NewUploadCover';
+import UploadCover from './UploadCover';
 import Checkbox from './Checkbox';
 import SocialMedia from './SocialMedia';
+import { validate, formValid } from '../../plugins/validation';
 
 const themes = ["Contemporary", "Historical",
-                "Drama", "ChickLit", "Tragedy",
+                "Drama", "Chick Lit", "Tragedy",
                 "Adventure", "Urban", "Epic",
                 "Romance", "Spiritual", "Humor",
                 "Paranormal", "Young Adult",
@@ -13,15 +14,6 @@ const themes = ["Contemporary", "Historical",
                 "Mystery", "Classic"];
 const genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
 const warnings = ["Warning 1", "Warning 2", "Warning 3", "Warning 4"];
-
-// const sources  = [
-//   {slug: "website", sanitized: "Website"},
-//   {slug: "good_reads", sanitized: "Goodreads"},
-//   {slug: "amazon", sanitized: "Amazon"},
-//   {slug: "wordpress", sanitized: "WordPress"},
-//   {slug: "facebook", sanitized: "Facebook"},
-//   {slug: "twitter", sanitized: "Twitter"}
-// ];
 
 const types = ["Serial", "Published"];
 
@@ -140,7 +132,7 @@ class DashboardCreate extends Component {
         <hr />
         <form onSubmit={this._handleSubmit}>
           <UploadCover title={title} handleChange={this._handleChange} coverAdd={this._handleCover}/>
-          <Description description={description} handleChange={this._handleChange}/>
+          <Description description={description} handleChange={this._handleChange} />
           <BookType types={types} handleChange={this._handleType}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
@@ -161,11 +153,14 @@ export const Description = props => {
   return (
     <div>
       <h4><span>Step 2.</span> Tell us about your book</h4>
-      <label htmlFor="description">Description</label>
+      <label htmlFor="description"><span>*</span>Description</label>
+      <span className="help-text">Please enter a description.</span>
       <textarea
         id="description"
         rows="5"
         placeholder="Add a 250 character description here."
+        data-validation="required"
+        onBlur={validate}
         onChange={handleChange}
         value={description}
       />
@@ -177,8 +172,8 @@ export const Genres = props => {
   const { genres, handleCheckbox } = props;
   return (
     <div>
-      <p>Select up to <strong>three</strong> genres for your book to be listed.</p>
-      <div className="submit-row">
+      <p><span>*</span>Select up to <strong>three</strong> genres for your book to be listed.</p>
+      <div className="new-create-books-row">
         {genres.map((genre, index) => (
           <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} />
         ))}
@@ -191,8 +186,8 @@ export const Themes = props => {
   const { themes, handleCheckbox } = props;
   return (
     <div>
-      <p>Select up to <strong>three</strong> tags that best describe your book.</p>
-      <div className="submit-row">
+      <p><span>*</span>Select up to <strong>three</strong> tags that best describe your book.</p>
+      <div className="new-create-books-row">
         {themes.map((theme, index) => (
           <Checkbox name="themes" label={theme} key={index} handleCheckboxChange={handleCheckbox} />
         ))}
@@ -206,7 +201,7 @@ export const Warnings = props => {
   return (
     <div>
       <p>Content warning</p>
-      <div className="submit-row">
+      <div className="new-create-books-row">
         {warnings.map((warning, index) => (
           <Checkbox name="warnings" label={warning} key={index} handleCheckboxChange={handleCheckbox} />
         ))}
@@ -220,7 +215,7 @@ export const ChapterTitle = props => {
   return (
     <div>
       <h4><span>Step {type === "Published" ? "5" : "4"}.</span> Chapter Title</h4>
-      <label htmlFor="chapterTitle">What is the title of this chapter?</label>
+      <label htmlFor="chapterTitle"><span>*</span>What is the title of this chapter?</label>
       <input id="chapterTitle" type="text" value={chapterTitle} onChange={handleChange} />
     </div>
   );
@@ -230,7 +225,7 @@ export const BookType = props => {
   const { types, handleChange } = props;
   return (
     <div>
-      <p>What kind of book is it?</p>
+      <p><span>*</span>What kind of book is it?</p>
       <ul className="radio-list radio-list-inline">
         {types.map((type, index) => (
           <li key={index}>

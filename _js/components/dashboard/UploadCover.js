@@ -1,114 +1,110 @@
 import React from 'react';
-import $ from 'jquery';
+import { validate, formValid } from '../../plugins/validation';
 
-export default class UploadCover extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			title: '',
-			coverFile: false,
-		};
-	}
-	coverAdd = e => {
-		const reader = new FileReader();
-		const file = e.target.files[0];
-		reader.onload = (upload) => {
-			this.setState({ coverFile: upload.target.result });
-		};
+const UploadCover = props => {
+  const { author, title, coverFile, handleChange, coverAdd } = props;
 
-		reader.readAsDataURL(file);
-	}
+  return (
+    <div>
+      <h4><span>Step 1.</span> Upload Cover Art</h4>
+      <ul className="field-list field-list-split">
+        <li>
+          <div className="copy">
+            <p>Preview</p>
+          </div>
+          <div className="book-blocks book-blocks-single book-blocks-preview">
+            <ul>
+              <li>
+                <div className="content-block content-block-book">
+                  <figure>
+                    <Cover title={title} coverFile={coverFile} />
+                    <Caption title={title} />
+                  </figure>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <Information
+            cover={coverFile}
+            title={title}
+            handleChange={handleChange}
+            coverAdd={coverAdd}
+          />
+        </li>
+      </ul>
+    </div>
+  );
+}
 
-	_onChange = e => {
-		let state = {};
-		state[e.target.name] = e.target.value;
-		this.setState(state);
-	}
+const Caption = ({ title, author = "Kjartan", rating }) => (
+  <figcaption>
+    <BookTitle title={title} />
+    <AuthorName author={author} />
+    <Rating stars={5} />
+  </figcaption>
+);
 
-	_onSubmit = e => {
-		e.preventDefault();
-		const postData = { title: this.state.title, cover: this.state.coverFile };
-		$.post('/api/v1/mybooks', postData).then((data) => {
-			window.location.href = "/dashboard";
-		});
-	}
-
-  /*renderCover = () => {
+const Cover = ({ title, coverFile }) => {
+  if (coverFile) {
     return (
       <div className="cover">
         <div className="flex">
-          <h4>Cover</h4>
+          <img src={coverFile} />
         </div>
       </div>
     );
-  }*/
-
-	render() {
-		const { title, coverFile } = this.state;
-		let cover = <div className="cover"><div className="flex"><h4>{title ? title : "Cover"}</h4></div></div>;
-		if (this.state.coverFile) {
-			cover = <div className="cover"><div className="flex"><img src={coverFile} /></div></div>
-		}
-
-		let bookTitle = 'Title Area';
-		if (title) { bookTitle = title; }
-
-		return (
-			<div>
-				<h4><span>Step 1.</span> Upload Cover Art</h4>
-				<ul className="field-list field-list-split">
-					<li>
-						<div className="copy">
-							<p>Preview</p>
-						</div>
-						<div className="book-blocks book-blocks-single book-blocks-preview">
-							<ul>
-								<li>
-									<div className="content-block content-block-book">
-										<figure>
-											{cover}
-											<figcaption>
-												<h4>{bookTitle}</h4>
-												<p>By [Author Name]</p>
-												<ul className="rating-display">
-													<li></li>
-													<li></li>
-													<li></li>
-													<li></li>
-													<li></li>
-												</ul>
-											</figcaption>
-										</figure>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<div className="copy">
-							<p>Add Basic Information</p>
-							<form id="coverForm" onSubmit={this._onSubmit}>
-								<ul className="inner-fields">
-									<li>
-										<label htmlFor="title">Book Title</label>
-										<input id="title" name="title" type="text" onChange={this._onChange} value={title} />
-									</li>
-									<li>
-										<label htmlFor="cover">Upload Cover Art</label>
-										<input id="cover" type="file" onChange={this.coverAdd} />
-										<small>
-											Max size of 15 MB<br />
-											Dimensions are X by X<br />
-											Needs to be jpg, png, or gif
-									</small>
-										<button id="coverSubmit" type="submit" style={{ display: 'none' }}></button>
-									</li>
-								</ul>
-							</form>
-						</div>
-					</li>
-				</ul>
-			</div>
-		);
-	}
+  } else {
+      return (
+        <div className="cover">
+          <div className="flex">{title ? title : "Cover"}</div>
+        </div>
+      );
+  }
 }
+
+const BookTitle = ({ title }) => <h4>{title ? title : "Title Area"}</h4>;
+const AuthorName = ({ author }) => <p>by {author ? author : "[Author Name]"}</p>;
+
+const Rating = ({ stars = 5 }) => {
+  let starsRated = [];
+  for (let i = 0; i < stars; i++) {
+    starsRated.push(<li key={i}></li>)
+  }
+  return (
+    <ul className="rating-display">
+      {starsRated}
+    </ul>
+  );
+};
+
+const Information = props => {
+  const { title, coverFile, handleChange, coverAdd } = props;
+
+  return (
+    <div className="copy">
+      <p>Add Basic Information</p>
+      <form id="coverForm">
+        <ul className="inner-fields">
+          <li>
+            <label htmlFor="title"><span>*</span>Book Title</label>
+            <input id="title" name="title" type="text" onChange={handleChange} value={title} />
+          </li>
+          <li>
+            <label htmlFor="cover"><span>*</span>Upload Cover Art</label>
+            <input id="cover" type="file" onChange={coverAdd} />
+            <small>
+              Max size of 15 MB<br />
+              Dimensions are X by X<br />
+              Needs to be jpg, png, or gif
+            </small>
+            <button id="coverSubmit" type="submit" style={{ display: 'none' }} />
+          </li>
+        </ul>
+      </form>
+    </div>
+  );
+};
+
+export default UploadCover;
