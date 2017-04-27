@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import UploadCover from './UploadCover';
+import UploadCover from './NewUploadCover';
 import Checkbox from './Checkbox';
 import SocialMedia from './SocialMedia';
 
@@ -55,36 +55,43 @@ class DashboardCreate extends Component {
   }
 
   _handleChange = e => {
-    this.setState({ [e.target.id]: e.target.value }, () => console.log(this.state));
+    this.setState({ [e.target.name]: e.target.value }, () => console.log(this.state));
   }
 
-  // _handleCover = e => {
-  //   const reader = new FileReader();
-  //   const file = e.target.files[0];
-  //   reader.onload = upload => {
-  //     const coverFile = upload.target.result;
-  //   }
-  //   reader.readAsDataURL(file);
-  //   this.setState({ coverFile: true }, () => console.log(this.state.coverFile));
-  // }
+  _handleCheckbox = e => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value,
+    }, () => console.log(this.state));
+  }
+
+  _handleCover = e => {
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onload = upload => {
+      const coverFile = upload.target.result;
+    }
+    reader.readAsDataURL(file);
+    this.setState({ coverFile: true }, () => console.log(this.state.coverFile));
+  }
   
-  _handleGenres = e => {
-    let newArray = this.state.genres.slice();
-    newArray.push(e);
-    this.setState({ genres: newArray }, () => console.log(this.state.genres));
-  }
+  // _handleGenres = e => {
+  //   let newArray = this.state.genres.slice();
+  //   newArray.push(e);
+  //   this.setState({ genres: newArray }, () => console.log(this.state.genres));
+  // }
 
-  _handleThemes = e => {
-    let newArray = this.state.themes.slice();
-    newArray.push(e);
-    this.setState({ themes: newArray }, () => console.log(this.state.themes));
-  }
+  // _handleThemes = e => {
+  //   let newArray = this.state.themes.slice();
+  //   newArray.push(e);
+  //   this.setState({ themes: newArray }, () => console.log(this.state.themes));
+  // }
 
-  _handleWarnings = e => {
-    let newArray = this.state.warnings.slice();
-    newArray.push(e);
-    this.setState({ warnings: newArray }, () => console.log(this.state.warnings));
-  }
+  // _handleWarnings = e => {
+  //   let newArray = this.state.warnings.slice();
+  //   newArray.push(e);
+  //   this.setState({ warnings: newArray }, () => console.log(this.state.warnings));
+  // }
 
   _handleType = e => {
     this.setState({ type: e.target.value }, () => console.log(this.state.type));
@@ -113,14 +120,14 @@ class DashboardCreate extends Component {
         </header>
         <hr />
         <form onSubmit={this._handleSubmit}>
-          <UploadCover />
+          <UploadCover title={title} handleChange={this._handleChange} coverAdd={this._handleCover}/>
           <Description description={description} handleChange={this._handleChange}/>
           <BookType types={types} handleChange={this._handleType}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
-          <Genres genres={genres} handleCheckbox={this._handleGenres} />
-          <Themes themes={themes} handleCheckbox={this._handleThemes} />
-          <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
+          <Genres genres={genres} handleCheckbox={this._handleCheckbox} />
+          <Themes themes={themes} handleCheckbox={this._handleCheckbox} />
+          <Warnings warnings={warnings} handleCheckbox={this._handleCheckbox} />
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
           <ChapterTitle type={type} title={title} handleChange={this._handleChange}/>
@@ -154,7 +161,7 @@ export const Genres = props => {
       <p>Select up to <strong>three</strong> genres for your book to be listed.</p>
       <div className="submit-row">
         {genres.map((genre, index) => (
-          <Checkbox label={genre} key={index} handleCheckboxChange={handleCheckbox} />
+          <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} />
         ))}
       </div>
     </div>
@@ -168,7 +175,7 @@ export const Themes = props => {
       <p>Select up to <strong>three</strong> tags that best describe your book.</p>
       <div className="submit-row">
         {themes.map((theme, index) => (
-          <Checkbox label={theme} key={index} handleCheckboxChange={handleCheckbox} />
+          <Checkbox name="themes" label={theme} key={index} handleCheckboxChange={handleCheckbox} />
         ))}
       </div>
     </div>
@@ -182,7 +189,7 @@ export const Warnings = props => {
       <p>Content warning</p>
       <div className="submit-row">
         {warnings.map((warning, index) => (
-          <Checkbox label={warning} key={index} handleCheckboxChange={handleCheckbox} />
+          <Checkbox name="warnings" label={warning} key={index} handleCheckboxChange={handleCheckbox} />
         ))}
       </div>
     </div>
