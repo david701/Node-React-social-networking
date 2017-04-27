@@ -60350,7 +60350,7 @@ var Cover = function Cover(_ref2) {
       _react2.default.createElement(
         'div',
         { className: 'flex' },
-        title ? title : "Cover"
+        _react2.default.createElement('img', { src: '/assets/images/default-cover-art.png', alt: '' })
       )
     );
   }

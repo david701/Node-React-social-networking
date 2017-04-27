@@ -58,7 +58,9 @@ const Cover = ({ title, coverFile }) => {
   } else {
       return (
         <div className="cover">
-          <div className="flex">{title ? title : "Cover"}</div>
+          <div className="flex">
+            <img src="/assets/images/default-cover-art.png" alt=""/>
+          </div>
         </div>
       );
   }
