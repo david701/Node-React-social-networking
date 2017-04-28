@@ -213,7 +213,7 @@ exports.login = (req, res)=>{
 							status: user.status
 						}
 						req.session = userData;
-						res.json({status: 'ok'});
+						res.json({status: 'ok', data: user._id.toString()});
 					}else{
 						req.session = null;
 						res.json({status:'error', message: 'Invalid Username or Password'});
@@ -275,7 +275,7 @@ exports.resetPassword = (req, res)=>{
 		var password = bcrypt.hashSync(req.body.password, salt);
 
 		user.update({password: password}).then((update)=>{
-			res.json({status: 'ok', data: update});
+			res.json({status: 'ok', data: req.body.userId});
 		}).catch((err)=>{
 			res.json({status: 'error', message: err.message});
 		})
@@ -309,7 +309,7 @@ exports.followAuthor = (req, res)=>{
 						if(followed.indexOf(userInfo._id.toString()) == -1){
 							followed.push(userInfo._id.toString());
 							autherInfo.update({followers: followed}).then((update)=>{
-								res.json({status: 'ok', data: update});
+								res.json({status: 'ok', data: req.body.authorId});
 							}).catch((err)=>{
 								res.json({status: 'error', message: err.message})
 							})

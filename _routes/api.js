@@ -39,9 +39,11 @@ router.route('/books')
 	.post(Books.createBook)
 
 router.route('/books/:id')
-	.get(Books.getUserBooks)
 	.put(Books.editBook)
 	.delete(Books.removeBook)
+
+router.route('user/:id/books/')
+	.get(Books.getUserBooks)
 
 /// END BOOKS API ///
 
