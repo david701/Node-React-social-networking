@@ -39,6 +39,7 @@ router.route('/books')
 	.post(Books.createBook)
 
 router.route('/books/:id')
+	.get(Books.getUserBooks)
 	.put(Books.editBook)
 	.delete(Books.removeBook)
 

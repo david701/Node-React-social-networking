@@ -25,6 +25,16 @@ exports.getUserBooks = (req, res)=>{
 	})
 }
 
+exports.getBooksById = (req, res)=>{
+	mongoBook.findOne({_id: req.params.id}).then((book)=>{
+		if(!book){
+			res.json({status: 'error', message: 'Book does not exist.'});
+		}else{
+			res.json({status: 'ok', data: book})
+		}
+	})
+}
+
 exports.createBook = (req, res)=>{
 	var user = req.session;
 	if(!user){
