@@ -62,10 +62,10 @@ class DashboardCreate extends Component {
     const reader = new FileReader();
     const file = e.target.files[0];
     reader.onload = upload => {
-      const coverFile = upload.target.result;
+      // const coverFile = upload.target.result;
+      this.setState({ coverFile: upload.target.result }, () => console.log(this.state.coverFile));
     }
     reader.readAsDataURL(file);
-    this.setState({ coverFile: true }, () => console.log(this.state.coverFile));
   }
 
   _handleGenres = e => {
@@ -131,7 +131,7 @@ class DashboardCreate extends Component {
         </header>
         <hr />
         <form onSubmit={this._handleSubmit}>
-          <UploadCover title={title} handleChange={this._handleChange} coverAdd={this._handleCover}/>
+          <UploadCover title={title} handleChange={this._handleChange} coverAdd={this._handleCover} coverFile={coverFile} />
           <Description description={description} handleChange={this._handleChange} />
           <BookType types={types} handleChange={this._handleType}/>
           <hr />

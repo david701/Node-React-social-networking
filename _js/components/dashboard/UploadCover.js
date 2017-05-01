@@ -27,7 +27,6 @@ const UploadCover = props => {
         </li>
         <li>
           <Information
-            cover={coverFile}
             title={title}
             handleChange={handleChange}
             coverAdd={coverAdd}
@@ -64,7 +63,7 @@ const Cover = ({ coverFile }) => {
       </div>
     );
   }
-}
+};
 
 const BookTitle = ({ title }) => <h4>{title || 'Title Area'}</h4>;
 const AuthorName = ({ author }) => <p>by {author || '[Author Name]'}</p>;
@@ -82,7 +81,7 @@ const Rating = ({ stars = 5 }) => {
 };
 
 const Information = props => {
-  const { title, coverFile, handleChange, coverAdd, validate } = props;
+  const { title, handleChange, coverAdd, validate } = props;
 
   return (
     <div className="copy">
