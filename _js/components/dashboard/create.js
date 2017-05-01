@@ -5,15 +5,9 @@ import Checkbox from './Checkbox';
 import SocialMedia from './SocialMedia';
 import { validate, formValid } from '../../plugins/validation';
 
-const themes = ["Contemporary", "Historical",
-  "Drama", "Chick Lit", "Tragedy",
-  "Adventure", "Urban", "Epic",
-  "Romance", "Spiritual", "Humor",
-  "Paranormal", "Young Adult",
-  "Middle Grade", "Children", "Thriller",
-  "Mystery", "Classic"];
-const genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
-const warnings = ["Warning 1", "Warning 2", "Warning 3", "Warning 4"];
+import themes from '../../../data/themes.json';
+import genres from '../../../data/genres.json';
+import warnings from '../../../data/warnings.json';
 
 const types = ["Serial", "Published"];
 
