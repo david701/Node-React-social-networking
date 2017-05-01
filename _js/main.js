@@ -12,6 +12,7 @@ import './components/edit.js';
 import './components/friends.js';
 import './components/reset-password.js';
 import './components/dashboard/create';
+import './components/books/edit';
 import '../_sass/main.scss';
 
 function mapObject(object, callback) {

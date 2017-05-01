@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Rating from '../dashboard/Rating';
+
 function sanitize(status) {
   switch (status) {
     case 0:
@@ -17,29 +19,34 @@ const UserBooks = ({ books, author, defaultCover }) => (
   <ul>
     {books.map((book, index) => (
       <li key={index}>
-        <h1>{book.title}</h1>
-        {book.cover}
-        {sanitize(book.status)}
-        <a href="." className="content-block content-block-book">
+        <div className="content-block content-block-book">
           <figure>
-            <div className="cover" style={{ backgroundImage: book.cover || defaultCover }}>
+            <div
+              className="cover"
+              style={{
+                backgroundImage: book.cover || "url('/assets/images/pending-cover-art.png')",
+              }}
+            >
               <div className="overlay">
-                <button className="button button-red" href=".">Unfollow</button>
+                <h3 style={{ color: 'white' }}>{sanitize(book.status)}</h3>
+                <button className="button button-red" href={`/books/${book._id}/edit`} onClick={console.log(book._id)}>Edit</button>
+                <a href={`/books/${book._id}/edit`}>Edit</a>
               </div>
             </div>
             <figcaption>
               <h4>{book.title}</h4>
               <p>By {author}</p>
-              <ul className="rating-display">
+              {/* <ul className="rating-display">
                 <li className="filled"></li>
                 <li className="filled"></li>
                 <li className="filled"></li>
                 <li className="filled"></li>
                 <li></li>
-              </ul>
+              </ul>*/}
+              <Rating stars={book.rating} />
             </figcaption>
           </figure>
-        </a>
+        </div>
       </li>
     ))}
   </ul>

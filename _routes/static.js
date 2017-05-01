@@ -28,7 +28,6 @@ router.get('/password-reset', (req, res)=>{
 	res.render('email', {title: 'Password Reset'})
 });
 
-
 router.get('/report-sent', (req, res)=>{
 	res.render('email', {title: 'Report Sent'})
 });
@@ -43,6 +42,10 @@ router.get('/author/:id/edit', (req, res)=>{
 
 router.get('/author/:id/reset-password', (req, res)=>{
 	res.render('reset-password', {title: 'Reset Password',id: req.params.id})
+});
+
+router.get('/books/:id/edit', (req, res) => {
+  res.render('book-edit', {title: 'Edit Book', id: req.params.id})
 });
 
 router.get('/dashboard', (req, res)=>{

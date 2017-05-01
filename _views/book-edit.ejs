@@ -1,0 +1,17 @@
+<% include ./partials/head %>
+<% include ./partials/mobile-head %>
+<div class="view">
+  <main class="main-view">
+    <section class="standard-section">
+      <div class="container">
+        <div id="edit-book"></div>
+      </div>
+    </section>
+    <% include ./partials/main-footer %>
+  </main>
+  <% include ./partials/sidebar %>
+</div>
+<script>
+  const bookId = '<%= id %>';
+</script>
+<% include ./partials/end %>

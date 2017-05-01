@@ -6,7 +6,7 @@ class Library extends Component {
   render() {
     const { books, author, defaultCover } = this.props;
     return (
-      <div>
+      <div className="book-blocks book-blocks-small">
         <div className="title-row">
           <h1>My Library</h1>
           <a className="control" href=".">See All</a>

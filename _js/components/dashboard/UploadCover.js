@@ -19,7 +19,7 @@ const UploadCover = props => {
                 <div className="content-block content-block-book">
                   <figure>
                     <Cover title={title} coverFile={coverFile} />
-                    <Caption title={title} />
+                    <Caption title={title} author={author} />
                   </figure>
                 </div>
               </li>
@@ -38,7 +38,7 @@ const UploadCover = props => {
   );
 };
 
-const Caption = ({ title, author = 'Kjartan', stars = 5 }) => (
+const Caption = ({ title, author, stars = 5 }) => (
   <figcaption>
     <BookTitle title={title} />
     <AuthorName author={author} />

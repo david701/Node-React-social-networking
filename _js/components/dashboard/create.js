@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import UploadCover from './UploadCover';
 import Checkbox from './Checkbox';
 import SocialMedia from './SocialMedia';
-import { validate, formValid } from '../../plugins/validation';
+import {validate, formValid} from '../../plugins/validation';
 
 import themes from '../../../data/themes.json';
 import genres from '../../../data/genres.json';
@@ -35,13 +35,13 @@ class DashboardCreate extends Component {
   }
 
   componentWillMount = () => {
-    fetch('/api/v1/books').then((res) => {
-      console.log(res);
-    });
+    fetch('/api/v1/user_session/')
+      .then(res => res.json())
+      .then(res => console.log(res));
   }
 
   _handleChange = e => {
-    this.setState({ [e.target.id]: e.target.value }, () => console.log(this.state));
+    this.setState({[e.target.id]: e.target.value}, () => console.log(this.state));
   }
 
   _handleCheckbox = e => {
@@ -57,49 +57,49 @@ class DashboardCreate extends Component {
     const file = e.target.files[0];
     reader.onload = upload => {
       // const coverFile = upload.target.result;
-      this.setState({ coverFile: upload.target.result }, () => console.log(this.state.coverFile));
-    }
+      this.setState({coverFile: upload.target.result}, () => console.log(this.state.coverFile));
+    };
     reader.readAsDataURL(file);
   }
 
   _handleGenres = e => {
-    const { genres } = this.state;
+    const {genres} = this.state;
     const newGenre = e.target.value;
     if (!genres.includes(newGenre)) {
       const newAry = [...genres, newGenre];
-      this.setState({ genres: newAry }, () => console.log(this.state.genres));
+      this.setState({genres: newAry}, () => console.log(this.state.genres));
     } else if (genres.includes(newGenre)) {
       const newAry = genres.filter(genre => genre !== newGenre);
-      this.setState({ genres: newAry }, () => console.log(this.state.genres));
+      this.setState({genres: newAry}, () => console.log(this.state.genres));
     }
   }
 
   _handleThemes = e => {
-    const { themes } = this.state;
+    const {themes} = this.state;
     const newTheme = e.target.value;
     if (!themes.includes(newTheme)) {
       const newAry = [...themes, newTheme];
-      this.setState({ themes: newAry }, () => console.log(this.state.themes));
+      this.setState({themes: newAry}, () => console.log(this.state.themes));
     } else if (themes.includes(newTheme)) {
       const newAry = themes.filter(theme => theme !== newTheme);
-      this.setState({ themes: newAry }, () => console.log(this.state.themes));
+      this.setState({themes: newAry}, () => console.log(this.state.themes));
     }
   }
 
   _handleWarnings = e => {
-    const { warnings } = this.state;
+    const {warnings} = this.state;
     const newWarning = e.target.value;
     if (!warnings.includes(newWarning)) {
       const newAry = [...warnings, newWarning];
-      this.setState({ warnings: newAry }, () => console.log(this.state.warnings));
+      this.setState({warnings: newAry}, () => console.log(this.state.warnings));
     } else if (warnings.includes(newWarning)) {
       const newAry = warnings.filter(warning => warning !== newWarning);
-      this.setState({ warnings: newAry }, () => console.log(this.state.warnings));
+      this.setState({warnings: newAry}, () => console.log(this.state.warnings));
     }
   }
 
   _handleType = e => {
-    this.setState({ type: e.target.value }, () => console.log(this.state.type));
+    this.setState({type: e.target.value}, () => console.log(this.state.type));
   }
 
   _handleSubmit = e => {
@@ -108,10 +108,11 @@ class DashboardCreate extends Component {
       title: this.state.title,
       status: 0,
     };
-    fetch('/api/v1/books', {
+    // add id?
+    fetch('/api/v1/books/', {
       method: 'POST',
       body: JSON.stringify(data)
-    }).then(res => console.log(res.json));
+    }).then(window.location.href = "/dashboard");
     e.preventDefault();
   }
 
@@ -126,7 +127,8 @@ class DashboardCreate extends Component {
   }
 
   render() {
-    const { coverFile, description, socialMedia, title, type } = this.state;
+    const {coverFile, description, socialMedia, title, type} = this.state;
+    const author = ['[Author Name]'];
     return (
       <div className="content-block content-block-standard account-block">
         <header>
@@ -134,7 +136,7 @@ class DashboardCreate extends Component {
         </header>
         <hr />
         <form onSubmit={this._handleSubmit}>
-          <UploadCover title={title} handleChange={this._handleChange} coverAdd={this._handleCover} coverFile={coverFile} />
+          <UploadCover title={title} author={author} handleChange={this._handleChange} coverAdd={this._handleCover} coverFile={coverFile} />
           <Description description={description} handleChange={this._handleChange} />
           <BookType types={types} handleChange={this._handleType}/>
           <hr />
@@ -157,7 +159,7 @@ class DashboardCreate extends Component {
   }
 }
 
-export const Description = ({ description, handleChange }) => (
+export const Description = ({description, handleChange}) => (
   <div>
     <h4><span>Step 2.</span> Tell us about your book</h4>
     <div className="title">
@@ -176,7 +178,7 @@ export const Description = ({ description, handleChange }) => (
   </div>
 );
 
-export const Genres = ({ genres, handleCheckbox }) => (
+export const Genres = ({genres, handleCheckbox}) => (
   <div>
     <p><span>*</span>Select <strong>one</strong> genre for your book to be listed.</p>
     <div className="new-create-books-row">
@@ -187,7 +189,7 @@ export const Genres = ({ genres, handleCheckbox }) => (
   </div>
 );
 
-export const Themes = ({ themes, handleCheckbox }) => (
+export const Themes = ({themes, handleCheckbox}) => (
   <div>
     <div className="title">
       <p><span>*</span>Select up to <strong>two</strong> tags that best describe your book.</p>
@@ -201,7 +203,7 @@ export const Themes = ({ themes, handleCheckbox }) => (
   </div>
 );
 
-export const Warnings = ({ warnings, handleCheckbox }) => (
+export const Warnings = ({warnings, handleCheckbox}) => (
   <div>
     <p>Content warning</p>
     <div className="new-create-books-row">
@@ -212,7 +214,7 @@ export const Warnings = ({ warnings, handleCheckbox }) => (
   </div>
 );
 
-export const ChapterTitle = ({ chapterTitle, handleChange, type }) => (
+export const ChapterTitle = ({chapterTitle, handleChange, type}) => (
   <div>
     <h4><span>Step {type === "Published" ? "5" : "4"}.</span> Chapter Title</h4>
     <div className="title">
@@ -223,7 +225,7 @@ export const ChapterTitle = ({ chapterTitle, handleChange, type }) => (
   </div>
 );
 
-export const BookType = ({ types, handleChange }) => (
+export const BookType = ({types, handleChange}) => (
   <div>
     <p><span>*</span>What kind of book is it?</p>
     <ul className="radio-list radio-list-inline">
@@ -241,4 +243,4 @@ export const BookType = ({ types, handleChange }) => (
 
 
 if(document.getElementById('dashboard-create'))
-  ReactDOM.render(<DashboardCreate />, document.getElementById('dashboard-create'))
+  {ReactDOM.render(<DashboardCreate />, document.getElementById('dashboard-create'));}

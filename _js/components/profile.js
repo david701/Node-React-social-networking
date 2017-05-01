@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { validate, formValid } from '../plugins/validation.js';
 
+import defaultCover from '../../public/assets/images/default-cover-art.png';
+
 import Library from './books/Library';
 
 const Profile = function(){
@@ -99,6 +101,17 @@ class Parent extends React.Component{
 		});
 	}
 
+	// loadBooks = id => {
+	// 	fetch('/api/v1/books/' + id)
+	// 		.then(res => res.json())
+	// 		.then(res => this.setState({
+	// 			user: {
+	// 				...this.state.user,
+	// 				books: res.data,
+	// 			}
+	// 		}), () => console.log(this.state));
+	// }
+
 	loadBooks = id => {
 		fetch('/api/v1/books/' + id)
 			.then(res => res.json())
@@ -112,9 +125,10 @@ class Parent extends React.Component{
 
 		let following = "You're not following any authors",
 		authors = this.state.user.following_authors,
-		books = this.state.user.books,
 		button = "Unfollow",
 		func = this.handleUnfollow;
+
+		const books = this.state.books;
 
 		if(this.state.user.role > 0){
 			following = "There are no user's to edit";
@@ -228,7 +242,7 @@ class Parent extends React.Component{
 								{following}
 							</ul>
 						<hr/>
-						<Library books={this.state.books} author={this.state.user.name} defaultCover={'../../adcc6caa72ed9faa68ca3ffa9e0f9493.png'} />
+						<Library books={this.state.books} author={this.state.user.name} cover={defaultCover} />
 							{/*
 							
 									<ul>

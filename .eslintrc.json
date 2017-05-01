@@ -6,7 +6,7 @@
 		"import"
 	],
 	"rules": {
-		"arrow-parens": "off",
+		"arrow-parens": 0,
 		"no-tabs": "off",
 		"react/prop-types": 0,
 		"react/jsx-filename-extension": 0
