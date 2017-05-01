@@ -1,4 +1,5 @@
 import React from 'react';
+// import defaultCoverFile from '../../../public/assets/images/default-cover-art.png';
 // import { validate, formValid } from '../../plugins/validation';
 
 const UploadCover = props => {
@@ -45,24 +46,13 @@ const Caption = ({ title, author = 'Kjartan', stars = 5 }) => (
   </figcaption>
 );
 
-const Cover = ({ coverFile }) => {
-  if (coverFile) {
-    return (
-      <div className="cover">
-        <div className="flex">
-          <img src={coverFile} alt="coverFile" />
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div className="cover">
-      <div className="flex">
-        <img src="/assets/images/default-cover-art.png" alt="defaultCoverFile" />
-      </div>
+const Cover = ({ coverFile }) => (
+  <div className="cover">
+    <div className="flex">
+      <img src={coverFile} alt="defaultCoverFile" />
     </div>
-  );
-};
+  </div>
+);
 
 const BookTitle = ({ title }) => <h4>{title || 'Title Area'}</h4>;
 const AuthorName = ({ author }) => <p>by {author || '[Author Name]'}</p>;

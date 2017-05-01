@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { validate, formValid } from '../plugins/validation.js';
 
+import Library from './books/Library';
+
 const Profile = function(){
 		this.id = ''
 		this.avatar = '';
@@ -19,6 +21,7 @@ const Profile = function(){
     		facebook: '',
     		twitter: ''
     	}
+			this.books = [];
     	this.genres = [];
     	this.themes = [];
     	this.newsletter = true;
@@ -36,7 +39,7 @@ class Parent extends React.Component{
     	this.handleUnfollow = this.handleUnfollow.bind(this);
   	}
 
-  	removeMyProfile = (id,users) => {
+  	removeMyProfile = (id, users) => {
         return users.filter(function(user,index){
             return user._id !== id
         });
@@ -61,6 +64,7 @@ class Parent extends React.Component{
 				this.user.id = response.data._id;
 				//this.user.role = 2;
 				this.setState({user: this.user});
+				self.loadBooks(this.user.id);
 				self.loadUserInfo(this.user.id);
 				self.getUsers(this.user.id);
 			}else {
@@ -94,10 +98,21 @@ class Parent extends React.Component{
 			});
 		});
 	}
+
+	loadBooks = id => {
+		fetch('/api/v1/books/' + id)
+			.then(res => res.json())
+			.then(res => this.setState({
+				books: res.data,
+			}))
+			.then(res => console.log(this.state));
+	}
+
 	render(){
 
 		let following = "You're not following any authors",
 		authors = this.state.user.following_authors,
+		books = this.state.user.books,
 		button = "Unfollow",
 		func = this.handleUnfollow;
 
@@ -213,13 +228,9 @@ class Parent extends React.Component{
 								{following}
 							</ul>
 						<hr/>
-							<div className="title-row">
-								<h4>My Library</h4>
-								{/* <a className="control" href=".">See All</a> */}
-							</div>
-							<div className="book-blocks book-blocks-small">
-								You don't have any books in your library
-								{/*
+						<Library books={this.state.books} />
+							{/*
+							
 									<ul>
 										<li>
 											<a href="." className="content-block content-block-book">
@@ -246,8 +257,8 @@ class Parent extends React.Component{
 										<li className="spacing-block"></li>
 										<li className="spacing-block"></li>
 									</ul>
-								*/}
-							</div>
+								
+							</div>*/}
 						<hr/>
 						<div className="title-row">
 							<h4>Books I’ve Written</h4>
