@@ -1,5 +1,5 @@
 import React from 'react';
-import { validate, formValid } from '../../plugins/validation';
+// import { validate, formValid } from '../../plugins/validation';
 
 const UploadCover = props => {
   const { author, title, coverFile, handleChange, coverAdd } = props;
@@ -36,22 +36,22 @@ const UploadCover = props => {
       </ul>
     </div>
   );
-}
+};
 
-const Caption = ({ title, author = "Kjartan", rating }) => (
+const Caption = ({ title, author = 'Kjartan', stars = 5 }) => (
   <figcaption>
     <BookTitle title={title} />
     <AuthorName author={author} />
-    <Rating stars={5} />
+    <Rating stars={stars} />
   </figcaption>
 );
 
-const Cover = ({ title, coverFile }) => {
+const Cover = ({ coverFile }) => {
   if (coverFile) {
     return (
       <div className="cover">
         <div className="flex">
-          <img src={coverFile} />
+          <img src={coverFile} alt="coverFile" />
         </div>
       </div>
     );
@@ -59,20 +59,20 @@ const Cover = ({ title, coverFile }) => {
     return (
       <div className="cover">
         <div className="flex">
-          <img src="/assets/images/default-cover-art.png" />
+          <img src="/assets/images/default-cover-art.png" alt="defaultCoverFile" />
         </div>
       </div>
     );
   }
 }
 
-const BookTitle = ({ title }) => <h4>{title ? title : "Title Area"}</h4>;
-const AuthorName = ({ author }) => <p>by {author ? author : "[Author Name]"}</p>;
+const BookTitle = ({ title }) => <h4>{title || 'Title Area'}</h4>;
+const AuthorName = ({ author }) => <p>by {author || '[Author Name]'}</p>;
 
 const Rating = ({ stars = 5 }) => {
-  let starsRated = [];
+  const starsRated = [];
   for (let i = 0; i < stars; i++) {
-    starsRated.push(<li key={i}></li>)
+    starsRated.push(<li key={i} />);
   }
   return (
     <ul className="rating-display">
@@ -91,7 +91,10 @@ const Information = props => {
         <ul className="inner-fields">
           <li>
             <label htmlFor="title"><span>*</span>Book Title</label>
-            <input id="title" name="title" type="text" onBlur={validate} onChange={handleChange} value={title} data-validation="name, required" />
+            <input
+              id="title" name="title" type="text" onBlur={validate}
+              onChange={handleChange} value={title} data-validation="name, required"
+            />
           </li>
           <li>
             <label htmlFor="cover"><span>*</span>Upload Cover Art</label>
