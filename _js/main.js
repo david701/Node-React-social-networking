@@ -203,9 +203,9 @@ class UploadCover extends React.Component{
 	_onSubmit = (e) => {
 		e.preventDefault();
 		var postData = {title: this.state.title, cover: this.state.coverFile}
-		$.post('/api/v1/mybooks', postData).then((data) => {
-			window.location.href = "/dashboard";
-		});
+		// $.post('/api/v1/mybooks', postData).then((data) => {
+		// 	window.location.href = "/dashboard";
+		// });
 	}
 
 	render(){

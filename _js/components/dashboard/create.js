@@ -6,12 +6,12 @@ import SocialMedia from './SocialMedia';
 import { validate, formValid } from '../../plugins/validation';
 
 const themes = ["Contemporary", "Historical",
-                "Drama", "Chick Lit", "Tragedy",
-                "Adventure", "Urban", "Epic",
-                "Romance", "Spiritual", "Humor",
-                "Paranormal", "Young Adult",
-                "Middle Grade", "Children", "Thriller",
-                "Mystery", "Classic"];
+  "Drama", "Chick Lit", "Tragedy",
+  "Adventure", "Urban", "Epic",
+  "Romance", "Spiritual", "Humor",
+  "Paranormal", "Young Adult",
+  "Middle Grade", "Children", "Thriller",
+  "Mystery", "Classic"];
 const genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction"];
 const warnings = ["Warning 1", "Warning 2", "Warning 3", "Warning 4"];
 
@@ -31,10 +31,10 @@ class DashboardCreate extends Component {
       socialMedia: {
         amazon: 'https://',
         kobo: 'https://',
-    		smashword: 'https://',
-    		itunes: 'https://',
-    		barnesandnoble: 'https://',
-    		twitter: 'https://'
+        smashword: 'https://',
+        itunes: 'https://',
+        barnesandnoble: 'https://',
+        twitter: 'https://'
       },
       chapterTitle: ''
     };
@@ -67,7 +67,7 @@ class DashboardCreate extends Component {
     reader.readAsDataURL(file);
     this.setState({ coverFile: true }, () => console.log(this.state.coverFile));
   }
-  
+
   _handleGenres = e => {
     const { genres } = this.state;
     const newGenre = e.target.value;
@@ -127,8 +127,8 @@ class DashboardCreate extends Component {
     return (
       <div className="content-block content-block-standard account-block">
         <header>
-          <h3>Create Your Book</h3>
-        </header>
+          <h3>Create Your Book</h3>
+        </header>
         <hr />
         <form onSubmit={this._handleSubmit}>
           <UploadCover title={title} handleChange={this._handleChange} coverAdd={this._handleCover}/>
@@ -154,106 +154,88 @@ class DashboardCreate extends Component {
   }
 }
 
-export const Description = props => {
-  const { description, handleChange } = props;
-  return (
-    <div>
-      <h4><span>Step 2.</span> Tell us about your book</h4>
-      <div className="title">
-        <label htmlFor="description"><span>*</span>Description</label>
-        <span className="help-text">Please enter a description.</span>
-      </div>
-      <textarea
-        id="description"
-        rows="5"
-        placeholder="Add a 250 character description here."
-        data-validation="required"
-        onBlur={validate}
-        onChange={handleChange}
-        value={description}
-      />
+export const Description = ({ description, handleChange }) => (
+  <div>
+    <h4><span>Step 2.</span> Tell us about your book</h4>
+    <div className="title">
+      <label htmlFor="description"><span>*</span>Description</label>
+      <span className="help-text">Please enter a description.</span>
     </div>
-  );
-}
+    <textarea
+      id="description"
+      rows="5"
+      placeholder="Add a 250 character description here."
+      data-validation="required"
+      onBlur={validate}
+      onChange={handleChange}
+      value={description}
+    />
+  </div>
+);
 
-export const Genres = props => {
-  const { genres, handleCheckbox } = props;
-  return (
-    <div>
-      <p><span>*</span>Select up to <strong>three</strong> genres for your book to be listed.</p>
-      <div className="new-create-books-row">
-        {genres.map((genre, index) => (
-          <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} />
-        ))}
-      </div>
+export const Genres = ({ genres, handleCheckbox }) => (
+  <div>
+    <p><span>*</span>Select <strong>one</strong> genre for your book to be listed.</p>
+    <div className="new-create-books-row">
+      {genres.map((genre, index) => (
+        <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} />
+      ))}
     </div>
-  );
-}
+  </div>
+);
 
-export const Themes = props => {
-  const { themes, handleCheckbox } = props;
-  return (
-    <div>
-      <div className="title">
-        <p><span>*</span>Select up to <strong>three</strong> tags that best describe your book.</p>
-        <span className="help-text">Please select at least one tag.</span>
-      </div>
-      <div className="new-create-books-row">
-        {themes.map((theme, index) => (
-          <Checkbox name="themes" label={theme} key={index} handleCheckboxChange={handleCheckbox} />
-        ))}
-      </div>
+export const Themes = ({ themes, handleCheckbox }) => (
+  <div>
+    <div className="title">
+      <p><span>*</span>Select up to <strong>two</strong> tags that best describe your book.</p>
+      <span className="help-text">Please select at least one tag.</span>
     </div>
-  );
-}
+    <div className="new-create-books-row">
+      {themes.map((theme, index) => (
+        <Checkbox name="themes" label={theme} key={index} handleCheckboxChange={handleCheckbox} />
+      ))}
+    </div>
+  </div>
+);
 
-export const Warnings = props => {
-  const { warnings, handleCheckbox } = props;
-  return (
-    <div>
-      <p>Content warning</p>
-      <div className="new-create-books-row">
-        {warnings.map((warning, index) => (
-          <Checkbox name="warnings" label={warning} key={index} handleCheckboxChange={handleCheckbox} />
-        ))}
-      </div>
+export const Warnings = ({ warnings, handleCheckbox }) => (
+  <div>
+    <p>Content warning</p>
+    <div className="new-create-books-row">
+      {warnings.map((warning, index) => (
+        <Checkbox name="warnings" label={warning} key={index} handleCheckboxChange={handleCheckbox} />
+      ))}
     </div>
-  );
-}
+  </div>
+);
 
-export const ChapterTitle = props => {
-  const { chapterTitle, handleChange, type } = props;
-  return (
-    <div>
-      <h4><span>Step {type === "Published" ? "5" : "4"}.</span> Chapter Title</h4>
-      <div className="title">
-        <label htmlFor="chapterTitle"><span>*</span>What is the title of this chapter?</label>
-        <span className="help-text">Please give your first chapter a title.</span>
-      </div>
-      <input id="chapterTitle" type="text" value={chapterTitle} onChange={handleChange} data-validation="name, required" />
+export const ChapterTitle = ({ chapterTitle, handleChange, type }) => (
+  <div>
+    <h4><span>Step {type === "Published" ? "5" : "4"}.</span> Chapter Title</h4>
+    <div className="title">
+      <label htmlFor="chapterTitle"><span>*</span>What is the title of this chapter?</label>
+      <span className="help-text">Please give your first chapter a title.</span>
     </div>
-  );
-};
+    <input id="chapterTitle" type="text" value={chapterTitle} onChange={handleChange} data-validation="name, required" />
+  </div>
+);
 
-export const BookType = props => {
-  const { types, handleChange } = props;
-  return (
-    <div>
-      <p><span>*</span>What kind of book is it?</p>
-      <ul className="radio-list radio-list-inline">
-        {types.map((type, index) => (
-          <li key={index}>
-            <input type="radio" name="avatar" id={"avatar-" + (index + 1)} value={type} onChange={handleChange} />
-            <label htmlFor={"avatar-"+ (index + 1)}>
-              {type}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+export const BookType = ({ types, handleChange }) => (
+  <div>
+    <p><span>*</span>What kind of book is it?</p>
+    <ul className="radio-list radio-list-inline">
+      {types.map((type, index) => (
+        <li key={index}>
+          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} value={type} onChange={handleChange} />
+          <label htmlFor={"avatar-"+ (index + 1)}>
+            {type}
+          </label>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 
 if(document.getElementById('dashboard-create'))
-	ReactDOM.render(<DashboardCreate />, document.getElementById('dashboard-create'))
+  ReactDOM.render(<DashboardCreate />, document.getElementById('dashboard-create'))

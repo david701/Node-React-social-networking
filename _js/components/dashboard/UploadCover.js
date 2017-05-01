@@ -56,13 +56,13 @@ const Cover = ({ title, coverFile }) => {
       </div>
     );
   } else {
-      return (
-        <div className="cover">
-          <div className="flex">
-            <img src="/assets/images/default-cover-art.png" alt=""/>
-          </div>
+    return (
+      <div className="cover">
+        <div className="flex">
+          <img src="/assets/images/default-cover-art.png" />
         </div>
-      );
+      </div>
+    );
   }
 }
 
