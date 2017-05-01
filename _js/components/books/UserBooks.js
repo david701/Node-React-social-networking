@@ -13,7 +13,7 @@ function sanitize(status) {
   }
 }
 
-const UserBooks = ({ books }) => (
+const UserBooks = ({ books, author, defaultCover }) => (
   <ul>
     {books.map((book, index) => (
       <li key={index}>
@@ -22,14 +22,14 @@ const UserBooks = ({ books }) => (
         {sanitize(book.status)}
         <a href="." className="content-block content-block-book">
           <figure>
-            <div className="cover">
+            <div className="cover" style={{ backgroundImage: book.cover || defaultCover }}>
               <div className="overlay">
                 <button className="button button-red" href=".">Unfollow</button>
               </div>
             </div>
             <figcaption>
-              <h4>Title Area</h4>
-              <p>By [Author Name]</p>
+              <h4>{book.title}</h4>
+              <p>By {author}</p>
               <ul className="rating-display">
                 <li className="filled"></li>
                 <li className="filled"></li>

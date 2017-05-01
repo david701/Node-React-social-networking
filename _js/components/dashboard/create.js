@@ -103,6 +103,15 @@ class DashboardCreate extends Component {
   }
 
   _handleSubmit = e => {
+    const data = {
+      cover: this.state.coverFile,
+      title: this.state.title,
+      status: 0,
+    };
+    fetch('/api/v1/books', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    }).then(res => console.log(res.json));
     e.preventDefault();
   }
 

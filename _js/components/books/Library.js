@@ -4,14 +4,14 @@ import UserBooks from './UserBooks';
 
 class Library extends Component {
   render() {
-    const { books } = this.props;
+    const { books, author, defaultCover } = this.props;
     return (
       <div>
         <div className="title-row">
           <h1>My Library</h1>
           <a className="control" href=".">See All</a>
         </div>
-        <UserBooks books={books} />
+        <UserBooks books={books} author={author} defaultCover={defaultCover} />
       </div>
     );
   }

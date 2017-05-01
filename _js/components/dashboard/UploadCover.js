@@ -46,7 +46,7 @@ const Caption = ({ title, author = 'Kjartan', stars = 5 }) => (
   </figcaption>
 );
 
-const Cover = ({ coverFile }) => (
+export const Cover = ({ coverFile }) => (
   <div className="cover">
     <div className="flex">
       <img src={coverFile} alt="defaultCoverFile" />

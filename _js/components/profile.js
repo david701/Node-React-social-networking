@@ -228,7 +228,7 @@ class Parent extends React.Component{
 								{following}
 							</ul>
 						<hr/>
-						<Library books={this.state.books} />
+						<Library books={this.state.books} author={this.state.user.name} defaultCover={'../../adcc6caa72ed9faa68ca3ffa9e0f9493.png'} />
 							{/*
 							
 									<ul>
