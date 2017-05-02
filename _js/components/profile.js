@@ -113,7 +113,7 @@ class Parent extends React.Component{
 	// }
 
 	loadBooks = id => {
-		fetch('/api/v1/books/' + id)
+		fetch(`/api/v1/users/${id}/books`)
 			.then(res => res.json())
 			.then(res => this.setState({
 				books: res.data,

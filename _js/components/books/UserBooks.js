@@ -2,18 +2,18 @@ import React from 'react';
 
 import Rating from '../dashboard/Rating';
 
-function sanitize(status) {
-  switch (status) {
-    case 0:
-      return 'Removed';
-    case 1:
-      return 'Pending';
-    case 2:
-      return 'Active';
-    default:
-      return 'N/A';
-  }
-}
+// function sanitize(status) {
+//   switch (status) {
+//     case 0:
+//       return 'Removed';
+//     case 1:
+//       return 'Pending';
+//     case 2:
+//       return 'Active';
+//     default:
+//       return 'N/A';
+//   }
+// }
 
 const UserBooks = ({ books, author }) => (
   <ul>
@@ -28,9 +28,7 @@ const UserBooks = ({ books, author }) => (
               }}
             >
               <div className="overlay">
-                <h3 style={{ color: 'white' }}>{sanitize(book.status)}</h3>
-                <button className="button button-red" href={`/books/${book._id}/edit`} onClick={console.log(book._id)}>Edit</button>
-                <a href={`/books/${book._id}/edit`}>Edit</a>
+                <a className="button button-red" href={`/books/${book._id}/edit`}>Edit</a>
               </div>
             </div>
             <figcaption>

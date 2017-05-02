@@ -6,13 +6,25 @@ class EditBook extends Component {
     super(props);
     this.state = {
       title: '',
+      author: '',
+      chapters: [],
     };
   }
 
   componentWillMount() {
+    this.loadData();
+  }
+
+  loadData = () => {
     fetch(`/api/v1/books/${bookId}`)
       .then(res => res.json())
-      .then(res => console.log(res));
+      .then(res => {
+        console.log(res.data);
+        const data = res.data;
+        this.setState({
+          title: data.title,
+        }, () => console.log(this.state));
+      });
   }
 
   render() {
@@ -21,17 +33,18 @@ class EditBook extends Component {
         <header>
           <h3>Serial</h3>
         </header>
-        <TableOfContents />
+        <TableOfContents title={this.state.title} />
       </div>
     );
   }
 }
 
-const TableOfContents = () => (
+const TableOfContents = ({ title }) => (
   <div>
     <h4>Table of Contents</h4>
+    <h4><span>{title}</span></h4>
     <div>
-      <h4><span>Chapter 1</span></h4>
+      {/*<h4><span>Chapter 1</span></h4>*/}
       <p>Chapter Name (In Progress)</p>
     </div>
     <div className="submit-row submit-row-small">
