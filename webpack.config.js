@@ -1,6 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-//const isDebug = !process.argv.includes('--release');
+// const isDebug = !process.argv.includes('--release');
 
 module.exports = {
   entry: {
@@ -19,19 +19,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
+        loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader'}),
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' }),
+        loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader!sass-loader'}),
       },
-      // {
-      //   test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-      //   loader: 'file-loader',
-      //   query: {
-      //     name: isDebug ? '[path][name].[ext]?[hash:8]' : '[hash:8].[ext]',
-      //   },
-      // },
+      {
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        loader: 'file-loader?name=[name].[ext]&publicPath=public/&outputPath=public/assets/images/',
+      },
     ],
   },
   plugins: [
