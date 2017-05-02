@@ -128,8 +128,6 @@ class Parent extends React.Component{
 		button = "Unfollow",
 		func = this.handleUnfollow;
 
-		const books = this.state.books;
-
 		if(this.state.user.role > 0){
 			following = "There are no user's to edit";
 			authors = this.state.all_users;
@@ -242,7 +240,7 @@ class Parent extends React.Component{
 								{following}
 							</ul>
 						<hr/>
-						<Library books={this.state.books} author={this.state.user.name} cover={defaultCover} />
+						<Library books={this.state.books} author={this.state.user.name} />
 							{/*
 							
 									<ul>

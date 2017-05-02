@@ -4,6 +4,7 @@ import UploadCover from './UploadCover';
 import Checkbox from './Checkbox';
 import SocialMedia from './SocialMedia';
 import {validate, formValid} from '../../plugins/validation';
+import $ from 'jquery';
 
 import themes from '../../../data/themes.json';
 import genres from '../../../data/genres.json';
@@ -103,17 +104,26 @@ class DashboardCreate extends Component {
   }
 
   _handleSubmit = e => {
-    const data = {
-      cover: this.state.coverFile,
+    let data = {
       title: this.state.title,
-      status: 0,
+      status: 1,
     };
-    // add id?
-    fetch('/api/v1/books/', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    }).then(window.location.href = "/dashboard");
+    // console.log(data);
+    // // add id? Why is this the user id?
+    // fetch('/api/v1/books/', {
+    //   method: 'POST',
+    //   body: JSON.stringify(data)
+    // }).then(res => res.json()).then(res => console.log(res.data));
+      // .then(window.location.href = "/dashboard");
+
     e.preventDefault();
+    $.post('/api/v1/books', data).then(res => {
+      if (res.status === "error") {
+        alert(res.message);
+      } else {
+        console.log(res);
+      }
+    });
   }
 
   _onUrlChange = e => {

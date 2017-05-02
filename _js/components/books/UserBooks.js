@@ -15,7 +15,7 @@ function sanitize(status) {
   }
 }
 
-const UserBooks = ({ books, author, defaultCover }) => (
+const UserBooks = ({ books, author }) => (
   <ul>
     {books.map((book, index) => (
       <li key={index}>
