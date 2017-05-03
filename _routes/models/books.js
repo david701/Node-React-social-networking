@@ -110,5 +110,24 @@ exports.addChapter = (req, res)=>{
 			req.json({status:'error', message: err});
 		});
 	}
+}
 
+exports.getChapters = (req, res)=>{
+	var book_id = req.params.id;
+	mongoChapter.find({_id: book_id}).then((chapters)=>{
+		res.json({status: 'ok', data: chapters})
+	}).catch(function(err)=>{
+		res.json({status: 'ok', message: err})
+	})
+}
+
+exports.getChapterByNumber = (req, res)=>{
+	var book_id = req.params.id,
+			number = parseInt(req.params.number);
+
+	mongoChapter.findOne({number: number}).then((chapter)=>{
+		res.json({status: 'ok', data: chapter})
+	}).catch(function(err)=>{
+		res.json({status: 'ok', message: err})
+	})
 }

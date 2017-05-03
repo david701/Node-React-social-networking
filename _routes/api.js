@@ -46,8 +46,12 @@ router.route('/books/:id')
 router.route('/users/:id/books/')
 	.get(Books.getUserBooks)
 
-router.route('/book/:id/chapter')
+router.route('/books/:id/chapters')
 	.post(Books.addChapter)
+	.get(Books.getChapters)
+
+router.route('/books/:id/chapters/:number')
+	.get(Books.getChapterByNumber)
 
 /// END BOOKS API ///
 
