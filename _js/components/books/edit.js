@@ -35,7 +35,7 @@ class EditBook extends Component {
           <header>
             <h3>Serial</h3>
           </header>
-        </div>   
+        </div>
         <div className="content-block content-block-standard account-block">
           <TableOfContents title={this.state.title} />
         </div>
@@ -44,7 +44,8 @@ class EditBook extends Component {
   }
 }
 
-const TableOfContents = ({ title }) => (
+const TableOfContents = ({ title }) => {
+  return (
   <div>
     <h4>Table of Contents</h4>
     <h4><span>{title}</span></h4>
@@ -54,11 +55,11 @@ const TableOfContents = ({ title }) => (
     </div>
     <div className="submit-row submit-row-small">
       <div className="buttons">
-        <button className="button button-red">Add Chapter</button>
+        <button className="button button-red" onClick={addChapter}>Add Chapter</button>
       </div>
     </div>
-  </div>
-);
+  </div>);
+};
 
 
 if (document.getElementById('edit-book')) {
