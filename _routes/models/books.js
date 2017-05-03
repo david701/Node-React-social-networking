@@ -17,7 +17,7 @@ exports.getBooks = (req, res)=>{
 
 exports.getUserBooks = (req, res)=>{
 	var limit  = req.query.limit || 0;
-	mongoBook.find({author: req.params.id}).where('status').sort( [['_id', -1]] ).gt(0).limit(limit).populate('author', 'name avatar').then((books)=>{
+	mongoBook.find({author: req.params.id}).where('status').gt(0).sort( [['_id', -1]] ).limit(limit).populate('author', 'name avatar').then((books)=>{
 		if(!books){
 			res.json({status: 'error', message: 'No books for current user'});
 		}else{
@@ -124,7 +124,21 @@ exports.getChapterByNumber = (req, res)=>{
 	var book_id = req.params.id,
 			number = parseInt(req.params.number);
 
-	mongoChapter.findOne({number: number}).then((chapter)=>{
+	mongoChapter.findOne({_id: book_id}).where('number').equals(number).then((chapter)=>{
+		res.json({status: 'ok', data: chapter})
+	}).catch(function(err)=>{
+		res.json({status: 'ok', message: err})
+	})
+}
+
+exports.editChapter = (req, res)=>{
+	var book_id = req.params.id,
+			number = parseInt(req.params.number);
+
+	mongoChapter.findOne({_id: book_id}).where('number').equals(number).then((chapter)=>{
+		if(!chapter){
+			req.json({status:'error', message: 'Chapter does not exist'});
+		}
 		res.json({status: 'ok', data: chapter})
 	}).catch(function(err)=>{
 		res.json({status: 'ok', message: err})
