@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import TinyMCE from 'react-tinymce';
 
+import TableOfContents from './TableOfContents';
+
+const apiUrl = `/api/v1`;
+
 class EditBook extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       author: '',
-      chapters: [],
     };
   }
 
@@ -29,6 +32,7 @@ class EditBook extends Component {
   }
 
   render() {
+    const { title, chapters } = this.state;
     return (
       <div>
         <div className="content-block content-block-standard account-block">
@@ -37,30 +41,12 @@ class EditBook extends Component {
           </header>
         </div>
         <div className="content-block content-block-standard account-block">
-          <TableOfContents title={this.state.title} />
+          <TableOfContents title={title} bookId={bookId} />
         </div>
       </div>
     );
   }
 }
-
-const TableOfContents = ({ title }) => {
-  return (
-  <div>
-    <h4>Table of Contents</h4>
-    <h4><span>{title}</span></h4>
-    <div>
-      {/*<h4><span>Chapter 1</span></h4>*/}
-      <p>Chapter Name (In Progress)</p>
-    </div>
-    <div className="submit-row submit-row-small">
-      <div className="buttons">
-        <button className="button button-red" onClick={addChapter}>Add Chapter</button>
-      </div>
-    </div>
-  </div>);
-};
-
 
 if (document.getElementById('edit-book')) {
   render(

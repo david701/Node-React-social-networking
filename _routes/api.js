@@ -43,7 +43,7 @@ router.route('/books/:id')
 	.put(Books.editBook)
 	.delete(Books.removeBook)
 
-router.route('/users/:id/books/')
+router.route('/users/:id/books')
 	.get(Books.getUserBooks)
 
 router.route('/books/:id/chapters')
