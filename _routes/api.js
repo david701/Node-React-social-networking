@@ -52,6 +52,8 @@ router.route('/books/:id/chapters')
 
 router.route('/books/:id/chapters/:number')
 	.get(Books.getChapterByNumber)
+	.put(Books.editChapter)
+	.delete(Books.deleteChapter)
 
 /// END BOOKS API ///
 
