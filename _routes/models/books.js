@@ -138,8 +138,37 @@ exports.editChapter = (req, res)=>{
 	mongoChapter.findOne({_id: book_id}).where('number').equals(number).then((chapter)=>{
 		if(!chapter){
 			req.json({status:'error', message: 'Chapter does not exist'});
+		}else{
+
+			if(req.body.name) chapter.name = req.body.name;
+			if(req.body.content) chapter.content = req.body.content;
+			if(req.body.status) chapter.status = req.body.status;
+
+			chapter.save().then(function(chapter){
+				res.json({status: 'ok', data: chapter})
+			}).catch(function(err){
+				res.json({status: 'ok', message: err})
+			})
 		}
-		res.json({status: 'ok', data: chapter})
+	}).catch(function(err)=>{
+		res.json({status: 'ok', message: err})
+	})
+}
+
+exports.deleteChapter = (req, res)=>{
+	var book_id = req.params.id,
+			number = parseInt(req.params.number);
+	mongoChapter.findOne({_id: book_id}).where('number').equals(number).then((chapter)=>{
+		if(!chapter){
+			req.json({status:'error', message: 'Chapter does not exist'});
+		}else{
+			chapter.status = 0;
+			chapter.save().then(function(chapter){
+				res.json({status: 'ok', data: chapter})
+			}).catch(function(err){
+				res.json({status: 'ok', message: err})
+			})
+		}
 	}).catch(function(err)=>{
 		res.json({status: 'ok', message: err})
 	})
