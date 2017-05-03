@@ -82,3 +82,51 @@ exports.editBook = (req, res)=>{
 		res.json({status: 'error', message: err});
 	})
 }
+
+exports.addChapter = (req, res)=>{
+	var book_id = req.params.id;
+
+	if(!book_id || !req.body.number || !req.body.number || !req.body.name){
+		res.json({status: 'error', message: 'Missing parameters'})
+	}else{
+		mongoChapter.findOne({number: req.body.number}).then((chapter)=>{
+			if(chapter){
+				req.json({status:'error', message: 'Chapter number already exists'});
+			}else{
+				var chapterInfo = {
+					book_id: book_id,
+					number: parseInt(req.body.number),
+					name: req.body.name,
+					content: req.body.content,
+					status: 1
+				}
+				var chapter = new mongoChapter(chapterInfo);
+				chapter.save().then((chapter)=>{
+					req.json({status: 'ok', data: chapter});
+				})
+			}
+		}).catch(function(err){
+			req.json({status:'error', message: err});
+		});
+	}
+}
+
+exports.getChapters = (req, res)=>{
+	var book_id = req.params.id;
+	mongoChapter.find({_id: book_id}).sort('number').then((chapters)=>{
+		res.json({status: 'ok', data: chapters})
+	}).catch(function(err)=>{
+		res.json({status: 'ok', message: err})
+	})
+}
+
+exports.getChapterByNumber = (req, res)=>{
+	var book_id = req.params.id,
+			number = parseInt(req.params.number);
+
+	mongoChapter.findOne({number: number}).then((chapter)=>{
+		res.json({status: 'ok', data: chapter})
+	}).catch(function(err)=>{
+		res.json({status: 'ok', message: err})
+	})
+}
