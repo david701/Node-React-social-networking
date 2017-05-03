@@ -16,7 +16,8 @@ exports.getBooks = (req, res)=>{
 }
 
 exports.getUserBooks = (req, res)=>{
-	mongoBook.find({author: req.params.id}).where('status').gt(0).then((books)=>{
+	var limit  = req.query.limit || 0;
+	mongoBook.find({author: req.params.id}).where('status').sort( [['_id', -1]] ).gt(0).limit(limit).populate('author', 'name avatar').then((books)=>{
 		if(!books){
 			res.json({status: 'error', message: 'No books for current user'});
 		}else{
