@@ -237,13 +237,9 @@ class Parent extends React.Component{
                       {following}
                     </ul>
                     <hr/>
-                    <Library books={this.state.books} author={this.state.user.name} />
               <hr/>
-              <div className="title-row">
-                <h4>Books I’ve Written</h4>
-                {/* <a class="control" href=".">See All</a> */}
-              </div>
-              You haven't written any books
+              {this.state.books && <Library books={this.state.books} author={this.state.user.name} title={"My Library"} />}
+              {this.state.books && <Library books={this.state.books} author={this.state.user.name} title={"Books I've Written"} />}
             </div>
             <div>
               <div className="content-block">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import TinyMCE from 'react-tinymce';
 
 class EditBook extends Component {
   constructor(props) {
@@ -29,11 +30,15 @@ class EditBook extends Component {
 
   render() {
     return (
-      <div className="content-block content-block-standard account-block">
-        <header>
-          <h3>Serial</h3>
-        </header>
-        <TableOfContents title={this.state.title} />
+      <div>
+        <div className="content-block content-block-standard account-block">
+          <header>
+            <h3>Serial</h3>
+          </header>
+        </div>   
+        <div className="content-block content-block-standard account-block">
+          <TableOfContents title={this.state.title} />
+        </div>
       </div>
     );
   }
