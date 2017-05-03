@@ -114,7 +114,7 @@ exports.addChapter = (req, res)=>{
 
 exports.getChapters = (req, res)=>{
 	var book_id = req.params.id;
-	mongoChapter.find({_id: book_id}).then((chapters)=>{
+	mongoChapter.find({_id: book_id}).sort('number').then((chapters)=>{
 		res.json({status: 'ok', data: chapters})
 	}).catch(function(err)=>{
 		res.json({status: 'ok', message: err})
