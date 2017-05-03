@@ -72,7 +72,7 @@ const Rating = ({ stars = 5 }) => {
 const Information = ({ title, handleChange, coverAdd, validate }) => (
   <div className="copy">
     <p>Add Basic Information</p>
-    <form id="coverForm">
+    <div id="coverForm">
       <ul className="inner-fields">
         <li>
           <label htmlFor="title"><span>*</span>Book Title</label>
@@ -92,7 +92,7 @@ const Information = ({ title, handleChange, coverAdd, validate }) => (
           <button id="coverSubmit" type="submit" style={{ display: 'none' }} />
         </li>
       </ul>
-    </form>
+    </div>
   </div>
 );
 
