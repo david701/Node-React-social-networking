@@ -28,7 +28,7 @@ exports.getUserBooks = (req, res)=>{
 }
 
 exports.getBooksById = (req, res)=>{
-	mongoBook.findOne({_id: req.params.id}).then((book)=>{
+	mongoBook.findOne({_id: req.params.id}).populate('author', 'avatar name').then((book)=>{
 		if(!book){
 			res.json({status: 'error', message: 'Book does not exist.'});
 		}else{
