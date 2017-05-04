@@ -90,7 +90,7 @@ exports.addChapter = (req, res)=>{
 	if(!book_id || !req.body.number || !req.body.content || !req.body.name){
 		res.json({status: 'error', message: 'Missing parameters'})
 	}else{
-		mongoChapter.findOne({number: req.body.number}).then((chapter)=>{
+		mongoChapter.findOne({_id: book_id}).where('number').equals(number).then((chapter)=>{
 			if(chapter){
 				res.json({status:'error', message: 'Chapter number already exists'});
 			}else{
