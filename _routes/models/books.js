@@ -116,7 +116,7 @@ exports.getChapters = (req, res)=>{
 	var book_id = req.params.id;
 	mongoChapter.find({_id: book_id}).sort('number').then((chapters)=>{
 		res.json({status: 'ok', data: chapters})
-	}).catch(function(err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
@@ -127,7 +127,7 @@ exports.getChapterByNumber = (req, res)=>{
 
 	mongoChapter.findOne({_id: book_id}).where('number').equals(number).then((chapter)=>{
 		res.json({status: 'ok', data: chapter})
-	}).catch(function(err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
@@ -151,7 +151,7 @@ exports.editChapter = (req, res)=>{
 				res.json({status: 'ok', message: err})
 			})
 		}
-	}).catch(function(err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
@@ -170,7 +170,7 @@ exports.deleteChapter = (req, res)=>{
 				res.json({status: 'ok', message: err})
 			})
 		}
-	}).catch(function(err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
