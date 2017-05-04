@@ -7,6 +7,19 @@ import BookDetails from '../../components/books/BookDetails';
 
 const apiUrl = `/api/v1`;
 
+const chapters = [{
+  name: 'Hello, world!',
+  number: 1,
+},
+{
+  name: 'Test',
+  number: 2,
+},
+{
+  name: 'Even more',
+  number: 3,
+}];
+
 class EditBook extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +47,21 @@ class EditBook extends Component {
   }
 
   render() {
-    const { title, chapters, author } = this.state;
+    const { title, author } = this.state;
     return (
       <div>
         <BookDetails title={title} bookId={bookId} author={author} status={status} />
-        <div className="content-block content-block-standard account-block">
-          <TableOfContents title={title} bookId={bookId} />
+        <div className="content-block">
+          <div className="placeholder">
+            <h4>Ad Space</h4>
+          </div>
         </div>
+        <div className="content-block">
+          <div className="placeholder">
+            <h4>Description</h4>
+          </div>
+        </div>
+        <TableOfContents title={title} bookId={bookId} />
       </div>
     );
   }
