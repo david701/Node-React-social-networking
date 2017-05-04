@@ -6,7 +6,7 @@ const TableOfContents = props => {
     <div className="content-block content-block-standard">
       <h4>Table of Contents</h4>
       <h4><span>{title}</span></h4>
-      {chapters.map(chapter => (
+      {chapters && chapters.map(chapter => (
         <div>
           <h5><span>Chapter {chapter.number}</span></h5>
           <p>{chapter.name}</p>

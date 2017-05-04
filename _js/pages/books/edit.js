@@ -7,52 +7,28 @@ import BookDetails from '../../components/books/BookDetails';
 
 const apiUrl = `/api/v1`;
 
-const chapters = [{
-  name: 'Hello, world!',
-  number: 1,
-},
-{
-  name: 'Test',
-  number: 2,
-},
-{
-  name: 'Even more',
-  number: 3,
-}];
-
 class EditBook extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       author: '',
-      chapters,
+      chapters: [],
       newChapterName: '',
       buttonVisible: true,
     };
   }
 
   componentWillMount() {
-    this.loadData();
-    // fetch(`${apiUrl}/users/${this.state.author}`)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({
-    //       author: res.author,
-    //     })
-    //   })
-  }
-
-  loadData = () => {
-    fetch(`/api/v1/books/${bookId}`)
+    fetch(`/api/v1/books/${bookId}/chapters`)
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         this.setState({
-          title: res.data.title,
-          author: res.data.author
-        });
-      });
+          ...this.state,
+          chapters: res.data,
+        }, () => console.log(this.state));
+      })
   }
 
   toggleVisibility = e => {
@@ -76,7 +52,7 @@ class EditBook extends Component {
     const { title, author, chapters, newChapterName, buttonVisible } = this.state;
     return (
       <div>
-        <BookDetails title={title} bookId={bookId} author={author} chapters={chapters.length} />
+        <BookDetails title={title} bookId={bookId} author={author} length={chapters.length} />
         {/*<div className="content-block">
           <div className="placeholder">
             <h4>Ad Space</h4>

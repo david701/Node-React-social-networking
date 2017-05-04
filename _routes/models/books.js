@@ -9,7 +9,7 @@ const mongoUser = mongo.schema.user,
 			mongoChapter = mongo.schema.chapter;
 
 exports.getBooks = (req, res)=>{
-	mongoBook.find({status: 1}).then((books)=>{
+	mongoBook.find({status: 2}).then((books)=>{
 		res.json({status: 'ok', data: books});
 	}).catch((err)=>{
 		res.json({status: 'error', message: err});
@@ -84,18 +84,13 @@ exports.editBook = (req, res)=>{
 	})
 }
 
-exports.addChapter = (req, res) => {
+exports.addChapter = (req, res)=>{
 	var book_id = req.params.id;
 
-	if (!book_id || !req.body.number || !req.body.name) { 
+	if(!book_id || !req.body.number || !req.body.content || !req.body.name){
 		res.json({status: 'error', message: 'Missing parameters'})
-<<<<<<< HEAD
-	} else {
-		mongoChapter.findOne({number: req.body.number}).then((chapter)=>{
-=======
 	}else{
 		mongoChapter.findOne({book_id: book_id}).where('number').equals(parseInt(req.body.number)).then((chapter)=>{
->>>>>>> c7ab03d... chapters fix
 			if(chapter){
 				res.json({status:'error', message: 'Chapter number already exists'});
 			}else{
@@ -119,9 +114,9 @@ exports.addChapter = (req, res) => {
 
 exports.getChapters = (req, res)=>{
 	var book_id = req.params.id;
-	mongoChapter.find({_id: book_id}).sort('number').then((chapters)=>{
+	mongoChapter.find({book_id: book_id}).sort('number').then((chapters)=>{
 		res.json({status: 'ok', data: chapters})
-	}).catch((err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
@@ -132,7 +127,7 @@ exports.getChapterByNumber = (req, res)=>{
 
 	mongoChapter.findOne({book_id: book_id}).where('number').equals(number).then((chapter)=>{
 		res.json({status: 'ok', data: chapter})
-	}).catch((err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
@@ -152,11 +147,11 @@ exports.editChapter = (req, res)=>{
 
 			chapter.save().then(function(chapter){
 				res.json({status: 'ok', data: chapter})
-			}).catch((err) => {
+			}).catch(function(err){
 				res.json({status: 'ok', message: err})
 			})
 		}
-	}).catch((err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
@@ -175,7 +170,7 @@ exports.deleteChapter = (req, res)=>{
 				res.json({status: 'ok', message: err})
 			})
 		}
-	}).catch((err)=>{
+	}).catch(function(err){
 		res.json({status: 'ok', message: err})
 	})
 }
