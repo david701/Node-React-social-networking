@@ -26,9 +26,13 @@ module.exports = {
         loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader!sass-loader'}),
       },
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        loader: 'file-loader?name=[name].[ext]&publicPath=public/&outputPath=public/assets/images/',
+        test: /\.(png|jpg|)$/,
+        loader: 'url-loader?limit=200000',
       },
+      // {
+      //   test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+      //   loader: 'file-loader?name=[name].[ext]&outputPath=public/assets/images/',
+      // },
     ],
   },
   plugins: [

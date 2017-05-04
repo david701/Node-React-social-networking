@@ -24,7 +24,7 @@ const UserBooks = ({ books, author }) => (
             <div
               className="cover"
               style={{
-                backgroundImage: book.cover || "url('/assets/images/pending-cover-art.png')",
+                backgroundImage: book.cover || "url('/assets/images/pending-cover-art.jpg')",
               }}
             >
               <div className="overlay">

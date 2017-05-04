@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { validate, formValid } from '../plugins/validation.js';
 
-import defaultCover from '../../public/assets/images/default-cover-art.png';
-
 import Library from './books/Library';
 
 const Profile = function () {

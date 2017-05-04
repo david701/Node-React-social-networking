@@ -1,5 +1,4 @@
 import React from 'react';
-// import defaultCoverFile from '../../../public/assets/images/default-cover-art.png';
 // import { validate, formValid } from '../../plugins/validation';
 
 const UploadCover = props => {

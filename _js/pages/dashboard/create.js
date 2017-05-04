@@ -16,7 +16,7 @@ class DashboardCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      coverFile: '../../../assets/images/default-cover-art.png',
+      coverFile: '../../../assets/images/default-cover-art.jpg',
       title: '',
       description: '',
       type: '',
