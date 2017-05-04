@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import TinyMCE from 'react-tinymce';
 
-import TableOfContents from './TableOfContents';
+import TableOfContents from '../../components/books/TableOfContents';
+import BookDetails from '../../components/books/BookDetails';
 
 const apiUrl = `/api/v1`;
 
@@ -24,22 +25,19 @@ class EditBook extends Component {
       .then(res => res.json())
       .then(res => {
         console.log(res.data);
-        const data = res.data;
         this.setState({
-          title: data.title,
+          title: res.data.title,
+          author: res.data.author,
+          chapters: res.data.chapters,
         }, () => console.log(this.state));
       });
   }
 
   render() {
-    const { title, chapters } = this.state;
+    const { title, chapters, author } = this.state;
     return (
       <div>
-        <div className="content-block content-block-standard account-block">
-          <header>
-            <h3>Serial</h3>
-          </header>
-        </div>
+        <BookDetails title={title} bookId={bookId} author={author} status={status} />
         <div className="content-block content-block-standard account-block">
           <TableOfContents title={title} bookId={bookId} />
         </div>

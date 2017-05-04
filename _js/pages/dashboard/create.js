@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import UploadCover from './UploadCover';
-import Checkbox from './Checkbox';
-import SocialMedia from './SocialMedia';
+import UploadCover from '../../components/dashboard/UploadCover';
+import Checkbox from '../../components/dashboard/Checkbox';
+import SocialMedia from '../../components/dashboard/SocialMedia';
 import {validate, formValid} from '../../plugins/validation';
 import $ from 'jquery';
 

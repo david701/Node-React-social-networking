@@ -269,7 +269,7 @@ class Parent extends React.Component {
               <hr />
               <div className="title-row">
                 <h4>Edit Users</h4>
-                <a class="control" href="/dashboard/all-users">See All</a>
+                <a className="control" href="/dashboard/all-users">See All</a>
               </div>
               <ul className="user-list">
                 {following}

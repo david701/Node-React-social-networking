@@ -9,7 +9,7 @@ const mongoUser = mongo.schema.user,
 			mongoChapter = mongo.schema.chapter;
 
 exports.getBooks = (req, res)=>{
-	mongoBook.find({status: 2}).then((books)=>{
+	mongoBook.find({status: 1}).then((books)=>{
 		res.json({status: 'ok', data: books});
 	}).catch((err)=>{
 		res.json({status: 'error', message: err});
