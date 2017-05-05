@@ -24,7 +24,7 @@ function mapObject(object, callback) {
 
 class LoginButtons extends React.Component{
 
-	constructor(props) {
+  constructor(props) {
     	super(props);
     	this.state = {
     		loggedIn: false,
@@ -35,36 +35,36 @@ class LoginButtons extends React.Component{
     	this._objectEmpty = this._objectEmpty.bind(this);
   	}
 
-	componentDidMount(){
-		$.get('/api/v1/user_session/').then((response) => {
-			let isLoggedIn = !this._objectEmpty(response.data);
-			this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title'), user: response.data});
-		});
+  componentDidMount(){
+    $.get('/api/v1/user_session/').then((response) => {
+      let isLoggedIn = !this._objectEmpty(response.data);
+      this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title'), user: response.data});
+    });
 
-	}
+  }
 
-	_objectEmpty(obj){
+  _objectEmpty(obj){
 	    for(var prop in obj) {
 	        if(obj.hasOwnProperty(prop))
-	            return false;
+	            {return false;}
 	    }
 
     	return JSON.stringify(obj) === JSON.stringify({});
-	}
+  }
 
-	_signOut(){
-		let self = this;
-		$.get('/api/v1/logout').then((response) => {
-			let isLoggedIn = response.status = "ok" ? false : true;
-			self.setState({loggedIn: isLoggedIn });
-			if(!isLoggedIn){
-				window.location.href = "/";
-			}
-		});
-	}
+  _signOut(){
+    let self = this;
+    $.get('/api/v1/logout').then((response) => {
+      let isLoggedIn = response.status = "ok" ? false : true;
+      self.setState({loggedIn: isLoggedIn});
+      if(!isLoggedIn){
+        window.location.href = "/";
+      }
+    });
+  }
 
-	render(){
-		return(
+  render(){
+    return(
 				<div>
 					<div className="sign-in-buttons">
 					    <li className={this.state.title === "Browse" ? 'selected' : ''}>
@@ -174,51 +174,51 @@ class LoginButtons extends React.Component{
 		                </li>
 	                </div>
               	</div>
-		)
-	}
+    );
+  }
 }
 
 if(document.getElementById('login-buttons'))
-	ReactDOM.render(<LoginButtons />, document.getElementById('login-buttons'))
+  {ReactDOM.render(<LoginButtons />, document.getElementById('login-buttons'));}
 
 
 class UploadCover extends React.Component{
-	state = {title:'', coverFile: false}
+  state = {title:'', coverFile: false}
 
-	coverAdd = (e) => {
-		var reader = new FileReader();
-		var file = e.target.files[0];
-		reader.onload = (upload) => {
-			this.setState({coverFile: upload.target.result})
-		};
+  coverAdd = (e) => {
+    var reader = new FileReader();
+    var file = e.target.files[0];
+    reader.onload = (upload) => {
+      this.setState({coverFile: upload.target.result});
+    };
 
-		reader.readAsDataURL(file);
-	}
+    reader.readAsDataURL(file);
+  }
 
-	_onChange = (e) => {
-		var state = {}
-		state[e.target.name] = e.target.value;
-		this.setState(state);
-	}
+  _onChange = (e) => {
+    var state = {};
+    state[e.target.name] = e.target.value;
+    this.setState(state);
+  }
 
-	_onSubmit = (e) => {
-		e.preventDefault();
-		var postData = {title: this.state.title, cover: this.state.coverFile}
+  _onSubmit = (e) => {
+    e.preventDefault();
+    var postData = {title: this.state.title, cover: this.state.coverFile};
 		// $.post('/api/v1/mybooks', postData).then((data) => {
 		// 	window.location.href = "/dashboard";
 		// });
-	}
+  }
 
-	render(){
-		var cover = <div className="cover"> <div className="flex"> <h4>Cover</h4> </div> </div>;
-		if(this.state.coverFile){
-			cover = <div className="cover"><div className="flex"><img src={this.state.coverFile}/></div></div>
-		}
+  render(){
+    var cover = <div className="cover"> <div className="flex"> <h4>Cover</h4> </div> </div>;
+    if(this.state.coverFile){
+      cover = <div className="cover"><div className="flex"><img src={this.state.coverFile}/></div></div>;
+    }
 
-		var bookTitle = 'Title Area';
-		if(this.state.title){ bookTitle = this.state.title; }
+    var bookTitle = 'Title Area';
+    if(this.state.title){ bookTitle = this.state.title; }
 
-		return(
+    return(
 			<ul className="field-list field-list-split">
 				<li>
 					<div className="copy">
@@ -271,28 +271,28 @@ class UploadCover extends React.Component{
 					</div>
 				</li>
 			</ul>
-		)
-	}
+    );
+  }
 }
 
 if(document.getElementById('uploadCover'))
-	ReactDOM.render(<UploadCover />, document.getElementById('uploadCover'))
+  {ReactDOM.render(<UploadCover />, document.getElementById('uploadCover'));}
 
 
 class MyBooks extends React.Component{
-	state = {books: []};
-	componentDidMount(){
-		$.get('/api/v1/mybooks').then((data) => {
-			console.log(data);
-			this.setState({books:data});
-		});
-	}
+  state = {books: []};
+  componentDidMount(){
+    $.get('/api/v1/mybooks').then((data) => {
+      console.log(data);
+      this.setState({books:data});
+    });
+  }
 
-	render(){
+  render(){
 
-		var books = mapObject(this.state.books, (key, item) => {
-			var cover = "url('"+item.cover+"')";
-			return(
+    var books = mapObject(this.state.books, (key, item) => {
+      var cover = "url('"+item.cover+"')";
+      return(
 				<li key={key}>
 					<a href="." className="content-block content-block-book">
 						<figure>
@@ -316,10 +316,10 @@ class MyBooks extends React.Component{
 						</figure>
 					</a>
 				</li>
-			)
-		});
+      );
+    });
 
-		return(
+    return(
 			<div className="book-blocks book-blocks-small">
 			<ul>
 				{books}
@@ -419,25 +419,25 @@ class MyBooks extends React.Component{
 				<li className="spacing-block"></li>
 			</ul>
 		</div>
-		)
-	}
+    );
+  }
 }
 
 if(document.getElementById('myBooks'))
-	ReactDOM.render(<MyBooks />, document.getElementById('myBooks'))
+  {ReactDOM.render(<MyBooks />, document.getElementById('myBooks'));}
 
 class NewComponent extends React.Component{
-	state = {}
+  state = {}
 
-	componentDidMount(){
+  componentDidMount(){
 		/// API call
 		/// SET STATE
-		this.setState({users: apiUsers})
-	}
+    this.setState({users: apiUsers});
+  }
 
-	render(){
-		return(
+  render(){
+    return(
 			<div></div>
-		)
-	}
+    );
+  }
 }

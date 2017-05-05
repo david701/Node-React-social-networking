@@ -12,21 +12,22 @@ const TableOfContents = props => {
           <p>{chapter.name}</p>
         </div>
       ))}
-      <div className="submit-row submit-row-small">
+      <div className="chapter-row chapter-row-small">
         <div className="buttons">
           { buttonVisible ?
             <button className="button button-red" value={buttonVisible} onClick={toggleVisibility}>Add Chapter {chapters.length + 1}</button>
             :
-            <div style={{ display: 'flex' }}>
+            <div className="add-or-remove">
               <input
                 type="text"
                 name="newChapterName"
                 placeholder="Enter Chapter Name"
                 value={newChapterName}
                 onChange={handleChange}
+                style={{ marginRight: '20px' }}
               />
-              <button className="button" onClick={handleChange}>+</button>
-              <button className="button" value={buttonVisible} onClick={toggleVisibility}>-</button>
+              <button className="button button-plusminus" onClick={handleChange}>+</button>
+              <button className="button button-plusminus" value={buttonVisible} onClick={toggleVisibility}>-</button>
             </div>
           }
         </div>

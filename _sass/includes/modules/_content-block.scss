@@ -254,6 +254,28 @@
         }
     }
 }
+
+.chapter-row {
+    margin: 0.5em 0 0;
+    display: flex;
+    // input {
+    //     width: calc(75% - 0.75em) !important;
+    // }
+    .buttons {
+        width: calc(100% - 0.75em);
+        display: flex;
+        justify-content: space-between;
+        .add-or-remove {
+            width: calc(75% - 0.75em);
+            display: flex;
+        }
+        .button {
+            width: calc(50% - 0.75em);
+            margin-right: rem(6);
+        }
+    }
+}
+
 .error-message {
     color: #fff;
     background: red;

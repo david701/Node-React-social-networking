@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { validate, formValid } from '../plugins/validation.js';
+import {validate, formValid} from '../plugins/validation.js';
 
 import Library from './books/Library';
 
@@ -51,7 +51,7 @@ class Parent extends React.Component {
         alert(response.message);
       } else {
         this.users = this.removeMyProfile(id, response.data);
-        this.setState({ all_users: this.users });
+        this.setState({all_users: this.users});
       }
     });
   }
@@ -62,7 +62,7 @@ class Parent extends React.Component {
       if (response.status !== "error") {
         this.user.id = response.data._id;
         //this.user.role = 2;
-        this.setState({ user: this.user });
+        this.setState({user: this.user});
         this.loadUserInfo(this.user.id);
         this.loadBooks(this.user.id);
         this.getUsers(this.user.id);
@@ -93,7 +93,7 @@ class Parent extends React.Component {
   loadUserInfo = id => {
     fetch(`${apiUrl}/users/${id}`)
       .then(res => res.json())
-      .then(res => this.setState({ user: res.data }));
+      .then(res => this.setState({user: res.data}));
   }
 
   // loadBooks = id => {

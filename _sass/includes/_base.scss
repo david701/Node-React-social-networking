@@ -243,6 +243,7 @@ button, .button {
 	background-color: $light-blue;
 	transition: background-color $timing-normal, box-shadow $timing-normal;
 	box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
+
 	&:hover {
 		background-color: $blue;
 		box-shadow: 0 em(3) em(5) 0 rgba($black, 0.375);
@@ -272,9 +273,23 @@ button, .button {
 			background-color: lighten($light-gray, 7.5%);
 		}
 	}
+	&-gray {
+		background-color: $light-gray;
+		color: $white;
+		&:hover {
+			background-color: $light-gray;
+		}
+	}
 	&-hidden {
 		visibility: hidden;
 	}
+	// &-plusminus {
+	// 	padding: rem(3) rem(14);
+	// 	font-size: em(13);
+	// 	font-weight: $regular;
+	// 	white-space: nowrap;
+	// 	margin-right: rem(6);
+	// }
 }
 
 .title-row {
