@@ -22,6 +22,24 @@ class EditBook extends Component {
   }
 
   componentDidMount() {
+    this.loadUserInfo();
+    this.loadChapters();
+  }
+
+  loadUserInfo = () => {
+    fetch(`${apiUrl}/books/${bookId}`)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res.data)
+        this.setState({
+          title: res.data.title,
+          author: res.data.author.name,
+        })
+      });
+      // .then(res => console.log(res.data));
+  }
+
+  loadChapters = () => {
     fetch(`/api/v1/books/${bookId}/chapters`)
       .then(res => res.json())
       .then(res => {
@@ -55,11 +73,12 @@ class EditBook extends Component {
       content: `enter things for chapter ${this.state.chapters.length + 1}`
     };
     e.preventDefault();
-    $.post(`/api/v1/books/${bookId}/chapters`, data).then(res => {
+    $.post(`${apiUrl}/books/${bookId}/chapters`, data).then(res => {
       if (res.status === "error") {
         alert(res.message);
       } else {
-        console.log(true);
+        this.toggleVisibility();
+        this.loadChapters();
       }
     })
   }

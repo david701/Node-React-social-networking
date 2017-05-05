@@ -11,7 +11,7 @@ const BookDetails = ({ title, author, length }) => (
       </div>
       <div>
         <h4><span>{title}</span></h4>
-        <p>{author} [AUTHOR NAME SHOULD GO HERE - TEMPORARY]</p>
+        <p>{author}</p>
         <Rating />
       </div>
     </div>
