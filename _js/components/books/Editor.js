@@ -2,47 +2,59 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import TinyMCE from 'react-tinymce';
 
+const apiUrl = `/api/v1`;
+
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: null,
       number: null,
-      content: null,
+      content: '',
     };
   }
   
   componentDidMount() {
-    // fetch(`/api/v1/books/${this.props.bookId}/chapters/${this.props.chapterId}`)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     console.log(res.data);
-    //     this.setState({
-    //       name: res.data.name,
-    //       number: res.data.number,
-    //       content: res.data.content,
-    //     }, () => console.log(this.state));
-    //   });
+    this.loadData();
+  }
+
+  loadData = () => {
+    const { bookId, chapterId } = this.props;
+    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterId}`)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          name: res.data.name,
+          number: res.data.number,
+          content: res.data.content,
+        });
+      });
   }
 
   handleChange = e => {
-    this.setState({ content: e.target.getContent() }, () => console.log(this.state.content));
+    this.setState({ content: e.target.getContent() }, () => console.log(this.state));
   }
 
   handleSubmit = e => {
-    const data = {
-      name: 'test',
-      number: this.state.number + 1,
-      content: this.state.content,
-    };
     e.preventDefault();
-    $.post(`/api/v1/books/${this.props.bookId}/chapters`, data).then(res => {
-      if (res.status === "error") {
-        alert(res.message);
-      } else {
-        console.log(true);
-      }
-    });
+    fetch(`${apiUrl}/books/${this.props.bookId}/chapters/${this.props.chapterId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name: this.state.name,
+        number: this.state.number,
+        content: this.state.content,
+      }),
+    })
+    .then(res => res.json())
+    .then(() => console.log('this worked'))
+    .catch(err => console.log(err));
+    // $.put(`/api/v1/books/${this.props.bookId}/chapters`, data).then(res => {
+    //   if (res.status === "error") {
+    //     alert(res.message);
+    //   } else {
+    //     console.log(true);
+    //   }
+    // });
   }
 
   render() {
@@ -52,9 +64,8 @@ class Editor extends Component {
       <div className="content-block content-block-standard">
         <h1>{name}</h1>
         <TinyMCE
-          content={chapterId}
+          content={`initial content for chapter ${chapterId}`}
           config={{
-            selector: 'div',
             plugins: 'autolink link image lists print preview',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright',
             theme: 'modern',
