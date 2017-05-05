@@ -13,16 +13,16 @@ class Editor extends Component {
   }
   
   componentDidMount() {
-    fetch(`/api/v1/books/${this.props.bookId}/chapters/${this.props.chapterId}`)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          name: res.data.name,
-          number: res.data.number,
-          content: res.data.content,
-        }, () => console.log(this.state));
-      });
+    // fetch(`/api/v1/books/${this.props.bookId}/chapters/${this.props.chapterId}`)
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     console.log(res.data);
+    //     this.setState({
+    //       name: res.data.name,
+    //       number: res.data.number,
+    //       content: res.data.content,
+    //     }, () => console.log(this.state));
+    //   });
   }
 
   handleChange = e => {
@@ -52,7 +52,7 @@ class Editor extends Component {
       <div className="content-block content-block-standard">
         <h1>{name}</h1>
         <TinyMCE
-          content={content}
+          content={chapterId}
           config={{
             selector: 'div',
             plugins: 'autolink link image lists print preview',

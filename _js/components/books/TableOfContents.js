@@ -1,17 +1,19 @@
 import React from 'react';
 
 const TableOfContents = props => {
-  const { chapters, newChapterName, buttonVisible, title, handleChange, toggleVisibility } = props;
+  const { chapters, newChapterName, buttonVisible, title, handleChange, toggleVisibility, handleSubmit, selectChapter } = props;
   return (
     <div className="content-block content-block-standard">
       <h4>Table of Contents</h4>
       <h4><span>{title}</span></h4>
-      {chapters && chapters.map(chapter => (
-        <div>
-          <h5><span>Chapter {chapter.number}</span></h5>
-          <p>{chapter.name}</p>
-        </div>
-      ))}
+      <ul>
+        {chapters && chapters.map((chapter, key) => (
+          <li onClick={() => selectChapter((key + 1))}>
+            <h5><span>Chapter {chapter.number}</span></h5>
+            <p>{chapter.name}</p>
+          </li>
+        ))}
+      </ul>
       <div className="chapter-row chapter-row-small">
         <div className="buttons">
           { buttonVisible ?
@@ -26,7 +28,7 @@ const TableOfContents = props => {
                 onChange={handleChange}
                 style={{ marginRight: '20px' }}
               />
-              <button className="button button-plusminus" onClick={handleChange}>+</button>
+              <button className="button button-plusminus" onClick={handleSubmit}>+</button>
               <button className="button button-plusminus" value={buttonVisible} onClick={toggleVisibility}>-</button>
             </div>
           }

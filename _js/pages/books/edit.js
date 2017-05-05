@@ -17,6 +17,7 @@ class EditBook extends Component {
       chapters: [],
       newChapterName: '',
       buttonVisible: true,
+      selectedChapter: null,
     };
   }
 
@@ -47,8 +48,28 @@ class EditBook extends Component {
     }
   }
 
+  handleSubmit = e => {
+    const data = {
+      name: this.state.newChapterName,
+      number: this.state.chapters.length + 1,
+      content: `enter things for chapter ${this.state.chapters.length + 1}`
+    };
+    e.preventDefault();
+    $.post(`/api/v1/books/${bookId}/chapters`, data).then(res => {
+      if (res.status === "error") {
+        alert(res.message);
+      } else {
+        console.log(true);
+      }
+    })
+  }
+
+  selectChapter = id => {
+    this.setState({ selectedChapter: id.toString() }, () => console.log(this.state));
+  }
+
   render() {
-    const { title, author, chapters, newChapterName, buttonVisible, chapterContent } = this.state;
+    const { title, author, chapters, newChapterName, buttonVisible, selectedChapter } = this.state;
     return (
       <div>
         <BookDetails title={title} bookId={bookId} author={author} length={chapters.length} />
@@ -58,14 +79,16 @@ class EditBook extends Component {
           chapters={chapters}
           newChapterName={newChapterName}
           buttonVisible={buttonVisible}
+          loadEditor={this.loadEditor}
           handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          selectChapter={this.selectChapter}
           toggleVisibility={this.toggleVisibility}
         />
-        { chapters.length ? 
+        { (chapters.length && selectedChapter) ? 
           <Editor
             bookId={bookId}
-            bookName={chapters}
-            chapterId={chapters.length} // dynamic later
+            chapterId={selectedChapter} // dynamic later
           /> : '' }
       </div>
     );
