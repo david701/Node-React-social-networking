@@ -1,122 +1,15 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import $ from 'jquery';
+import React from 'react';
+import { render } from 'react-dom';
 
-import TableOfContents from '../../components/books/TableOfContents';
-import BookDetails from '../../components/books/BookDetails';
-import Editor from '../../components/books/Editor';
+import EditBookContainer from '../../containers/books/EditBookContainer';
 
-const apiUrl = `/api/v1`;
-
-class EditBook extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      author: '',
-      chapters: [],
-      newChapterName: '',
-      buttonVisible: true,
-      selectedChapter: null,
-    };
-  }
-
-  componentDidMount() {
-    this.loadUserInfo();
-    this.loadChapters();
-  }
-
-  loadUserInfo = () => {
-    fetch(`${apiUrl}/books/${bookId}`)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res.data)
-        this.setState({
-          title: res.data.title,
-          author: res.data.author.name,
-        })
-      });
-      // .then(res => console.log(res.data));
-  }
-
-  loadChapters = () => {
-    fetch(`/api/v1/books/${bookId}/chapters`)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          ...this.state,
-          chapters: res.data,
-        }, () => console.log(this.state));
-      });
-  }
-
-  toggleVisibility = e => {
-    this.setState({ buttonVisible: !this.state.buttonVisible, newChapterName: '' });
-  }
-
-  handleChange = e => {
-    this.setState({[e.target.name]: e.target.value}, () => console.log(this.state.newChapterName));
-    const newChapter = {
-      name: this.state.newChapterName,
-      number: this.state.chapters.length + 1,
-    };
-    if ((e.key === 'Enter' || e.button === 0) && this.state.newChapterName) {
-      this.state.buttonVisible = true;
-      this.setState({ chapters: this.state.chapters.concat(newChapter) }, () => this.state.buttonVisible = true);
-    }
-  }
-
-  handleSubmit = e => {
-    const data = {
-      name: this.state.newChapterName,
-      number: this.state.chapters.length + 1,
-      content: `enter things for chapter ${this.state.chapters.length + 1}`
-    };
-    e.preventDefault();
-    $.post(`${apiUrl}/books/${bookId}/chapters`, data).then(res => {
-      if (res.status === "error") {
-        alert(res.message);
-      } else {
-        this.toggleVisibility();
-        this.loadChapters();
-      }
-    })
-  }
-
-  selectChapter = id => {
-    this.setState({ selectedChapter: id.toString() }, () => console.log(this.state));
-  }
-
-  render() {
-    const { title, author, chapters, newChapterName, buttonVisible, selectedChapter } = this.state;
-    return (
-      <div>
-        <BookDetails title={title} bookId={bookId} author={author} length={chapters.length} />
-        {/* Ads and Description component will go here */}
-        <TableOfContents
-          title={title}
-          chapters={chapters}
-          newChapterName={newChapterName}
-          buttonVisible={buttonVisible}
-          loadEditor={this.loadEditor}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          selectChapter={this.selectChapter}
-          toggleVisibility={this.toggleVisibility}
-        />
-        { (chapters.length && selectedChapter) ? 
-          <Editor
-            bookId={bookId}
-            chapterId={selectedChapter} // dynamic later
-          /> : '' }
-      </div>
-    );
-  }
-}
+const EditBookPage = () => (
+  <EditBookContainer bookId={bookId} />
+);
 
 if (document.getElementById('edit-book')) {
   render(
-    <EditBook />,
+    <EditBookPage />,
     document.getElementById('edit-book'),
   );
 }

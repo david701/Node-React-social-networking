@@ -1,19 +1,24 @@
 import React from 'react';
 
-import Rating from '../dashboard/Rating';
+function sanitizeLength(length) {
+  if (length === 1) {
+    return `${length} Chapter`;
+  } else if (length > 1) {
+    return `${length} Chapters`;
+  }
+  return 'Error';
+}
 
-const BookDetails = ({ title, author, length }) => (
-  <div>
-    <div className="content-block content-block-standard">
-      <div className="title-row">
-        <h3>Serial</h3>
-        <a className="control" href="/dashboard/all-users">{length} {length === 1 ? 'Chapter' : 'Chapters'}</a>
-      </div>
-      <div>
-        <h4><span>{title}</span></h4>
-        <p>{author}</p>
-        <Rating stars={5} />
-      </div>
+
+const BookDetails = props => (
+  <div className="content-block content-block-standard">
+    <div className="title-row">
+      <h3>{props.type}</h3>
+      <a href="/books" className="control">{sanitizeLength(props.length)}</a>
+    </div>
+    <div>
+      <h4><span>{props.title}</span></h4>
+      <p>{props.author}</p>
     </div>
   </div>
 );
