@@ -11,7 +11,21 @@ export default class EditBookContainer extends React.Component {
     super(props);
     this.state = {
       selectedChapter: 1,
+      chapters: []
     };
+  }
+
+  componentDidMount() {
+    this.loadChapters();
+  }
+
+  loadChapters = () => {
+    fetch(`${apiUrl}/books/${bookId}/chapters`)
+      .then(res => res.json())
+      .then(res => {
+        const nextState= { ...this.state, chapters: res.data };
+        this.setState(nextState);
+      });
   }
 
   selectChapter = id => {
@@ -22,8 +36,8 @@ export default class EditBookContainer extends React.Component {
   render() {
     return (
       <div>
-        <DetailsContainer />
-        <TOCContainer bookId={this.props.bookId} selectChapter={this.selectChapter} />
+        <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
+        <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} />
         <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />
       </div>
     );

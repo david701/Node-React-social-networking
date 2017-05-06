@@ -20,19 +20,30 @@ export default class DetailsContainer extends React.Component {
   }
 
   loadUserInfo = () => {
-    fetch(`${apiUrl}/books/${bookId}`)
+    fetch(`${apiUrl}/books/${this.props.bookId}`)
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         const nextState = { ...this.state, title: res.data.title, author: res.data.author.name };
         this.setState(nextState);
       });
   }
 
+  // loadChapterInfo = () => {
+  //   fetch(`${apiUrl}/books/${this.props.bookId}/chapters`)
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       console.log(res);
+  //       const nextState = { ...this.state, length: res.data.length };
+  //       this.setState(nextState);
+  //     });
+  // }
+
   render() {
     return (
       <BookDetails
         type={this.state.type} // Endpoint for type?
-        length={this.state.length}
+        length={this.props.length}
         title={this.state.title}
         author={this.state.author}
       />

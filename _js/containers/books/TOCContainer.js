@@ -16,7 +16,6 @@ export default class TocContainer extends React.Component {
 
   componentDidMount() {
     this.loadBookInfo();
-    this.loadChapters();
   }
 
   handleChange = e => {
@@ -34,13 +33,13 @@ export default class TocContainer extends React.Component {
       },
       body: JSON.stringify({
         name: this.state.newChapterName,
-        number: this.state.chapters.length + 1,
+        number: this.props.chapters.length + 1,
         content: 'test',
       }),
     })
     .then(res => res.json())
-    .then(res => this.loadChapters())
-    .then(() => this.props.selectChapter(this.state.chapters.length + 1))
+    .then(res => this.props.loadChapters())
+    .then(() => this.props.selectChapter(this.props.chapters.length + 1))
     .catch(err => console.log(err));
   }
 
@@ -49,15 +48,6 @@ export default class TocContainer extends React.Component {
       .then(res => res.json())
       .then(res => {
         const nextState = { ...this.state, title: res.data.title };
-        this.setState(nextState);
-      });
-  }
-
-  loadChapters = () => {
-    fetch(`/api/v1/books/${bookId}/chapters`)
-      .then(res => res.json())
-      .then(res => {
-        const nextState= { ...this.state, chapters: res.data };
         this.setState(nextState);
       });
   }
@@ -71,7 +61,7 @@ export default class TocContainer extends React.Component {
     return (
       <TableOfContents
         buttonVisible={this.state.buttonVisible}
-        chapters={this.state.chapters}
+        chapters={this.props.chapters}
         title={this.state.title}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
