@@ -1,7 +1,8 @@
-var express = require('express'),
+const express = require('express'),
 		mongo = require('../mongo.js'),
 		router = express.Router();
 
+const handle = require('./helpers/handle.js');
 const mongoUser = mongo.schema.user;
 
 router.get('/', (req, res)=>{
@@ -95,10 +96,10 @@ router.get('/verify', (req, res)=>{
 	mongoUser.findOne({token: token}, (err, user)=>{
 		if(err || !user){
 			req.session = null;
-			res.json({status:'error', message: 'Invalid Token'});
+			handle.err(res, 'Invalid Token');
 		}else{
 			if(user.status == 0){
-				res.json({status:'error', message: 'This user has been removed'});
+				handle.err(res, 'This user has been removed');
 			}else{
 						var userData = {
 							_id: user._id.toString(),
@@ -121,10 +122,10 @@ router.get('/reset_password', (req, res)=>{
 	mongoUser.findOne({token: token}, (err, user)=>{
 		if(err || !user){
 			req.session = null;
-			res.json({status:'error', message: 'Invalid Token'});
+			handle.err(res, 'Invalid Token');
 		}else{
 			if(user.status == 0){
-				res.json({status:'error', message: 'This user has been removed'});
+				handle.err(res, 'This user has been removed');
 			}else{
 						var userData = {
 							_id: user._id.toString(),

@@ -8,6 +8,8 @@ const express = require('express'),
 
 const mongoUser = mongo.schema.user;
 
+const handle = require('../helpers/handle.js');
+
 const makeToken = ()=>{
 		var text = "";
 		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -57,10 +59,10 @@ exports.getUsers = (req, res) => {
 	var query = mongoUser.find(query).where('status').gt(0).limit(limit).skip(skip).sort(sort).exec();
 
 	query.then((users)=>{
-		res.json({status:'ok', data:users});
+		handle.res(res, users);
 	})
 	.catch(function(err){
-	 res.json({status:'error', message: err});
+	 handle.err(res, err);
 	});
 };
 
@@ -81,15 +83,15 @@ exports.createUser = (req, res)=>{
 					var link = req.protocol + '://' + req.get('host')+'/verify?token='+ token;
 					var vars = [{name:'verify_link', content: link}]
 					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
-						res.json({status:'ok', data: userInfo})
+						handle.res(res, userInfo)
 					})
 				})
 			}else{
-				res.json({status:'error', message:'Email is already in use.'});
+				handle.err(res, 'Email is already in use.');
 			}
 		})
 		.catch((err)=>{
-			res.json({status:'error', message: err});
+			handle.err(res, err);
 		})
 }
 
@@ -98,25 +100,25 @@ exports.getUserById = (req, res)=>{
 	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar')
 		.then((user)=>{
 			if(user.status > 0){
-				res.json({status:'ok', data: user})
+				handle.res(res, user)
 			}else{
-				res.json({status:'error', message: 'User has been removed'});
+				handle.err(res, 'User has been removed');
 			}
 		})
 		.catch((err)=>{
-			res.json({status:'error', message: err.message});
+			handle.err(res, err.message);
 		})
 }
 /// GET SINGLE USER BY EMAIL
 exports.getUserByEmail = (req, res)=>{
 	mongoUser.findOne({email: req.query.email}, (err, user)=>{
 		if(err){
-			res.json({status:'error', message: err});
+			handle.err(res, err);
 		}else{
 			if(user.status > 0){
-				res.json({status:'ok', data: user})
+				handle.res(res, user)
 			}else{
-				res.json({status:'error', message: 'User has been removed'});
+				handle.err(res, 'User has been removed');
 			}
 		}
 	})
@@ -125,7 +127,7 @@ exports.getUserByEmail = (req, res)=>{
 /// UPDATE SINGLE USER
 exports.updateUser = (req, res)=>{
 	if(!req.session){
-		res.json({status:'error', message: 'Not logged in'})
+		handle.err(res, 'Not logged in')
 		return;
 	}
 	mongoUser.findOne({_id: req.params.id})
@@ -135,22 +137,22 @@ exports.updateUser = (req, res)=>{
 				.then((userUpdate)=>{
 					mongoUser.findOne({_id: req.params.id}).then((user)=>{
 						delete user.password;
-						res.json({status: 'ok', data: user});
+						handle.res(res, user);
 					})
 				})
 				.catch((err)=>{
-					res.json({status: 'error', message: err.message})
+					handle.err(res, err.message)
 				})
 		})
 		.catch((err)=>{
-			res.json({status: 'error', message: err.message})
+			handle.err(res, err.message)
 		})
 }
 
 /// SOFT REMOVE SINGLE USER
 exports.removeUser = (req, res)=>{
 	if(!req.session){
-		res.json({status:'error', message: 'Not logged in'})
+		handle.err(res, 'Not logged in')
 		return;
 	}
 	mongoUser.findOne({_id: req.params.id})
@@ -162,7 +164,7 @@ exports.removeUser = (req, res)=>{
 					// TODO: SOFT REMOVE REVIEWS
 					// TODO: REMOVE FOLLOWS
 					// TODO: REMOVE FOLLOWER
-					res.json({status: 'ok', data: req.params.id});
+					handle.res(res, req.params.id);
 					// mongoUser.find({followers: req.params.id}).then((follow)=>{
 							// async.each(follow, (item, cb)=>{
 							//
@@ -178,15 +180,15 @@ exports.removeUser = (req, res)=>{
 					// 		}
 					// 	})
 					// }).catch((err)=>{
-					// 	res.json({status: 'error', message: err.message})
+					// 	handle.err(res, err.message)
 					// })
 				})
 				.catch((err)=>{
-					res.json({status: 'error', message: err.message})
+					handle.err(res, err.message)
 				})
 		})
 		.catch((err)=>{
-			res.json({status: 'error', message: err.message})
+			handle.err(res, err.message)
 		})
 }
 
@@ -196,10 +198,10 @@ exports.login = (req, res)=>{
 		if(err || !user){
 			console.error(err);
 			req.session = null;
-			res.json({status:'error', message: 'Invalid Username or Password'});
+			handle.err(res, 'Invalid Username or Password');
 		}else{
 			if(user.status == 0){
-				res.json({status:'error', message: 'This user has been removed'});
+				handle.err(res, 'This user has been removed');
 			}else{
 				bcrypt.compare(req.body.password, user.password, function(err, auth) {
 					if(auth){
@@ -213,10 +215,10 @@ exports.login = (req, res)=>{
 							status: user.status
 						}
 						req.session = userData;
-						res.json({status: 'ok', data: user._id.toString()});
+						handle.res(res, user._id.toString());
 					}else{
 						req.session = null;
-						res.json({status:'error', message: 'Invalid Username or Password'});
+						handle.err(res, 'Invalid Username or Password');
 					}
 				});
 			}
@@ -227,7 +229,7 @@ exports.login = (req, res)=>{
 /// USER LOGOUT
 exports.logout = (req, res)=>{
 	req.session = null;
-	res.json({status: 'ok'});
+	handle.res(res);
 }
 
 /// PASSWORD RESET
@@ -235,49 +237,49 @@ exports.logout = (req, res)=>{
 exports.resetRequest = (req, res)=>{
 	mongoUser.findOne({email: req.body.email}).then((user)=>{
 		if(!user){
-			res.json({status:'error', message: 'Email not on file.'});
+			handle.err(res, 'Email not on file.');
 		}else{
 			var date = new Date(),
 					token = makeToken();
 					var link = req.protocol + '://' + req.get('host')+'/reset_password?token='+token;
 			user.update({token: token, reset_request: date}, (err, update)=>{
 				if(err){
-					res.json({status:'error', message: err});
+					handle.err(res, err);
 				}else{
 					var vars =[{name: 'verify_link', content: link}]
 					sendEmail('Reset Password', 'Book Brawl Reset Password Request', {vars: vars}, user.email, (err, resp)=>{
-						res.json({status:'ok', data: user._id})
+						handle.res(res, user._id)
 					})
 				}
 			})
 		}
 	}).catch((err)=>{
-		res.json({status:'error', message: err});
+		handle.err(res, err);
 	});
 }
 
 exports.resetTokenAuth = (req, res)=>{
 	mongoUser.findOne({token: token}).then((user)=>{
 		var userData = {_id: user._id.toString(), email: user.email};
-		res.json({status: 'ok', data: userData});
+		handle.res(res, userData);
 	}).catch((err)=>{
-		res.json({status:'error', message: err});
+		handle.err(res, err);
 	})
 }
 
 exports.resetPassword = (req, res)=>{
 	mongoUser.findOne({_id: req.body.userId}, (err, user)=>{
 		if(err){
-			res.json({status:'error', message: err});
+			handle.err(res, err);
 			return;
 		}
 
 		var password = bcrypt.hashSync(req.body.password, salt);
 
 		user.update({password: password}).then((update)=>{
-			res.json({status: 'ok', data: req.body.userId});
+			handle.res(res, req.body.userId);
 		}).catch((err)=>{
-			res.json({status: 'error', message: err.message});
+			handle.err(res, err.message);
 		})
 
 	});
@@ -288,11 +290,11 @@ exports.resetPassword = (req, res)=>{
 /// USER SESSION INFO
 exports.userSession = (req, res)=>{
 	if(!req.session){
-		res.json({status:'error', message: 'Not logged in'})
+		handle.err(res, 'Not logged in')
 		return;
 	}
 	var session = req.session;
-	res.json({status: 'ok', data: session})
+	handle.res(res, session)
 }
 
 /// USER FOLLOW AUTHOR
@@ -309,25 +311,25 @@ exports.followAuthor = (req, res)=>{
 						if(followed.indexOf(userInfo._id.toString()) == -1){
 							followed.push(userInfo._id.toString());
 							autherInfo.update({followers: followed}).then((update)=>{
-								res.json({status: 'ok', data: req.body.authorId});
+								handle.res(res, req.body.authorId);
 							}).catch((err)=>{
-								res.json({status: 'error', message: err.message})
+								handle.err(res, err.message)
 							})
 						}else{
-							res.json({status: 'error', message: 'Already following'});
+							handle.err(res, 'Already following');
 						}
 					})
 				})
 			}else{
-				res.json({status: 'error', message: 'Already following'});
+				handle.err(res, 'Already following');
 			}
 		})
 		.catch((err)=>{
-			res.json({status: 'error', message: err.message})
+			handle.err(res, err.message)
 		})
 		;
 	}else{
-		res.json({status: 'error', message: 'Not logged in'});
+		handle.err(res, 'Not logged in');
 	}
 }
 
@@ -341,34 +343,34 @@ exports.unfollowAuthor = (req, res)=>{
 				mongoUser.findOne({_id: req.body.authorId}).then((author)=>{
 					author.followers.remove(user._id)
 					author.save().then(()=>{
-						res.json({status: 'ok'})
+						handle.res(res)
 					}).catch((err)=>{
-						res.json({status: 'error', message: err.message})
+						handle.err(res, err.message)
 					})
 				});
 			}).catch((err)=>{
-				res.json({status: 'error', message: err.message})
+				handle.err(res, err.message)
 			});
 		}).catch((err)=>{
-			res.json({status: 'error', message: err.message})
+			handle.err(res, err.message)
 		})
 	}else{
-		res.json({status: 'error', message: 'Not logged in'});
+		handle.err(res, 'Not logged in');
 	}
 }
 
 exports.reports = (req, res)=>{
 	var user = req.session;
 	if(!user){
-		res.json({status:'error', message: 'Not logged in'})
+		handle.err(res, 'Not logged in')
 		return;
 	}else{
 		var vars = [{name: 'content', content: req.body.message}, {name:'email', content: user.email}];
 		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'ericka@elonandcompany.com', (err, resp)=>{
 			if(!err){
-				res.json({status: 'ok'})
+				handle.res(res)
 			}else{
-				res.json({status: 'error', message: err});
+				handle.err(res, err);
 			}
 		});
 	}
