@@ -51,6 +51,54 @@
 			margin: 1em 0 2em;
 		}
 	}
+    &-standard-new { /* for spacing between blocks - TEMPORARY FIX */
+        margin: 0 auto;
+        margin-bottom: 20px;
+		max-width: $match-8;
+        height: em(300);
+		@include w1000 {
+	        width: calc(50% - #{ $gutter /2});
+	    }
+		padding: 1em;
+	    @include w1000 {
+	        padding: 3em;
+	    }
+		header {
+			margin-bottom: 2.25em;
+		}
+	    h3 {
+	        font-size: em(26);
+	        text-align: center;
+	    }
+	    .lead {
+	        font-size: em(17);
+	        text-align: center;
+	    }
+	    h4 {
+            font-size: em(20);
+	        margin-bottom: 1em;
+            color: $light-blue;
+	    }
+        .temp-header {
+            color: $dark-blue;
+        }
+        h5 {
+            color: $light-blue;
+        }
+	    p, label {
+	        font-size: em(14);
+	        display: block;
+	    }
+		label {
+			margin-bottom: em(4);
+		}
+        li {
+            margin-bottom: 1em;
+        }
+		textarea {
+			margin: 1em 0 2em;
+		}
+    }
 	.field-list {
         > li {
             margin-bottom: $gutter/1.5;

@@ -14,7 +14,7 @@ class Editor extends Component{
 
 	render(){
 		return(
-			<div className="content-block content-block-standard">
+			<div className="content-block content-block-standard-new">
 				<h1>{this.props.name}</h1>
 				<TinyMCE
 					content={sanitizeContent(this.props.content)}

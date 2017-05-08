@@ -1,9 +1,8 @@
 import React from 'react';
 
 const TableOfContents = props => (
-  <div className="content-block content-block-standard">
-    <h4>Table of Contents</h4>
-    <h4><span>{props.title}</span></h4>
+  <div className="content-block content-block-standard-new">
+    <h4 className="temp-header">Table of Contents</h4>
     <ul>
       {props.chapters.map((chapter, key) => (
         <li key={chapter.number} onClick={() => props.selectChapter(key + 1)}>

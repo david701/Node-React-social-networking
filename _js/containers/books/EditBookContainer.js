@@ -3,6 +3,7 @@ import React from 'react';
 import DetailsContainer from './DetailsContainer';
 import EditorContainer from './EditorContainer';
 import TOCContainer from './TOCContainer';
+import DescriptionContainer from './DescriptionContainer';
 
 const apiUrl = '/api/v1';
 
@@ -35,9 +36,15 @@ export default class EditBookContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' }}>
         <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
+        <div className="content-block content-block-standard-new" style={{ marginBottom: 20 }}>
+          <div className="placeholder">
+            <h4 className="temp-header">Ad Space</h4>
+          </div>
+        </div>
         <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} />
+        <DescriptionContainer />
         {this.state.selectedChapter ? <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} /> : '' }
       </div>
     );
