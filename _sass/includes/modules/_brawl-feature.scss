@@ -1,6 +1,346 @@
 // Brawl feature
 // ---------------
 
+#night-mode {
+    .brawl-feature {
+        position: relative;
+        header {
+            height: em(59);
+            background-color: rgba($black, 0.85);
+            padding: em(6) 0 em(8);
+            color: $white;
+            position: absolute;
+            left: 0;
+            width: 100%;
+            box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
+            @include n640 {
+                height: em(41);
+            }
+            .flex-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                h2 {
+                    position: relative;
+                    width: 10em;
+                    text-align: center;
+                    height: rem(28);
+                    @include w640 {
+                        height: rem(45);
+                    }
+                    .week-title {
+                        display: block;
+                        position: absolute;
+                        width: 100%;
+                        transition: opacity $timing-slower, visibility $timing-slower, transform $timing-slower;
+                        &-this {
+                            opacity: 1;
+                            visibility: visible;
+                            transform: translateX(0);
+                        }
+                        &-last {
+                            opacity: 0;
+                            visibility: hidden;
+                            transform: translateX(-2em);
+                        }
+                    }
+                    @include n640 {
+                        font-size: em(16);
+                    }
+                }
+                .label {
+                    @include n640 {
+                        font-size: em(15);
+                        &-large {
+                            display: none;
+                        }
+                    }
+                    @include w640 {
+                        &-small {
+                            display: none;
+                        }
+                    }
+                }
+                a {
+                    position: relative;
+                    width: em(75);
+                    transition: opacity $timing-slower, visibility $timing-slower;
+                    @include w640 {
+                        min-width: em(150);
+                    }
+                    &:hover {
+                        opacity: 0.625;
+                    }
+                    &:before, &:after {
+                        content: "";
+                        height: em(16);
+                        width: em(16);
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        display: block;
+                        position: absolute;
+                        top: em(6);
+                    }
+                    &.week-control-last {
+                        @include n1280 {
+                            left: em(23);
+                        }
+                        &:before {
+                            left: em(-23);
+                            background-image: url('/assets/images/icons/left-arrow.svg');
+                        }
+                    }
+                    &.week-control-this {
+                        opacity: 0;
+                        visibility: hidden;
+                        @include n1280 {
+                            left: em(-23);
+                        }
+                        text-align: right;
+                        &:before {
+                            right: em(-23);
+                            background-image: url('/assets/images/icons/right-arrow.svg');
+                        }
+                    }
+                }
+            }
+        }
+        &.last-week-showing {
+            header {
+                .flex-row {
+                    h2 {
+                        .week-title {
+                            &-last {
+                                opacity: 1;
+                                visibility: visible;
+                                transform: translateX(0);
+                            }
+                            &-this {
+                                opacity: 0;
+                                visibility: hidden;
+                                transform: translateX(2em);
+                            }
+                        }
+                    }
+                    a.week-control {
+                        &-last {
+                            opacity: 0;
+                            visibility: hidden;
+                        }
+                        &-this {
+                            opacity: 1;
+                            visibility: visible;
+                        }
+                    }
+                }
+            }
+            main {
+                .week {
+                    transform: translateX(0);
+                    &-last {
+                        opacity: 1;
+                    }
+                    &-this {
+                        opacity: 0;
+                    }
+                }
+            }
+            footer {
+                h4 {
+                    .week-results {
+                        &-last {
+                            opacity: 1;
+                            visibility: visible;
+                            transform: translateX(0);
+                        }
+                        &-this {
+                            opacity: 0;
+                            visibility: hidden;
+                            transform: translateX(2em);
+                        }
+                    }
+                }
+                a.week-control {
+                    &-last {
+                        opacity: 0;
+                        visibility: hidden;
+                    }
+                    &-this {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+            }
+        }
+        main {
+            background-image: url('/assets/images/brawl-feature-background-night.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: em(59+6) 0 em(0);
+            display: flex;
+            width: 100vw;
+            @include w640 {
+                padding: em(59+50) 0 em(24);
+            }
+            @include w1000 {
+                width: calc(100vw - #{em(200)});
+            }
+            .week {
+                flex-shrink: 0;
+                display: flex;
+                justify-content: center;
+                width: 100vw;
+                transform: translateX(-100vw);
+                transition: transform $timing-slower, opacity $timing-slower;
+                @include w1000 {
+                    width: calc(100vw - #{em(200)});
+                    transform: translateX(calc(-100vw + #{em(200)}));
+                }
+                &-last {
+                    opacity: 0;
+                }
+            }
+            .flex-row {
+                display: flex;
+                max-width: em(1028);
+                margin: 0 auto;
+                justify-content: center;
+                align-items: center;
+                @include w640 {
+                    justify-content: space-between;
+                }
+                .mascot {
+                    max-width: em(244);
+                    display: none;
+                    margin-top: em(32);
+                    position: relative;
+                    @include w1000 {
+                        width: 25%;
+                        margin-top: 0;
+                        margin-bottom: em(28);
+                    }
+                    @include w640 {
+                        display: block;
+                    }
+                    img {
+                        width: 100%;
+                    }
+                    @include w1000 {
+                        &:last-of-type {
+                            img {
+                                position: relative;
+                                left: em(11);
+                                width: calc(100% - #{em(7)});
+                            }
+                            &.your-pick {
+                                &:after {
+                                    left: em(6);
+                                }
+                            }
+                        }
+                    }
+                    .vote-count {
+                        position: absolute;
+                        width: 100%;
+                        top: em(-60);
+                        div {
+                            background-color: $light-black;
+                            display: flex;
+                            flex-direction: column;
+                            text-align: center;
+                            justify-content: center;
+                            align-items: center;
+                            width: em(128);
+                            padding: em(19) 1em;
+                            position: relative;
+                            margin: 0 auto;
+                            top: em(-10);
+                            left: em(-8);
+                            border-radius: $br-normal;
+                            strong {
+                                color: $light-blue;
+                                font-size: em(20);
+                                line-height: 1;
+                            }
+                            span {
+                                line-height: 1.375;
+                                font-size: em(14);
+                            }
+                            &:after {
+                                content: "";
+                                position: absolute;
+                                display: block;
+                                // height: 1em;
+                                // width: 1em;
+                                left: calc(50% - 0.5em);
+                                bottom: -0.625em;
+                                border-left: 0.625em solid transparent;
+                                border-right: 0.625em solid transparent;
+                                border-top: 0.625em solid $light-black;
+                            }
+                        }
+                        &.has-won {
+                            strong {
+                                color: $light-red;
+                            }
+                        }
+                    }
+                    &.your-pick {
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            background-image: url('/assets/images/pick-banner.svg');
+                            background-size: contain;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            width: 100%;
+                            height: em(50);
+                            left: em(-16);
+                        }
+                    }
+                }
+            }
+        }
+        footer {
+            background-color: $white;
+            padding: em(10) 0 em(10);
+            h4 {
+                color: $light-blue;
+                text-align: center;
+                width: 10em;
+                position: relative;
+                height: rem(28);
+                margin: 0 auto;
+                .week-results {
+                    display: block;
+                    position: absolute;
+                    width: 100%;
+                    transition: opacity $timing-slower, visibility $timing-slower, transform $timing-slower;
+                    &-this {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateX(0);
+                    }
+                    &-last {
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateX(-2em);
+                    }
+                    &.is-announced {
+                        color: $light-red;
+                    }
+                }
+                @include n640 {
+                    font-size: em(16);
+                }
+            }
+
+        }
+    }
+}
+
 .brawl-feature {
     position: relative;
     header {
