@@ -15,6 +15,9 @@ import './pages/dashboard/create';
 import './pages/books/edit';
 import '../_sass/main.scss';
 
+//plugins
+import { activateNightMode, toggleNightMode, isNightMode } from './plugins/night-mode.js';
+
 function mapObject(object, callback) {
   return Object.keys(object).map((key) => {
     return callback(key, object[key]);
@@ -36,6 +39,7 @@ class LoginButtons extends React.Component{
   	}
 
   componentDidMount(){
+    activateNightMode();
     $.get('/api/v1/user_session/').then((response) => {
       let isLoggedIn = !this._objectEmpty(response.data);
       this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title'), user: response.data});
@@ -65,12 +69,16 @@ class LoginButtons extends React.Component{
 
   render(){
     return(
+    <div>
+        <nav>
+            <ul>
 				<div>
 					<div className="sign-in-buttons">
 					    <li className={this.state.title === "Browse" ? 'selected' : ''}>
 		                    <a href="/">
 		                        <div className="icon">
-		                            <img src="/assets/images/icons/nav/browse.svg" alt="Browse"/>
+		                            <img className="day" src="/assets/images/icons/nav/browse.svg" alt="Browse"/>
+                                    <img className="night" src="/assets/images/icons/nav/browse-night.svg" alt="Browse"/>
 		                        </div>
 		                        <span>Browse</span>
 		                    </a>
@@ -95,7 +103,8 @@ class LoginButtons extends React.Component{
 			                <li>
 			                    <a id="loginButton" href=".">
 			                        <div className="icon">
-			                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+			                            <img className="day" src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+                                        <img className="night" src="/assets/images/icons/nav/sign-up-night.svg" alt="Browse"/>
 			                        </div>
 			                        <span>Log In</span>
 			                    </a>
@@ -103,7 +112,8 @@ class LoginButtons extends React.Component{
 			                <li>
 			                    <a href="/signup/">
 			                        <div className="icon">
-			                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+			                            <img className="day" src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+                                        <img className="night" src="/assets/images/icons/nav/sign-up-night.svg" alt="Browse"/>
 			                        </div>
 			                        <span>Sign Up</span>
 			                    </a>
@@ -115,7 +125,8 @@ class LoginButtons extends React.Component{
 	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" || this.state.title === "Edit" || this.state.title === "Author Page" ? 'selected' : ''}>
 			                    <a href="/dashboard/">
 			                        <div className="icon">
-			                            <img src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
+			                            <img className="day" src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
+                                        <img className="night" src="/assets/images/icons/nav/dashboard-night.svg" alt="Browse"/>
 			                        </div>
 			                        <span>Dashboard</span>
 			                    </a>
@@ -143,7 +154,8 @@ class LoginButtons extends React.Component{
 			                <li className={this.state.title === "Forum" || this.state.title === "Create" ? 'selected' : ''}>
 			                    <a href="/forum/">
 			                        <div className="icon">
-			                            <img src="/assets/images/icons/nav/forum.svg" alt="Browse"/>
+			                            <img className="day" src="/assets/images/icons/nav/forum.svg" alt="Browse"/>
+                                        <img className="night" src="/assets/images/icons/nav/forum-night.svg" alt="Browse"/>
 			                        </div>
 			                        <span>Forum</span>
 			                    </a>
@@ -156,7 +168,8 @@ class LoginButtons extends React.Component{
 			                <li onClick={this._signOut}>
 			                    <a href="javascript:void(0)">
 			                        <div className="icon">
-			                            <img src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+			                            <img className="day" src="/assets/images/icons/nav/sign-up.svg" alt="Browse"/>
+                                        <img className="night" src="/assets/images/icons/nav/sign-up-night.svg" alt="Browse"/>
 			                        </div>
 			                        <span>Log Out</span>
 			                    </a>
@@ -167,13 +180,24 @@ class LoginButtons extends React.Component{
 	        			<li className={this.state.title === "Search" ? 'selected' : ''}>
 		                    <a href="/search/">
 		                        <div className="icon">
-		                            <img src="/assets/images/icons/nav/advanced-search.svg" alt="Browse"/>
+		                            <img className="day" src="/assets/images/icons/nav/advanced-search.svg" alt="Browse"/>
+                                    <img className="night" src="/assets/images/icons/nav/advanced-search-night.svg" alt="Browse"/>
 		                        </div>
 		                        <span>Advanced Search</span>
 		                    </a>
 		                </li>
 	                </div>
               	</div>
+            </ul>
+        </nav>
+        <footer>
+            <form className="search-form">
+                <input type="search" placeholder="Search" />
+            </form>
+            <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode day">Night Mode</a>
+            <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode night">Day Mode</a>
+        </footer>
+    </div>
     );
   }
 }

@@ -1,7 +1,9 @@
 // VARIABLES & MIXINS
 // --------------------------------------
 
-// Color palette
+// Color palettes
+
+// Day Mode
 $white: #FFFFFF;
 $shade-gray: #F2F5F7;
 $light-gray: #D9DCDD;
@@ -26,6 +28,10 @@ $green: #0ECC88;
 $yellow: #FFD20F;
 $pink: #EFB8B8;
 
+// Night Mode
+$black: #000000;
+$night-color: #8d8f90;
+$content-gray: #222324;
 
 // Body font
 $body: 'franklin-gothic-urw', -apple-system, Helvetica, Arial, sans-serif;

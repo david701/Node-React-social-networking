@@ -3,6 +3,38 @@
 
 // Typography
 // ----------
+
+//Night Mode
+
+#night-mode {
+	.title-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: $dark-blue;
+		margin-bottom: em(17);
+		h4 {
+			margin-bottom: initial;
+		}
+		.control {
+			background-image: url('/assets/images/icons/right-arrow.svg');
+			background-repeat: no-repeat;
+			background-position: right center;
+			padding-right: em(17);
+			line-height: 14px;
+	    	margin: -10px 0 0 0;
+			&:hover {
+				opacity: 0.625;
+			}
+			&-expand {
+				background-image: url('/assets/images/icons/down-arrow.svg');
+			}
+		}
+	}
+}
+
+//Day Mode
+
 body {
 	line-height: $lh-normal;
 	font-family: $body;

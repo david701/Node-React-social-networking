@@ -8,6 +8,12 @@
     background-color: $dark-blue;
     overflow: hidden;
 }
+.day {
+    display: block;
+}
+.night {
+    display: none;
+}
 .unfollow {
     cursor: pointer;
 }
@@ -135,22 +141,12 @@ label span {
             align-items: center;
 
             transition: opacity $timing-normal;
-            &:hover {
-                background-color: $shade-gray;
-                figure {
-                    .logo {
-                        background-color: $light-gray;
-                    }
-                }
-            }
             figure {
                 .logo {
-                    background-color: $shade-gray;
-                    height: em(120);
+                    height: em(155);
                     width: em(120);
-                    border-radius: 100%;
                     margin-bottom: em(7);
-                    background-image: url('/assets/images/logo.png');
+                    background-image: url('/assets/images/logo-temp.png');
                     background-size: cover;
                     background-position: center;
                     background-repeat: no-repeat;
