@@ -34,12 +34,15 @@ export default class TocContainer extends React.Component {
       body: JSON.stringify({
         name: this.state.newChapterName,
         number: this.props.chapters.length + 1,
-        content: 'test',
+        content: ' ',
       }),
     })
     .then(res => res.json())
     .then(res => this.props.loadChapters())
-    .then(() => this.props.selectChapter(this.props.chapters.length + 1))
+    .then(() => {
+			this.toggleVisibility()
+			this.props.selectChapter(this.props.chapters.length + 1)
+		})
     .catch(err => console.log(err));
   }
 

@@ -48,6 +48,12 @@ router.get('/books/:id/edit', (req, res) => {
   res.render('book-edit', {title: 'Edit Book', id: req.params.id})
 });
 
+router.get('/books/:id/chapters/:number', (req, res) => {
+	mongo.schema.chapter.findOne({book_id: req.params.id}).where('number').equals(req.params.number).then(function(chapter){
+		res.send(chapter.content)
+	})
+});
+
 router.get('/dashboard', (req, res)=>{
 	if(req.session){
 		res.render('dashboard', {title: 'Dashboard'});

@@ -235,7 +235,7 @@ class Parent extends React.Component {
                   {following}
                 </ul>
                 <hr />
-                {this.state.books && <Library books={this.state.books} author={this.state.user.name} title={"My Library"} />}
+                {this.state.following_books && <Library books={this.state.following_books} author={this.state.user.name} title={"My Library"} />}
                 {this.state.books && <Library books={this.state.books} author={this.state.user.name} title={"Books I've Written"} />}
               </div>
               <div>

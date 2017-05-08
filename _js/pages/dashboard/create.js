@@ -122,6 +122,7 @@ class DashboardCreate extends Component {
         alert(res.message);
       } else {
         console.log(res);
+				window.location.href = "/dashboard";
       }
     });
   }

@@ -6,7 +6,7 @@ function sanitizeLength(length) {
   } else if (length > 1) {
     return `${length} Chapters`;
   }
-  return 'Error';
+  return '';
 }
 
 

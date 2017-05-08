@@ -10,7 +10,7 @@ export default class EditBookContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedChapter: 1,
+      selectedChapter: null,
       chapters: []
     };
   }
@@ -38,7 +38,7 @@ export default class EditBookContainer extends React.Component {
       <div>
         <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
         <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} />
-        <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />
+        {this.state.selectedChapter ? <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} /> : '' }
       </div>
     );
   }
