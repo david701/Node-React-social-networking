@@ -25,6 +25,7 @@ export default class TocContainer extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    if (this.state.newChapterName) {
     fetch(`${apiUrl}/books/${this.props.bookId}/chapters`, {
       method: 'POST',
       headers: {
@@ -40,11 +41,14 @@ export default class TocContainer extends React.Component {
     .then(res => res.json())
     .then(res => this.props.loadChapters())
     .then(() => {
-			this.toggleVisibility()
-			this.props.selectChapter(this.props.chapters.length + 1)
-		})
+      this.toggleVisibility()
+      this.props.selectChapter(this.props.chapters.length + 1)
+    })
     .catch(err => console.log(err));
-  }
+    } else {
+      console.log('NO ACTION');
+    }
+ }
 
   loadBookInfo = () => {
     fetch(`${apiUrl}/books/${bookId}`)
@@ -71,6 +75,6 @@ export default class TocContainer extends React.Component {
         selectChapter={this.props.selectChapter}
         toggleVisibility={this.toggleVisibility}
       />
-    );
+ );
   }
 }

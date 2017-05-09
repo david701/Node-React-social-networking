@@ -34,7 +34,6 @@ const AddChapter = props => (
             placeholder="Enter Chapter Name"
             value={props.newChapterName}
             onChange={props.handleChange}
-            style={{ marginRight: '20px' }}
           />
           <button className="button button-plusminus" onClick={props.handleSubmit}>+</button>
           <button className="button button-plusminus" onClick={props.toggleVisibility} value={props.buttonVisible}>-</button>
