@@ -55,14 +55,12 @@
         margin: 0 auto;
         margin-bottom: 20px;
 		max-width: $match-8;
-        height: em(300);
+        height: em(350);
 		@include w1000 {
-	        width: calc(50% - #{ $gutter /2});
+	        width: calc(50% - #{ $gutter / 2 });
+            padding: 2em;
 	    }
 		padding: 1em;
-	    @include w1000 {
-	        padding: 3em;
-	    }
 		header {
 			margin-bottom: 2.25em;
 		}
