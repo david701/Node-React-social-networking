@@ -1,33 +1,33 @@
 import $ from 'jquery';
 
-let prop = 'night-mode';
-let nightModeStatus = localStorage.getItem(prop);
+let nightMode = 'night-mode';
+let dayMode = 'day-mode';
 
 //toggle night mode on click
 const toggleNightMode = (event) => {
-    nightModeStatus = localStorage.getItem(prop) === "true" ? false : true;
-    localStorage.setItem(prop, nightModeStatus);
-
-    if(nightModeStatus){
-        $('body').attr('id',prop);
-    }else{
-        $('body').attr('id','');
-    }
+    //get latest local
+    let localMode = localStorage.getItem(nightMode),
+    //determine if status is false or true
+    nightModeStatus = (localMode === "true" || localMode === null) ? false : true,
+    //define body id
+    bodyId = nightModeStatus ? nightMode : dayMode;
+    //set local storage
+    localStorage.setItem(nightMode, nightModeStatus);
+    //add id
+    $('body').attr('id', bodyId);
 }
 
 //enable or disable night mode on load
 const activateNightMode = (event) => {
+    //get latest local
+    let nightModeStatus = localStorage.getItem(nightMode),
+    bodyId = (nightModeStatus === "true") ? nightMode : dayMode;
+
     if(nightModeStatus === null){
-        localStorage.setItem(prop, false);
+        toggleNightMode();
     }else{
-        if(nightModeStatus === "true"){
-            $('body').attr('id',prop);
-        }
+        $('body').attr('id',bodyId);
     }
 }
 
-const isNightMode = () => {
-    return localStorage.getItem(prop) === "true";
-}
-
-export { activateNightMode, toggleNightMode, isNightMode };
+export { activateNightMode, toggleNightMode };

@@ -16,7 +16,7 @@ import './pages/books/edit';
 import '../_sass/main.scss';
 
 //plugins
-import { activateNightMode, toggleNightMode, isNightMode } from './plugins/night-mode.js';
+import { toggleNightMode, activateNightMode } from './plugins/night-mode.js';
 
 function mapObject(object, callback) {
   return Object.keys(object).map((key) => {
@@ -24,22 +24,24 @@ function mapObject(object, callback) {
   });
 }
 
-
 class LoginButtons extends React.Component{
 
   constructor(props) {
-    	super(props);
-    	this.state = {
-    		loggedIn: false,
-    		title: '',
-    		user: {}
-    	};
-    	this._signOut = this._signOut.bind(this);
-    	this._objectEmpty = this._objectEmpty.bind(this);
-  	}
+    super(props);
+	this.state = {
+		loggedIn: false,
+		title: '',
+		user: {}
+	};
+	this._signOut = this._signOut.bind(this);
+	this._objectEmpty = this._objectEmpty.bind(this);
+  }
+
+  componentWillMount(){
+    //activateNightMode();
+  }
 
   componentDidMount(){
-    activateNightMode();
     $.get('/api/v1/user_session/').then((response) => {
       let isLoggedIn = !this._objectEmpty(response.data);
       this.setState({loggedIn: isLoggedIn, title: $('#login-buttons').attr('title'), user: response.data});

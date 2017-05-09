@@ -966,3 +966,15 @@ form .instructions {
     display: block;
     margin: 0 0 20px 0;
 }
+.pages {
+    float: right;
+    font-size: 14px;
+    span, a {
+        float: left;
+        margin: 0 5px 0 0;
+    }
+    a {
+        text-decoration: underline;
+        color: #0FAFFF;
+    }
+}

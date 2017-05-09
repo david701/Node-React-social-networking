@@ -92,8 +92,11 @@ class Friends extends React.Component{
     }
 
 	render(){
-        let self = this,
-        accountAction = this.state.me.role > 0 ? "edit:" : "follow:";
+        let self = this;
+        let accountAction = this.state.me.role > 0 ? "edit:" : "follow:";
+        let numofUsers = 8;
+        let currentPage = 1;
+        let numofPages = Math.ceil(self.users.length / numofUsers);
 		return(
             <div>
                 <div className="title-row">
@@ -128,6 +131,13 @@ class Friends extends React.Component{
                     </li>)
                     })}
                 </ul>
+                <div className="pages">
+                    <a className="prev">Previous</a>
+                    <span className="currentPage">Page {currentPage}</span>
+                    <span>of</span>
+                    <span className="allPages">{numofPages}</span>
+                    <a className="next">Next</a>
+                </div>
             </div>
 		)
 	}
