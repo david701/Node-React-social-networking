@@ -1,7 +1,9 @@
 import React from 'react';
 
 function sanitizeLength(length) {
-  if (length === 1) {
+  if (length === 0) {
+    return 'No Chapters';
+  } else if (length === 1) {
     return `${length} Chapter`;
   } else if (length > 1) {
     return `${length} Chapters`;
@@ -11,13 +13,13 @@ function sanitizeLength(length) {
 
 
 const BookDetails = props => (
-  <div className="content-block content-block-standard">
-    <div className="title-row">
-      <h3>{props.type}</h3>
+  <div className="content-block content-block-standard-new">
+    <div className="title-row" style={{ marginBottom: 0 }}>
+      <h2>{props.type}</h2>
       <a href="/books" className="control">{sanitizeLength(props.length)}</a>
     </div>
     <div>
-      <h4><span>{props.title}</span></h4>
+      <h4 style={{ marginBottom: 0 }}>{props.title}</h4>
       <p>{props.author}</p>
     </div>
   </div>
