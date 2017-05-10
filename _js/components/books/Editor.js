@@ -5,6 +5,10 @@ function sanitizeContent(content) {
   return content;
 }
 
+function renderContent(content) {
+  return { __html: content }
+}
+
 class Editor extends Component{
   componentWillReceiveProps(nextProps){
     if(nextProps.content!==this.props.content){
@@ -13,9 +17,11 @@ class Editor extends Component{
   }
 
   render(){
+    const { content } = this.props;
     return(
       <div className="content-block content-block-standard-new">
         <h1>{this.props.name}</h1>
+        {/* fetch user permissions*/}
         <TinyMCE
           content={sanitizeContent(this.props.content)}
           config={{
@@ -24,6 +30,7 @@ class Editor extends Component{
           }}
           onChange={this.props.handleChange}
         />
+        <div dangerouslySetInnerHTML={renderContent(content)}></div>
         <div className="submit-row submit-row-editor">
           <div className="buttons">
             <button className="button button-gray">Delete</button>

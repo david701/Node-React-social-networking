@@ -37,14 +37,14 @@ export default class EditBookContainer extends React.Component {
   render() {
     return (
       <div style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' }}>
-        <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
+        <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} rating={5} />
         <div className="content-block content-block-standard-new" style={{ marginBottom: 20 }}>
           <div className="placeholder">
             <h4 className="temp-header">Ad Space</h4>
           </div>
         </div>
+        <DescriptionContainer description={this.props.description} />
         <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} />
-        <DescriptionContainer />
         {this.state.selectedChapter ? <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} /> : '' }
       </div>
     );
