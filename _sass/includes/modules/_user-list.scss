@@ -1,5 +1,8 @@
 // User List
 // -----------
+#friends .user-list {
+    min-height: 180px;
+}
 .user-list {
     display: flex;
     justify-content: flex-start;

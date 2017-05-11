@@ -228,8 +228,8 @@ class Parent extends React.Component {
                 </div>
                 <hr />
                 <div className="title-row">
-                  <h4>Favorite Authors</h4>
-                  <a className="control" href="/dashboard/find-friends">Find Friends</a>
+                  <h4>Following</h4>
+                  <a className="control" href="/dashboard/following/1">See All</a>
                 </div>
                 <ul className="user-list">
                   {following}

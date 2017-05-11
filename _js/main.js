@@ -38,7 +38,7 @@ class LoginButtons extends React.Component{
   }
 
   componentWillMount(){
-    //activateNightMode();
+    activateNightMode();
   }
 
   componentDidMount(){
@@ -124,7 +124,7 @@ class LoginButtons extends React.Component{
 	            	}
 	            	{this.state.loggedIn &&
 	            		<div className="sign-in-buttons">
-	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Find Friends" || this.state.title === "Edit" || this.state.title === "Author Page" ? 'selected' : ''}>
+	            		   <li className={this.state.title === "Dashboard" || this.state.title === "Create" || this.state.title === "Following" || this.state.title === "Edit" || this.state.title === "Author Page" ? 'selected' : ''}>
 			                    <a href="/dashboard/">
 			                        <div className="icon">
 			                            <img className="day" src="/assets/images/icons/nav/dashboard.svg" alt="Browse"/>
@@ -138,8 +138,8 @@ class LoginButtons extends React.Component{
 			                        	<li className={this.state.title === "Create" ? 'selected' : ''}>
 				                            <a href="/dashboard/create/">Create</a>
 				                        </li>
-				                        <li className={this.state.title === "Find Friends" ? 'selected' : ''}>
-				                            <a href="/dashboard/find-friends/">Find Friends</a>
+				                        <li className={this.state.title === "Following" ? 'selected' : ''}>
+				                            <a href="/dashboard/following/1">Following</a>
 				                        </li>
 				                        <li>
 				                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
@@ -147,7 +147,7 @@ class LoginButtons extends React.Component{
 			                        </div>
 			                    	}
 			                    	{this.state.user.role >= 1 &&
-			                        <li className={this.state.title === "Find Friends" ? 'selected' : ''}>
+			                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 			                            <a href="/dashboard/all-users/">All Users</a>
 			                        </li>
 			                    	}

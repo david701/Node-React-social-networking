@@ -1,6 +1,6 @@
 var express = require('express'),
-		mongo = require('../mongo.js'),
-		router = express.Router();
+	mongo = require('../mongo.js'),
+	router = express.Router();
 
 const mongoUser = mongo.schema.user;
 
@@ -68,8 +68,8 @@ router.get('/dashboard/create', (req, res) => {
 	}
 });
 
-router.get('/dashboard/find-friends', (req, res)=>{
-	res.render('friends', {title: 'Find Friends'});
+router.get('/dashboard/following/:page', (req, res)=>{
+	res.render('friends', {title: 'Following', page: req.params.page});
 });
 
 router.get('/dashboard/all-users', (req, res)=>{

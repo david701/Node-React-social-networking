@@ -2,73 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-//variables that will never change
-const Users = []
-const Books = []
+//shared forumla's and variables
+
+//profiles we're dealing with
+const Users = [],
+Me = {},
+usersPerPage = 8,
+currentPage = parseInt(location.href.split("/").pop());
+let skip = (currentPage * usersPerPage) - usersPerPage;
 
 class Friends extends React.Component{
 
 	constructor(props) {
     	super(props);
         this.users = Users;
-        this.books = Books;
+        this.me = Me;
     	this.state = {
-            me: {},
+            me: this.me,
     		users: this.users,
-            books: this.books,
+            allUsers: this.users,
+            currentPage: currentPage,
+            numOfPages: 1
     	};
-    	this.handleChange = this.handleChange.bind(this);
-        this.handleFollow = this.handleFollow.bind(this);
-        this.removeAdmin = this.removeAdmin.bind(this);
   	}
-
-    isFollowing(userId,me){
-        if(me){
-            if(me.following_authors){
-                return me.following_authors.includes(userId);
-            }
-        }
-    }
-
-    handleFollow(event){
-        var data = {
-                authorId: event.target.id
-        };
-        $.post('/api/v1/follow_author',data).then((response)=>{
-            if(response.status === "error"){
-                alert(response.message)
-            }else{
-                this.getUsers(this.state.me._id)
-            }
-        });
-    }
-
-    removeAdmin(users){
-        return users.filter(function(user,index){
-            return user.role < 1;
-        });
-    }
-
-    myProfile(id,users){
-        var myProfile = users.filter(function(user,index){
-            return user._id === id
-        });
-        this.setState({me: myProfile[0]});
-    }
-
-    getUsers(id){
-        $.get('/api/v1/users/').then((response)=>{
-            if(response.status === "error"){
-                alert(response.message);
-            }else{
-                this.users = this.removeAdmin(response.data);
-                this.setState({users: this.users});
-                if(id){
-                    this.myProfile(id,this.state.users);
-                }
-            }
-        });
-    }
 
     componentWillMount(){
         //get user session
@@ -77,66 +33,82 @@ class Friends extends React.Component{
                 window.location.href = "/";
             }else {
                 this.setState({me: response.data});
-                this.getUsers(this.state.me._id);
+                this.getFriends(this.state.me._id);
             }
         });
     }
 
-    handleChange(event) {
-        //get target
-        let target = event.target;
-        //set value
-        this.profile[target.name] = target.value;
-        //set state
-        this.setState({profile: this.profile, error: ''});
+    paginate = (users, skip) => {
+        let $this = this;
+        return users.filter(function(user,index){
+            //filter followers
+            return index >= skip && index < (skip + usersPerPage)
+        });
+    }
+
+    getFriends = (id) => {
+        let self = this;
+        $.get('/api/v1/users/' + id).then((response)=>{
+            if(response.status === "error"){
+                console.log(response.message);
+            }else{
+                let all_followers = response.data.following_authors;
+                this.users = self.paginate(all_followers, skip);
+                this.setState({
+                    users: this.users,
+                    allUsers: all_followers,
+                    numOfPages: Math.ceil(all_followers.length / usersPerPage)
+                });
+            }
+        });
+    }
+
+    unfollow = (userId,myId) => {
+        let data = {
+          authorId: userId,
+        };
+        $.post('/api/v1/unfollow_author', data).then(response => {
+          if (response.status === "error") {
+            console.log(response.message);
+          } else {
+            this.getFriends(myId);
+          }
+        });
     }
 
 	render(){
-        let self = this;
-        let accountAction = this.state.me.role > 0 ? "edit:" : "follow:";
-        let numofUsers = 8;
-        let currentPage = 1;
-        let numofPages = Math.ceil(self.users.length / numofUsers);
-		return(
+        let self = this,
+        currentPage = parseInt(this.state.currentPage);
+
+        return(
             <div>
-                <div className="title-row">
-                    <h4>{"Choose user(s) to " + accountAction}</h4>
-                </div>
                 <ul className="user-list">
                     {this.state.users.map(function(user, i){
-                    let myProfile = self.state.me._id === user._id;
-                    return (<li key={user._id}>
-                        <a href={myProfile ? '/dashboard/' : '/author/' + user._id}>
-                            <figure className="avatar">
-                                <img src={user.avatar} alt="" id={user._id}/>
-                            </figure>
-                            <h5>{user.name}</h5>
-                        </a>
-                        {(!myProfile && self.state.me.role < 1) &&
+                    return (
+                        <li key={user._id}>
+                            <a href={'/author/' + user._id}>
+                                <figure className="avatar">
+                                    <img src={user.avatar} />
+                                </figure>
+                                <h5>{user.name}</h5>
+                            </a>
                             <div>
-                            {self.isFollowing(user._id,self.state.me) &&
-                                <div className="control">Following</div>
-                            }
-                            {!self.isFollowing(user._id,self.state.me) &&
-                                <div className="control add-button" id={user._id} onClick={self.handleFollow}>Add</div>
-                            }
+                                <div className="control add-button" onClick={ () => self.unfollow(user._id, self.state.me._id) }>Unfollow</div>
                             </div>
-                        }
-                        {!myProfile && self.state.me.role > 0 &&
-                            <a className="control add-button" href={'/author/' + user._id + '/edit'}>Edit</a>
-                        }
-                        {myProfile &&
-                            <div className="control">That's you!</div>
-                        }
-                    </li>)
+                        </li>
+                    )
                     })}
                 </ul>
                 <div className="pages">
-                    <a className="prev">Previous</a>
-                    <span className="currentPage">Page {currentPage}</span>
+                    {currentPage > 1 &&
+                        <a href={"/dashboard/following/" + (currentPage - 1)} className="prev">Previous</a>
+                    }
+                    <span className="currentPage">Page {this.state.currentPage}</span>
                     <span>of</span>
-                    <span className="allPages">{numofPages}</span>
-                    <a className="next">Next</a>
+                    <span className="allPages">{this.state.numOfPages}</span>
+                    {currentPage < this.state.numOfPages &&
+                        <a href={"/dashboard/following/" + (currentPage + 1)} className="next">Next</a>
+                    }
                 </div>
             </div>
 		)

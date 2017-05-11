@@ -3,7 +3,9 @@
 
 // View, main, aside
 // -----------------
-
+#hide {
+    display: none;
+}
 #night-mode {
     .main-footer {
         background: $content-gray;
