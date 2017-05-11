@@ -108,6 +108,9 @@ class DashboardCreate extends Component {
       title: this.state.title,
       status: 1,
       description: this.state.description,
+      genre: this.state.genres[0],
+      tags: this.state.themes,
+      warnings: this.state.warnings
     };
     e.preventDefault();
     $.post('/api/v1/books', data).then(res => {
