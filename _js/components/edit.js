@@ -189,6 +189,7 @@ class SignUp extends React.Component{
         var self = this;
         //update profile
         delete this.new_profile.password;
+        delete this.new_profile.bday;
         this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
 
         $.ajax({
