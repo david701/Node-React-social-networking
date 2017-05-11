@@ -3,7 +3,9 @@ const express = require('express'),
 			fs = require('fs')
 
 const Users = require('./models/users.js'),
-			Books = require('./models/books.js');
+			Books = require('./models/books.js'),
+			Reviews = require('./models/reviews.js'),
+			Comments = require('./models/comments.js');
 
 /// USER API ///
 router.route('/users')
@@ -56,6 +58,30 @@ router.route('/books/:id/chapters/:number')
 	.delete(Books.deleteChapter)
 
 /// END BOOKS API ///
+
+
+/// REVIEWS API ///
+router.route('/book/:id/reviews')
+	.get(Reviews.getReviews)
+	.post(Reviews.addReview)
+
+router.route('/reviews/:id')
+	.get(Reviews.getReviewById)
+	.put(Reviews.editReview)
+	.delete(Reviews.removeReview)
+/// END REVIEWS API ///
+
+
+/// COMMENTS API ///
+router.route('/chapter/:id/comments')
+	.get(Comments.getComments)
+	.post(Comments.addComment)
+
+router.route('/comments/:id')
+	.get(Comments.getCommentById)
+	.put(Comments.editComment)
+	.delete(Comments.removeComment)
+/// END COMMENTS API ///
 
 
 

@@ -11,7 +11,8 @@ const mongoUser = mongo.schema.user,
 const handle = require('../helpers/handle.js');
 
 exports.getBooks = (req, res)=>{
-	mongoBook.find({status: 2}).then((books)=>{
+	var status = req.query.status || 2;
+	mongoBook.find({status: status}).then((books)=>{
 		handle.res(res, books)
 	}).catch((err)=>{
 		handle.err(res, err)
