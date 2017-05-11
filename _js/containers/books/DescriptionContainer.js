@@ -7,7 +7,7 @@ const apiUrl = `/api/v1`;
 export default class DescriptionContainer extends React.Component {
   render() {
     return (
-      <Description title={'Description'} />
+      <Description description={this.props.description} />
     );
   }
 }

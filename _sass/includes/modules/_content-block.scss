@@ -76,9 +76,6 @@
     h4 {
       font-size: em(20);
       margin-bottom: 1em;
-      color: $light-blue;
-    }
-    .temp-header {
       color: $dark-blue;
     }
     h5 {
@@ -96,6 +93,20 @@
     }
     textarea {
       margin: 1em 0 2em;
+    }
+  }
+  &-standard-slide {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: $match-8;
+    height: em(350);
+    overflow-y: scroll;
+    @include w1000 {
+      width: calc(100% - #{ $gutter / 2 });
+      padding: 2em;
+    }
+    h5 {
+      color: $light-blue;
     }
   }
   .field-list {
