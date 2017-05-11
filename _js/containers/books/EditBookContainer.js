@@ -5,31 +5,9 @@ import DetailsContainer from './DetailsContainer';
 import EditorContainer from './EditorContainer';
 import TOCContainer from './TOCContainer';
 import DescriptionContainer from './DescriptionContainer';
+import ViewBookContainer from './ViewBookContainer';
 
 const apiUrl = '/api/v1';
-
-
-function SampleNextArrow(props) {
-  const {className, style, onClick} = props;
-  return (
-    <button
-      className={className}
-      style={{...style, display: 'block'}}
-      onClick={onClick}
-    ></button>
- );
-}
-
-function SamplePrevArrow(props) {
-  const {className, style, onClick} = props;
-  return (
-    <div
-      className={className}
-      style={{...style, display: 'block'}}
-      onClick={onClick}
-    ></div>
- );
-}
 
 const Placeholder = props => (
   <div className="content-block content-block-standard-new">
@@ -38,6 +16,7 @@ const Placeholder = props => (
     </div>
   </div>
 );
+
 
 export default class EditBookContainer extends React.Component {
   constructor(props) {
@@ -68,8 +47,20 @@ export default class EditBookContainer extends React.Component {
   selectChapter = id => {
     const nextState = { ...this.state, selectedChapter: id.toString() };
     this.setState(nextState, (id) => {
-      this.refs.slider.slickGoTo(1); // manual, can change later
+      this.refs.slider.slickGoTo(parseInt(this.state.selectedChapter)); // manual, can change later
     });
+  }
+
+  loadSlides = slides => {
+    const { bookId } = this.props;
+    const { selectedChapter } = this.state;
+    const shownSlides = [
+      ...slides,
+      <EditorContainer bookId={bookId} chapterId={selectedChapter} />,
+      <ViewBookContainer bookId={bookId} chapterId={selectedChapter} />,
+      <div className="content-block content-block-standard-slide"><h4>Chapter {selectedChapter}</h4></div>
+    ];
+    return shownSlides.map((slide, index) => <div key={index}>{slide}</div>);
   }
 
   render() {
@@ -78,14 +69,11 @@ export default class EditBookContainer extends React.Component {
       infinite: false,
       speed: 500,
       slidesToShow: 2,
-      slidesToScroll: 1,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />
+      slidesToScroll: 1
     };
     const slides = [
       <DescriptionContainer bookId={this.props.bookId} />,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} />,
-      <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />
     ];
     return (
       <div>
@@ -94,7 +82,7 @@ export default class EditBookContainer extends React.Component {
           <Placeholder />
         </div>
         <Slider ref='slider' {...settings}>
-          {slides.length && slides.map((slide, index) => <div key={index}>{slide}</div>)}
+          {this.loadSlides(slides)}
         </Slider>
       </div>
     );

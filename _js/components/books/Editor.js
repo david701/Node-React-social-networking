@@ -5,10 +5,6 @@ function sanitizeContent(content) {
   return content;
 }
 
-function renderContent(content) {
-  return { __html: content }
-}
-
 class Editor extends Component{
   componentWillReceiveProps(nextProps){
     if(nextProps.content!==this.props.content){
@@ -35,10 +31,6 @@ class Editor extends Component{
             <button className="button button-gray">Delete</button>
             <button className="button" onClick={this.props.handleSubmit}>Save</button>
           </div>
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <h4>Reader View (WIP, will be another card)</h4>
-          <div dangerouslySetInnerHTML={renderContent(content)}></div>
         </div>
       </div>
     );

@@ -12,6 +12,10 @@ export default class DetailsContainer extends React.Component {
       length: 2,
       title: '',
       author: '',
+      role: '',
+      genre: '',
+      tags: [],
+      warnings: []
     };
   }
 
@@ -24,7 +28,15 @@ export default class DetailsContainer extends React.Component {
       .then(res => res.json())
       .then(res => {
         console.log(res);
-        const nextState = { ...this.state, title: res.data.title, author: res.data.author.name };
+        const nextState = {
+          ...this.state,
+          title: res.data.title,
+          author: res.data.author.name,
+          role: res.data.author.role,
+          genre: res.data.genre,
+          tags: JSON.parse(res.data.tags).join(', '),
+          warnings: JSON.parse(res.data.warnings).join(', '),
+        };
         this.setState(nextState);
       });
   }
@@ -42,11 +54,14 @@ export default class DetailsContainer extends React.Component {
   render() {
     return (
       <BookDetails
-        type={this.state.type} // Endpoint for type?
+        type={this.state.type}
         length={this.props.length}
         title={this.state.title}
         author={this.state.author}
         rating={this.props.rating}
+        genre={this.state.genre}
+        tags={this.state.tags}
+        warnings={this.state.warnings}
       />
     );
   }

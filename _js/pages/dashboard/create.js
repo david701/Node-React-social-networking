@@ -6,7 +6,7 @@ import SocialMedia from '../../components/dashboard/SocialMedia';
 import {validate, formValid} from '../../plugins/validation';
 import $ from 'jquery';
 
-import themes from '../../../data/themes.json';
+import tags from '../../../data/tags.json';
 import genres from '../../../data/genres.json';
 import warnings from '../../../data/warnings.json';
 
@@ -20,8 +20,8 @@ class DashboardCreate extends Component {
       title: '',
       description: '',
       type: '',
-      genres: [],
-      themes: [],
+      genre: [],
+      tags: [],
       warnings: [],
       socialMedia: {
         amazon: 'https://',
@@ -64,26 +64,19 @@ class DashboardCreate extends Component {
   }
 
   _handleGenres = e => {
-    const {genres} = this.state;
-    const newGenre = e.target.value;
-    if (!genres.includes(newGenre)) {
-      const newAry = [...genres, newGenre];
-      this.setState({genres: newAry}, () => console.log(this.state.genres));
-    } else if (genres.includes(newGenre)) {
-      const newAry = genres.filter(genre => genre !== newGenre);
-      this.setState({genres: newAry}, () => console.log(this.state.genres));
-    }
+    const nextState = { ...this.state, genre: e.target.value };
+    this.setState(nextState, () => { console.log(this.state) })
   }
 
-  _handleThemes = e => {
-    const {themes} = this.state;
-    const newTheme = e.target.value;
-    if (!themes.includes(newTheme)) {
-      const newAry = [...themes, newTheme];
-      this.setState({themes: newAry}, () => console.log(this.state.themes));
-    } else if (themes.includes(newTheme)) {
-      const newAry = themes.filter(theme => theme !== newTheme);
-      this.setState({themes: newAry}, () => console.log(this.state.themes));
+  _handleTags = e => {
+    const {tags} = this.state;
+    const newTag = e.target.value;
+    if (!tags.includes(newTag)) {
+      const newAry = [...tags, newTag];
+      this.setState({...this.state, tags: newAry } , () => console.log(this.state.tags));
+    } else if (tags.includes(newTag)) {
+      const newAry = tags.filter(tag => tag !== newTag);
+      this.setState({ ...this.state, tags: newAry }, () => console.log(this.state.tags));
     }
   }
 
@@ -92,35 +85,54 @@ class DashboardCreate extends Component {
     const newWarning = e.target.value;
     if (!warnings.includes(newWarning)) {
       const newAry = [...warnings, newWarning];
-      this.setState({warnings: newAry}, () => console.log(this.state.warnings));
+      this.setState({ ...this.state, warnings: newAry }, () => console.log(this.state.warnings));
     } else if (warnings.includes(newWarning)) {
       const newAry = warnings.filter(warning => warning !== newWarning);
-      this.setState({warnings: newAry}, () => console.log(this.state.warnings));
+      this.setState({ ...this.state, warnings: newAry }, () => console.log(this.state.warnings));
     }
   }
 
   _handleType = e => {
-    this.setState({type: e.target.value}, () => console.log(this.state.type));
+    this.setState({ ...this.state, type: e.target.value}, () => console.log(this.state.type));
   }
 
   _handleSubmit = e => {
-    let data = {
-      title: this.state.title,
-      status: 1,
-      description: this.state.description,
-      genre: this.state.genres[0],
-      tags: this.state.themes,
-      warnings: this.state.warnings
-    };
     e.preventDefault();
-    $.post('/api/v1/books', data).then(res => {
-      if (res.status === "error") {
-        alert(res.message);
-      } else {
-        console.log(res);
-				window.location.href = "/dashboard";
-      }
-    });
+    const { title, description, genre, tags, warnings } = this.state;
+    const data = {
+      title,
+      status: 1,
+      description,
+      genre,
+      tags,
+      warnings
+    };
+    debugger;
+    // $.post('/api/v1/books', data).then(res => {
+    //   if (res.status === "error") {
+    //     alert(res.message);
+    //   } else {
+    //     window.location.href = "/dashboard";
+    //   }
+    // });
+    fetch(`${apiUrl}/books`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title,
+        status: 1,
+        description,
+        genre,
+        tags,
+        warnings
+      })
+    })
+    .then(res => res.json())
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
   _onUrlChange = e => {
@@ -149,7 +161,7 @@ class DashboardCreate extends Component {
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
           <Genres genres={genres} handleCheckbox={this._handleGenres} />
-          <Themes themes={themes} handleCheckbox={this._handleThemes} />
+          <Tags tags={tags} handleCheckbox={this._handleTags} />
           <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
@@ -196,15 +208,15 @@ export const Genres = ({genres, handleCheckbox}) => (
   </div>
 );
 
-export const Themes = ({themes, handleCheckbox}) => (
+export const Tags = ({tags, handleCheckbox}) => (
   <div>
     <div className="title">
       <p><span>*</span>Select up to <strong>two</strong> tags that best describe your book.</p>
       <span className="help-text">Please select at least one tag.</span>
     </div>
     <div className="new-create-books-row">
-      {themes.map((theme, index) => (
-        <Checkbox name="themes" label={theme} key={index} handleCheckboxChange={handleCheckbox} />
+      {tags.map((tag, index) => (
+        <Checkbox name="tags" label={tag} key={index} handleCheckboxChange={handleCheckbox} />
       ))}
     </div>
   </div>
