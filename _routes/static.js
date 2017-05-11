@@ -72,8 +72,8 @@ router.get('/dashboard/following/:page', (req, res)=>{
 	res.render('friends', {title: 'Following', page: req.params.page});
 });
 
-router.get('/dashboard/all-users', (req, res)=>{
-	res.render('friends', {title: 'All Users'});
+router.get('/dashboard/all-users/:page', (req, res)=>{
+	res.render('friends', {title: 'All Users', page: req.params.page});
 });
 
 router.get('/forum', (req, res)=>{

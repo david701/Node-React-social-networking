@@ -117,3 +117,99 @@ class Friends extends React.Component{
 
 if(document.getElementById('friends'))
 	ReactDOM.render(<Friends />, document.getElementById('friends'))
+
+
+
+class AllUsers extends React.Component{
+
+    constructor(props) {
+        super(props);
+        this.users = Users;
+        this.me = Me;
+        this.state = {
+            me: this.me,
+            users: this.users,
+            allUsers: this.users,
+            currentPage: currentPage,
+            numOfPages: 1
+        };
+    }
+
+    componentWillMount(){
+        //get user session
+        $.get('/api/v1/user_session/').then((response)=>{
+            if(response.status === "error"){
+                window.location.href = "/";
+            }else {
+                this.setState({me: response.data});
+                if(this.state.me.role > 1){
+                    this.getUsers(this.state.me._id);
+                }
+            }
+        });
+    }
+
+    paginate = (users, skip) => {
+        let $this = this;
+        return users.filter(function(user,index){
+            //filter followers
+            return index >= skip && index < (skip + usersPerPage)
+        });
+    }
+
+    getUsers = (id) => {
+        let self = this;
+        $.get('/api/v1/users').then((response)=>{
+            if(response.status === "error"){
+                console.log(response.message);
+            }else{
+                this.setState({
+                    users: self.paginate(response.data,skip),
+                    allUsers: response.data,
+                    numOfPages: Math.ceil(response.data.length / usersPerPage)
+                });
+            }
+        });
+    }
+
+    render(){
+        let self = this,
+        currentPage = parseInt(this.state.currentPage);
+
+        return(
+            <div>
+                <ul className="user-list">
+                    {this.state.users.map(function(user, i){
+                    return (
+                        <li key={user._id}>
+                            <a href={'/author/' + user._id}>
+                                <figure className="avatar">
+                                    <img src={user.avatar} />
+                                </figure>
+                                <h5>{user.name}</h5>
+                            </a>
+                            <div>
+                                <a className="control add-button" href={'/author/' + user._id + '/edit'}>Edit</a>
+                            </div>
+                        </li>
+                    )
+                    })}
+                </ul>
+                <div className="pages">
+                    {currentPage > 1 &&
+                        <a href={"/dashboard/all-users/" + (currentPage - 1)} className="prev">Previous</a>
+                    }
+                    <span className="currentPage">Page {this.state.currentPage}</span>
+                    <span>of</span>
+                    <span className="allPages">{this.state.numOfPages}</span>
+                    {currentPage < this.state.numOfPages &&
+                        <a href={"/dashboard/all-users/" + (currentPage + 1)} className="next">Next</a>
+                    }
+                </div>
+            </div>
+        )
+    }
+}
+
+if(document.getElementById('all-users'))
+    ReactDOM.render(<AllUsers />, document.getElementById('all-users'))

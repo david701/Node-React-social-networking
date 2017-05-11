@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import {validate, formValid} from '../plugins/validation.js';
-
 import Library from './books/Library';
 
 const Profile = function () {
@@ -267,7 +266,7 @@ class Parent extends React.Component {
               <hr />
               <div className="title-row">
                 <h4>Edit Users</h4>
-                <a className="control" href="/dashboard/all-users">See All</a>
+                <a className="control" href="/dashboard/all-users/1">See All</a>
               </div>
               <ul className="user-list">
                 {following}
