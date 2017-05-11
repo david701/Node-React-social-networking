@@ -6,7 +6,7 @@ const Description = props => (
       <h4>Description</h4>
     </div>
     <div>
-      {props.description || 'Description goes here'}
+      {props.description || 'This is the area where your description will eventually go -- right now, it\'s just filler text.'}
     </div>
   </div>
 );
