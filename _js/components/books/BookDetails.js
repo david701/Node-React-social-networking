@@ -19,7 +19,7 @@ const BookDetails = props => (
       <a href="/books" className="control">{sanitizeLength(props.length)}</a>
     </div>
     <div>
-      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={150} width={150} />
+      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
       <h4 className="book-title">{props.title}</h4>
       <p>{props.author}</p>
       <Rating stars={props.rating} />
