@@ -220,12 +220,12 @@ class SignUp extends React.Component{
 		let self = this;
 		return items.map(function(item,index){
 			let id = type + '-' + item.replace(/\s+/g,'-').toLowerCase();
-			return (
-				<li key={id}>
-					<input id={id} type="checkbox" name={type} value={item} onChange={self.handleChange} checked={self.isChecked(self.state.profile[type],item)}/>
-					<label htmlFor={id}>{item}</label>
-				</li>
-			)
+      return (
+        <li key={id}>
+          <input id={id} type="checkbox" name={type} value={item} onChange={self.handleChange} checked={self.isChecked(self.state.profile[type],item)} data-min="1" onBlur={validate} data-validation="minChecks,required" />
+          <label htmlFor={id}>{item}</label>
+        </li>
+      )
 		})
 	}
 
@@ -344,14 +344,21 @@ class SignUp extends React.Component{
 				</ul>
 				<hr/>
 				<h4>Tell us what you like to see</h4>
-				<p>What Genres do you like?</p>
 				<ul className="toggle-list">
+          <div className="title">
+            <label htmlFor="password2"><span>*</span>What Genres do you like? Add at least one.</label>
+            <span className="help-text">Please add at least one genre</span>
+          </div>
 					{ this.createCheckboxes(genres, 'genres') }
 					<li className="spacing-block"></li>
 					<li className="spacing-block"></li>
 				</ul>
 				<p>What type of Fiction Themes?</p>
 				<ul className="toggle-list">
+        <div className="title">
+          <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
+          <span className="help-text">Please add at least one theme</span>
+        </div>
 					{ this.createCheckboxes(themes, 'themes') }
 					<li className="spacing-block"></li>
 					<li className="spacing-block"></li>

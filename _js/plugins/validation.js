@@ -5,6 +5,7 @@ import validator from 'validator';
 const formValid = (event) => {
     //hacks for the date plugin
     let requiredValuesExist = true,
+    checkboxesAreSelected = true,
     //the horrible date plugin hack
     input = event._isAMomentObject || !('validation' in event.target.dataset) ? {name: "bday", value: $('#bday').val(), dataset: {validation: "date,required" }} : event.target,
     validations = input.dataset.validation.split(','),
@@ -16,18 +17,29 @@ const formValid = (event) => {
 
     //lastly check if there are values in required fields
     $(form).find('label span').closest('li').each(function(){
-        requiredValuesExist = requiredValuesExist && $(this).find('input,select').val().length > 0;
+        requiredValuesExist = requiredValuesExist && ($(this).find('input,select').val().length > 0);
+    });
+
+    $(form).find('label span').closest('ul').each(function(){
+        let input = $(this).find('input')[0];
+        if($(input).attr('type') === "checkbox"){
+            checkboxesAreSelected = checkboxesAreSelected && minCheckboxes(input);
+        }
     });
 
     //Check to see if any errors are showing.
     let formErrors = $(form).find('.field-error').length > 0;
 
     //is the current input invalid or any other errors showing?
-    if(formErrors || !requiredValuesExist){
+    if(formErrors || !requiredValuesExist || !checkboxesAreSelected){
         $(form).find('input[type="submit"]').attr('disabled','disabled');
     }else{
         $(form).find('input[type="submit"]').attr('disabled',null);
     }
+}
+
+const minCheckboxes = (input) => {
+    return $('input[name="'+ input.name +'"]:checked').length >= input.dataset.min
 }
 
 const isValid = (validate,input) => {
@@ -55,6 +67,9 @@ const isValid = (validate,input) => {
         case "date":
             valid = validator.isBefore(value);
             break;
+        case "minChecks":
+            valid = minCheckboxes(input);
+            break;
     }
     return valid;
 }
@@ -63,6 +78,7 @@ const isValid = (validate,input) => {
 const validate = (event) => {
     let input = event._isAMomentObject || !('validation' in event.target.dataset) ? {name: "bday", value: $('#bday').val(), dataset: {validation: "date,required" }} : event.target,
     validations = input.dataset.validation.split(','),
+    parent = (input.name === "genres" || input.name === "themes") ? "ul" : "li",
     all_valid = true;
 
     //run all validations on input field
@@ -75,11 +91,11 @@ const validate = (event) => {
 
     //if its valid, toggle error
     if(all_valid){
-        $(input).closest('li').removeClass('field-error');
-        $(input).closest('li').find('.help-text').hide();
+        $(input).closest(parent).removeClass('field-error');
+        $(input).closest(parent).find('.help-text').hide();
     }else{
-        $(input).closest('li').addClass('field-error');
-        $(input).closest('li').find('.help-text').show();
+        $(input).closest(parent).addClass('field-error');
+        $(input).closest(parent).find('.help-text').show();
     }
 }
 

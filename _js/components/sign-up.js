@@ -157,7 +157,7 @@ class SignUp extends React.Component{
 
 			return (
 				<li key={id}>
-					<input id={id} type="checkbox" name={type} value={item} onChange={self.handleChange} checked={self.isChecked(self.state.profile[type],item)}/>
+					<input id={id} type="checkbox" name={type} value={item} onChange={self.handleChange} checked={self.isChecked(self.state.profile[type],item)} data-min="1" onBlur={validate} data-validation="minChecks,required" />
 					<label htmlFor={id}>{item}</label>
 				</li>
 			)
@@ -199,17 +199,17 @@ class SignUp extends React.Component{
 					</li>
 					<li>
                         <div className="title">
-                            <label htmlFor="bday"><span>*</span>What is your birth date?</label>
+                            <label htmlFor="bday">What is your birth date?</label>
                             <span className="help-text">Please enter a date</span>
                         </div>
-                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange} showYearDropdown maxDate={moment()} onBlur={validate} data-validation="date,required"/>
+                        <DatePicker id="bday" name="bday" selected={this.state.profile.bday} onChange={this.handleChange} showYearDropdown maxDate={moment()}/>
 					</li>
 					<li>
                         <div className="title">
-                            <label htmlFor="gender"><span>*</span>Your gender:</label>
+                            <label htmlFor="gender">Your gender:</label>
                             <span className="help-text">Please select your gender</span>
                         </div>
-						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange} onBlur={validate} data-validation="required">
+						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
                           <option value="">Select One</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
@@ -283,14 +283,20 @@ class SignUp extends React.Component{
 				</ul>
 				<hr/>
 				<h4><span>Step 4.</span> Tell us what you like to see</h4>
-				<p>What Genres do you like?</p>
 				<ul className="toggle-list">
+          <div className="title">
+            <label htmlFor="password2"><span>*</span>What Genres do you like? Add at least one.</label>
+            <span className="help-text">Please add at least one genre</span>
+          </div>
 					{ this.createCheckboxes(genres, 'genres') }
 					<li className="spacing-block"></li>
 					<li className="spacing-block"></li>
 				</ul>
-				<p>What type of Fiction Themes?</p>
 				<ul className="toggle-list">
+        <div className="title">
+          <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
+          <span className="help-text">Please add at least one theme</span>
+        </div>
 					{ this.createCheckboxes(themes, 'themes') }
 					<li className="spacing-block"></li>
 					<li className="spacing-block"></li>
