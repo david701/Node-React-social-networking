@@ -1,6 +1,12 @@
+<<<<<<< HEAD
+var express = require('express'),
+	mongo = require('../mongo.js'),
+	router = express.Router();
+=======
 const express = require('express'),
 		mongo = require('../mongo.js'),
 		router = express.Router();
+>>>>>>> 3db3aca3070f27d01b059fd53f7ffc2f9ae7bab8
 
 const handle = require('./helpers/handle.js');
 const mongoUser = mongo.schema.user;

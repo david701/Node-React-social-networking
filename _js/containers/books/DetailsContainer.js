@@ -46,6 +46,7 @@ export default class DetailsContainer extends React.Component {
         length={this.props.length}
         title={this.state.title}
         author={this.state.author}
+        rating={this.props.rating}
       />
     );
   }

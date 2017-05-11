@@ -107,21 +107,18 @@ class DashboardCreate extends Component {
     let data = {
       title: this.state.title,
       status: 1,
+      description: this.state.description,
+      genre: this.state.genres[0],
+      tags: this.state.themes,
+      warnings: this.state.warnings
     };
-    // console.log(data);
-    // // add id? Why is this the user id?
-    // fetch('/api/v1/books/', {
-    //   method: 'POST',
-    //   body: JSON.stringify(data)
-    // }).then(res => res.json()).then(res => console.log(res.data));
-      // .then(window.location.href = "/dashboard");
-
     e.preventDefault();
     $.post('/api/v1/books', data).then(res => {
       if (res.status === "error") {
         alert(res.message);
       } else {
         console.log(res);
+				window.location.href = "/dashboard";
       }
     });
   }

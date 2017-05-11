@@ -29,10 +29,10 @@ module.exports = {
         test: /\.(png|jpg|)$/,
         loader: 'url-loader?limit=200000',
       },
-      // {
-      //   test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-      //   loader: 'file-loader?name=[name].[ext]&outputPath=public/assets/images/',
-      // },
+      {
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        loader: 'file-loader?name=[name].[ext]&outputPath=public/assets/images/',
+      },
     ],
   },
   plugins: [

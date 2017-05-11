@@ -17,7 +17,7 @@ export default class EditorContainer extends React.Component {
   componentDidMount() {
     this.loadChapterInfo();
   }
-  
+
   componentDidUpdate(nextProps) {
     if (this.props.chapterId !== nextProps.chapterId) {
       this.loadChapterInfo();
@@ -66,12 +66,14 @@ export default class EditorContainer extends React.Component {
 
   render() {
     return (
+    <div>
       <Editor
         content={this.state.content}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
         name={this.state.name}
       />
+    </div>
     );
   }
 }
