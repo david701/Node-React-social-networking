@@ -105,6 +105,9 @@
       width: calc(100% - #{ $gutter / 2 });
       padding: 2em;
     }
+    h4 {
+      margin-bottom: 1em;
+    }
     h5 {
       color: $light-blue;
     }
