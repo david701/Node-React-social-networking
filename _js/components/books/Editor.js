@@ -19,7 +19,7 @@ class Editor extends Component{
   render(){
     const { content } = this.props;
     return(
-      <div className="content-block content-block-standard-new">
+      <div className="content-block content-block-standard-slide">
         <h1>{this.props.name}</h1>
         {/* fetch user permissions*/}
         <TinyMCE
@@ -30,7 +30,7 @@ class Editor extends Component{
           }}
           onChange={this.props.handleChange}
         />
-        <div dangerouslySetInnerHTML={renderContent(content)}></div>
+        {/* <div dangerouslySetInnerHTML={renderContent(content)}></div> */}
         <div className="submit-row submit-row-editor">
           <div className="buttons">
             <button className="button button-gray">Delete</button>

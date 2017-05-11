@@ -20,7 +20,7 @@ const BookDetails = props => (
       <a href="/books" className="control">{sanitizeLength(props.length)}</a>
     </div>
     <div>
-      <h4 style={{ marginBottom: 0 }}>{props.title}</h4>
+      <h4 style={{ marginBottom: 0, color: '#0FAFFF' }}>{props.title}</h4>
       <p>{props.author}</p>
     </div>
     <div>
