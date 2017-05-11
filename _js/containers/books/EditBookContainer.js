@@ -12,11 +12,11 @@ const apiUrl = '/api/v1';
 function SampleNextArrow(props) {
   const {className, style, onClick} = props;
   return (
-    <div
+    <button
       className={className}
-      style={{...style, display: 'block', background: 'black'}}
+      style={{...style, display: 'block'}}
       onClick={onClick}
-    ></div>
+    ></button>
  );
 }
 
@@ -25,7 +25,7 @@ function SamplePrevArrow(props) {
   return (
     <div
       className={className}
-      style={{...style, display: 'block', background: 'black'}}
+      style={{...style, display: 'block'}}
       onClick={onClick}
     ></div>
  );
