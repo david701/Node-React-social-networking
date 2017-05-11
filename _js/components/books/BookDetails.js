@@ -12,36 +12,23 @@ function sanitizeLength(length) {
   return '';
 }
 
-
 const BookDetails = props => (
   <div className="content-block content-block-standard-new">
-    <div className="title-row" style={{ marginBottom: 0 }}>
+    <div className="title-row">
       <h2>{props.type}</h2>
       <a href="/books" className="control">{sanitizeLength(props.length)}</a>
     </div>
     <div>
-      <h4 style={{ marginBottom: 0, color: '#0FAFFF' }}>{props.title}</h4>
+      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
+      <h4 className="book-title">{props.title}</h4>
       <p>{props.author}</p>
-    </div>
-    <div>
       <Rating stars={props.rating} />
-      <ContentWarning />
-      <Genre />
-      <Tags />
+      <p><strong>Content Warnings</strong>: {props.warnings || 'Genre 1, Genre 2'}</p>
+      <p><strong>Genre</strong>: {props.genres || 'Genre 1, Genre 2, Genre 3'}</p>
+      <p><strong>Tags</strong>: {props.tags || 'Tag 1, Tag 2, Tag 3'}</p>
     </div>
+    <div style={{ marginTop: '50px' }}><p>Details | Cover | Table of Contents</p></div>
   </div>
-);
-
-const ContentWarning = props => (
-  <p><strong>Content Warnings</strong>: {props.warnings || 'Genre 1, Genre 2'}</p>
-);
-
-const Genre = props => (
-  <p><strong>Genre</strong>: {props.genres || 'Genre 1, Genre 2, Genre 3'}</p>
-);
-
-const Tags = props => (
-  <p><strong>Tags</strong>: {props.tags || 'Tag 1, Tag 2, Tag 3'}</p>
 );
 
 export default BookDetails;

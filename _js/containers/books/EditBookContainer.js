@@ -12,11 +12,11 @@ const apiUrl = '/api/v1';
 function SampleNextArrow(props) {
   const {className, style, onClick} = props;
   return (
-    <div
+    <button
       className={className}
-      style={{...style, display: 'block', background: 'red'}}
+      style={{...style, display: 'block'}}
       onClick={onClick}
-    ></div>
+    ></button>
  );
 }
 
@@ -25,7 +25,7 @@ function SamplePrevArrow(props) {
   return (
     <div
       className={className}
-      style={{...style, display: 'block', background: 'green'}}
+      style={{...style, display: 'block'}}
       onClick={onClick}
     ></div>
  );
@@ -52,6 +52,10 @@ export default class EditBookContainer extends React.Component {
     this.loadChapters();
   }
 
+  // focusEditor = e => {
+  //   return (<EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />);
+  // }
+
   loadChapters = () => {
     fetch(`${apiUrl}/books/${bookId}/chapters`)
       .then(res => res.json())
@@ -63,7 +67,9 @@ export default class EditBookContainer extends React.Component {
 
   selectChapter = id => {
     const nextState = { ...this.state, selectedChapter: id.toString() };
-    this.setState(nextState);
+    this.setState(nextState, (id) => {
+      this.refs.slider.slickGoTo(1); // manual, can change later
+    });
   }
 
   render() {
@@ -87,9 +93,8 @@ export default class EditBookContainer extends React.Component {
           <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
           <Placeholder />
         </div>
-        <Slider {...settings}>
+        <Slider ref='slider' {...settings}>
           {slides.length && slides.map((slide, index) => <div key={index}>{slide}</div>)}
-          {/* {this.state.selectedChapter ? <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} /> : '' } */}
         </Slider>
       </div>
     );
