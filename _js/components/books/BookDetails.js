@@ -12,12 +12,6 @@ function sanitizeLength(length) {
   return '';
 }
 
-// function sanitizeArray(props) {
-//   props.map(prop => (
-//     prop.join(' ');
-//   ))
-// }
-
 const BookDetails = props => (
   <div className="content-block content-block-standard-new">
     <div className="title-row">
@@ -29,12 +23,27 @@ const BookDetails = props => (
       <h4 className="book-title">{props.title}</h4>
       <p>{props.author}</p>
       <Rating stars={props.rating} />
-      <p><strong>Content Warnings</strong>: {props.warnings || 'Genre 1, Genre 2'}</p>
-      <p><strong>Genre</strong>: {props.genre}</p>
-      <p><strong>Tags</strong>: {props.tags || 'Tag 1, Tag 2, Tag 3'}</p>
+      <p><strong>Content Warnings</strong>: {props.warnings || 'N/A'}</p>
+      <p><strong>Genre</strong>: {props.genre || 'N/A'}</p>
+      <p><strong>Tags</strong>: {props.tags || 'N/A'}</p>
     </div>
-    <div style={{ marginTop: '50px' }}><p>Details | Cover | Table of Contents</p></div>
+    <InfoRow chapters={props.chapters} selectChapter={props.selectChapter} />
   </div>
+);
+
+const InfoRow = props => (
+  <div className="info-row">
+    <p className="info-selector">Details | Cover | Table of Contents</p>
+    <ChapterSelector chapters={props.chapters} selectChapter={props.selectChapter} />
+  </div>
+);
+
+const ChapterSelector = ({ chapters, selectChapter }) => (
+  <select className="chapter-selector" name="selectChapter">
+    {chapters.map((chapter, index) => (
+      <option key={index} value={chapter.number} onSelect={selectChapter}>{chapter.name}</option>
+    ))}
+  </select>
 );
 
 export default BookDetails;

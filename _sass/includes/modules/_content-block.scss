@@ -110,6 +110,21 @@
     .title-row {
       margin-bottom: 0;
     }
+    .info-row {
+      display: flex;
+      margin-top: 50px;
+    }
+    .chapter-selector {
+      @include w1000 {
+        float: right;
+        width: calc(40% - #{ $gutter / 2 });
+      }
+    }
+    .info-selector {
+      @include w1000 {
+        width: calc(60% - #{ $gutter / 2 });
+      }
+    }
   }
   &-standard-slide {
     margin: 0 auto;
@@ -415,7 +430,7 @@
 }
 
 
-    .slick-next:before,
-    .slick-prev:before, {
-      color: black !important;
-    }
+.slick-next:before,
+.slick-prev:before, {
+  color: black !important;
+}

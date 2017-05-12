@@ -42,19 +42,17 @@ export default class DetailsContainer extends React.Component {
   }
 
   render() {
-    const { length, rating, selectedChapter } = this.props;
+    // const { length, rating, selectedChapter } = this.props;
     const { type, title, author, genre, tags, warnings } = this.state;
     return (
       <BookDetails
         type={type}
-        length={length}
         title={title}
         author={author}
-        rating={rating}
         genre={genre}
         tags={tags}
         warnings={warnings}
-        selectedChapter={selectedChapter}
+        {...this.props}
       />
     );
   }

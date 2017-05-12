@@ -52,7 +52,7 @@ export default class EditBookContainer extends React.Component {
     const { selectedChapter } = this.state;
     const shownSlides = [
       ...slides,
-      <EditorContainer bookId={bookId} chapterId={selectedChapter} />,
+      <EditorContainer bookId={bookId} chapterNumber={selectedChapter} />,
       <ViewBookContainer bookId={bookId} chapterId={selectedChapter} />,
       <div className="content-block content-block-standard-slide"><h4>Chapter {selectedChapter}</h4></div>
     ];
@@ -60,6 +60,8 @@ export default class EditBookContainer extends React.Component {
   }
 
   render() {
+    const { bookId } = this.props;
+    const { chapters, selectedChapter } = this.state;
     const settings = {
       dots: true,
       infinite: false,
@@ -74,7 +76,12 @@ export default class EditBookContainer extends React.Component {
     return (
       <div>
         <div style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' }}>
-          <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
+          <DetailsContainer
+            bookId={bookId}
+            chapters={chapters}
+            selectChapter={this.selectChapter}
+            selectedChapter={selectedChapter}
+          />
           <Placeholder />
         </div>
         <Slider ref='slider' {...settings}>
