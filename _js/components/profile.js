@@ -35,6 +35,7 @@ class Parent extends React.Component {
     this.user = new Profile();
     this.state = {
       user: this.user,
+      books: []
     };
   }
 
@@ -107,12 +108,15 @@ class Parent extends React.Component {
   // }
 
   loadBooks = id => {
-    fetch(`${apiUrl}/users/${id}/books`)
-      .then(res => res.json())
-      .then(res => this.setState({
-        books: res.data,
-      }))
-      .then(res => console.log(this.state));
+    $.get(`${apiUrl}/books?status=1`).then((res) => {
+      if (res.status !== "error") {
+        this.setState({
+          books: res.data,
+        })
+      } else {
+        window.location.href = "/";
+      }
+    });
   }
 
   render() {
@@ -277,8 +281,43 @@ class Parent extends React.Component {
                 {/* <a className="control" href=".">See All</a> */}
               </div>
               <div className="book-blocks book-blocks-small">
-                You don't have any books to approve
-                  </div>
+                {this.state.books.length === 0 &&
+                  <p>You don't have any books to approve</p>
+                }
+                {this.state.books.length > 0 &&
+                  <ul>
+                  {
+                    this.state.books.map(function(book, i){
+                      return (
+                        <li key={i}>
+                          <div className="content-block content-block-book">
+                            <figure>
+                              <div className="cover pending">
+                                <div className="overlay">
+                                  <a className="button button-red" href="/books/5914c527a9cda83205f2743a/pending">Approve</a>
+                                </div>
+                              </div>
+                              <figcaption>
+                                <h4>{book.title}</h4>
+                                <p>Author Name Here</p>
+                                <ul className="rating-display">
+                                  <li className="filled"></li>
+                                  <li className="filled"></li>
+                                  <li className="filled"></li>
+                                  <li className="filled"></li>
+                                  <li className="filled"></li>
+                                </ul>
+                              </figcaption>
+                            </figure>
+                          </div>
+                        </li>
+                      )
+                    })
+                  }
+                  </ul>
+
+                }
+              </div>
               <hr />
               <div className="title-row">
                 <h4>Book Claims</h4>
