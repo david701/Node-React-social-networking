@@ -20,7 +20,7 @@ class DashboardCreate extends Component {
       title: '',
       description: '',
       type: '',
-      genre: [],
+      genre: '',
       tags: [],
       warnings: [],
       socialMedia: {
@@ -45,14 +45,6 @@ class DashboardCreate extends Component {
     this.setState({[e.target.id]: e.target.value}, () => console.log(this.state));
   }
 
-  _handleCheckbox = e => {
-    const newVal = e.target.value;
-    console.log(newVal);
-    this.setState(prevState => ({
-      genres: prevState.genres.push(newVal)
-    }), () => console.log(this.state));
-  }
-
   _handleCover = e => {
     const reader = new FileReader();
     const file = e.target.files[0];
@@ -63,9 +55,9 @@ class DashboardCreate extends Component {
     reader.readAsDataURL(file);
   }
 
-  _handleGenres = e => {
+  _handleGenre = e => {
     const nextState = { ...this.state, genre: e.target.value };
-    this.setState(nextState, () => { console.log(this.state) })
+    this.setState(nextState, () => { console.log(this.state) });
   }
 
   _handleTags = e => {
@@ -73,10 +65,10 @@ class DashboardCreate extends Component {
     const newTag = e.target.value;
     if (!tags.includes(newTag)) {
       const newAry = [...tags, newTag];
-      this.setState({...this.state, tags: newAry } , () => console.log(this.state.tags));
+      this.setState({...this.state, tags: newAry });
     } else if (tags.includes(newTag)) {
       const newAry = tags.filter(tag => tag !== newTag);
-      this.setState({ ...this.state, tags: newAry }, () => console.log(this.state.tags));
+      this.setState({ ...this.state, tags: newAry });
     }
   }
 
@@ -107,14 +99,6 @@ class DashboardCreate extends Component {
       tags,
       warnings
     };
-    debugger;
-    // $.post('/api/v1/books', data).then(res => {
-    //   if (res.status === "error") {
-    //     alert(res.message);
-    //   } else {
-    //     window.location.href = "/dashboard";
-    //   }
-    // });
     fetch(`${apiUrl}/books`, {
       method: 'POST',
       headers: {
@@ -160,7 +144,7 @@ class DashboardCreate extends Component {
           <BookType types={types} handleChange={this._handleType}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
-          <Genres genres={genres} handleCheckbox={this._handleGenres} />
+          <Genres genres={genres} handleCheckbox={this._handleGenre} />
           <Tags tags={tags} handleCheckbox={this._handleTags} />
           <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
           <hr />

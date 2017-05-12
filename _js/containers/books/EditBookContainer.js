@@ -31,10 +31,6 @@ export default class EditBookContainer extends React.Component {
     this.loadChapters();
   }
 
-  // focusEditor = e => {
-  //   return (<EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />);
-  // }
-
   loadChapters = () => {
     fetch(`${apiUrl}/books/${bookId}/chapters`)
       .then(res => res.json())

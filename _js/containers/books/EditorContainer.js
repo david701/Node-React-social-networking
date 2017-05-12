@@ -65,13 +65,14 @@ export default class EditorContainer extends React.Component {
   }
 
   render() {
+    const { content, name } = this.state;
     return (
     <div>
       <Editor
-        content={this.state.content}
+        content={content}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
-        name={this.state.name}
+        name={name}
       />
     </div>
     );

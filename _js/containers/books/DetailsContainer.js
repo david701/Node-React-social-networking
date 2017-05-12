@@ -15,7 +15,7 @@ export default class DetailsContainer extends React.Component {
       role: '',
       genre: '',
       tags: [],
-      warnings: []
+      warnings: [],
     };
   }
 
@@ -41,27 +41,20 @@ export default class DetailsContainer extends React.Component {
       });
   }
 
-  // loadChapterInfo = () => {
-  //   fetch(`${apiUrl}/books/${this.props.bookId}/chapters`)
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       console.log(res);
-  //       const nextState = { ...this.state, length: res.data.length };
-  //       this.setState(nextState);
-  //     });
-  // }
-
   render() {
+    const { length, rating, selectedChapter } = this.props;
+    const { type, title, author, genre, tags, warnings } = this.state;
     return (
       <BookDetails
-        type={this.state.type}
-        length={this.props.length}
-        title={this.state.title}
-        author={this.state.author}
-        rating={this.props.rating}
-        genre={this.state.genre}
-        tags={this.state.tags}
-        warnings={this.state.warnings}
+        type={type}
+        length={length}
+        title={title}
+        author={author}
+        rating={rating}
+        genre={genre}
+        tags={tags}
+        warnings={warnings}
+        selectedChapter={selectedChapter}
       />
     );
   }

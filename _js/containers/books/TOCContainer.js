@@ -65,14 +65,16 @@ export default class TocContainer extends React.Component {
   }
 
   render() {
+    const { chapters, selectChapter } = this.props;
+    const { buttonVisible, title } = this.state;
     return (
       <TableOfContents
-        buttonVisible={this.state.buttonVisible}
-        chapters={this.props.chapters}
-        title={this.state.title}
+        buttonVisible={buttonVisible}
+        chapters={chapters}
+        title={title}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
-        selectChapter={this.props.selectChapter}
+        selectChapter={selectChapter}
         toggleVisibility={this.toggleVisibility}
       />
  );
