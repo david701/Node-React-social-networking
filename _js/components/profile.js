@@ -278,7 +278,7 @@ class Parent extends React.Component {
               <hr />
               <div className="title-row">
                 <h4>Books to Approve</h4>
-                {/* <a className="control" href=".">See All</a> */}
+                <a className="control" href=".">See All</a>
               </div>
               <div className="book-blocks book-blocks-small">
                 {this.state.books.length === 0 &&
@@ -294,7 +294,8 @@ class Parent extends React.Component {
                             <figure>
                               <div className="cover pending">
                                 <div className="overlay">
-                                  <a className="button button-red" href="/books/5914c527a9cda83205f2743a/pending">Approve</a>
+                                  <a className="button button-red" href="/books/{book.author}/pending">Approve</a>
+                                  <a className="button button-red" href="/books/{book.author}/edit">Edit</a>
                                 </div>
                               </div>
                               <figcaption>
