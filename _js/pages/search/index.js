@@ -11,7 +11,7 @@ class Search extends React.Component {
       <div className="standard-section-with-sidebar">
         <div className="container">
           <div className="flex-row">
-            <div className="content-block content-block-standard">
+            <div className="content-block content-block-standard-search">
               <header>
                 <h3>Select a category to search from</h3>
               </header>
@@ -47,21 +47,25 @@ const SearchCategories = props => (
     <h4>Search by Genre, Author, or Book</h4>
     <div>
       <p>Search by</p>
-      <input
-        id="chapterTitle"
-        type="text"
-        placeholder="Favorite by Genre, Author, or Book"
-      />
-      <div className="new-create-books-row">
-        <div className="new-field">
-          <input
-            type="checkbox"
-            checked
-            name="Genre"
-          />
-          <label htmlFor="Genre">Genre</label>
-        </div>
-        {props.categories.map((category, index) => (
+      <form action="submit" style={{ display: 'flex' }}>
+        <input
+          id="chapterTitle"
+          type="text"
+          placeholder="Favorite by Genre, Author, or Book"
+        />
+        <button className="button" style={{ width: '10%' }}>+</button>
+      </form>
+    </div>
+    <div className="search-row">
+      <div className="new-field">
+        <input
+          type="checkbox"
+          checked
+          name="Genre"
+        />
+        <label htmlFor="Genre">Genre</label>
+      </div>
+      {props.categories.map((category, index) => (
             <Checkbox name="categories" label={category} key={index} />
           ))}
         </div>
@@ -80,7 +84,6 @@ const SearchCategories = props => (
           </li>
         </ul>
       </div>
-    </div>
 );
 
 const SavedSearches = props => (
