@@ -3,7 +3,8 @@ const express = require('express'),
 		router = express.Router();
 
 const handle = require('./helpers/handle.js');
-const mongoUser = mongo.schema.user;
+const mongoUser = mongo.schema.user,
+			mongoBook = mongo.schema.book;
 
 router.get('/', (req, res)=>{
 	res.render('home', {title: 'Browse'})
@@ -45,8 +46,26 @@ router.get('/author/:id/reset-password', (req, res)=>{
 	res.render('reset-password', {title: 'Reset Password',id: req.params.id})
 });
 
-router.get('/books/:id/edit', (req, res) => {
-  res.render('book-edit', {title: 'Edit Book', id: req.params.id})
+router.get('/books/:id', (req, res) => {
+	var user = req.session
+	if(user && user._id){
+		mongoBook.findOne({_id: req.params.id}).then((book)=>{
+			if(book.author != user._id){
+				if(book.viewed_by.indexOf(user._id) == -1){
+					book.viewed_by.push(user._id);
+					book.save().then((book)=>{
+						res.render('book-edit', {title: 'Edit Book', id: req.params.id})
+					})
+				}else{
+					res.render('book-edit', {title: 'Edit Book', id: req.params.id})
+				}
+			}else{
+				res.render('book-edit', {title: 'Edit Book', id: req.params.id})
+			}
+		});
+	}else{
+		res.render('book-edit', {title: 'Edit Book', id: req.params.id})
+	}
 });
 
 // router.get('/books/:id/chapters/:number', (req, res) => {

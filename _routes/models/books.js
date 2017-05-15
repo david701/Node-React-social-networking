@@ -87,6 +87,74 @@ exports.editBook = (req, res)=>{
   })
 }
 
+exports.followBook = (req, res)=>{
+	var bookId = req.params.id;
+	var user = req.session;
+	if(!user){
+		handle.err(res, 'Not logged in');
+		return;
+	}
+
+	mongoUser.findOne({_id: user._id}).then((user)=>{
+		if(user.following_books.indexOf(bookId) == -1){
+			user.following_books.push(bookId);
+			user.save().then((saved)=>{
+				mongoBook.findOne({_id: bookId}).then((book)=>{
+					if(book.followers.indexOf(user._id) == -1){
+						book.followers.push(user._id);
+						book.save().then((savedBook)=>{
+							handle.res(res, bookId);
+						}).catch((err)=>{
+							handle.err(res, err.message)
+						})
+					}else{
+						handle.err(res, 'Already following')
+					}
+				}).catch((err)=>{
+					handle.err(res, err.message)
+				})
+			}).catch((err)=>{
+				console.log('couldnt save user');
+				handle.err(res, err.message)
+			})
+		}else{
+			handle.err(res, 'Already following')
+		}
+	}).catch((err)=>{
+		console.log('couldnt find user');
+		handle.err(res, err.message)
+	})
+}
+
+exports.unfollowBook = (req, res)=>{
+	var bookId = req.params.id;
+	var user = req.session;
+	if(!user){
+		handle.err(res, 'Not logged in');
+		return;
+	}
+
+	mongoUser.findOne({_id: user._id}).then((user)=>{
+		user.following_books.remove(bookId);
+		user.save().then((saved)=>{
+			mongoBook.findOne({_id: bookId}).then((book)=>{
+				book.followers.remove(user._id)
+				book.save().then((bookSaved)=>{
+					handle.res(res, bookId)
+				}).catch((err) => {
+					handle.err(res, err.message)
+				})
+			}).catch((err) => {
+				handle.err(res, err.message)
+			})
+		}).catch((err) => {
+			handle.err(res, err.message)
+		})
+	}).catch((err) => {
+		handle.err(res, err.message)
+	})
+}
+
 exports.addChapter = (req, res)=>{
   var book_id = req.params.id;
 
