@@ -19,9 +19,7 @@ class Editor extends Component{
   render(){
     const { content } = this.props;
     return(
-      <div className="content-block content-block-standard-slide">
-        <h1>{this.props.name}</h1>
-        {/* fetch user permissions*/}
+      <div>
         <TinyMCE
           content={sanitizeContent(this.props.content)}
           config={{

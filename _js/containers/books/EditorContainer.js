@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Editor from '../../components/books/Editor';
+import Reader from '../../components/books/Reader';
 
 const apiUrl = '/api/v1';
 
@@ -65,14 +66,21 @@ export default class EditorContainer extends React.Component {
   }
 
   render() {
+		var cardContent;
+		if(!this.state.editChapter){
+			cardContent =  <Editor
+	        content={this.state.content}
+	        handleChange={this.handleChange}
+	        handleSubmit={this.handleSubmit}
+	        name={this.state.name}
+	      />
+		}else{
+			cardContent = <Reader content={this.state.content} />
+		}
     return (
-    <div>
-      <Editor
-        content={this.state.content}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-        name={this.state.name}
-      />
+    <div className="content-block content-block-standard-slide">
+			<h1>{this.state.name}</h1>
+    	{cardContent}
     </div>
     );
   }
