@@ -46,7 +46,7 @@ router.get('/author/:id/reset-password', (req, res)=>{
 	res.render('reset-password', {title: 'Reset Password',id: req.params.id})
 });
 
-router.get('/books/:id/edit', (req, res) => {
+router.get('/books/:id', (req, res) => {
 	var user = req.session
 	if(user && user._id){
 		mongoBook.findOne({_id: req.params.id}).then((book)=>{
