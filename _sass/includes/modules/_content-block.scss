@@ -50,6 +50,13 @@
     textarea {
       margin: 1em 0 2em;
     }
+    h5.saved-search-remover {
+      font-family: $body;
+      font-size: 0.875em;
+      font-weight: $medium;
+      color: $light-blue;
+      margin-right: 10px;
+    }
   }
   &-standard-new { /* for spacing between blocks - TEMPORARY FIX */
     margin: 0 auto;
@@ -214,7 +221,8 @@
     justify-content: flex-start;
   }
 
-  .toggle-list {
+  .toggle-list,
+  .category-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -265,11 +273,26 @@
     }
   }
 
+  .category-list {
+    @include w1000 {
+      justify-content: flex-start;
+    }
+    li {
+      margin-right: 15px;
+    }
+    li label {
+      font-size: em(12);
+    }
+  }
+
   .new-create-books-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0.5em 0;
+    @include w1000 {
+      justify-content: flex-start;
+    }
     .new-field {
       display: flex;
       width: calc(25% - 0.75em);
