@@ -21,7 +21,7 @@ export default class UserBooks extends React.Component {
 						</div>
 						<figcaption>
 							<h4>{book.title}</h4>
-							<p>By {this.props.author}</p>
+							<p>By {book.author.name}</p>
 								<Rating stars={book.rating} />
 							</figcaption>
 						</figure>
