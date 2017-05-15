@@ -10,6 +10,20 @@ const mongoUser = mongo.schema.user,
 
 const handle = require('../helpers/handle.js');
 
+const saveImage = (bookId, img, cb) => {
+	var url = '/uploads/covers/';
+
+	var base64Data = img.replace(/^data:image\/png;base64,/, "");
+	console.log(base64Data);
+	require("fs").writeFile('public' + url + bookId + ".png", base64Data, 'base64', function(err) {
+		if(!err){
+			cb(null, url + bookId + ".png")
+		}else{
+			cb(err)
+		}
+	});
+}
+
 exports.getBooks = (req, res)=>{
   var status = req.query.status || 2;
   mongoBook.find({status: status}).then((books)=>{
@@ -51,12 +65,37 @@ exports.createBook = (req, res)=>{
   book.author = req.session._id;
   book.status = 1;
 
-  var newBook = new mongoBook(book);
-  newBook.save().then((book)=>{
-    res.json({status: 'ok', data: book});
-  }).catch((err)=>{
-    res.json({status: 'error', message: err});
-  })
+
+	if(book.cover){
+		var newBook = new mongoBook(book);
+		newBook.save().then((book)=>{
+			saveImage(book._id, req.body.cover, function(err, url){
+				if(err){
+					console.log(err);
+					handle.err(res, err.message);
+				}else{
+					book.cover = url;
+					book.save().then((book)=>{
+						res.json({status: 'ok', data: book});
+					}).catch((err)=>{
+						console.log(err);
+						res.json({status: 'error', message: err.message});
+					})
+				}
+			})
+		}).catch((err)=>{
+			console.log(err);
+			res.json({status: 'error', message: err.message});
+		})
+
+	}else{
+		var newBook = new mongoBook(book);
+		newBook.save().then((book)=>{
+			res.json({status: 'ok', data: book});
+		}).catch((err)=>{
+			res.json({status: 'error', message: err});
+		})
+	}
 }
 
 exports.removeBook = (req, res)=>{

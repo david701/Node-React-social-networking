@@ -13,32 +13,31 @@ import warnings from '../../../data/warnings.json';
 const types = ["Serial", "Published"];
 
 class DashboardCreate extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      coverFile: '../../../assets/images/default-cover-art.jpg',
-      title: '',
-      description: '',
-      type: '',
-      genres: [],
-      themes: [],
-      warnings: [],
-      socialMedia: {
-        amazon: 'https://',
-        kobo: 'https://',
-        smashword: 'https://',
-        itunes: 'https://',
-        barnesandnoble: 'https://',
-        twitter: 'https://'
-      },
-      chapterTitle: ''
-    };
-  }
+	state = {
+		user:{},
+		coverFile: '../../../assets/images/default-cover-art.jpg',
+		title: '',
+		description: '',
+		type: '',
+		genres: [],
+		themes: [],
+		warnings: [],
+		socialMedia: {
+			amazon: 'https://',
+			kobo: 'https://',
+			smashword: 'https://',
+			itunes: 'https://',
+			barnesandnoble: 'https://',
+			twitter: 'https://'
+		},
+		chapterTitle: ''
+	};
 
-  componentWillMount = () => {
-    fetch('/api/v1/user_session/')
-      .then(res => res.json())
-      .then(res => console.log(res));
+  componentDidMount = () => {
+    $.get('/api/v1/user_session/')
+      .then(resp => {
+				this.setState({user: resp.data})
+			});
   }
 
   _handleChange = e => {
@@ -110,14 +109,15 @@ class DashboardCreate extends Component {
       description: this.state.description,
       genre: this.state.genres[0],
       tags: this.state.themes,
-      warnings: this.state.warnings
+      warnings: this.state.warnings,
+			cover: this.state.coverFile
     };
     e.preventDefault();
     $.post('/api/v1/books', data).then(res => {
       if (res.status === "error") {
-        alert(res.message);
+        console.log(res.message);
       } else {
-        console.log(res);
+        //console.log(res);
 				window.location.href = "/dashboard";
       }
     });
@@ -135,7 +135,7 @@ class DashboardCreate extends Component {
 
   render() {
     const {coverFile, description, socialMedia, title, type} = this.state;
-    const author = ['[Author Name]'];
+    const author = this.state.user.name;
     return (
       <div className="content-block content-block-standard account-block">
         <header>
