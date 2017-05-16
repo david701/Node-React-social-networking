@@ -23,7 +23,7 @@ const userSchema = new Schema({
 	social_media: {},
 	followers: [{type:Schema.Types.ObjectId}],
 	following_authors: [{type:Schema.Types.ObjectId}],
-	following_books: [{type:Schema.Types.ObjectId}],
+	following_books: [{type:Schema.Types.ObjectId, ref:'Books'}],
 	last_active: { type: Date, default: Date.now },
 	status: Number,
 	token: String,
