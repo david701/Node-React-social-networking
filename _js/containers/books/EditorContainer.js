@@ -6,14 +6,12 @@ import Reader from '../../components/books/Reader';
 const apiUrl = '/api/v1';
 
 export default class EditorContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      number: '',
-      content: '',
-    };
-  }
+	state = {
+		name: '',
+		number: '',
+		content: '',
+		editChapter: false
+	};
 
   componentDidMount() {
     this.loadChapterInfo();
@@ -61,13 +59,20 @@ export default class EditorContainer extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+			this.setState({editChapter: false});
+		})
     .catch(err => console.log(err));
   }
 
+	editChapter = e => {
+		e.preventDefault;
+		this.setState({editChapter: true})
+	}
+
   render() {
 		var cardContent;
-		if(!this.state.editChapter){
+		if(this.state.editChapter){
 			cardContent =  <Editor
 	        content={this.state.content}
 	        handleChange={this.handleChange}
@@ -79,7 +84,7 @@ export default class EditorContainer extends React.Component {
 		}
     return (
     <div className="content-block content-block-standard-slide">
-			<h1>{this.state.name}</h1>
+			<h1>{this.state.name} {this.props.authorized? <span className="edit_chapter_btn" onClick={this.editChapter}>(Edit Chapter)</span>:''}</h1>
     	{cardContent}
     </div>
     );
