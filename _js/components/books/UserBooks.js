@@ -16,7 +16,7 @@ export default class UserBooks extends React.Component {
 							}}
 							>
 							<div className="overlay">
-								<a className="button button-red" href={`/books/${book._id}`}>Edit</a>
+								<a className="button button-red" href={`/books/${book._id}`}>View</a>
 							</div>
 						</div>
 						<figcaption>
