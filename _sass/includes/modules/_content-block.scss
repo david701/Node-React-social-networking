@@ -138,9 +138,31 @@
     @include w1000 {
       padding: 3em;
     }
-    @include w640 {
-
+    .rating-display {
+      li {
+        background-size: cover;
+        width: em(30);
+        height: em(28);
+      }
     }
+    .button-nested {
+      @include n480 {
+        width: 15%;
+        margin-left: calc(-15%);
+      }
+      width: 10%;
+      font-size: em(30);
+      height: 90%;
+      padding: 0;
+      position: absolute;
+      margin-left: calc(-10%);
+      margin-top: 2px;
+    }
+    // h3 {
+    //   @include w640 {
+    //     font-size: em(20);
+    //   }
+    // }
   }
   &-standard-slide {
     margin: 0 auto;
@@ -285,8 +307,15 @@
   .category-list {
     justify-content: flex-start;
     li {
+      @include n480 {
+        margin-right: auto;
+      }
       @include w480 {
-        width: calc(32% - 0.75em);
+        width: calc(24% - 0.75em);
+        margin-right: auto;
+      }
+      @include w640 {
+        margin-right: 15px;
       }
       margin-right: 15px;
     }
@@ -315,16 +344,24 @@
 
   .search-row {
     justify-content: flex-start;
+    @include w480 {
+      width: calc(100% - 0.75em);
+      justify-content: space-between;
+    }
+    @include w640 {
+      width: calc(75% - 0.75em);
+    }
     @include w1000 {
       width: calc(75% - 0.75em);
     }
     .new-field {
-      @include w480 {
-
-      }
-      @include w640 {
-        margin-right: 15px;
-      }
+      margin-right: auto;
+      // @include w480 {
+      //   margin-right: auto;
+      // }
+      // @include w640 {
+      //   margin-right: auto;
+      // }
     }
   }
 
@@ -342,6 +379,12 @@
       }
     }
     .buttons {
+      @include n480 {
+        width: calc(100% - 0.75em);
+      }
+      // @include w480 {
+      //   width: calc(100% - 0.75em);
+      // }
       width: calc(50% - 0.75em);
       display: flex;
       justify-content: space-between;
@@ -410,7 +453,7 @@
   margin: 0.5em 0 0;
   display: flex;
   // input {
-    //     width: calc(75% - 0.75em) !important;
+  //     width: calc(75% - 0.75em) !important;
   // }
   .buttons {
     width: calc(100% - 0.75em);
