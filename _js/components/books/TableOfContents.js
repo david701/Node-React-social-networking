@@ -17,6 +17,7 @@ const TableOfContents = props => (
 
 const AddChapter = props => (
   <div className="chapter-row chapter-row-small">
+		{props.authorized?
     <div className="buttons">
       {props.buttonVisible ?
         <button
@@ -40,6 +41,7 @@ const AddChapter = props => (
         </div>
       }
     </div>
+		:''}
   </div>
 );
 

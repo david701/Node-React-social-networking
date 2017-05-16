@@ -34,10 +34,6 @@ class Editor extends Component{
             <button className="button" onClick={this.props.handleSubmit}>Save</button>
           </div>
         </div>
-        <div style={{ marginTop: '20px' }}>
-          <h4>Reader View (WIP, will be another card)</h4>
-          <div dangerouslySetInnerHTML={renderContent(content)}></div>
-        </div>
       </div>
     );
   }

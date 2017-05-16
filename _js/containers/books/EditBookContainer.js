@@ -40,33 +40,27 @@ const Placeholder = props => (
 );
 
 export default class EditBookContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedChapter: null,
-      chapters: []
-    };
-  }
+	state = {
+		selectedChapter: null,
+		chapters: [],
+		authorized: false
+	};
 
   componentDidMount() {
     this.loadChapters();
   }
 
-  // focusEditor = e => {
-  //   return (<EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />);
-  // }
-
   loadChapters = () => {
     fetch(`${apiUrl}/books/${bookId}/chapters`)
       .then(res => res.json())
       .then(res => {
-        const nextState= { ...this.state, chapters: res.data };
+        const nextState= {chapters: res.data };
         this.setState(nextState);
       });
   }
 
   selectChapter = id => {
-    const nextState = { ...this.state, selectedChapter: id.toString() };
+    const nextState = {selectedChapter: id.toString() };
     this.setState(nextState, (id) => {
       this.refs.slider.slickGoTo(1); // manual, can change later
     });
@@ -83,9 +77,9 @@ export default class EditBookContainer extends React.Component {
       prevArrow: <SamplePrevArrow />
     };
     const slides = [
-      <DescriptionContainer bookId={this.props.bookId} />,
-      <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} />,
-      <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} />
+      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized}/>,
+      <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
+      <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} authorized={this.props.authorized} />
     ];
     return (
       <div>

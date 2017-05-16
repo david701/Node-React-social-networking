@@ -46,7 +46,7 @@ export default class TocContainer extends React.Component {
     })
     .catch(err => console.log(err));
     } else {
-      console.log('NO ACTION');
+      //console.log('NO ACTION');
     }
  }
 
@@ -74,6 +74,7 @@ export default class TocContainer extends React.Component {
         handleSubmit={this.handleSubmit}
         selectChapter={this.props.selectChapter}
         toggleVisibility={this.toggleVisibility}
+				authorized={this.props.authorized}
       />
  );
   }
