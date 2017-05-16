@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import StarRatingComponent from 'react-star-rating-component';
 
 import Checkbox from '../../components/dashboard/Checkbox';
 import SearchCheckbox from '../../components/search/SearchCheckbox';
 import SearchCategory from '../../components/search/SearchCategory';
-import Rating 
 
 const apiUrl = '/api/v1';
 
@@ -16,25 +16,21 @@ export default class SearchContainer extends React.Component {
     super(props);
     this.state = {
       // searchValue: '',
+      rating: 1,
       searchCategoryValue: '',
       categories: [],
-      rating: 0,
       tags: []
     };
   }
 
-  addCategory = type => {
-    const { categories } = this.state;
+  handleCategory = e => {
+    const { categories, searchCategoryValue } = this.state;
+    const type = e.target.value;
     if (!categories.includes(type)) {
       const newCategories = [...categories, type];
       this.setState({ ...this.state, categories: newCategories });
-    }
-  }
-
-  deleteCategory = label => {
-    const { categories } = this.state;
-    if (categories.includes(label)) {
-      const newCategories = categories.filter(cat => cat !== label);
+    } else if (categories.includes(type)) {
+      const newCategories = categories.filter(cat => cat !== type);
       this.setState({ ...this.state, categories: newCategories });
     }
   }
@@ -50,8 +46,8 @@ export default class SearchContainer extends React.Component {
     }
   }
 
-  handleRating = e => {
-
+  handleRating = (nextValue) => {
+    this.setState({ ...this.state, rating: nextValue }, () => console.log(this.state.rating));
   }
 
   handleSearch = e => {
@@ -64,8 +60,7 @@ export default class SearchContainer extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const value = this.textInput.value;
-    console.log(value);
-    this.addCategory(value);
+    this.handleCategory(value);
   }
 
   // componentDidMount() {
@@ -87,8 +82,7 @@ export default class SearchContainer extends React.Component {
                 <h3>Select a category to search from</h3>
               </header>
               <SearchCategories
-                addCategory={this.addCategory}
-                deleteCategory={this.deleteCategory}
+                handleCategory={this.handleCategory}
                 handleChange={this.handleSearch}
                 handleSubmit={this.handleSubmit}
                 inputRef={el => this.textInput = el}
@@ -100,7 +94,7 @@ export default class SearchContainer extends React.Component {
                 handleRating={this.handleRating}
                 rating={rating}
               />
-              <hr />
+              <hr style={{ marginTop: 0 }} />
               <SearchTags
                 handleChange={this.handleChange}
                 tags={oldTags}
@@ -129,7 +123,7 @@ export default class SearchContainer extends React.Component {
 
 
 const SearchCategories = props => (
-  <div>
+  <div id="search-categories">
     <h4>Search by Genre, Author, or Book</h4>
     <div>
       <p style={{ marginBottom: '15px' }}>Search by</p>
@@ -148,7 +142,16 @@ const SearchCategories = props => (
         >+</button>
       </form>
     </div>
-    <CategoryList categories={props.categories} deleteCategory={props.deleteCategory} />
+    <div className="new-create-books-row">
+      {oldCategories.map((category, index) => (
+        <Checkbox
+          name="categories"
+          label={category}
+          handleCheckboxChange={props.handleCategory}
+        />
+      ))}
+    </div>
+    <CategoryList categories={props.categories} handleCategory={props.handleCategory} />
   </div>
 );
 
@@ -158,7 +161,7 @@ const CategoryList = props => (
       <SearchCategory
         name="categories"
         label={category}
-        deleteCategory={props.deleteCategory}
+        handleCategory={props.handleCategory}
       />
     )) }
   </ul>
@@ -181,26 +184,27 @@ const SavedSearches = props => (
 const SearchRating = props => (
   <div>
     <h4>Search by Review</h4>
-    <ul className="rating-display">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+    <div style={{ fontSize: 32 }}>
+      <StarRatingComponent
+        name="rating"
+        emptyStarColor="#D9DCDD"
+        value={props.rating}
+        onStarClick={props.handleRating}
+      />
+    </div>
   </div>
 );
 
-const SearchRating = props => {
-
-  return (
-    <div>
-      <h4>Search by Review</h4>
-      <ul className="rating-display">
-      </ul>
-    </div>
-  );
-}
+// const SearchRating = prop => {
+//
+//   return (
+//     <div>
+//       <h4>Search by Review</h4>
+//       <ul className="rating-display">
+//       </ul>
+//     </div>
+//   );
+// }
 
 const SearchTags = props => (
   <div>

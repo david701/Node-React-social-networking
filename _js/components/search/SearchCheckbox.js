@@ -37,4 +37,3 @@ class SearchCheckbox extends Component {
 }
 
 export default SearchCheckbox;
-

@@ -7,10 +7,27 @@ $(document).ready(function() {
         $('body').toggleClass('menu-open');
     });
     $(document).keyup(function(e) {
-		if (e.keyCode === 27) {
+    if (e.keyCode === 27) {
             $('body').removeClass('menu-open');
-		}
-	});
+    }
+  });
+
+  $('.search-toggle').click(e => {
+    e.preventDefault();
+    $('body').toggleClass('search-open');
+    // $('.search-toggle').toggle(() => {
+    //   $('.search-toggle').css({ marginRight: '20px' });
+    // }, () => {
+    //   $('.search-toggle').css({ marginRight: 0 });
+    // });
+    $('body').toggleClass('menu-toggle');
+    $('.logo').toggleClass('logo-hidden');
+  });
+
+  $('.search-cancel').click(e => {
+    e.preventDefault();
+    $('body').removeClass('search-open');
+  });
 
     // Brawl week switching
     $('.week-control-last').click(function(e) {
@@ -29,11 +46,11 @@ $(document).ready(function() {
         $('body').addClass('modal-showing');
     });
     $(document).keyup(function(e) {
-		if (e.keyCode === 27) {
+    if (e.keyCode === 27) {
             $('body').removeClass('modal-showing');
-						$('.login-modal').css({visibility: 'hidden', opacity: 0});
-		}
-	});
+            $('.login-modal').css({visibility: 'hidden', opacity: 0});
+    }
+  });
 
     // Modal password
     $('.modal-trigger-create-brawl').click(function(e) {
@@ -52,16 +69,16 @@ $(document).ready(function() {
         $('.login-modal ').hide();
     });
 
-	$('#bookSubmit').click(function(e){
-		e.preventDefault();
-		$('#coverSubmit').click();
-	})
+  $('#bookSubmit').click(function(e){
+    e.preventDefault();
+    $('#coverSubmit').click();
+  })
 
-	//login modal
-	$('#loginButton').click(function(e){
-		$('.login-modal').css({visibility: 'visible', opacity: 1});
+  //login modal
+  $('#loginButton').click(function(e){
+    $('.login-modal').css({visibility: 'visible', opacity: 1});
         e.preventDefault();
-	})
+  })
 
     $('#deleteButton').click(function(e){
         $('.delete-modal').css({visibility: 'visible', opacity: 1});

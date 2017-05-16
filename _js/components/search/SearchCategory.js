@@ -3,7 +3,7 @@ import React from 'react';
 export default class SearchCategory extends React.Component {
 
   render() {
-    const { label, name, val, deleteCategory } = this.props;
+    const { label, name, val, handleCategory } = this.props;
     return (
       <li key={val}>
         <input
@@ -14,7 +14,7 @@ export default class SearchCategory extends React.Component {
         />
         <label htmlFor={label}>
           {label}
-          <span onClick={() => deleteCategory(label)} style={{ float: 'right', color: 'white', marginRight: '7px' }}>X</span>
+          <span onClick={() => handleCategory(label)} style={{ float: 'right', color: 'white', marginRight: '7px' }}>X</span>
         </label>
       </li>
     );
