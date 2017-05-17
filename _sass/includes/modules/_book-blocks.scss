@@ -6,7 +6,7 @@
         margin-bottom: $gutter;
         > ul {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             flex-wrap: wrap;
             > li {
                 width: $col-6;
@@ -106,7 +106,7 @@
         &-small {
             > ul {
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 flex-wrap: wrap;
                 > li {
                     // width: $col-6;
