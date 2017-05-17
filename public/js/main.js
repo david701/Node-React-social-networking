@@ -77846,14 +77846,54 @@ var Reviews = function (_React$Component) {
 	_inherits(Reviews, _React$Component);
 
 	function Reviews() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
 		_classCallCheck(this, Reviews);
 
-		return _possibleConstructorReturn(this, (Reviews.__proto__ || Object.getPrototypeOf(Reviews)).apply(this, arguments));
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [] }, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(Reviews, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var reviews = [{
+				book_id: 'BookId',
+				content: 'This is the most amazing book I have ever read. I can wait to read more.',
+				rating: 5,
+				author: { name: 'Michael Way' },
+				status: 1
+			}];
+			this.setState({ reviews: reviews });
+		}
+	}, {
 		key: 'render',
 		value: function render() {
+			var reviews = this.state.reviews.map(function (review, key) {
+				if (review.status > 0) {
+					return _react2.default.createElement(
+						'li',
+						{ key: key },
+						_react2.default.createElement(_Rating2.default, { stars: review.rating }),
+						_react2.default.createElement(
+							'p',
+							null,
+							'By ',
+							review.author.name
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							review.content
+						)
+					);
+				}
+			});
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -77865,21 +77905,7 @@ var Reviews = function (_React$Component) {
 				_react2.default.createElement(
 					'ul',
 					null,
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Rating2.default, { stars: '5' }),
-						_react2.default.createElement(
-							'p',
-							null,
-							'By [Authors Name] on 5/15/2017'
-						),
-						_react2.default.createElement(
-							'p',
-							null,
-							'This is the most amazing book I have ever read. I can wait to read more.'
-						)
-					)
+					reviews
 				),
 				_react2.default.createElement(
 					'button',
