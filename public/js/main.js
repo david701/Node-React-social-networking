@@ -52554,14 +52554,14 @@ var EditBookPage = function (_React$Component) {
 					if (book.data.followers.indexOf(resp.data._id) > -1) {
 						following = true;
 					}
-					_this2.setState({ user: resp.data, authorized: authorized, following: following });
+					_this2.setState({ user: resp.data, book: book.data, authorized: authorized, following: following });
 				});
 			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, user: this.state.user, authorized: this.state.authorized, following: this.state.following });
+			return _react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following });
 		}
 	}]);
 
@@ -55552,7 +55552,7 @@ var BookDetails = function (_React$Component) {
 							'Genre'
 						),
 						': ',
-						this.props.genres || ''
+						this.props.genre || ''
 					),
 					_react2.default.createElement(
 						'p',
@@ -55569,7 +55569,7 @@ var BookDetails = function (_React$Component) {
 				followBtn,
 				_react2.default.createElement(
 					'div',
-					{ style: { marginTop: '1.5rem' } },
+					{ style: { position: 'absolute', bottom: '1rem' } },
 					_react2.default.createElement(
 						'p',
 						null,
@@ -56576,8 +56576,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(5);
@@ -56606,23 +56604,6 @@ var DetailsContainer = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (DetailsContainer.__proto__ || Object.getPrototypeOf(DetailsContainer)).call(this, props));
 
-    _this.loadUserInfo = function () {
-      fetch(apiUrl + '/books/' + _this.props.bookId).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        console.log(res);
-        var nextState = _extends({}, _this.state, {
-          title: res.data.title,
-          author: res.data.author.name,
-          role: res.data.author.role,
-          genre: res.data.genre,
-          tags: JSON.parse(res.data.tags).join(', '),
-          warnings: JSON.parse(res.data.warnings).join(', ')
-        });
-        _this.setState(nextState);
-      });
-    };
-
     _this.state = {
       type: 'Serial',
       length: 2,
@@ -56637,9 +56618,25 @@ var DetailsContainer = function (_React$Component) {
   }
 
   _createClass(DetailsContainer, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.loadUserInfo();
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.book) {
+        var state = {
+          title: nextProps.book.title,
+          author: nextProps.book.author.name,
+          genre: nextProps.book.genre
+        };
+
+        if (nextProps.book.tags && nextProps.book.tags.length) {
+          state.tag = JSON.parse(nextProps.book.tags).join(', ');
+        }
+
+        if (nextProps.book.warnings && nextProps.book.warnings.length) {
+          state.warnings = JSON.parse(nextProps.book.warnings).join(', ');
+        }
+
+        this.setState(state);
+      }
     }
   }, {
     key: 'render',
@@ -56826,7 +56823,7 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { style: { display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' } },
-          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           _react2.default.createElement(Placeholder, null)
         ),
         _react2.default.createElement(
@@ -56904,16 +56901,18 @@ var EditorContainer = function (_React$Component) {
           bookId = _this$props.bookId,
           chapterNumber = _this$props.chapterNumber;
 
-      fetch(apiUrl + '/books/' + bookId + '/chapters/' + chapterNumber).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        var nextState = _extends({}, _this.state, {
-          name: res.data.name,
-          number: res.data.number,
-          content: res.data.content
+      if (chapterNumber) {
+        fetch(apiUrl + '/books/' + bookId + '/chapters/' + chapterNumber).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          var nextState = _extends({}, _this.state, {
+            name: res.data.name,
+            number: res.data.number,
+            content: res.data.content
+          });
+          _this.setState(nextState);
         });
-        _this.setState(nextState);
-      });
+      }
     }, _this.handleChange = function (e) {
       var nextState = _extends({}, _this.state, { content: e.target.getContent() });
       _this.setState(nextState);
@@ -57175,16 +57174,17 @@ var ViewBookContainer = function (_React$Component) {
           bookId = _this$props.bookId,
           chapterId = _this$props.chapterId;
 
-      fetch(apiUrl + '/books/' + bookId + '/chapters/' + chapterId).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        console.log(res);
-        var nextState = _extends({}, _this.state, {
-          name: res.data.name,
-          content: res.data.content
+      if (chapterId) {
+        fetch(apiUrl + '/books/' + bookId + '/chapters/' + chapterId).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          var nextState = _extends({}, _this.state, {
+            name: res.data.name,
+            content: res.data.content
+          });
+          _this.setState(nextState);
         });
-        _this.setState(nextState);
-      });
+      }
     };
 
     _this.state = {

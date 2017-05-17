@@ -1762,6 +1762,7 @@ form .instructions {
   display: block; }
 
 #night-mode .content-block {
+  position: relative;
   background-color: #222324;
   width: 100%;
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);
@@ -2078,6 +2079,7 @@ form .instructions {
   color: black !important; }
 
 .content-block {
+  position: relative;
   background-color: #FFFFFF;
   width: 100%;
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);

@@ -19,7 +19,7 @@ class EditBookPage extends React.Component {
 						if(book.data.followers.indexOf(resp.data._id) > -1){
 							following = true;
 						}
-						this.setState({user: resp.data, authorized: authorized, following: following});
+						this.setState({user: resp.data, book: book.data, authorized: authorized, following: following});
 					}
 				)
 			}
@@ -28,7 +28,7 @@ class EditBookPage extends React.Component {
 
 	render(){
 		return(
-			<EditBookContainer bookId={bookId} user={this.state.user} authorized={this.state.authorized} following={this.state.following}/>
+			<EditBookContainer bookId={bookId} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following}/>
 		)
 	}
 }

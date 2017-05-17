@@ -2,6 +2,7 @@
 // -------------
 #night-mode {
   .content-block {
+		position: relative;
     background-color: $lighter-black;
     width: 100%;
     box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
@@ -432,6 +433,7 @@
 
 
 .content-block {
+	position: relative;
   background-color: $white;
   width: 100%;
   box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);

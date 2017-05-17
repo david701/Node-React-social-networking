@@ -26,17 +26,19 @@ export default class EditorContainer extends React.Component {
 
   loadChapterInfo = () => {
     const { bookId, chapterNumber } = this.props;
-    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
-      .then(res => res.json())
-      .then(res => {
-        const nextState = {
-          ...this.state,
-          name: res.data.name,
-          number: res.data.number,
-          content: res.data.content,
-        };
-        this.setState(nextState);
-      });
+		if(chapterNumber){
+			fetch(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
+			.then(res => res.json())
+			.then(res => {
+				const nextState = {
+					...this.state,
+					name: res.data.name,
+					number: res.data.number,
+					content: res.data.content,
+				};
+				this.setState(nextState);
+			});
+		}
   }
 
   handleChange = e => {

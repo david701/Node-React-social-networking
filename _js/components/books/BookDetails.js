@@ -60,11 +60,11 @@ export default class BookDetails extends React.Component {
 		      <p>{this.props.author}</p>
 		      <Rating stars={this.props.rating} />
 		      <p><strong>Content Warnings</strong>: {this.props.warnings || ''}</p>
-		      <p><strong>Genre</strong>: {this.props.genres || ''}</p>
+		      <p><strong>Genre</strong>: {this.props.genre || ''}</p>
 		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
 		    </div>
 				{followBtn}
-		    <div style={{ marginTop: '1.5rem' }}><p>Details | Cover | Table of Contents</p></div>
+		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
 		  </div>
 		);
 	}

@@ -19,26 +19,24 @@ export default class DetailsContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.loadUserInfo();
-  }
+  componentWillReceiveProps(nextProps){
+		if(nextProps.book){
+			var state = {
+				title: nextProps.book.title,
+				author: nextProps.book.author.name,
+				genre: nextProps.book.genre,
+			}
 
-  loadUserInfo = () => {
-    fetch(`${apiUrl}/books/${this.props.bookId}`)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        const nextState = {
-          ...this.state,
-          title: res.data.title,
-          author: res.data.author.name,
-          role: res.data.author.role,
-          genre: res.data.genre,
-          tags: JSON.parse(res.data.tags).join(', '),
-          warnings: JSON.parse(res.data.warnings).join(', '),
-        };
-        this.setState(nextState);
-      });
+			if(nextProps.book.tags && nextProps.book.tags.length){
+				state.tag = JSON.parse(nextProps.book.tags).join(', ')
+			}
+
+			if(nextProps.book.warnings && nextProps.book.warnings.length){
+				state.warnings = JSON.parse(nextProps.book.warnings).join(', ')
+			}
+
+			this.setState(state)
+		}
   }
 
   render() {

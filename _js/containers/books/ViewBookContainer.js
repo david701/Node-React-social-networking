@@ -26,17 +26,18 @@ export default class ViewBookContainer extends React.Component {
 
   loadChapterInfo = () => {
     const { bookId, chapterId } = this.props;
-    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterId}`)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        const nextState = {
-          ...this.state,
-          name: res.data.name,
-          content: res.data.content,
-        };
-        this.setState(nextState);
-      });
+		if(chapterId){
+			fetch(`${apiUrl}/books/${bookId}/chapters/${chapterId}`)
+			.then(res => res.json())
+			.then(res => {
+				const nextState = {
+					...this.state,
+					name: res.data.name,
+					content: res.data.content,
+				};
+				this.setState(nextState);
+			});
+		}
   }
 
 
