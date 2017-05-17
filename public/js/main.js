@@ -55566,7 +55566,6 @@ var BookDetails = function (_React$Component) {
 						this.props.tags || ''
 					)
 				),
-				followBtn,
 				_react2.default.createElement(
 					'div',
 					{ style: { position: 'absolute', bottom: '1rem' } },
@@ -55593,35 +55592,101 @@ exports.default = BookDetails;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jQuery = __webpack_require__(53);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
+var _Reviews = __webpack_require__(512);
+
+var _Reviews2 = _interopRequireDefault(_Reviews);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Description = function Description(props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "content-block content-block-standard-slide" },
-    _react2.default.createElement(
-      "div",
-      { className: "title-row", style: { marginBottom: 0 } },
-      _react2.default.createElement(
-        "h4",
-        null,
-        "Description"
-      )
-    ),
-    _react2.default.createElement(
-      "div",
-      null,
-      props.description || 'This is the area where your description will eventually go -- right now, it\'s just filler text.'
-    )
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Description = function (_React$Component) {
+	_inherits(Description, _React$Component);
+
+	function Description() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, Description);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Description.__proto__ || Object.getPrototypeOf(Description)).call.apply(_ref, [this].concat(args))), _this), _this.state = { following: _this.props.following }, _this.follow = function () {
+			_jQuery2.default.post(apiUrl + '/books/' + _this.props.bookId + '/follow').then(function (res) {
+				_this.setState({ following: true });
+			});
+		}, _this.unfollow = function () {
+			_jQuery2.default.ajax({
+				url: apiUrl + '/books/' + _this.props.bookId + '/follow',
+				type: 'DELETE'
+			}).then(function (res) {
+				_this.setState({ following: false });
+			});
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(Description, [{
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			this.setState({ following: nextProps.following });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			var followBtn;
+			if (!this.props.authorized) {
+				if (this.state.following) {
+					followBtn = _react2.default.createElement(
+						'button',
+						{ onClick: this.unfollow, className: 'button-red', style: { width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						'Unfollow'
+					);
+				} else {
+					followBtn = _react2.default.createElement(
+						'button',
+						{ onClick: this.follow, style: { width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						'Follow'
+					);
+				}
+			}
+
+			return _react2.default.createElement(
+				'div',
+				{ className: 'content-block content-block-standard-slide' },
+				followBtn,
+				_react2.default.createElement(
+					'div',
+					null,
+					this.props.description || '',
+					_react2.default.createElement(_Reviews2.default, null)
+				)
+			);
+		}
+	}]);
+
+	return Description;
+}(_react2.default.Component);
 
 exports.default = Description;
 
@@ -56556,7 +56621,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { description: this.state.description });
+      return _react2.default.createElement(_Description2.default, { description: this.state.description, following: this.props.following, authorized: this.props.authorized });
     }
   }]);
 
@@ -56816,7 +56881,7 @@ var EditBookContainer = function (_React$Component) {
         slidesToShow: 2,
         slidesToScroll: 1
       };
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized }), _react2.default.createElement(_EditorContainer2.default, { bookId: this.props.bookId, chapterId: this.state.selectedChapter, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized }), _react2.default.createElement(_EditorContainer2.default, { bookId: this.props.bookId, chapterId: this.state.selectedChapter, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,
@@ -77726,6 +77791,113 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 495 */,
+/* 496 */,
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */,
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _jQuery = __webpack_require__(53);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
+var _Rating = __webpack_require__(86);
+
+var _Rating2 = _interopRequireDefault(_Rating);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Reviews = function (_React$Component) {
+	_inherits(Reviews, _React$Component);
+
+	function Reviews() {
+		_classCallCheck(this, Reviews);
+
+		return _possibleConstructorReturn(this, (Reviews.__proto__ || Object.getPrototypeOf(Reviews)).apply(this, arguments));
+	}
+
+	_createClass(Reviews, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h4',
+					null,
+					'Reviews'
+				),
+				_react2.default.createElement(
+					'ul',
+					null,
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(_Rating2.default, { stars: '5' }),
+						_react2.default.createElement(
+							'p',
+							null,
+							'By [Authors Name] on 5/15/2017'
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							'This is the most amazing book I have ever read. I can wait to read more.'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'button',
+					{ style: { position: 'absolute', bottom: 0, left: 0, right: 0, background: '#F2F5F7' } },
+					_react2.default.createElement(
+						'h4',
+						{ style: { margin: 0 } },
+						'Create Review'
+					)
+				)
+			);
+		}
+	}]);
+
+	return Reviews;
+}(_react2.default.Component);
+
+exports.default = Reviews;
 
 /***/ })
 /******/ ]);

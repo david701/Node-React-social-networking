@@ -68,7 +68,7 @@ export default class EditBookContainer extends React.Component {
       slidesToScroll: 1
     };
     const slides = [
-      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} />,
+      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} />,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
       <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} authorized={this.props.authorized} />
     ];
