@@ -4,7 +4,7 @@ import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
 
 export default class Reviews extends React.Component{
-	state = {reviews:[], addReview: false}
+	state = {reviews:[], addReview: false, content: ''}
 	componentDidMount(){
 		var reviews = [{
 			book_id: 'BookId',
@@ -35,6 +35,16 @@ export default class Reviews extends React.Component{
 		this.setState({addReview: false});
 	}
 
+	submitReview = ()=>{
+		this.setState({content:''})
+	}
+
+	_onChange = (e)=>{
+		var state = {};
+		state[e.target.name]=e.target.value;
+		this.setState(state)
+	}
+
 	render(){
 		var reviews = this.state.reviews.map((review, key)=>{
 			if(review.status > 0){
@@ -63,7 +73,7 @@ export default class Reviews extends React.Component{
 					<div style={{position: 'absolute', bottom:'0.5rem', left: '0.5rem', right: '0.5rem', top:'0.5rem', background:'#fff', padding:'1rem'}}>
 						<h4 style={{textAlign:'center', fontSize:'1.5em'}}>Create Review</h4>
 						<form>
-							<textarea rows='4'></textarea>
+							<textarea rows='4' name="content" onChange={this._onChange} value={this.state.content}></textarea>
 							<div style={{float:'right'}}>
 								<button className="button-white" onClick={this.cancelReview} style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginRight: '1rem', marginTop: '1rem', display:'inline-block'}}>Cancel</button>
 								<button className="button-red" style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginTop: '1rem', display:'inline-block'}}>Submit</button>

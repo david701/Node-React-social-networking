@@ -77864,10 +77864,16 @@ var Reviews = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false }, _this.addReview = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '' }, _this.addReview = function () {
 			_this.setState({ addReview: true });
 		}, _this.cancelReview = function () {
 			_this.setState({ addReview: false });
+		}, _this.submitReview = function () {
+			_this.setState({ content: '' });
+		}, _this._onChange = function (e) {
+			var state = {};
+			state[e.target.name] = e.target.value;
+			_this.setState(state);
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -77954,7 +77960,7 @@ var Reviews = function (_React$Component) {
 						_react2.default.createElement(
 							'form',
 							null,
-							_react2.default.createElement('textarea', { rows: '4' }),
+							_react2.default.createElement('textarea', { rows: '4', name: 'content', onChange: this._onChange, value: this.state.content }),
 							_react2.default.createElement(
 								'div',
 								{ style: { float: 'right' } },
