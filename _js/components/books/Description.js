@@ -3,6 +3,8 @@ import $ from 'jQuery';
 
 import Reviews from './Reviews';
 
+const apiUrl = `/api/v1`;
+
 export default class Description extends React.Component{
 	state = {following: this.props.following};
 
