@@ -5,17 +5,21 @@ import $ from 'jQuery';
 import EditBookContainer from '../../containers/books/EditBookContainer';
 
 class EditBookPage extends React.Component {
-	state = {user: {}, authorized: false};
+	state = {user: {}, authorized: false, following: false};
 	componentDidMount(){
 		$.get('/api/v1/user_session').then(
 			resp => {
 				$.get(`/api/v1/books/${bookId}`).then(
 					book =>{
-						var authorized = false;
+						var authorized = false,
+								following = false;
 						if(resp.data.role > 1 || book.data.author._id == resp.data._id){
 							authorized =  true;
 						}
-						this.setState({user: resp.data, authorized: authorized});
+						if(book.data.followers.indexOf(resp.data._id) > -1){
+							following = true;
+						}
+						this.setState({user: resp.data, authorized: authorized, following: following});
 					}
 				)
 			}
@@ -24,7 +28,7 @@ class EditBookPage extends React.Component {
 
 	render(){
 		return(
-			<EditBookContainer bookId={bookId} user={this.state.user} authorized={this.state.authorized} />
+			<EditBookContainer bookId={bookId} user={this.state.user} authorized={this.state.authorized} following={this.state.following}/>
 		)
 	}
 }
