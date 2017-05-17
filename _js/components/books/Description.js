@@ -12,14 +12,16 @@ export default class Description extends React.Component{
 		this.setState({following: nextProps.following})
 	}
 
-	follow = ()=>{
+	follow = (e)=>{
+		e.preventDefault()
 		$.post(`${apiUrl}/books/${this.props.bookId}/follow`)
 		.then(res => {
 			this.setState({following: true})
 		})
 	}
 
-	unfollow = ()=>{
+	unfollow = (e)=>{
+		e.preventDefault()
 		$.ajax({
 			url: `${apiUrl}/books/${this.props.bookId}/follow`,
 			type: 'DELETE',
@@ -33,9 +35,9 @@ export default class Description extends React.Component{
 		var followBtn;
 		if(!this.props.authorized){
 			if(this.state.following){
-				followBtn = <button onClick={this.unfollow} className="button-red" style={{width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Unfollow</button>;
+				followBtn = <a onClick={this.unfollow} className="button button-red" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Unfollow</a>;
 			}else{
-				followBtn = <button onClick={this.follow}  style={{width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Follow</button>;
+				followBtn = <a onClick={this.follow} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Follow</a>;
 			}
 		}
 
@@ -43,7 +45,7 @@ export default class Description extends React.Component{
 			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
 				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
 				{followBtn}
-					{this.props.description || ''}
+					<p>{this.props.description}</p>
 					<Reviews />
 				</div>
 			</div>

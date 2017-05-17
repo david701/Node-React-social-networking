@@ -55633,11 +55633,13 @@ var Description = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Description.__proto__ || Object.getPrototypeOf(Description)).call.apply(_ref, [this].concat(args))), _this), _this.state = { following: _this.props.following }, _this.follow = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Description.__proto__ || Object.getPrototypeOf(Description)).call.apply(_ref, [this].concat(args))), _this), _this.state = { following: _this.props.following }, _this.follow = function (e) {
+			e.preventDefault();
 			_jQuery2.default.post(apiUrl + '/books/' + _this.props.bookId + '/follow').then(function (res) {
 				_this.setState({ following: true });
 			});
-		}, _this.unfollow = function () {
+		}, _this.unfollow = function (e) {
+			e.preventDefault();
 			_jQuery2.default.ajax({
 				url: apiUrl + '/books/' + _this.props.bookId + '/follow',
 				type: 'DELETE'
@@ -55660,14 +55662,14 @@ var Description = function (_React$Component) {
 			if (!this.props.authorized) {
 				if (this.state.following) {
 					followBtn = _react2.default.createElement(
-						'button',
-						{ onClick: this.unfollow, className: 'button-red', style: { width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						'a',
+						{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
 						'Unfollow'
 					);
 				} else {
 					followBtn = _react2.default.createElement(
-						'button',
-						{ onClick: this.follow, style: { width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						'a',
+						{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
 						'Follow'
 					);
 				}
@@ -55680,7 +55682,11 @@ var Description = function (_React$Component) {
 					'div',
 					{ style: { overflow: 'scroll', height: '100%', width: '120%', paddingRight: '5rem' } },
 					followBtn,
-					this.props.description || '',
+					_react2.default.createElement(
+						'p',
+						null,
+						this.props.description
+					),
 					_react2.default.createElement(_Reviews2.default, null)
 				)
 			);
@@ -56623,7 +56629,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { description: this.state.description, following: this.props.following, authorized: this.props.authorized });
+      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, following: this.props.following, authorized: this.props.authorized });
     }
   }]);
 
