@@ -38,9 +38,9 @@ export default class Description extends React.Component{
 		}
 
 		return(
-			<div className="content-block content-block-standard-slide">
+			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
+				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
 				{followBtn}
-				<div>
 					{this.props.description || ''}
 					<Reviews />
 				</div>

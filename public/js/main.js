@@ -55673,11 +55673,11 @@ var Description = function (_React$Component) {
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'content-block content-block-standard-slide' },
-				followBtn,
+				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden' } },
 				_react2.default.createElement(
 					'div',
-					null,
+					{ style: { overflow: 'scroll', height: '100%', width: '120%', paddingRight: '5rem' } },
+					followBtn,
 					this.props.description || '',
 					_react2.default.createElement(_Reviews2.default, null)
 				)
@@ -77856,13 +77856,29 @@ var Reviews = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [] }, _temp), _possibleConstructorReturn(_this, _ret);
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false }, _this.addReview = function () {
+			_this.setState({ addReview: true });
+		}, _this.cancelReview = function () {
+			_this.setState({ addReview: false });
+		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(Reviews, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			var reviews = [{
+				book_id: 'BookId',
+				content: 'This is the most amazing book I have ever read. I can wait to read more.',
+				rating: 5,
+				author: { name: 'Michael Way' },
+				status: 1
+			}, {
+				book_id: 'BookId',
+				content: 'This is the most amazing book I have ever read. I can wait to read more.',
+				rating: 5,
+				author: { name: 'Michael Way' },
+				status: 1
+			}, {
 				book_id: 'BookId',
 				content: 'This is the most amazing book I have ever read. I can wait to read more.',
 				rating: 5,
@@ -77909,13 +77925,45 @@ var Reviews = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'button',
-					{ style: { position: 'absolute', bottom: 0, left: 0, right: 0, background: '#F2F5F7' } },
+					{ onClick: this.addReview, style: { position: 'absolute', bottom: 0, left: 0, right: 0, background: '#F2F5F7' } },
 					_react2.default.createElement(
 						'h4',
 						{ style: { margin: 0 } },
 						'Create Review'
 					)
-				)
+				),
+				this.state.addReview ? _react2.default.createElement(
+					'div',
+					{ className: 'add_review', style: { position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, background: 'rgba(0,0,0,0.5)' } },
+					_react2.default.createElement(
+						'div',
+						{ style: { position: 'absolute', bottom: '0.5rem', left: '0.5rem', right: '0.5rem', top: '0.5rem', background: '#fff', padding: '1rem' } },
+						_react2.default.createElement(
+							'h4',
+							{ style: { textAlign: 'center', fontSize: '1.5em' } },
+							'Create Review'
+						),
+						_react2.default.createElement(
+							'form',
+							null,
+							_react2.default.createElement('textarea', { rows: '4' }),
+							_react2.default.createElement(
+								'div',
+								{ style: { float: 'right' } },
+								_react2.default.createElement(
+									'button',
+									{ className: 'button-white', onClick: this.cancelReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginRight: '1rem', marginTop: '1rem', display: 'inline-block' } },
+									'Cancel'
+								),
+								_react2.default.createElement(
+									'button',
+									{ className: 'button-red', style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' } },
+									'Submit'
+								)
+							)
+						)
+					)
+				) : ''
 			);
 		}
 	}]);
