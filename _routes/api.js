@@ -91,7 +91,7 @@ router.route('/comments/:id')
 
 // === DEPRICATED ROUTES ===
 router.get('/mybooks', (req, res)=>{
-	fs.readFile('./mybooks.json',function(err,data){
+  fs.readFile('./mybooks.json',function(err,data){
 		obj = JSON.parse(data);
 		res.json(obj.books);
 	})

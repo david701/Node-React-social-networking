@@ -5,10 +5,6 @@ function sanitizeContent(content) {
   return content;
 }
 
-function renderContent(content) {
-  return { __html: content }
-}
-
 class Editor extends Component{
   componentWillReceiveProps(nextProps){
     if(nextProps.content!==this.props.content){

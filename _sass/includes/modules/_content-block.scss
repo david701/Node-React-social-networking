@@ -443,7 +443,8 @@
     justify-content: center;
     align-items: center;
   }
-  &-standard {
+  &-standard,
+  &-standard-search {
     margin: 0 auto;
     max-width: $match-8;
     @include w1000 {
@@ -480,6 +481,13 @@
     }
     textarea {
       margin: 1em 0 2em;
+    }
+    h5.saved-search-remover {
+      font-family: $body;
+      font-size: 0.875em;
+      font-weight: $medium;
+      color: $light-blue;
+      margin-right: 10px;
     }
   }
   &-standard-new { /* for spacing between blocks - TEMPORARY FIX */
@@ -541,6 +549,55 @@
     .title-row {
       margin-bottom: 0;
     }
+    .info-row {
+      display: flex;
+      margin-top: 50px;
+    }
+    .chapter-selector {
+      @include w1000 {
+        float: right;
+        width: calc(40% - #{ $gutter / 2 });
+      }
+    }
+    .info-selector {
+      @include w1000 {
+        width: calc(60% - #{ $gutter / 2 });
+      }
+    }
+  }
+  &-standard-search {
+    @include w1000 {
+      padding: 3em;
+    }
+    header {
+      > h3 {
+        @include n480 {
+          font-size: em(22);
+        }
+      }
+    }
+    .rating-display {
+      li {
+        background-size: cover;
+        width: em(30);
+        height: em(28);
+      }
+    }
+    .button-nested {
+      @include n480 {
+        margin-left: calc(-15%);
+      }
+      width: 10%;
+      font-size: em(30);
+      padding: 0;
+      position: relative;
+      margin: 2px 0 2px -10.5%;
+    }
+    // h3 {
+    //   @include w640 {
+    //     font-size: em(20);
+    //   }
+    // }
   }
   &-standard-slide {
     margin: 0 auto;
@@ -630,7 +687,8 @@
     justify-content: flex-start;
   }
 
-  .toggle-list {
+  .toggle-list,
+  .category-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -681,11 +739,35 @@
     }
   }
 
-  .new-create-books-row {
+  .category-list {
+    justify-content: flex-start;
+    li {
+      @include n480 {
+        margin-right: auto;
+      }
+      @include w480 {
+        width: calc(24% - 0.75em);
+        margin-right: auto;
+      }
+      @include w640 {
+        margin-right: 15px;
+      }
+      margin-right: 15px;
+    }
+  }
+
+  .new-create-books-row,
+  .search-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0.5em 0;
+    @include w640 {
+      justify-content: flex-start;
+    }
+    @include w1000 {
+      justify-content: flex-start;
+    }
     .new-field {
       display: flex;
       width: calc(25% - 0.75em);
@@ -695,6 +777,29 @@
         // text-align: center;
         padding-left: 1em;
       }
+    }
+  }
+
+  .search-row {
+    justify-content: flex-start;
+    @include w480 {
+      width: calc(100% - 0.75em);
+      justify-content: space-between;
+    }
+    @include w640 {
+      width: calc(75% - 0.75em);
+    }
+    @include w1000 {
+      width: calc(75% - 0.75em);
+    }
+    .new-field {
+      margin-right: auto;
+      // @include w480 {
+      //   margin-right: auto;
+      // }
+      // @include w640 {
+      //   margin-right: auto;
+      // }
     }
   }
 
@@ -712,6 +817,12 @@
       }
     }
     .buttons {
+      @include n480 {
+        width: 100%;
+      }
+      @include w640 {
+        width: 65%;
+      }
       width: calc(50% - 0.75em);
       display: flex;
       justify-content: space-between;
@@ -776,11 +887,17 @@
   }
 }
 
+#search-categories {
+  @include n480 {
+    display: none;
+  }
+}
+
 .chapter-row {
   margin: 0.5em 0 0;
   display: flex;
   // input {
-    //     width: calc(75% - 0.75em) !important;
+  //     width: calc(75% - 0.75em) !important;
   // }
   .buttons {
     width: calc(100% - 0.75em);

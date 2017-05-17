@@ -25,8 +25,8 @@ export default class EditorContainer extends React.Component {
   }
 
   loadChapterInfo = () => {
-    const { bookId, chapterId } = this.props;
-    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterId}`)
+    const { bookId, chapterNumber } = this.props;
+    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
       .then(res => res.json())
       .then(res => {
         const nextState = {

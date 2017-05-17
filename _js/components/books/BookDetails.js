@@ -59,9 +59,9 @@ export default class BookDetails extends React.Component {
 		      <h4 className="book-title">{this.props.title}</h4>
 		      <p>{this.props.author}</p>
 		      <Rating stars={this.props.rating} />
-		      <p><strong>Content Warnings</strong>: {this.props.warnings || 'Genre 1, Genre 2'}</p>
-		      <p><strong>Genre</strong>: {this.props.genres || 'Genre 1, Genre 2, Genre 3'}</p>
-		      <p><strong>Tags</strong>: {this.props.tags || 'Tag 1, Tag 2, Tag 3'}</p>
+		      <p><strong>Content Warnings</strong>: {this.props.warnings || ''}</p>
+		      <p><strong>Genre</strong>: {this.props.genres || ''}</p>
+		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
 		    </div>
 				{followBtn}
 		    <div style={{ marginTop: '1.5rem' }}><p>Details | Cover | Table of Contents</p></div>

@@ -38,8 +38,8 @@ const bookSchema = new Schema({
 	type: Number,
 	description: String,
 	genre: String,
-	tags:[],
-	warnings:[],
+	tags: [],
+	warnings: [],
 	status: Number,
 	followers: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
 	viewed_by: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
@@ -90,6 +90,10 @@ const tagSchema = new Schema({
 	name: String
 })
 
+const warningSchema = new Schema({
+  name: String
+})
+
 const schema = {
 	user: mongo.model('Users', userSchema),
 	book: mongo.model('Books', bookSchema),
@@ -98,7 +102,8 @@ const schema = {
 	brawl: mongo.model('Brawls', brawlSchema),
 	review: mongo.model('Reviews', reviewSchema),
 	genre: mongo.model('Genres', genreSchema),
-	tag: mongo.model('Tags', tagSchema)
+  tag: mongo.model('Tags', tagSchema),
+  warning: mongo.model('Warnings', warningSchema)
 }
 
 exports.mongo = mongo;

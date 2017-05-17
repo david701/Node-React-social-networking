@@ -12,6 +12,10 @@ export default class DetailsContainer extends React.Component {
       length: 2,
       title: '',
       author: '',
+      role: '',
+      genre: '',
+      tags: [],
+      warnings: [],
     };
   }
 
@@ -24,22 +28,22 @@ export default class DetailsContainer extends React.Component {
       .then(res => res.json())
       .then(res => {
         console.log(res);
-        const nextState = { ...this.state, title: res.data.title, author: res.data.author.name };
+        const nextState = {
+          ...this.state,
+          title: res.data.title,
+          author: res.data.author.name,
+          role: res.data.author.role,
+          genre: res.data.genre,
+          tags: JSON.parse(res.data.tags).join(', '),
+          warnings: JSON.parse(res.data.warnings).join(', '),
+        };
         this.setState(nextState);
       });
   }
 
-  // loadChapterInfo = () => {
-  //   fetch(`${apiUrl}/books/${this.props.bookId}/chapters`)
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       console.log(res);
-  //       const nextState = { ...this.state, length: res.data.length };
-  //       this.setState(nextState);
-  //     });
-  // }
-
   render() {
+    // const { length, rating, selectedChapter } = this.props;
+    const { type, title, author, genre, tags, warnings } = this.state;
     return (
       <BookDetails
         type={this.state.type} // Endpoint for type?
@@ -50,6 +54,9 @@ export default class DetailsContainer extends React.Component {
         rating={this.props.rating}
 				following={this.props.following}
 				authorized={this.props.authorized}
+				genre={genre}
+        tags={tags}
+        warnings={warnings}
       />
     );
   }
