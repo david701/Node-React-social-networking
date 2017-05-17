@@ -1,10 +1,20 @@
 import React from 'react';
-
+import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
 
-export default class UserBooks extends React.Component {
-	render(){
+const apiUrl = '/api/v1';
 
+export default class UserBooks extends React.Component {
+	unfollow = (bookId) => {
+		$.ajax({
+			url: `${apiUrl}/books/${bookId}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.props.loadUserInfo(this.props.user._id)
+		})
+	}
+
+	render(){
 		var bookList = this.props.books.map((book, key) => (
 			<li key={key}>
 				<div className="content-block content-block-book">
@@ -17,6 +27,7 @@ export default class UserBooks extends React.Component {
 							>
 							<div className="overlay">
 								<a className="button button-red" href={`/books/${book._id}`}>View</a>
+								{this.props.library? <a className="button button-red" onClick={() => this.unfollow(book._id)}>Unfollow</a> :''}
 							</div>
 						</div>
 						<figcaption>

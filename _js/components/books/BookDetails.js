@@ -1,5 +1,8 @@
 import React from 'react';
+import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
+
+const apiUrl = '/api/v1';
 
 function sanitizeLength(length) {
   if (length === 0) {
@@ -12,23 +15,57 @@ function sanitizeLength(length) {
   return '';
 }
 
-const BookDetails = props => (
-  <div className="content-block content-block-standard-new">
-    <div className="title-row">
-      <h2>{props.type}</h2>
-      <a href="/books" className="control">{sanitizeLength(props.length)}</a>
-    </div>
-    <div>
-      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
-      <h4 className="book-title">{props.title}</h4>
-      <p>{props.author}</p>
-      <Rating stars={props.rating} />
-      <p><strong>Content Warnings</strong>: {props.warnings || 'Genre 1, Genre 2'}</p>
-      <p><strong>Genre</strong>: {props.genres || 'Genre 1, Genre 2, Genre 3'}</p>
-      <p><strong>Tags</strong>: {props.tags || 'Tag 1, Tag 2, Tag 3'}</p>
-    </div>
-    <div style={{ marginTop: '50px' }}><p>Details | Cover | Table of Contents</p></div>
-  </div>
-);
+export default class BookDetails extends React.Component {
+	state = {following: this.props.following};
 
-export default BookDetails;
+	componentWillReceiveProps(nextProps){
+		this.setState({following: nextProps.following})
+	}
+
+	follow = ()=>{
+		$.post(`${apiUrl}/books/${this.props.bookId}/follow`)
+		.then(res => {
+			this.setState({following: true})
+		})
+	}
+
+	unfollow = ()=>{
+		$.ajax({
+			url: `${apiUrl}/books/${this.props.bookId}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.setState({following: false})
+		})
+	}
+
+	render(){
+		var followBtn;
+		if(!this.props.authorized){
+			if(this.state.following){
+				followBtn = <button onClick={this.unfollow} className="button-red" style={{width: 'auto', padding: '0.9375rem 2rem', margin: '1rem 0 0'}}>Unfollow</button>;
+			}else{
+				followBtn = <button onClick={this.follow}  style={{width: 'auto', padding: '0.9375rem 2rem', margin: '1rem 0 0'}}>Follow</button>;
+			}
+		}
+
+		return(
+		  <div className="content-block content-block-standard-new" style={{overflow: 'hidden'}}>
+		    <div className="title-row">
+		      <h2>{this.props.type}</h2>
+		      <a href="/books" className="control">{sanitizeLength(this.props.length)}</a>
+		    </div>
+		    <div>
+		      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
+		      <h4 className="book-title">{this.props.title}</h4>
+		      <p>{this.props.author}</p>
+		      <Rating stars={this.props.rating} />
+		      <p><strong>Content Warnings</strong>: {this.props.warnings || 'Genre 1, Genre 2'}</p>
+		      <p><strong>Genre</strong>: {this.props.genres || 'Genre 1, Genre 2, Genre 3'}</p>
+		      <p><strong>Tags</strong>: {this.props.tags || 'Tag 1, Tag 2, Tag 3'}</p>
+		    </div>
+				{followBtn}
+		    <div style={{ marginTop: '1.5rem' }}><p>Details | Cover | Table of Contents</p></div>
+		  </div>
+		);
+	}
+}

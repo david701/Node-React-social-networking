@@ -172,7 +172,6 @@ exports.unfollowBook = (req, res)=>{
 		handle.err(res, 'Not logged in');
 		return;
 	}
-
 	mongoUser.findOne({_id: user._id}).then((user)=>{
 		user.following_books.remove(bookId);
 		user.save().then((saved)=>{
@@ -181,15 +180,19 @@ exports.unfollowBook = (req, res)=>{
 				book.save().then((bookSaved)=>{
 					handle.res(res, bookId)
 				}).catch((err) => {
+					console.log(err);
 					handle.err(res, err.message)
 				})
 			}).catch((err) => {
+				console.log(err);
 				handle.err(res, err.message)
 			})
 		}).catch((err) => {
+			console.log(err);
 			handle.err(res, err.message)
 		})
 	}).catch((err) => {
+		console.log(err);
 		handle.err(res, err.message)
 	})
 }

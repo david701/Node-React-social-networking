@@ -77,14 +77,14 @@ export default class EditBookContainer extends React.Component {
       prevArrow: <SamplePrevArrow />
     };
     const slides = [
-      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized}/>,
+      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} />,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
       <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} authorized={this.props.authorized} />
     ];
     return (
       <div>
         <div style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' }}>
-          <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} />
+          <DetailsContainer bookId={this.props.bookId} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           <Placeholder />
         </div>
         <Slider ref='slider' {...settings}>

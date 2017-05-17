@@ -43,10 +43,13 @@ export default class DetailsContainer extends React.Component {
     return (
       <BookDetails
         type={this.state.type} // Endpoint for type?
+				bookId={this.props.bookId}
         length={this.props.length}
         title={this.state.title}
         author={this.state.author}
         rating={this.props.rating}
+				following={this.props.following}
+				authorized={this.props.authorized}
       />
     );
   }

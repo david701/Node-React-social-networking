@@ -97,7 +97,12 @@ exports.createUser = (req, res)=>{
 
 /// GET SINGLE USER BY ID
 exports.getUserById = (req, res)=>{
-	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar').populate('following_books')
+	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar').populate({path: 'following_books',
+     populate: {
+       path: 'author',
+       model: 'Users',
+			 select: 'name'
+     }})
 		.then((user)=>{
 			if(user.status > 0){
 				handle.res(res, user)
