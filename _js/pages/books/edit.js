@@ -5,11 +5,8 @@ import $ from 'jQuery';
 import EditBookContainer from '../../containers/books/EditBookContainer';
 
 class EditBookPage extends React.Component {
-<<<<<<< HEAD
-	state = {user: {}, authorized: false, following: false, screen: 'preview', admin: false};
-=======
-	state = {user: {}, authorized: false, following: false, screen: 'preview', status: 'Read Book'};
->>>>>>> Front_End
+
+	state = {user: {}, authorized: false, following: false, screen: 'preview',admin: false, status: 'Read Book'};
 	componentDidMount(){
 		$.get('/api/v1/user_session').then(
 			resp => {
