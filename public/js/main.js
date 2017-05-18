@@ -50916,6 +50916,21 @@ var Parent = function (_React$Component) {
 			});
 		};
 
+		_this.approveBooks = function (book) {
+			var self = _this;
+			book.status = 2;
+			_jquery2.default.ajax({
+				url: apiUrl + '/books/' + book._id,
+				type: 'put',
+				data: book,
+				dataType: 'json',
+				contentType: 'application/json; charset=UTF-8',
+				success: function success(response) {
+					self.pendingBooks();
+				}
+			});
+		};
+
 		_this.pendingBooks = function () {
 			_jquery2.default.get(apiUrl + '/books?status=1').then(function (res) {
 				if (res.status !== "error") {
@@ -50969,7 +50984,8 @@ var Parent = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var following = "You're not following any authors",
+			var self = this,
+			    following = "You're not following any authors",
 			    authors = this.state.user.following_authors,
 
 			// books = this.state.user.books,
@@ -51280,6 +51296,11 @@ var Parent = function (_React$Component) {
 								'h4',
 								null,
 								'Books to Approve'
+							),
+							_react2.default.createElement(
+								'a',
+								{ className: 'control', href: '.' },
+								'See All'
 							)
 						),
 						_react2.default.createElement(
@@ -51310,8 +51331,10 @@ var Parent = function (_React$Component) {
 														'div',
 														{ className: 'overlay' },
 														_react2.default.createElement(
-															'a',
-															{ className: 'button button-red', href: '/books/5914c527a9cda83205f2743a/pending' },
+															'div',
+															{ className: 'button button-red', onClick: function onClick() {
+																	return self.approveBooks(book);
+																} },
 															'Approve'
 														)
 													)

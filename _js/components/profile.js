@@ -100,6 +100,21 @@ class Parent extends React.Component {
 			.then(res => this.setState({user: res.data}));
 	}
 
+	approveBooks = (book) => {
+		let self = this;
+		book.status = 2
+		$.ajax({
+            url: `${apiUrl}/books/${book._id}`,
+            type: 'put',
+            data: book,
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            success: function(response){
+              self.pendingBooks()
+            }
+        });
+	}
+
 	pendingBooks = () => {
 	    $.get(`${apiUrl}/books?status=1`).then((res) => {
 	      if (res.status !== "error") {
@@ -120,7 +135,8 @@ class Parent extends React.Component {
 	}
 
 	render() {
-		let following = "You're not following any authors",
+		let self = this,
+			following = "You're not following any authors",
 			authors = this.state.user.following_authors,
 			// books = this.state.user.books,
 			button = "Unfollow",
@@ -278,7 +294,7 @@ class Parent extends React.Component {
 							<hr />
 							<div className="title-row">
 								<h4>Books to Approve</h4>
-								{/* <a className="control" href=".">See All</a> */}
+								<a className="control" href=".">See All</a>
 							</div>
 				              <div className="book-blocks book-blocks-small">
 				                {this.state.pendingBooks.length === 0 &&
@@ -294,7 +310,7 @@ class Parent extends React.Component {
 				                            <figure>
 				                              <div className="cover pending">
 				                                <div className="overlay">
-				                                  <a className="button button-red" href="/books/5914c527a9cda83205f2743a/pending">Approve</a>
+				                                  <div className="button button-red" onClick={() => self.approveBooks(book)}>Approve</div>
 				                                </div>
 				                              </div>
 				                              <figcaption>
