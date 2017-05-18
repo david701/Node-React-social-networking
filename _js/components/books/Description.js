@@ -45,7 +45,7 @@ export default class Description extends React.Component{
 				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
 				{followBtn}
 					<p>{this.props.description}</p>
-					<Reviews bookId={this.props.bookId} authorized={this.props.authorized} admin={this.props.admin}/>
+					<Reviews bookId={this.props.bookId} authorized={this.props.authorized} admin={this.props.admin} getBook={this.props.getBook}/>
 				</div>
 			</div>
 		);

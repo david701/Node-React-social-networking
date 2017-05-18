@@ -6,7 +6,8 @@ const express = require('express'),
 
 const mongoUser = mongo.schema.user,
       mongoBook = mongo.schema.book,
-      mongoChapter = mongo.schema.chapter;
+      mongoChapter = mongo.schema.chapter,
+			mongoReview = mongo.schema.review;
 
 const handle = require('../helpers/handle.js');
 
@@ -45,11 +46,22 @@ exports.getUserBooks = (req, res)=>{
 }
 
 exports.getBooksById = (req, res)=>{
-  mongoBook.findOne({_id: req.params.id}).populate('author', 'avatar name').then((book)=>{
+  mongoBook.findOne({_id: req.params.id}).populate('author', 'avatar name').lean().then((book)=>{
     if(!book){
       res.json({status: 'error', message: 'Book does not exist.'});
     }else{
-      res.json({status: 'ok', data: book})
+			mongoReview.find({book_id: book._id}).where('status').equals(1).populate('author', 'name').then((reviews)=>{
+				if(!reviews.length){reviews=[]};
+				var rating = 0;
+				for (var i = 0; i < reviews.length; i++) {
+					var rating = rating + reviews[i].rating;
+				}
+				book.rating = rating/reviews.length;
+				book.reviews = reviews;
+				res.json({status: 'ok', data: book})
+			}).catch((err)=>{
+				handle.err(res, err.message)
+			})
     }
   })
 }
