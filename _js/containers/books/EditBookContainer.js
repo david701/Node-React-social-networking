@@ -74,8 +74,8 @@ export default class EditBookContainer extends React.Component {
     ];
     return (
       <div>
-        <div style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' }}>
-          <DetailsContainer bookId={this.props.bookId} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
+        <div className="book-top-half">
+          <DetailsContainer bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           <Placeholder />
         </div>
         <Slider ref='slider' {...settings}>

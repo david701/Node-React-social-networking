@@ -54,7 +54,7 @@ export default class BookDetails extends React.Component {
 		      <h2>{this.props.type}</h2>
 		      <a href="/books" className="control">{sanitizeLength(this.props.length)}</a>
 		    </div>
-		    <div>
+		    <div className="profile-info">
 		      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <h4 className="book-title">{this.props.title}</h4>
 		      <p>{this.props.author}</p>
@@ -63,7 +63,7 @@ export default class BookDetails extends React.Component {
 		      <p><strong>Genre</strong>: {this.props.genre || ''}</p>
 		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
 		    </div>
-		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">Read Book</button>
+		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
 		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
 		  </div>
 		);

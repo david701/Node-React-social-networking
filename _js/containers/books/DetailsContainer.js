@@ -53,6 +53,7 @@ export default class DetailsContainer extends React.Component {
 				following={this.props.following}
 				authorized={this.props.authorized}
         toggleScreen={this.props.toggleScreen}
+        toggleStatus={this.props.toggleStatus}
 				genre={genre}
         tags={tags}
         warnings={warnings}

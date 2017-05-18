@@ -52684,9 +52684,10 @@ var EditBookPage = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview' }, _this.toggleScreen = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview', status: 'Read Book' }, _this.toggleScreen = function () {
 			var preview = _this.state.screen === 'preview' ? 'full-screen' : 'preview';
-			_this.setState({ screen: preview });
+			var status = _this.state.screen === 'preview' ? 'Show Preview' : 'Read Book';
+			_this.setState({ screen: preview, status: status });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -52715,7 +52716,7 @@ var EditBookPage = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				{ id: this.state.screen },
-				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following })
+				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following })
 			);
 		}
 	}]);
@@ -55301,7 +55302,7 @@ var BookDetails = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'div',
-					null,
+					{ className: 'profile-info' },
 					_react2.default.createElement('img', { src: '/assets/images/cat.gif', alt: 'cat-avatar', style: { float: 'right' }, height: 175, width: 175 }),
 					_react2.default.createElement(
 						'h4',
@@ -55351,7 +55352,7 @@ var BookDetails = function (_React$Component) {
 				_react2.default.createElement(
 					'button',
 					{ onClick: this.props.toggleScreen, className: 'button toggleScreen', value: 'true' },
-					'Read Book'
+					this.props.toggleStatus
 				),
 				_react2.default.createElement(
 					'div',
@@ -56586,7 +56587,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, following: this.props.following, authorized: this.props.authorized });
+      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized });
     }
   }]);
 
@@ -56690,6 +56691,7 @@ var DetailsContainer = function (_React$Component) {
         following: this.props.following,
         authorized: this.props.authorized,
         toggleScreen: this.props.toggleScreen,
+        toggleStatus: this.props.toggleStatus,
         genre: genre,
         tags: tags,
         warnings: warnings
@@ -56853,8 +56855,8 @@ var EditBookContainer = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          { style: { display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' } },
-          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          { className: 'book-top-half' },
+          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           _react2.default.createElement(Placeholder, null)
         ),
         _react2.default.createElement(
