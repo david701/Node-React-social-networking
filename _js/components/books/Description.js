@@ -31,7 +31,6 @@ export default class Description extends React.Component{
 	}
 
 	render(){
-
 		var followBtn;
 		if(!this.props.authorized){
 			if(this.state.following){
@@ -46,7 +45,7 @@ export default class Description extends React.Component{
 				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
 				{followBtn}
 					<p>{this.props.description}</p>
-					<Reviews />
+					<Reviews bookId={this.props.bookId} authorized={this.props.authorized}/>
 				</div>
 			</div>
 		);

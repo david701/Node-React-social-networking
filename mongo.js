@@ -78,7 +78,7 @@ const reviewSchema = new Schema({
 	book_id: { type: Schema.Types.ObjectId, ref: 'Books' },
 	content: String,
 	rating: Number,
-	author_id: {type: Schema.Types.ObjectId, ref: 'Users' },
+	author: {type: Schema.Types.ObjectId, ref: 'Users' },
 	status: Number
 })
 

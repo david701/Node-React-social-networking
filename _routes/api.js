@@ -65,7 +65,7 @@ router.route('/books/:id/chapters/:number')
 
 
 /// REVIEWS API ///
-router.route('/book/:id/reviews')
+router.route('/books/:id/reviews')
 	.get(Reviews.getReviews)
 	.post(Reviews.addReview)
 

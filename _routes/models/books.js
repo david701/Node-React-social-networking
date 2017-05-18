@@ -113,6 +113,7 @@ exports.removeBook = (req, res)=>{
 }
 
 exports.editBook = (req, res)=>{
+	console.log(req.body);
   var user = req.session;
   if(!user){
     res.json({status:'error', message: 'Not logged in'})

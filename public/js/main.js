@@ -55657,7 +55657,6 @@ var Description = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-
 			var followBtn;
 			if (!this.props.authorized) {
 				if (this.state.following) {
@@ -55687,7 +55686,7 @@ var Description = function (_React$Component) {
 						null,
 						this.props.description
 					),
-					_react2.default.createElement(_Reviews2.default, null)
+					_react2.default.createElement(_Reviews2.default, { bookId: this.props.bookId, authorized: this.props.authorized })
 				)
 			);
 		}
@@ -77838,6 +77837,10 @@ var _jQuery = __webpack_require__(53);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
+var _reactStarRatingComponent = __webpack_require__(398);
+
+var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
+
 var _Rating = __webpack_require__(86);
 
 var _Rating2 = _interopRequireDefault(_Rating);
@@ -77849,6 +77852,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var apiUrl = '/api/v1';
 
 var Reviews = function (_React$Component) {
 	_inherits(Reviews, _React$Component);
@@ -77864,72 +77869,91 @@ var Reviews = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '' }, _this.addReview = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '', rating: 0, authorized: false }, _this.getReviews = function () {
+			var bookId = _this.props.bookId;
+			_jQuery2.default.get(apiUrl + '/books/' + bookId + '/reviews').then(function (reviews) {
+				_this.setState({ reviews: reviews.data });
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.addReview = function () {
 			_this.setState({ addReview: true });
 		}, _this.cancelReview = function () {
 			_this.setState({ addReview: false });
-		}, _this.submitReview = function () {
-			_this.setState({ content: '' });
+		}, _this.submitReview = function (e) {
+			e.preventDefault();
+			var bookId = _this.props.bookId;
+			var postData = { content: _this.state.content, rating: _this.state.rating };
+			_jQuery2.default.post(apiUrl + '/books/' + bookId + '/reviews', postData).then(function (resp) {
+				_this.getReviews();
+				_this.setState({ content: '', rating: 0, addReview: false });
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.deleteReview = function (e) {
+			console.log(e.target.id);
 		}, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
 			_this.setState(state);
+		}, _this.handleRating = function (rating) {
+			_this.setState({ rating: rating });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(Reviews, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			var reviews = [{
-				book_id: 'BookId',
-				content: 'This is the most amazing book I have ever read. I can wait to read more.',
-				rating: 5,
-				author: { name: 'Michael Way' },
-				status: 1
-			}, {
-				book_id: 'BookId',
-				content: 'This is the most amazing book I have ever read. I can wait to read more.',
-				rating: 5,
-				author: { name: 'Michael Way' },
-				status: 1
-			}, {
-				book_id: 'BookId',
-				content: 'This is the most amazing book I have ever read. I can wait to read more.',
-				rating: 5,
-				author: { name: 'Michael Way' },
-				status: 1
-			}];
-			this.setState({ reviews: reviews });
+			this.getReviews();
+		}
+	}, {
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			console.log(nextProps);
+			if (nextProps.authorized) {
+				this.setState({ authorized: nextProps.authorized });
+			}
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var reviews = this.state.reviews.map(function (review, key) {
-				if (review.status > 0) {
-					return _react2.default.createElement(
-						'li',
-						{ key: key },
-						_react2.default.createElement(_Rating2.default, { stars: review.rating }),
-						_react2.default.createElement(
-							'p',
-							null,
-							'By ',
-							review.author.name
-						),
-						_react2.default.createElement(
-							'p',
-							null,
-							review.content
-						)
-					);
-				}
-			});
+			var _this2 = this;
+
+			var reviews;
+			if (this.state.reviews.length) {
+				reviews = this.state.reviews.map(function (review, key) {
+					if (review.status > 0) {
+						return _react2.default.createElement(
+							'li',
+							{ key: key, style: { marginBottom: '0.5rem' } },
+							_react2.default.createElement(_Rating2.default, { stars: review.rating }),
+							_react2.default.createElement(
+								'p',
+								null,
+								'By ',
+								review.author.name
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								review.content
+							),
+							_this2.state.authorized ? _react2.default.createElement(
+								'a',
+								{ id: review._id, onClick: _this2.deleteReview },
+								'Delete Comment'
+							) : ''
+						);
+					}
+				});
+			}
+
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
 					'h4',
-					null,
+					{ style: { marginBottom: '0.25em', marginTop: '0.5rem' } },
 					'Reviews'
 				),
 				_react2.default.createElement(
@@ -77954,26 +77978,29 @@ var Reviews = function (_React$Component) {
 						{ style: { position: 'absolute', bottom: '0.5rem', left: '0.5rem', right: '0.5rem', top: '0.5rem', background: '#fff', padding: '1rem' } },
 						_react2.default.createElement(
 							'h4',
-							{ style: { textAlign: 'center', fontSize: '1.5em' } },
+							{ style: { textAlign: 'center', fontSize: '1.5em', marginBottom: '0' } },
 							'Create Review'
 						),
+						_react2.default.createElement(_reactStarRatingComponent2.default, {
+							name: 'rating',
+							emptyStarColor: '#D9DCDD',
+							value: this.state.rating,
+							onStarClick: this.handleRating
+						}),
+						_react2.default.createElement('hr', { style: { marginTop: 0 } }),
+						_react2.default.createElement('textarea', { rows: '4', name: 'content', onChange: this._onChange, value: this.state.content }),
 						_react2.default.createElement(
-							'form',
-							null,
-							_react2.default.createElement('textarea', { rows: '4', name: 'content', onChange: this._onChange, value: this.state.content }),
+							'div',
+							{ style: { float: 'right' } },
 							_react2.default.createElement(
-								'div',
-								{ style: { float: 'right' } },
-								_react2.default.createElement(
-									'button',
-									{ className: 'button-white', onClick: this.cancelReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginRight: '1rem', marginTop: '1rem', display: 'inline-block' } },
-									'Cancel'
-								),
-								_react2.default.createElement(
-									'button',
-									{ className: 'button-red', style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' } },
-									'Submit'
-								)
+								'button',
+								{ className: 'button-white', onClick: this.cancelReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginRight: '1rem', marginTop: '1rem', display: 'inline-block' } },
+								'Cancel'
+							),
+							_react2.default.createElement(
+								'button',
+								{ className: 'button-red', onClick: this.submitReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' } },
+								'Submit'
 							)
 						)
 					)
