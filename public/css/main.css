@@ -1006,6 +1006,8 @@ a:hover .avatar {
   height: 5em;
   padding: 0 2em;
   width: 100%;
+  background: none;
+  box-shadow: none;
   margin: 0 5px 10px 5px;
   max-width: none; }
 
