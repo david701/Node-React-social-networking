@@ -897,6 +897,9 @@ button, .button {
   background-color: #0FAFFF;
   transition: background-color 0.1875s ease-out, box-shadow 0.1875s ease-out;
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18); }
+  button.toggleScreen, .button.toggleScreen {
+    width: 200px;
+    margin: 20px 0 0 0; }
   button:hover, .button:hover {
     background-color: #0D9DE5;
     box-shadow: 0 0.1875em 0.3125em 0 rgba(0, 0, 0, 0.375); }
@@ -997,6 +1000,42 @@ a:hover .avatar {
 
 #hide {
   display: none; }
+
+#full-screen .book-top-half .content-block:first-child {
+  height: 5em;
+  padding: 0 2em;
+  width: 100%;
+  margin: 0 5px 10px 5px;
+  max-width: none; }
+
+#full-screen .book-top-half .title-row {
+  display: none; }
+
+#full-screen .book-top-half .control, #full-screen .book-top-half img {
+  display: none; }
+
+#full-screen .book-top-half .profile-info .book-title {
+  width: 50%;
+  float: left;
+  font-size: 28px; }
+
+#full-screen .book-top-half .profile-info p, #full-screen .book-top-half .profile-info ul, #full-screen .book-top-half .profile-info img {
+  height: 0em;
+  opacity: 0; }
+
+#full-screen .book-top-half .toggleScreen {
+  float: right;
+  position: relative;
+  margin: 5px 0 0 0; }
+
+#full-screen .book-top-half .content-block:last-child {
+  width: 0px;
+  padding: 0px 2em;
+  margin: 0px;
+  height: 0px; }
+
+#full-screen .content-block-standard-slide {
+  height: 38em; }
 
 #night-mode {
   /* card fronts and backs */
@@ -3153,6 +3192,11 @@ form .instructions {
       justify-content: center; }
       #night-mode .book-blocks-preview > ul > li .content-block figure .cover .flex h4 {
         text-align: center; }
+
+.book-top-half {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start; }
 
 .book-blocks {
   margin-bottom: 1.5em; }

@@ -212,7 +212,11 @@
         }
     }
 }
-
+.book-top-half {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+}
 .book-blocks {
   margin-bottom: $gutter;
   > ul {
