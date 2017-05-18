@@ -55349,9 +55349,9 @@ var BookDetails = function (_React$Component) {
 					)
 				),
 				_react2.default.createElement(
-					'div',
-					{ onClick: this.props.toggleScreen, className: 'toggleScreen' },
-					'Full Screen'
+					'button',
+					{ onClick: this.props.toggleScreen, 'class': 'button button-red toggleScreen', value: 'true' },
+					'Read Book'
 				),
 				_react2.default.createElement(
 					'div',
