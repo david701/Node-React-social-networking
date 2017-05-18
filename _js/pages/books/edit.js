@@ -5,7 +5,7 @@ import $ from 'jQuery';
 import EditBookContainer from '../../containers/books/EditBookContainer';
 
 class EditBookPage extends React.Component {
-	state = {user: {}, authorized: false, following: false};
+	state = {user: {}, authorized: false, following: false, screen: 'preview'};
 	componentDidMount(){
 		$.get('/api/v1/user_session').then(
 			resp => {
@@ -26,9 +26,16 @@ class EditBookPage extends React.Component {
 		)
 	}
 
+	toggleScreen = ()=>{
+		let preview = this.state.screen === 'preview' ? 'full-screen' : 'preview';
+		this.setState({screen: preview})
+	}
+
 	render(){
 		return(
-			<EditBookContainer bookId={bookId} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following}/>
+			<div id={this.state.screen}>
+				<EditBookContainer bookId={bookId} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following}/>
+			</div>
 		)
 	}
 }

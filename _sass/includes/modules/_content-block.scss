@@ -289,6 +289,9 @@
         .button {
           width: calc(50% - 0.75em);
         }
+        .button-white {
+            color: red;
+        }
       }
       &-small {
         width: 100%;
