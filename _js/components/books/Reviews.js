@@ -12,12 +12,11 @@ export default class Reviews extends React.Component{
 		this.getReviews();
 	}
 
-	componentWillReceiveProps(nextProps){
-		console.log(nextProps);
-		if(nextProps.authorized){
-			this.setState({authorized: nextProps.authorized})
-		}
-	}
+	// componentWillReceiveProps(nextProps){
+	// 	if(nextProps.authorized){
+	// 		this.setState({authorized: nextProps.authorized})
+	// 	}
+	// }
 
 	getReviews = ()=>{
 		var bookId = this.props.bookId;
@@ -48,7 +47,15 @@ export default class Reviews extends React.Component{
 	}
 
 	deleteReview = (e)=>{
-		console.log(e.target.id);
+		e.preventDefault();
+		$.ajax({
+			url: `${apiUrl}/reviews/${e.target.id}`,
+			method: 'DELETE',
+		}).then(()=>{
+			this.getReviews();
+		}).catch((err)=>{
+			console.log(err);
+		})
 	}
 
 	_onChange = (e)=>{
@@ -73,7 +80,7 @@ export default class Reviews extends React.Component{
 							<p>
 								{review.content}
 							</p>
-							{this.state.authorized? <a id={review._id} onClick={this.deleteReview}>Delete Comment</a>:''}
+							{this.props.admin? <a style={{fontSize: '0.75em', textTramsform:'uppercase', color:'red'}} id={review._id} onClick={this.deleteReview}>Delete Comment</a>:''}
 						</li>
 					)
 				}
@@ -83,7 +90,7 @@ export default class Reviews extends React.Component{
 		return(
 			<div>
 				<h4 style={{marginBottom: '0.25em', marginTop:'0.5rem'}}>Reviews</h4>
-				<ul>
+				<ul style={{paddingBottom: '2rem'}}>
 					{reviews}
 				</ul>
 				<button onClick={this.addReview} style={{position:'absolute', bottom:0, left: 0, right: 0, background: '#F2F5F7'}}>

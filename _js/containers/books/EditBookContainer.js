@@ -21,8 +21,7 @@ const Placeholder = props => (
 export default class EditBookContainer extends React.Component {
 	state = {
 		selectedChapter: null,
-		chapters: [],
-		authorized: false
+		chapters: []
 	};
 
   componentDidMount() {
@@ -68,7 +67,7 @@ export default class EditBookContainer extends React.Component {
       slidesToScroll: 1
     };
     const slides = [
-      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} />,
+      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin}/>,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
       <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} authorized={this.props.authorized} />
     ];

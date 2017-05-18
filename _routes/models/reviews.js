@@ -69,7 +69,7 @@ exports.removeReview = (req,res)=>{
 			handle.err(res, 'No review with this ID')
 		}
 		review.update({status: 0}).then((update)=>{
-			hackndle.res(res)
+			handle.res(res)
 		}).catch(err=>{
 			handle.err(res, err.message)
 		})
