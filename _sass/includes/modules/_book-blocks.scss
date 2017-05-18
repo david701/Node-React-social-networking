@@ -244,6 +244,10 @@
             background-repeat: no-repeat;
             position: relative;
             background-color: $light-gray;
+            &.pending {
+              background-image: url(/assets/images/default-cover-art.jpg);
+              background-size: 100% auto;
+            }
             .overlay {
               position: absolute;
               top: 0;

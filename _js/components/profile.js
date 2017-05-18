@@ -35,6 +35,7 @@ class Parent extends React.Component {
 		this.user = new Profile();
 		this.state = {
 			user: this.user,
+			pendingBooks: []
 		};
 	}
 
@@ -60,10 +61,13 @@ class Parent extends React.Component {
 		$.get(`${apiUrl}/user_session/`).then((response) => {
 			if (response.status !== "error") {
 				this.user.id = response.data._id;
-				//this.user.role = 2;
+				if(response.data.role > 1){
+					this.pendingBooks(this.user.id);
+				}else{
+					this.loadBooks(this.user.id)
+				}
 				this.setState({user: this.user});
 				this.loadUserInfo(this.user.id);
-				this.loadBooks(this.user.id);
 				this.getUsers(this.user.id);
 			} else {
 				window.location.href = "/";
@@ -95,16 +99,17 @@ class Parent extends React.Component {
 			.then(res => this.setState({user: res.data}));
 	}
 
-	// loadBooks = id => {
-	// 	fetch(`${apiUrl}/users/${id}/books`)
-	// 		.then(res => res.json())
-	// 		.then(res => this.setState({
-	// 			user: {
-	// 				...this.state.user,
-	// 				books: res.data,
-	// 			}
-	// 		}, () => console.log(this.state)));
-	// }
+	pendingBooks = () => {
+	    $.get(`${apiUrl}/books?status=1`).then((res) => {
+	      if (res.status !== "error") {
+	        this.setState({
+	          pendingBooks: res.data,
+	        })
+	      } else {
+	        // To Do: Edit Message
+	      }
+	    });
+	}
 
 	loadBooks = id => {
 		$.get(`${apiUrl}/users/${id}/books`)
@@ -274,9 +279,43 @@ class Parent extends React.Component {
 								<h4>Books to Approve</h4>
 								{/* <a className="control" href=".">See All</a> */}
 							</div>
-							<div className="book-blocks book-blocks-small">
-								You don't have any books to approve
-									</div>
+				              <div className="book-blocks book-blocks-small">
+				                {this.state.pendingBooks.length === 0 &&
+				                  <p>You don't have any books to approve</p>
+				                }
+				                {this.state.pendingBooks.length > 0 &&
+				                  <ul>
+				                  {
+				                    this.state.pendingBooks.map(function(book, i){
+				                      return (
+				                        <li key={i}>
+				                          <div className="content-block content-block-book">
+				                            <figure>
+				                              <div className="cover pending">
+				                                <div className="overlay">
+				                                  <a className="button button-red" href="/books/5914c527a9cda83205f2743a/pending">Approve</a>
+				                                </div>
+				                              </div>
+				                              <figcaption>
+				                                <h4>{book.title}</h4>
+				                                <p>Author Name Here</p>
+				                                <ul className="rating-display">
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                </ul>
+				                              </figcaption>
+				                            </figure>
+				                          </div>
+				                        </li>
+				                      )
+				                    })
+				                  }
+				                  </ul>
+				                }
+				              </div>
 							<hr />
 							<div className="title-row">
 								<h4>Book Claims</h4>
