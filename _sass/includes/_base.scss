@@ -254,7 +254,7 @@ img {
 // Button
 // ------
 button, .button {
-		-webkit-appearance: none;
+	-webkit-appearance: none;
 	appearance: none;
 	font-size: 1em;
 	margin: 0;
@@ -276,6 +276,11 @@ button, .button {
 	background-color: $light-blue;
 	transition: background-color $timing-normal, box-shadow $timing-normal;
 	box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
+
+	&.toggleScreen {
+		width: 200px;
+		margin: 20px 0 0 0;
+	}
 
 	&:hover {
 		background-color: $blue;
