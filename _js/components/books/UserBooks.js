@@ -22,11 +22,11 @@ export default class UserBooks extends React.Component {
 						<div
 							className="cover"
 							style={{
-								backgroundImage: book.cover ? "url("+book.cover+")" :"url('/assets/images/pending-cover-art.jpg')",
+								backgroundImage: book.cover ? "url("+book.cover+")" : book.status > 1 ? "url('/assets/images/default-cover-art.jpg')" : "url('/assets/images/pending-cover-art.jpg')",
 							}}
 							>
 							<div className="overlay">
-								<a className="button button-red" href={`/books/${book._id}`}>View</a>
+								<a className="button button-red" href={`/books/${book._id}`}>Preview</a>
 								{this.props.library? <a className="button button-red" onClick={() => this.unfollow(book._id)}>Unfollow</a> :''}
 							</div>
 						</div>

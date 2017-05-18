@@ -180,7 +180,8 @@
 
 .react-datepicker__input-container {
   position: relative;
-  display: inline-block; }
+  display: inline-block;
+  width: 100%; }
 
 .react-datepicker__year-read-view,
 .react-datepicker__month-read-view {
@@ -1755,11 +1756,17 @@ form .instructions {
 #night-mode input[type="radio"] {
   border-color: #17181A; }
 
+#night-mode input[type="radio"]:checked {
+  background: #0FAFFF; }
+
 #night-mode .day {
   display: none; }
 
 #night-mode .night {
   display: block; }
+
+#night-mode #hide {
+  display: none; }
 
 #night-mode .content-block {
   position: relative;
@@ -1974,6 +1981,8 @@ form .instructions {
       justify-content: space-between; }
       #night-mode .content-block .submit-row .buttons .button {
         width: calc(50% - 0.75em); }
+      #night-mode .content-block .submit-row .buttons .button-white {
+        color: red; }
     #night-mode .content-block .submit-row-small {
       width: 100%;
       flex-direction: column;
@@ -3004,7 +3013,7 @@ form .instructions {
   margin-bottom: 1.5em; }
   #night-mode .book-blocks > ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap; }
     #night-mode .book-blocks > ul > li {
       width: calc( 50vw  - 1.5em); }
@@ -3082,7 +3091,7 @@ form .instructions {
                 background-image: url("/assets/images/icons/star-filled.svg"); }
   #night-mode .book-blocks-small > ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap; }
     #night-mode .book-blocks-small > ul > li {
       width: calc(50% - (1.5em*(1/2))); }
@@ -3167,6 +3176,8 @@ form .instructions {
       .book-blocks > ul > li .content-block {
         border-radius: 0.125em;
         overflow: hidden; }
+        .book-blocks > ul > li .content-block figure .cover.pending {
+          background-image: url(/assets/images/pending-cover-art.jpg); }
         .book-blocks > ul > li .content-block figure .cover {
           padding-top: 160%;
           background-size: contain;
@@ -3174,6 +3185,9 @@ form .instructions {
           background-repeat: no-repeat;
           position: relative;
           background-color: #D9DCDD; }
+          .book-blocks > ul > li .content-block figure .cover.pending {
+            background-image: url(/assets/images/default-cover-art.jpg);
+            background-size: 100% auto; }
           .book-blocks > ul > li .content-block figure .cover .overlay {
             position: absolute;
             top: 0;
