@@ -63,6 +63,7 @@ export default class BookDetails extends React.Component {
 		      <p><strong>Genre</strong>: {this.props.genre || ''}</p>
 		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
 		    </div>
+		    <div onClick={this.props.toggleScreen} className="toggleScreen">Full Screen</div>
 		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
 		  </div>
 		);

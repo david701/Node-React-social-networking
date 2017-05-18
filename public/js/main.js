@@ -50918,16 +50918,12 @@ var Parent = function (_React$Component) {
 
 		_this.approveBooks = function (book) {
 			var self = _this;
-			book.status = 2;
-			_jquery2.default.ajax({
-				url: apiUrl + '/books/' + book._id,
-				type: 'put',
-				data: book,
-				dataType: 'json',
-				contentType: 'application/json; charset=UTF-8',
-				success: function success(response) {
-					self.pendingBooks();
-				}
+
+			_jquery2.default.ajax({ url: apiUrl + '/books/' + book._id,
+				method: 'PUT',
+				data: { status: 2 }
+			}).then(function (response) {
+				self.pendingBooks();
 			});
 		};
 
@@ -52688,7 +52684,10 @@ var EditBookPage = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false }, _temp), _possibleConstructorReturn(_this, _ret);
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview' }, _this.toggleScreen = function () {
+			var preview = _this.state.screen === 'preview' ? 'full-screen' : 'preview';
+			_this.setState({ screen: preview });
+		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(EditBookPage, [{
@@ -52713,7 +52712,11 @@ var EditBookPage = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following });
+			return _react2.default.createElement(
+				'div',
+				{ id: this.state.screen },
+				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following })
+			);
 		}
 	}]);
 
@@ -55347,6 +55350,11 @@ var BookDetails = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'div',
+					{ onClick: this.props.toggleScreen, className: 'toggleScreen' },
+					'Full Screen'
+				),
+				_react2.default.createElement(
+					'div',
 					{ style: { position: 'absolute', bottom: '1rem' } },
 					_react2.default.createElement(
 						'p',
@@ -55996,7 +56004,7 @@ var UserBooks = function (_React$Component) {
 									_react2.default.createElement(
 										'a',
 										{ className: 'button button-red', href: '/books/' + book._id },
-										'View'
+										'Preview'
 									),
 									_this2.props.library ? _react2.default.createElement(
 										'a',
@@ -56681,6 +56689,7 @@ var DetailsContainer = function (_React$Component) {
         rating: this.props.rating,
         following: this.props.following,
         authorized: this.props.authorized,
+        toggleScreen: this.props.toggleScreen,
         genre: genre,
         tags: tags,
         warnings: warnings
@@ -56845,7 +56854,7 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { style: { display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start' } },
-          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           _react2.default.createElement(Placeholder, null)
         ),
         _react2.default.createElement(
