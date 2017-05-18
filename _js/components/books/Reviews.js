@@ -40,6 +40,7 @@ export default class Reviews extends React.Component{
 		var postData = {content: this.state.content, rating: this.state.rating}
 		$.post(`${apiUrl}/books/${bookId}/reviews`, postData).then((resp)=>{
 			this.getReviews();
+			this.props.getBook();
 			this.setState({content:'', rating:0, addReview: false})
 		}).catch((err)=>{
 			console.log(err);
@@ -53,6 +54,7 @@ export default class Reviews extends React.Component{
 			method: 'DELETE',
 		}).then(()=>{
 			this.getReviews();
+			this.props.getBook();
 		}).catch((err)=>{
 			console.log(err);
 		})

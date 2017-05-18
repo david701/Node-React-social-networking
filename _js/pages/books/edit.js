@@ -30,6 +30,14 @@ class EditBookPage extends React.Component {
 		)
 	}
 
+	getBook = ()=>{
+		$.get(`/api/v1/books/${bookId}`).then(
+			book =>{
+				this.setState({book: book.data});
+			}
+		)
+	}
+
 	toggleScreen = ()=>{
 		let preview = this.state.screen === 'preview' ? 'full-screen' : 'preview';
 		this.setState({screen: preview})
@@ -38,7 +46,7 @@ class EditBookPage extends React.Component {
 	render(){
 		return(
 			<div id={this.state.screen}>
-				<EditBookContainer bookId={bookId} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} admin={this.state.admin} following={this.state.following}/>
+				<EditBookContainer bookId={bookId} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} admin={this.state.admin} following={this.state.following} getBook={this.getBook}/>
 			</div>
 		)
 	}

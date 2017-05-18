@@ -39,13 +39,17 @@ export default class BookDetails extends React.Component {
 	}
 
 	render(){
-		var followBtn;
+		var followBtn, rating;
 		if(!this.props.authorized){
 			if(this.state.following){
 				followBtn = <button onClick={this.unfollow} className="button-red" style={{width: 'auto', padding: '0.9375rem 2rem', margin: '1rem 0 0'}}>Unfollow</button>;
 			}else{
 				followBtn = <button onClick={this.follow}  style={{width: 'auto', padding: '0.9375rem 2rem', margin: '1rem 0 0'}}>Follow</button>;
 			}
+		}
+
+		if(this.props.book && this.props.book.rating){
+			rating = this.props.book.rating;
 		}
 
 		return(
@@ -58,7 +62,7 @@ export default class BookDetails extends React.Component {
 		      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <h4 className="book-title">{this.props.title}</h4>
 		      <p>{this.props.author}</p>
-		      <Rating stars={this.props.rating} />
+		      <Rating stars={rating} />
 		      <p><strong>Content Warnings</strong>: {this.props.warnings || ''}</p>
 		      <p><strong>Genre</strong>: {this.props.genre || ''}</p>
 		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
