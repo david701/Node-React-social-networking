@@ -50939,6 +50939,7 @@ var Parent = function (_React$Component) {
 		_this.user = new Profile();
 		_this.state = {
 			user: _this.user,
+			books: [],
 			pendingBooks: []
 		};
 		return _this;

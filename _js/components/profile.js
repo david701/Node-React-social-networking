@@ -35,6 +35,7 @@ class Parent extends React.Component {
 		this.user = new Profile();
 		this.state = {
 			user: this.user,
+			books: [],
 			pendingBooks: []
 		};
 	}
