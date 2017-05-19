@@ -261,6 +261,9 @@ img {
 		}
 	}
 }
+.slick-track {
+	transition: all 0.5s;
+}
 button, .button {
 	-webkit-appearance: none;
 	appearance: none;

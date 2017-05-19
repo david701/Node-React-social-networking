@@ -55341,11 +55341,13 @@ var BookDetails = function (_React$Component) {
 			var slideWidth = (0, _jQuery2.default)('.slick-slide').width(),
 			    slideOver = void 0;
 
-			if (slide === "toc") {
+			if (slide === "details") {
 				slideOver = 0;
-			} else if (slide === 'cover') {
-				slideOver = slideWidth;
-			} else if (slide === 'details') {}
+			} else if (slide === 'toc') {
+				slideOver = -slideWidth;
+			}
+
+			(0, _jQuery2.default)('.slick-track').css({ transform: 'translate3d(' + slideOver + 'px, 0px, 0px)' });
 		}, _this.unfollow = function () {
 			_jQuery2.default.ajax({
 				url: apiUrl + '/books/' + _this.props.bookId + '/follow',
@@ -55364,6 +55366,8 @@ var BookDetails = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var followBtn,
 			    rating = 0;
 			if (!this.props.authorized) {
@@ -55471,13 +55475,17 @@ var BookDetails = function (_React$Component) {
 						{ className: 'buttons' },
 						_react2.default.createElement(
 							'span',
-							{ onClick: this.moveSlide('details') },
+							{ onClick: function onClick() {
+									return _this2.moveSlide('details');
+								} },
 							'Details'
 						),
 						' |',
 						_react2.default.createElement(
 							'span',
-							{ onClick: this.moveSlide('toc') },
+							{ onClick: function onClick() {
+									return _this2.moveSlide('toc');
+								} },
 							' Table of Contents'
 						)
 					)
