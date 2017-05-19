@@ -61,6 +61,9 @@
         width: calc(50% - #{ $gutter / 2 });
         padding: 2em;
       }
+      .day {
+        display: none;
+      }
       padding: 1em;
       header, h3, h4 {
         color: $dark-blue;
@@ -512,6 +515,9 @@
     @include w1000 {
       width: calc(50% - #{ $gutter / 2 });
       padding: 2em;
+    }
+    .night {
+      display: none;
     }
     padding: 1em;
     header, h3, h4 {

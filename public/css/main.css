@@ -1856,6 +1856,8 @@ form .instructions {
       #night-mode .content-block-standard-new {
         width: calc(50% - 0.75em);
         padding: 2em; } }
+    #night-mode .content-block-standard-new .day {
+      display: none; }
     #night-mode .content-block-standard-new header, #night-mode .content-block-standard-new h3, #night-mode .content-block-standard-new h4 {
       color: #005876; }
     #night-mode .content-block-standard-new h5 {
@@ -2194,6 +2196,8 @@ form .instructions {
       .content-block-standard-new {
         width: calc(50% - 0.75em);
         padding: 2em; } }
+    .content-block-standard-new .night {
+      display: none; }
     .content-block-standard-new header, .content-block-standard-new h3, .content-block-standard-new h4 {
       color: #005876; }
     .content-block-standard-new h5 {

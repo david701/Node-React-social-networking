@@ -55311,7 +55311,8 @@ var BookDetails = function (_React$Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'profile-info' },
-					_react2.default.createElement('img', { src: '/assets/images/cat.gif', alt: 'cat-avatar', style: { float: 'right' }, height: 175, width: 175 }),
+					_react2.default.createElement('img', { src: '/assets/images/day-read.gif', className: 'day', alt: 'cat-avatar', style: { float: 'right' }, height: 175, width: 175 }),
+					_react2.default.createElement('img', { src: '/assets/images/night-read.gif', className: 'night', alt: 'cat-avatar', style: { float: 'right' }, height: 175, width: 175 }),
 					_react2.default.createElement(
 						'h4',
 						{ className: 'book-title' },

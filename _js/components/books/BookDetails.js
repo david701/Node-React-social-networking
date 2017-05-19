@@ -59,7 +59,8 @@ export default class BookDetails extends React.Component {
 		      <a href="/books" className="control">{sanitizeLength(this.props.length)}</a>
 		    </div>
 		    <div className="profile-info">
-		      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
+		      <img src="/assets/images/day-read.gif" className="day" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
+		      <img src="/assets/images/night-read.gif" className="night" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <h4 className="book-title">{this.props.title}</h4>
 		      <p>{this.props.author}</p>
 		      <Rating stars={rating} />
