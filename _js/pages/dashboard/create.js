@@ -186,7 +186,7 @@ export const Genres = ({genres, handleCheckbox}) => (
 export const Tags = ({tags, handleCheckbox}) => (
   <div>
     <div className="title">
-      <p><span>*</span>Select up to <strong>two</strong> tags that best describe your book.</p>
+      <p><span>*</span>Select up to <strong>two</strong> fiction themes that best describe your book.</p>
       <span className="help-text">Please select at least one tag.</span>
     </div>
     <div className="new-create-books-row">

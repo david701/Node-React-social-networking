@@ -53098,7 +53098,7 @@ var Tags = exports.Tags = function Tags(_ref4) {
           null,
           'two'
         ),
-        ' tags that best describe your book.'
+        ' fiction themes that best describe your book.'
       ),
       _react2.default.createElement(
         'span',
