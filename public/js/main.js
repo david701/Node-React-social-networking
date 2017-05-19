@@ -55966,11 +55966,11 @@ var BookDetails = function (_React$Component) {
 					{ onClick: this.props.toggleScreen, className: 'button toggleScreen', value: 'true' },
 					this.props.toggleStatus
 				),
-				_react2.default.createElement(
+				this.props.authorized ? _react2.default.createElement(
 					'a',
 					{ href: '/dashboard/edit/books/' + this.props.bookId, className: 'button toggleScreen' },
 					'Edit Book'
-				),
+				) : '',
 				_react2.default.createElement(
 					'div',
 					{ style: { position: 'absolute', bottom: '1rem' } },
@@ -56032,15 +56032,15 @@ var Comments = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem' }, comments: [] }, _this._onChange = function (e) {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' }, comments: [] }, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
 			_this.setState(state);
 		}, _this.toggleComments = function () {
 			if (!_this.state.open) {
-				_this.setState({ open: true, commentClass: { position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem' } });
+				_this.setState({ open: true, commentClass: { position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
 			} else {
-				_this.setState({ open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem' } });
+				_this.setState({ open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
 			}
 		}, _this.getComments = function (chapterId) {
 			if (chapterId || _this.props.chapterId) {

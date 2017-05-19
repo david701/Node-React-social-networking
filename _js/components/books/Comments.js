@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jQuery';
 
 export default class Comments extends React.Component{
-	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem'}, comments:[]}
+	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem',transition: 'right 0.25s'}, comments:[]}
 
 	componentWillReceiveProps(nextProps){
 		this.getComments(nextProps.chapterId)
@@ -16,9 +16,9 @@ export default class Comments extends React.Component{
 
 	toggleComments = ()=>{
 		if(!this.state.open){
-			this.setState({open: true, commentClass: {position:'absolute', top:0, right:0, bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem'}})
+			this.setState({open: true, commentClass: {position:'absolute', top:0, right:0, bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
 		}else{
-			this.setState({open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem'}})
+			this.setState({open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
 		}
 	}
 
