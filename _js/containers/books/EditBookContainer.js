@@ -57,13 +57,25 @@ export default class EditBookContainer extends React.Component {
   loadSlides = slides => {
     const { bookId } = this.props;
     const { selectedChapter } = this.state;
-    const shownSlides = [
-      ...slides,
-      <EditorContainer bookId={bookId} chapterNumber={selectedChapter} />,
-      <ViewBookContainer bookId={bookId} chapterId={selectedChapter} />,
-      <div className="content-block content-block-standard-slide"><h4>Chapter {selectedChapter}</h4></div>
-    ];
-    return shownSlides.map((slide, index) => <div key={index}>{slide}</div>);
+    let pages = [];
+
+    this.state.chapters.map(function(chapter,index){
+      pages.push(
+        <div className="content-block content-block-standard-slide chapter-begin"><div><h4>Chapter {chapter.number}</h4><span className="chapter-name">{chapter.name}</span></div></div>,
+        <EditorContainer bookId={bookId} chapterNumber={chapter.number} chapterId={chapter._id} />,
+        //<ViewBookContainer bookId={bookId} chapterId={chapter.number} />
+      )
+    })
+
+    if(this.state.chapters.length){
+      slides.push(...pages);
+    }
+
+    return slides.map(function(slide, index) {
+      return (
+        <div key={index}>{slide}</div>
+      )
+    })
   }
 
   render() {
@@ -79,7 +91,6 @@ export default class EditBookContainer extends React.Component {
     const slides = [
       <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
-      <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} authorized={this.props.authorized} />
     ];
     return (
       <div>

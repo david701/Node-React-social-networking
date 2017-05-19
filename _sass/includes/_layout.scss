@@ -6,6 +6,26 @@
 #hide {
     display: none;
 }
+.content-block-standard-slide {
+    h1 {
+        color: #005876;
+    }
+}
+
+.content-block-standard-slide.chapter-begin {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h4 {
+        display: block;
+        margin: 0;
+    }
+    span {
+        font-size: 22px;
+        display: block;
+    }
+}
 
 #night-mode {
     #full-screen {

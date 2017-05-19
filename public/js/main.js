@@ -34070,7 +34070,7 @@ module.exports = getIteratorFn;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -34088,22 +34088,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Reader = function (_React$Component) {
-	_inherits(Reader, _React$Component);
+  _inherits(Reader, _React$Component);
 
-	function Reader() {
-		_classCallCheck(this, Reader);
+  function Reader() {
+    _classCallCheck(this, Reader);
 
-		return _possibleConstructorReturn(this, (Reader.__proto__ || Object.getPrototypeOf(Reader)).apply(this, arguments));
-	}
+    return _possibleConstructorReturn(this, (Reader.__proto__ || Object.getPrototypeOf(Reader)).apply(this, arguments));
+  }
 
-	_createClass(Reader, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.content } });
-		}
-	}]);
+  _createClass(Reader, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.props.content.length > 1 ? _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.content } }) : _react2.default.createElement(
+          'div',
+          null,
+          'You haven\'t written anything yet'
+        )
+      );
+    }
+  }]);
 
-	return Reader;
+  return Reader;
 }(_react2.default.Component);
 
 exports.default = Reader;
@@ -56828,8 +56836,6 @@ var _ViewBookContainer2 = _interopRequireDefault(_ViewBookContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -56892,17 +56898,35 @@ var EditBookContainer = function (_React$Component) {
       var bookId = _this.props.bookId;
       var selectedChapter = _this.state.selectedChapter;
 
-      var shownSlides = [].concat(_toConsumableArray(slides), [_react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: selectedChapter }), _react2.default.createElement(_ViewBookContainer2.default, { bookId: bookId, chapterId: selectedChapter }), _react2.default.createElement(
-        'div',
-        { className: 'content-block content-block-standard-slide' },
-        _react2.default.createElement(
-          'h4',
-          null,
-          'Chapter ',
-          selectedChapter
-        )
-      )]);
-      return shownSlides.map(function (slide, index) {
+      var pages = [];
+
+      _this.state.chapters.map(function (chapter, index) {
+        pages.push(_react2.default.createElement(
+          'div',
+          { className: 'content-block content-block-standard-slide chapter-begin' },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'h4',
+              null,
+              'Chapter ',
+              chapter.number
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'chapter-name' },
+              chapter.name
+            )
+          )
+        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id }));
+      });
+
+      if (_this.state.chapters.length) {
+        slides.push.apply(slides, pages);
+      }
+
+      return slides.map(function (slide, index) {
         return _react2.default.createElement(
           'div',
           { key: index },
@@ -56932,7 +56956,7 @@ var EditBookContainer = function (_React$Component) {
         slidesToShow: 2,
         slidesToScroll: 1
       };
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized }), _react2.default.createElement(_EditorContainer2.default, { bookId: this.props.bookId, chapterId: this.state.selectedChapter, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,
@@ -56983,6 +57007,10 @@ var _Reader = __webpack_require__(83);
 
 var _Reader2 = _interopRequireDefault(_Reader);
 
+var _jQuery = __webpack_require__(31);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57011,7 +57039,8 @@ var EditorContainer = function (_React$Component) {
       name: '',
       number: '',
       content: '',
-      editChapter: false
+      editChapter: false,
+      authorized: true
     }, _this.loadChapterInfo = function () {
       var _this$props = _this.props,
           bookId = _this$props.bookId,
@@ -57033,27 +57062,29 @@ var EditorContainer = function (_React$Component) {
       var nextState = _extends({}, _this.state, { content: e.target.getContent() });
       _this.setState(nextState);
     }, _this.handleSubmit = function (e) {
+      var self = _this;
       var _this$props2 = _this.props,
           bookId = _this$props2.bookId,
-          chapterId = _this$props2.chapterId;
+          chapterId = _this$props2.chapterId,
+          chapterNumber = _this$props2.chapterNumber;
 
-      fetch(apiUrl + '/books/' + bookId + '/chapters/' + chapterId, {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      var data = {
+        body: {
           name: _this.state.name,
           number: _this.state.number,
-          content: _this.state.content
-        })
-      }).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        _this.setState({ editChapter: false });
-      }).catch(function (err) {
-        return console.log(err);
+          content: 'this.state.content'
+        }
+      };
+
+      _jQuery2.default.ajax({
+        url: apiUrl + '/books/' + bookId + '/chapters/' + chapterNumber,
+        type: 'PUT',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        success: function success(response) {
+          self.setState({ editChapter: false });
+        }
       });
     }, _this.editChapter = function (e) {
       e.preventDefault;
@@ -57092,14 +57123,17 @@ var EditorContainer = function (_React$Component) {
         'div',
         { className: 'content-block content-block-standard-slide' },
         _react2.default.createElement(
-          'h1',
+          'h4',
           null,
-          this.state.name,
-          ' ',
-          this.props.authorized ? _react2.default.createElement(
+          'Chapter ',
+          this.state.number,
+          ' Editor ',
+          this.state.authorized && !this.state.editChapter ? _react2.default.createElement(
             'span',
             { className: 'edit_chapter_btn', onClick: this.editChapter },
-            '(Edit Chapter)'
+            'Click to Edit \'',
+            this.state.name,
+            '\''
           ) : ''
         ),
         cardContent
