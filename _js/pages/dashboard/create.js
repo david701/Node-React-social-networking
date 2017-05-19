@@ -29,8 +29,7 @@ class DashboardCreate extends Component {
 			itunes: 'https://',
 			barnesandnoble: 'https://',
 			twitter: 'https://'
-		},
-		chapterTitle: ''
+		}
 	};
 
   componentDidMount = () => {
@@ -140,7 +139,6 @@ class DashboardCreate extends Component {
           <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
-          <ChapterTitle type={type} title={title} handleChange={this._handleChange} />
           <div className="submit-row submit-row-single">
             <div className="buttons">
               <a href="/views/dashboard/" className="button button-white">Cancel</a>
@@ -205,17 +203,6 @@ export const Warnings = ({warnings, handleCheckbox}) => (
         <Checkbox name="warnings" label={warning} key={index} handleCheckboxChange={handleCheckbox} />
       ))}
     </div>
-  </div>
-);
-
-export const ChapterTitle = ({chapterTitle, handleChange, type}) => (
-  <div>
-    <h4><span>Step {type === "Published" ? "5" : "4"}.</span> Chapter Title</h4>
-    <div className="title">
-      <label htmlFor="chapterTitle"><span>*</span>What is the title of this chapter?</label>
-      <span className="help-text">Please give your first chapter a title.</span>
-    </div>
-    <input id="chapterTitle" type="text" value={chapterTitle} onChange={handleChange} data-validation="name, required" />
   </div>
 );
 

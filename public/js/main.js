@@ -52835,7 +52835,7 @@ if (document.getElementById('edit-book')) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.BookType = exports.ChapterTitle = exports.Warnings = exports.Tags = exports.Genres = exports.Description = undefined;
+exports.BookType = exports.Warnings = exports.Tags = exports.Genres = exports.Description = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -52923,8 +52923,7 @@ var DashboardCreate = function (_Component) {
         itunes: 'https://',
         barnesandnoble: 'https://',
         twitter: 'https://'
-      },
-      chapterTitle: ''
+      }
     }, _this.componentDidMount = function () {
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
         _this.setState({ user: resp.data });
@@ -53063,7 +53062,6 @@ var DashboardCreate = function (_Component) {
           _react2.default.createElement(Warnings, { warnings: _warnings2.default, handleCheckbox: this._handleWarnings }),
           _react2.default.createElement('hr', null),
           type === "Published" ? _react2.default.createElement(_SocialMedia2.default, { sources: socialMedia, onUrlChange: this._onUrlChange }) : "",
-          _react2.default.createElement(ChapterTitle, { type: type, title: title, handleChange: this._handleChange }),
           _react2.default.createElement(
             'div',
             { className: 'submit-row submit-row-single' },
@@ -53231,51 +53229,9 @@ var Warnings = exports.Warnings = function Warnings(_ref5) {
   );
 };
 
-var ChapterTitle = exports.ChapterTitle = function ChapterTitle(_ref6) {
-  var chapterTitle = _ref6.chapterTitle,
-      handleChange = _ref6.handleChange,
-      type = _ref6.type;
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'h4',
-      null,
-      _react2.default.createElement(
-        'span',
-        null,
-        'Step ',
-        type === "Published" ? "5" : "4",
-        '.'
-      ),
-      ' Chapter Title'
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'title' },
-      _react2.default.createElement(
-        'label',
-        { htmlFor: 'chapterTitle' },
-        _react2.default.createElement(
-          'span',
-          null,
-          '*'
-        ),
-        'What is the title of this chapter?'
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'help-text' },
-        'Please give your first chapter a title.'
-      )
-    ),
-    _react2.default.createElement('input', { id: 'chapterTitle', type: 'text', value: chapterTitle, onChange: handleChange, 'data-validation': 'name, required' })
-  );
-};
-
-var BookType = exports.BookType = function BookType(_ref7) {
-  var types = _ref7.types,
-      handleChange = _ref7.handleChange;
+var BookType = exports.BookType = function BookType(_ref6) {
+  var types = _ref6.types,
+      handleChange = _ref6.handleChange;
   return _react2.default.createElement(
     'div',
     null,
