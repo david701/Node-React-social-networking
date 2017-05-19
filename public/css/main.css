@@ -1810,7 +1810,7 @@ form .instructions {
   color: #FFFFFF; }
 
 #night-mode .button-white {
-  background: red; }
+  color: red; }
 
 #night-mode .admin-link {
   color: red; }
@@ -1876,7 +1876,8 @@ form .instructions {
       display: block; }
     #night-mode .content-block-standard textarea {
       margin: 1em 0 2em;
-      background: #17181A; }
+      background: #17181A;
+      color: #fff; }
   #night-mode .content-block-standard-new {
     /* for spacing between blocks - TEMPORARY FIX */
     margin: 0 auto;
