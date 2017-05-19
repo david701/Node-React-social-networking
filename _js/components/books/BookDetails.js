@@ -29,6 +29,19 @@ export default class BookDetails extends React.Component {
 		})
 	}
 
+	moveSlide = (slide) => {
+		let slideWidth = $('.slick-slide').width(),
+		slideOver;
+
+		if(slide === "toc"){
+			slideOver = 0;
+		}else if(slide === 'cover'){
+			slideOver = slideWidth;
+		}else if(slide === 'details'){
+
+		}
+	}
+
 	unfollow = ()=>{
 		$.ajax({
 			url: `${apiUrl}/books/${this.props.bookId}/follow`,
@@ -70,7 +83,12 @@ export default class BookDetails extends React.Component {
 		    </div>
 		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
 		    <a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>
-		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
+		    <div style={{ position: 'absolute', bottom: '1rem'}}>
+		    	<p className="buttons">
+		    		<span onClick={this.moveSlide('details')}>Details</span> |
+		    		<span onClick={this.moveSlide('toc')}> Table of Contents</span>
+		    	</p>
+		    </div>
 		  </div>
 		);
 	}

@@ -253,6 +253,14 @@ img {
 
 // Button
 // ------
+.buttons {
+	span {
+		cursor: pointer;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
 button, .button {
 	-webkit-appearance: none;
 	appearance: none;

@@ -959,6 +959,9 @@ body.search-open {
         }
         .title-row {
             float: left;
+            h2 {
+                display: none;
+            }
         }
         .control,img {
             display: none;
@@ -977,7 +980,8 @@ body.search-open {
         .toggleScreen {
             float: right;
             position: relative;
-            margin: 5px 0 0 0;
+            margin: 5px 10px 0 0;
+            width: 150px;
         }
         .content-block:last-child {
             width: 0px;
