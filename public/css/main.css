@@ -2620,7 +2620,8 @@ form .instructions {
   font-size: 0.75em;
   color: #0D9DE5;
   margin-left: 1em;
-  cursor: pointer; }
+  cursor: pointer;
+  float: right; }
 
 #night-mode .brawl-feature {
   position: relative; }

@@ -55391,7 +55391,7 @@ var BookDetails = function (_React$Component) {
 							'Content Warnings'
 						),
 						': ',
-						this.props.warnings || ''
+						this.props.warnings.length ? this.props.warnings.join(", ") : 'N/A'
 					),
 					_react2.default.createElement(
 						'p',
@@ -55402,7 +55402,7 @@ var BookDetails = function (_React$Component) {
 							'Genre'
 						),
 						': ',
-						this.props.genre || ''
+						this.props.genre.length ? this.props.genre.join(", ") : 'N/A'
 					),
 					_react2.default.createElement(
 						'p',
@@ -55413,7 +55413,7 @@ var BookDetails = function (_React$Component) {
 							'Tags'
 						),
 						': ',
-						this.props.tags || ''
+						this.props.tags.length ? this.props.tags.join(", ") : 'N/A'
 					)
 				),
 				_react2.default.createElement(

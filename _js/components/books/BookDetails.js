@@ -64,9 +64,9 @@ export default class BookDetails extends React.Component {
 		      <h4 className="book-title">{this.props.title}</h4>
 		      <p>{this.props.author}</p>
 		      <Rating stars={rating} />
-		      <p><strong>Content Warnings</strong>: {this.props.warnings || ''}</p>
-		      <p><strong>Genre</strong>: {this.props.genre || ''}</p>
-		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
+		      <p><strong>Content Warnings</strong>: {this.props.warnings.length ? this.props.warnings.join(", ") : 'N/A'}</p>
+		      <p><strong>Genre</strong>: {this.props.genre.length ? this.props.genre.join(", ") : 'N/A'}</p>
+		      <p><strong>Tags</strong>: {this.props.tags.length ? this.props.tags.join(", ") : 'N/A'}</p>
 		    </div>
 		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
 		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
