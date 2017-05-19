@@ -82,6 +82,13 @@ const reviewSchema = new Schema({
 	status: Number
 })
 
+const claimSchema = new Schema({
+	book: { type: Schema.Types.ObjectId, ref: 'Books' },
+	reporter: {type: Schema.Types.ObjectId, ref: 'Users' },
+	content: String,
+	status: {type: Number, default: 1}
+})
+
 const genreSchema = new Schema({
 	name: String
 })
@@ -101,6 +108,7 @@ const schema = {
 	comment: mongo.model('Comments', commentSchema),
 	brawl: mongo.model('Brawls', brawlSchema),
 	review: mongo.model('Reviews', reviewSchema),
+	claim: mongo.model('Claims', claimSchema),
 	genre: mongo.model('Genres', genreSchema),
   tag: mongo.model('Tags', tagSchema),
   warning: mongo.model('Warnings', warningSchema)
