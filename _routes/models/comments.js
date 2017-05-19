@@ -44,9 +44,31 @@ exports.addComment = (req,res)=>{
 }
 
 exports.editComment = (req,res)=>{
-	handle.res(res)
+	mongoComment.findOne({_id: req.params.id}).then((comment)=>{
+		if(!comment){
+			handle.err(res, 'Comment does not exist');
+		}else{
+			if(req.body.content) comment.content = req.body.content;
+			comment.save().then((comment)=>{
+				handle.res(res, comment)
+			})
+		}
+	}).catch((err)=>{
+		handle.err(res, err.message);
+	})
 }
 
 exports.removeComment = (req,res)=>{
-	handle.res(res)
+	mongoComment.findOne({_id: req.params.id}).then((comment)=>{
+		if(!comment){
+			handle.err(res, 'Comment does not exist');
+		}else{
+			comment.status = 0;
+			comment.save().then((comment)=>{
+				handle.res(res, comment)
+			})
+		}
+	}).catch((err)=>{
+		handle.err(res, err.message);
+	})
 }

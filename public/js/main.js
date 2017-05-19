@@ -34139,7 +34139,7 @@ var Reader = function (_React$Component) {
 				this.props.content.length > 1 ? _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(_Comments2.default, { bookId: this.props.bookId, chapterId: this.props.chapterId }),
+					_react2.default.createElement(_Comments2.default, { bookId: this.props.bookId, chapterId: this.props.chapterId, user: this.props.user, admin: this.props.admin, authorized: this.props.authorized }),
 					_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.content } })
 				) : _react2.default.createElement(
 					'div',
@@ -56046,7 +56046,6 @@ var Comments = function (_React$Component) {
 			if (chapterId || _this.props.chapterId) {
 				var chapter_id = chapterId || _this.props.chapterId;
 				_jQuery2.default.get('/api/v1/chapter/' + chapter_id + '/comments').then(function (resp) {
-					console.log(resp);
 					var comments = resp.data;
 					_this.setState({ comments: comments, comment: '' });
 				});
@@ -56057,8 +56056,16 @@ var Comments = function (_React$Component) {
 				book_id: _this.props.bookId,
 				content: _this.state.comment
 			};
-			console.log(postData);
 			_jQuery2.default.post('/api/v1/chapter/' + _this.props.chapterId + '/comments', postData).then(function (resp) {
+				_this.getComments();
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.deleteComment = function (commentId) {
+			_jQuery2.default.ajax({
+				url: '/api/v1/comments/' + commentId,
+				type: 'DELETE'
+			}).then(function (resp) {
 				_this.getComments();
 			}).catch(function (err) {
 				console.log(err);
@@ -56074,11 +56081,23 @@ var Comments = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
 
 			var comments = this.state.comments.map(function (comment, key) {
+				var canDelete;
+				if (_this2.props.admin || comment.author._id === _this2.props.user._id) {
+					canDelete = true;
+				}
 				return _react2.default.createElement(
 					'li',
-					{ key: key, style: { padding: '0.5rem 0', borderBottom: '1px solid rgba(217, 220, 221, 0.5)' } },
+					{ key: key, style: { padding: '0.5rem 0', borderBottom: '1px solid rgba(217, 220, 221, 0.5)', position: 'relative' } },
+					canDelete ? _react2.default.createElement(
+						'div',
+						{ className: 'comment_delete', style: { position: 'absolute', bottom: 0, right: 0, textTransform: 'uppercase', fontSize: '0.5em', color: 'red', cursor: 'pointer' }, onClick: function onClick() {
+								return _this2.deleteComment(comment._id);
+							} },
+						'Delete Comment'
+					) : '',
 					_react2.default.createElement(
 						'div',
 						{ className: 'comment_image', style: { width: '25%', padding: '0.25rem', marginRight: '2%', display: 'inline-block' } },
@@ -57638,7 +57657,7 @@ var EditBookContainer = function (_React$Component) {
               chapter.name
             )
           )
-        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id }));
+        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id, user: _this.props.user, admin: _this.props.admin, authorized: _this.props.authorized }));
       });
 
       if (_this.state.chapters.length) {
@@ -57760,7 +57779,7 @@ var EditorContainer = function (_React$Component) {
       content: '',
       chapter_id: '',
       editChapter: false,
-      authorized: true
+      authorized: false
     }, _this.loadChapterInfo = function () {
       var _this$props = _this.props,
           bookId = _this$props.bookId,
@@ -57834,7 +57853,7 @@ var EditorContainer = function (_React$Component) {
           name: this.state.name
         });
       } else {
-        cardContent = _react2.default.createElement(_Reader2.default, { content: this.state.content, bookId: this.props.bookId, chapterId: this.props.chapterId });
+        cardContent = _react2.default.createElement(_Reader2.default, { content: this.state.content, bookId: this.props.bookId, chapterId: this.props.chapterId, user: this.props.user, admin: this.props.admin, authorized: this.props.authorized });
       }
       return _react2.default.createElement(
         'div',
@@ -57845,7 +57864,7 @@ var EditorContainer = function (_React$Component) {
           'Chapter ',
           this.state.number,
           ' Editor ',
-          this.state.authorized && !this.state.editChapter ? _react2.default.createElement(
+          this.props.authorized && !this.state.editChapter ? _react2.default.createElement(
             'span',
             { className: 'edit_chapter_btn', onClick: this.editChapter },
             'Click to Edit ',
