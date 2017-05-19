@@ -1,15 +1,19 @@
 import React from 'react';
+import Comments from './Comments';
 
 export default class Reader extends React.Component{
 	render(){
 		return(
-            <div>
-                {this.props.content.length > 1 ? (
-    			 <div dangerouslySetInnerHTML={{__html: this.props.content}}></div>
-                 ) : (
-                 <div>You haven't written anything yet</div>
-                )}
-            </div>
+			<div>
+					{this.props.content.length > 1 ? (
+						<div>
+							<Comments bookId={this.props.bookId} chapterId={this.props.chapterId} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>
+							<div dangerouslySetInnerHTML={{__html: this.props.content}}></div>
+						</div>
+					 ) : (
+					 <div>You haven't written anything yet</div>
+					)}
+			</div>
 		)
 	}
 }

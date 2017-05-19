@@ -1,8 +1,9 @@
 import React from 'react';
 
+import $ from 'jQuery';
+
 import Editor from '../../components/books/Editor';
 import Reader from '../../components/books/Reader';
-import $ from 'jQuery';
 
 const apiUrl = '/api/v1';
 
@@ -11,8 +12,9 @@ export default class EditorContainer extends React.Component {
 		name: '',
 		number: '',
 		content: '',
+		chapter_id: '',
 		editChapter: false,
-    authorized: true
+    authorized: false
 	};
 
   componentDidMount() {
@@ -20,7 +22,7 @@ export default class EditorContainer extends React.Component {
   }
 
   componentDidUpdate(nextProps) {
-    if (this.props.chapterId !== nextProps.chapterId) {
+    if (this.props.chapterNumber !== nextProps.chapterNumber) {
       this.loadChapterInfo();
     }
     return false;
@@ -29,11 +31,11 @@ export default class EditorContainer extends React.Component {
   loadChapterInfo = () => {
     const { bookId, chapterNumber } = this.props;
 		if(chapterNumber){
-			fetch(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
-			.then(res => res.json())
+			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
 			.then(res => {
 				const nextState = {
 					...this.state,
+					chapter_id: res.data._id,
 					name: res.data.name,
 					number: res.data.number,
 					content: res.data.content,
@@ -51,15 +53,10 @@ export default class EditorContainer extends React.Component {
   handleSubmit = e => {
     const self = this;
     const { bookId, chapterId, chapterNumber } = this.props;
-    //lets strip any html
-    let html = this.state.content;
-    let text = $(html).text();
     let data = {
-      body: {
         name: this.state.name,
         number: this.state.number,
-        content: text
-      }
+        content: this.state.content
     }
 
     $.ajax({
@@ -89,11 +86,11 @@ export default class EditorContainer extends React.Component {
 	        name={this.state.name}
 	      />
 		}else{
-			cardContent = <Reader content={this.state.content} />
+			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>
 		}
     return (
     <div className="content-block content-block-standard-slide">
-			<h4>Chapter {this.state.number} Editor {this.state.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit '{this.state.name}'</span>:''}</h4>
+			<h4>Chapter {this.state.number} Editor {this.props.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit {this.state.name}</span>:''}</h4>
     	{cardContent}
     </div>
     );
