@@ -11,6 +11,7 @@ import genres from '../../../data/genres.json';
 import warnings from '../../../data/warnings.json';
 
 const types = ["Serial", "Published"];
+const book_id = location.href.split("/").pop();
 
 class DashboardCreate extends Component {
 	state = {
@@ -33,14 +34,36 @@ class DashboardCreate extends Component {
 	};
 
   componentDidMount = () => {
+    console.log('go')
     $.get('/api/v1/user_session/')
       .then(resp => {
 				this.setState({user: resp.data})
-			});
+		});
+
+    if(book_id !== 0){
+      this.getBookInfo();
+    }
+  }
+
+  getBookInfo = () => {
+    self = this;
+    $.get(`/api/v1/books/${bookId}`).then(function(book){
+      self.setState({
+        user: book.data.author,
+        coverFile: book.data.cover,
+        title: book.data.title,
+        description: book.data.description,
+        type: '',
+        genres: [],
+        themes: [],
+        warnings: []
+      })
+      //this.setState({book: book.data});
+    })
   }
 
   _handleChange = e => {
-    this.setState({[e.target.id]: e.target.value}, () => console.log(this.state));
+    this.setState({[e.target.id]: e.target.value});
   }
 
   _handleCover = e => {
@@ -99,14 +122,23 @@ class DashboardCreate extends Component {
 			cover: this.state.coverFile
     };
     e.preventDefault();
-    $.post('/api/v1/books', data).then(res => {
-      if (res.status === "error") {
-        console.log(res.message);
-      } else {
-        //console.log(res);
-				window.location.href = "/dashboard";
-      }
-    });
+    if(book_id === 0){
+      $.post('/api/v1/books', data).then(res => {
+        if (res.status === "error") {
+          console.log(res.message);
+        } else {
+          //console.log(res);
+  				window.location.href = "/dashboard";
+        }
+      });
+    }else{
+      $.ajax({url:`/api/v1/books/${book_id}`,
+          method: 'PUT',
+          data: data,
+       }).then((response)=>{
+          window.location.href = "/books/" + book_id;
+       })
+    }
   }
 
   _onUrlChange = e => {
@@ -142,7 +174,7 @@ class DashboardCreate extends Component {
           <div className="submit-row submit-row-single">
             <div className="buttons">
               <a href="/views/dashboard/" className="button button-white">Cancel</a>
-              <a id="bookSubmit" href="#" className="button button-red">Create</a>
+              <a id="bookSubmit" href="#" className="button button-red">{bookId !== 0 ? 'Update' : 'Create' }</a>
             </div>
           </div>
         </form>
