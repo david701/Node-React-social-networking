@@ -57067,12 +57067,15 @@ var EditorContainer = function (_React$Component) {
           bookId = _this$props2.bookId,
           chapterId = _this$props2.chapterId,
           chapterNumber = _this$props2.chapterNumber;
+      //lets strip any html
 
+      var html = _this.state.content;
+      var text = (0, _jQuery2.default)(html).text();
       var data = {
         body: {
           name: _this.state.name,
           number: _this.state.number,
-          content: 'this.state.content'
+          content: text
         }
       };
 

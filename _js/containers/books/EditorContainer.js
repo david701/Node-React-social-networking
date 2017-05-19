@@ -51,14 +51,16 @@ export default class EditorContainer extends React.Component {
   handleSubmit = e => {
     const self = this;
     const { bookId, chapterId, chapterNumber } = this.props;
-    const data = {
+    //lets strip any html
+    let html = this.state.content;
+    let text = $(html).text();
+    let data = {
       body: {
         name: this.state.name,
         number: this.state.number,
-        content: 'this.state.content'
+        content: text
       }
     }
-
 
     $.ajax({
         url: `${apiUrl}/books/${bookId}/chapters/${chapterNumber}`,
