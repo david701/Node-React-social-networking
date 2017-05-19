@@ -51639,6 +51639,11 @@ var Parent = function (_React$Component) {
 																	return self.approveBooks(book);
 																} },
 															'Approve'
+														),
+														_react2.default.createElement(
+															'a',
+															{ className: 'button button-red', href: '/books/' + book._id },
+															'Preview'
 														)
 													)
 												),
