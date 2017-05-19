@@ -55854,6 +55854,15 @@ var BookDetails = function (_React$Component) {
 			_jQuery2.default.post(apiUrl + '/books/' + _this.props.bookId + '/follow').then(function (res) {
 				_this.setState({ following: true });
 			});
+		}, _this.moveSlide = function (slide) {
+			var slideWidth = (0, _jQuery2.default)('.slick-slide').width(),
+			    slideOver = void 0;
+
+			if (slide === "toc") {
+				slideOver = 0;
+			} else if (slide === 'cover') {
+				slideOver = slideWidth;
+			} else if (slide === 'details') {}
 		}, _this.unfollow = function () {
 			_jQuery2.default.ajax({
 				url: apiUrl + '/books/' + _this.props.bookId + '/follow',
@@ -55976,8 +55985,18 @@ var BookDetails = function (_React$Component) {
 					{ style: { position: 'absolute', bottom: '1rem' } },
 					_react2.default.createElement(
 						'p',
-						null,
-						'Details | Cover | Table of Contents'
+						{ className: 'buttons' },
+						_react2.default.createElement(
+							'span',
+							{ onClick: this.moveSlide('details') },
+							'Details'
+						),
+						' |',
+						_react2.default.createElement(
+							'span',
+							{ onClick: this.moveSlide('toc') },
+							' Table of Contents'
+						)
 					)
 				)
 			);
