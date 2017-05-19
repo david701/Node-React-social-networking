@@ -49473,7 +49473,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 //list all of the genre's so we can loop through them
-var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
+var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry", "LitRPG"];
 //list all of the genre's so we can loop through them
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 
@@ -50031,7 +50031,7 @@ var SignUp = function (_React$Component) {
             { className: 'toggle-list' },
             _react2.default.createElement(
               'div',
-              { className: 'title' },
+              { className: 'title password' },
               _react2.default.createElement(
                 'label',
                 { htmlFor: 'password2' },
@@ -50062,7 +50062,7 @@ var SignUp = function (_React$Component) {
             { className: 'toggle-list' },
             _react2.default.createElement(
               'div',
-              { className: 'title' },
+              { className: 'title password' },
               _react2.default.createElement(
                 'label',
                 { htmlFor: 'password2' },
@@ -52001,7 +52001,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 //variables that will never change
-var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry"];
+var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry", "LitRPG"];
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
 var Profile = function Profile() {
     this.avatar = '/assets/images/avatars/Dog_1.png';
@@ -52494,7 +52494,7 @@ var SignUp = function (_React$Component) {
                         null,
                         _react2.default.createElement(
                             'div',
-                            { className: 'title' },
+                            { className: 'title password' },
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'password1' },
@@ -52554,7 +52554,7 @@ var SignUp = function (_React$Component) {
                     { className: 'toggle-list' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'title' },
+                        { className: 'title password' },
                         _react2.default.createElement(
                             'label',
                             { htmlFor: 'password2' },
@@ -52580,7 +52580,7 @@ var SignUp = function (_React$Component) {
                     { className: 'toggle-list' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'title' },
+                        { className: 'title password' },
                         _react2.default.createElement(
                             'label',
                             { htmlFor: 'password2' },

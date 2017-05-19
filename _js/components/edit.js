@@ -6,7 +6,7 @@ import { validate, formValid } from '../plugins/validation.js';
 //list all of the genre's so we can loop through them
 const genres = ["Fantasy","Science Fiction",
                 "Horror","Non-Fiction","Mystery",
-                "Romance","Poetry"];
+                "Romance","Poetry","LitRPG"];
 //list all of the genre's so we can loop through them
 const themes = ["Contemporary", "Historical",
                 "Drama", "ChickLit", "Tragedy",
@@ -346,7 +346,7 @@ class SignUp extends React.Component{
 				<hr/>
 				<h4>Tell us what you like to see</h4>
 				<ul className="toggle-list">
-          <div className="title">
+          <div className="title password">
             <label htmlFor="password2"><span>*</span>What Genres do you like? Add at least one.</label>
             <span className="help-text">Please add at least one genre</span>
           </div>
@@ -356,7 +356,7 @@ class SignUp extends React.Component{
 				</ul>
 				<p>What type of Fiction Themes?</p>
 				<ul className="toggle-list">
-        <div className="title">
+        <div className="title password">
           <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
           <span className="help-text">Please add at least one theme</span>
         </div>

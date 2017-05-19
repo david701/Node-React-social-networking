@@ -428,13 +428,6 @@
 }
 
 
-
-
-
-
-
-
-
 .content-block {
 	position: relative;
   background-color: $white;
@@ -700,6 +693,23 @@
     margin: 0.75em 0;
     ::selection {
       background-color: transparent;
+    }
+    .title.password {
+      width: 100%;
+      display: block;
+      margin: 0 0 10px 0;
+      label {
+        text-align: left;
+        margin: 0;
+        padding: 0;
+        span {
+          float: left;
+          width: auto;
+        }
+      }
+      span {
+        width: 100%;
+      }
     }
     li {
       color: $light-blue;
