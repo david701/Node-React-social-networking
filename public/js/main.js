@@ -57399,7 +57399,7 @@ var EditorContainer = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'content-block content-block-standard-slide' },
-        _react2.default.createElement(
+        this.props.authorized && _react2.default.createElement(
           'h4',
           null,
           'Chapter ',
