@@ -33,13 +33,13 @@ export default class BookDetails extends React.Component {
 		let slideWidth = $('.slick-slide').width(),
 		slideOver;
 
-		if(slide === "toc"){
+		if(slide === "details"){
 			slideOver = 0;
-		}else if(slide === 'cover'){
-			slideOver = slideWidth;
-		}else if(slide === 'details'){
-
+		}else if(slide === 'toc'){
+			slideOver = -slideWidth;
 		}
+
+		$('.slick-track').css({transform: 'translate3d('+slideOver+'px, 0px, 0px)'})
 	}
 
 	unfollow = ()=>{
@@ -85,8 +85,8 @@ export default class BookDetails extends React.Component {
 		    {this.props.authorized? (<a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>):''}
 		    <div style={{ position: 'absolute', bottom: '1rem'}}>
 		    	<p className="buttons">
-		    		<span onClick={this.moveSlide('details')}>Details</span> |
-		    		<span onClick={this.moveSlide('toc')}> Table of Contents</span>
+		    		<span onClick={() => this.moveSlide('details')}>Details</span> |
+		    		<span onClick={() => this.moveSlide('toc')}> Table of Contents</span>
 		    	</p>
 		    </div>
 		  </div>
