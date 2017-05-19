@@ -1,5 +1,7 @@
 import React from 'react';
 
+import $ from 'jQuery';
+
 import Editor from '../../components/books/Editor';
 import Reader from '../../components/books/Reader';
 
@@ -10,7 +12,9 @@ export default class EditorContainer extends React.Component {
 		name: '',
 		number: '',
 		content: '',
-		editChapter: false
+		chapter_id: '',
+		editChapter: false,
+    authorized: true
 	};
 
   componentDidMount() {
@@ -18,7 +22,7 @@ export default class EditorContainer extends React.Component {
   }
 
   componentDidUpdate(nextProps) {
-    if (this.props.chapterId !== nextProps.chapterId) {
+    if (this.props.chapterNumber !== nextProps.chapterNumber) {
       this.loadChapterInfo();
     }
     return false;
@@ -27,11 +31,11 @@ export default class EditorContainer extends React.Component {
   loadChapterInfo = () => {
     const { bookId, chapterNumber } = this.props;
 		if(chapterNumber){
-			fetch(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
-			.then(res => res.json())
+			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
 			.then(res => {
 				const nextState = {
 					...this.state,
+					chapter_id: res.data._id,
 					name: res.data.name,
 					number: res.data.number,
 					content: res.data.content,
@@ -47,24 +51,24 @@ export default class EditorContainer extends React.Component {
   }
 
   handleSubmit = e => {
-    const { bookId, chapterId } = this.props;
-    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterId}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const self = this;
+    const { bookId, chapterId, chapterNumber } = this.props;
+    let data = {
         name: this.state.name,
         number: this.state.number,
-        content: this.state.content,
-      })
-    })
-    .then(res => res.json())
-    .then(res => {
-			this.setState({editChapter: false});
-		})
-    .catch(err => console.log(err));
+        content: this.state.content
+    }
+
+    $.ajax({
+        url: `${apiUrl}/books/${bookId}/chapters/${chapterNumber}`,
+        type: 'PUT',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        success: function(response){
+          self.setState({editChapter: false});
+        }
+    });
   }
 
 	editChapter = e => {
@@ -82,11 +86,11 @@ export default class EditorContainer extends React.Component {
 	        name={this.state.name}
 	      />
 		}else{
-			cardContent = <Reader content={this.state.content} />
+			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId}/>
 		}
     return (
     <div className="content-block content-block-standard-slide">
-			<h1>{this.state.name} {this.props.authorized? <span className="edit_chapter_btn" onClick={this.editChapter}>(Edit Chapter)</span>:''}</h1>
+			<h4>Chapter {this.state.number} Editor {this.state.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit {this.state.name}</span>:''}</h4>
     	{cardContent}
     </div>
     );

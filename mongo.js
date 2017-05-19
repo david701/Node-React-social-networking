@@ -61,7 +61,7 @@ const commentSchema = new Schema({
 	book_id: { type: Schema.Types.ObjectId, ref: 'Books' },
 	chapter_id: { type: Schema.Types.ObjectId, ref: 'Chapters' },
 	content: String,
-	author_id: { type: Schema.Types.ObjectId, ref: 'Users' },
+	author: { type: Schema.Types.ObjectId, ref: 'Users' },
 	status: Number
 })
 

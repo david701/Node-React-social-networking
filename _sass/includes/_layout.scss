@@ -6,49 +6,72 @@
 #hide {
     display: none;
 }
-#full-screen {
-    .book-top-half {
-        .content-block:first-child {
-            height: 5em;
-            padding: 0 2em;
-            width: 100%;
-            margin: 0 5px 10px 5px;
-            max-width: none;
-        }
-        .title-row {
-            display: none
-        }
-        .control,img {
-            display: none;
-        }
-        .profile-info {
-            .book-title {
-                width: 50%;
-                float: left;
-                font-size: 28px;
-            }
-            p,ul,img {
-                height: 0em;
-                opacity: 0;
-            }
-        }
-        .toggleScreen {
-            float: right;
-            position: relative;
-            margin: 5px 0 0 0;
-        }
-        .content-block:last-child {
-            width: 0px;
-            padding: 0px 2em;
-            margin: 0px;
-            height: 0px;
-        }
-    }
-    .content-block-standard-slide {
-        height: 38em;
+.content-block-standard-slide {
+    h1 {
+        color: #005876;
     }
 }
+
+.content-block-standard-slide.chapter-begin {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h4 {
+        display: block;
+        margin: 0;
+    }
+    span {
+        font-size: 22px;
+        display: block;
+    }
+}
+
 #night-mode {
+    #full-screen {
+        .book-top-half {
+            .content-block:first-child {
+                height: 5em;
+                padding: 0 2em;
+                width: 100%;
+                background: none;
+                box-shadow: none;
+                margin: 0 5px 10px 5px;
+                max-width: none;
+            }
+            .title-row {
+                float: left;
+            }
+            .control,img {
+                display: none;
+            }
+            .profile-info {
+                .book-title {
+                    width: 50%;
+                    float: left;
+                    font-size: 28px;
+                }
+                p,ul,img {
+                    height: 0em;
+                    opacity: 0;
+                }
+            }
+            .toggleScreen {
+                float: right;
+                position: relative;
+                margin: 5px 0 0 0;
+            }
+            .content-block:last-child {
+                width: 0px;
+                padding: 0px 2em;
+                margin: 0px;
+                height: 0px;
+            }
+        }
+        .content-block-standard-slide {
+            height: 38em;
+        }
+    }
     .main-footer {
         background: $content-gray;
     }
@@ -667,25 +690,15 @@ label span {
       align-items: center;
 
       transition: opacity $timing-normal;
-      &:hover {
-        background-color: $shade-gray;
-        figure {
-          .logo {
-            background-color: $light-gray;
-          }
-        }
-      }
       figure {
         .logo {
-          background-color: $shade-gray;
-          height: em(120);
-          width: em(120);
-          border-radius: 100%;
-          margin-bottom: em(7);
-          background-image: url('/assets/images/logo.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
+            height: em(155);
+            width: em(120);
+            margin-bottom: em(7);
+            background-image: url('/assets/images/logo-temp.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
         figcaption {
           text-align: center;
@@ -712,7 +725,7 @@ label span {
             display: flex;
             align-items: center;
             &:hover {
-              background-color: $shade-gray;
+              background-color: #F2F5F7;
             }
             .icon {
               width: em(18);
@@ -932,6 +945,56 @@ body.search-open {
 
 // Footer
 // ------
+
+#full-screen {
+    .book-top-half {
+        .content-block:first-child {
+            height: 5em;
+            padding: 0 2em;
+            width: 100%;
+            background: none;
+            box-shadow: none;
+            margin: 0 5px 10px 5px;
+            max-width: none;
+        }
+        .title-row {
+            float: left;
+            h2 {
+                display: none;
+            }
+        }
+        .control,img {
+            display: none;
+        }
+        .profile-info {
+            .book-title {
+                width: 50%;
+                float: left;
+                font-size: 28px;
+            }
+            p,ul,img {
+                height: 0em;
+                opacity: 0;
+            }
+        }
+        .toggleScreen {
+            float: right;
+            position: relative;
+            margin: 5px 10px 0 0;
+            width: 150px;
+        }
+        .content-block:last-child {
+            width: 0px;
+            padding: 0px 2em;
+            margin: 0px;
+            height: 0px;
+        }
+    }
+    .content-block-standard-slide {
+        height: 38em;
+    }
+}
+
 .main-footer {
   background-color: $dark-blue;
   color: $white;

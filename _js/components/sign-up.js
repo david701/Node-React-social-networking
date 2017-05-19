@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { validate, formValid } from '../plugins/validation.js';
 
 //variables that will never change
-const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry"];
+const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry","LitRPG"];
 const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Children","Thriller","Mystery","Classic"];
 const Profile = function(){
 		this.avatar = '/assets/images/avatars/Dog_1.png';
@@ -267,24 +267,24 @@ class SignUp extends React.Component{
                 <span className="instructions">Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).</span>
 				<ul className="field-list">
 					<li>
-                        <div className="title">
-                            <label htmlFor="password1"><span>*</span>Password</label>
-                            <span className="help-text">Password must match above format</span>
-                        </div>
+            <div className="title password">
+                <label htmlFor="password1"><span>*</span>Password</label>
+                <span className="help-text">Password must match above format</span>
+            </div>
 						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-validation="password,required" />
 					</li>
 					<li>
-                        <div className="title">
-                            <label htmlFor="password2"><span>*</span>Confirm Password</label>
-                            <span className="help-text">This password does not match</span>
-                        </div>
+            <div className="title">
+                <label htmlFor="password2"><span>*</span>Confirm Password</label>
+                <span className="help-text">This password does not match</span>
+            </div>
 						<input id="password2" name="passwordConfirmation" type="password" onBlur={validate} onChange={this.handleChange} data-password={this.state.profile.password} data-validation="confirmPassword,required"/>
 					</li>
 				</ul>
 				<hr/>
 				<h4><span>Step 4.</span> Tell us what you like to see</h4>
 				<ul className="toggle-list">
-          <div className="title">
+          <div className="title password">
             <label htmlFor="password2"><span>*</span>What Genres do you like? Add at least one.</label>
             <span className="help-text">Please add at least one genre</span>
           </div>
@@ -293,7 +293,7 @@ class SignUp extends React.Component{
 					<li className="spacing-block"></li>
 				</ul>
 				<ul className="toggle-list">
-        <div className="title">
+        <div className="title password">
           <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
           <span className="help-text">Please add at least one theme</span>
         </div>

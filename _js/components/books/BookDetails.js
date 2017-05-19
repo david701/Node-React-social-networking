@@ -19,7 +19,7 @@ export default class BookDetails extends React.Component {
 	state = {following: this.props.following};
 
 	componentWillReceiveProps(nextProps){
-		this.setState({following: nextProps.following})
+		this.setState({following: nextProps.following});
 	}
 
 	follow = ()=>{
@@ -27,6 +27,19 @@ export default class BookDetails extends React.Component {
 		.then(res => {
 			this.setState({following: true})
 		})
+	}
+
+	moveSlide = (slide) => {
+		let slideWidth = $('.slick-slide').width(),
+		slideOver;
+
+		if(slide === "toc"){
+			slideOver = 0;
+		}else if(slide === 'cover'){
+			slideOver = slideWidth;
+		}else if(slide === 'details'){
+
+		}
 	}
 
 	unfollow = ()=>{
@@ -59,16 +72,23 @@ export default class BookDetails extends React.Component {
 		      <a href="/books" className="control">{sanitizeLength(this.props.length)}</a>
 		    </div>
 		    <div className="profile-info">
-		      <img src="/assets/images/cat.gif" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
+		      <img src="/assets/images/day-read.gif" className="day" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
+		      <img src="/assets/images/night-read.gif" className="night" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <h4 className="book-title">{this.props.title}</h4>
 		      <p>{this.props.author}</p>
 		      <Rating stars={rating} />
-		      <p><strong>Content Warnings</strong>: {this.props.warnings || ''}</p>
-		      <p><strong>Genre</strong>: {this.props.genre || ''}</p>
-		      <p><strong>Tags</strong>: {this.props.tags || ''}</p>
+		      <p><strong>Content Warnings</strong>: {this.props.warnings.length ? this.props.warnings.join(", ") : 'N/A'}</p>
+		      <p><strong>Genre</strong>: {this.props.genre.length ? this.props.genre.join(", ") : 'N/A'}</p>
+		      <p><strong>Tags</strong>: {this.props.tags.length ? this.props.tags.join(", ") : 'N/A'}</p>
 		    </div>
 		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
-		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
+		    <a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>
+		    <div style={{ position: 'absolute', bottom: '1rem'}}>
+		    	<p className="buttons">
+		    		<span onClick={this.moveSlide('details')}>Details</span> |
+		    		<span onClick={this.moveSlide('toc')}> Table of Contents</span>
+		    	</p>
+		    </div>
 		  </div>
 		);
 	}

@@ -86,9 +86,17 @@ router.get('/dashboard/edit', (req, res)=>{
 	res.render('edit', {title: 'Edit', id: 0});
 });
 
+router.get('/dashboard/edit/books/:bookId', (req, res) => {
+	if(req.session){
+		res.render('dashboard-create', {title: 'Create', bookId: req.params.bookId})
+	}else{
+		res.redirect('/login');
+	}
+});
+
 router.get('/dashboard/create', (req, res) => {
 	if(req.session){
-		res.render('dashboard-create', {title: 'Create'})
+		res.render('dashboard-create', {title: 'Create', bookId: 0})
 	}else{
 		res.redirect('/login');
 	}
