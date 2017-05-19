@@ -6,51 +6,52 @@
 #hide {
     display: none;
 }
-#full-screen {
-    .book-top-half {
-        .content-block:first-child {
-            height: 5em;
-            padding: 0 2em;
-            width: 100%;
-            background: none;
-            box-shadow: none;
-            margin: 0 5px 10px 5px;
-            max-width: none;
-        }
-        .title-row {
-            display: none
-        }
-        .control,img {
-            display: none;
-        }
-        .profile-info {
-            .book-title {
-                width: 50%;
-                float: left;
-                font-size: 28px;
-            }
-            p,ul,img {
-                height: 0em;
-                opacity: 0;
-            }
-        }
-        .toggleScreen {
-            float: right;
-            position: relative;
-            margin: 5px 0 0 0;
-        }
-        .content-block:last-child {
-            width: 0px;
-            padding: 0px 2em;
-            margin: 0px;
-            height: 0px;
-        }
-    }
-    .content-block-standard-slide {
-        height: 38em;
-    }
-}
+
 #night-mode {
+    #full-screen {
+        .book-top-half {
+            .content-block:first-child {
+                height: 5em;
+                padding: 0 2em;
+                width: 100%;
+                background: none;
+                box-shadow: none;
+                margin: 0 5px 10px 5px;
+                max-width: none;
+            }
+            .title-row {
+                float: left;
+            }
+            .control,img {
+                display: none;
+            }
+            .profile-info {
+                .book-title {
+                    width: 50%;
+                    float: left;
+                    font-size: 28px;
+                }
+                p,ul,img {
+                    height: 0em;
+                    opacity: 0;
+                }
+            }
+            .toggleScreen {
+                float: right;
+                position: relative;
+                margin: 5px 0 0 0;
+            }
+            .content-block:last-child {
+                width: 0px;
+                padding: 0px 2em;
+                margin: 0px;
+                height: 0px;
+            }
+        }
+        .content-block-standard-slide {
+            height: 38em;
+        }
+    }
     .main-footer {
         background: $content-gray;
     }
@@ -924,6 +925,52 @@ body.search-open {
 
 // Footer
 // ------
+
+#full-screen {
+    .book-top-half {
+        .content-block:first-child {
+            height: 5em;
+            padding: 0 2em;
+            width: 100%;
+            background: none;
+            box-shadow: none;
+            margin: 0 5px 10px 5px;
+            max-width: none;
+        }
+        .title-row {
+            float: left;
+        }
+        .control,img {
+            display: none;
+        }
+        .profile-info {
+            .book-title {
+                width: 50%;
+                float: left;
+                font-size: 28px;
+            }
+            p,ul,img {
+                height: 0em;
+                opacity: 0;
+            }
+        }
+        .toggleScreen {
+            float: right;
+            position: relative;
+            margin: 5px 0 0 0;
+        }
+        .content-block:last-child {
+            width: 0px;
+            padding: 0px 2em;
+            margin: 0px;
+            height: 0px;
+        }
+    }
+    .content-block-standard-slide {
+        height: 38em;
+    }
+}
+
 .main-footer {
   background-color: $dark-blue;
   color: $white;

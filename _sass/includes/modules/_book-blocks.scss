@@ -124,7 +124,7 @@
                                             }
                                     }
                     @include w1280 {
-                        width: calc(25% - (1.5em*(3/4)));
+                        width: calc(24% - (1.5em*(3/4)));
                                             &:nth-child(1n+4){
                                                 display:block;
                                             }
