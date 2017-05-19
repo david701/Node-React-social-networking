@@ -4,6 +4,8 @@ import $ from 'jquery';
 import {validate, formValid} from '../plugins/validation.js';
 import Library from './books/Library';
 
+import Claims from './claims/ClaimDetailsModal';
+
 const Profile = function () {
 	this.id = '';
 	this.avatar = '';
@@ -36,7 +38,9 @@ class Parent extends React.Component {
 		this.state = {
 			user: this.user,
 			books: [],
-			pendingBooks: []
+			pendingBooks: [],
+			bookClaims: [],
+			claim: false
 		};
 	}
 
@@ -64,6 +68,7 @@ class Parent extends React.Component {
 				this.user.id = response.data._id;
 				if(response.data.role > 1){
 					this.pendingBooks(this.user.id);
+					this.getBookClaims();
 				}else{
 					this.loadBooks(this.user.id)
 				}
@@ -122,6 +127,59 @@ class Parent extends React.Component {
 	        // To Do: Edit Message
 	      }
 	    });
+	}
+
+	getBookClaims = ()=>{
+		$.get(`${apiUrl}/claims`).then((res)=>{
+			this.setState({bookClaims: res.data});
+		});
+	}
+
+	viewClaim = (i)=>{
+		this.setState({claim:true, selectedClaim:this.state.bookClaims[i]});
+	}
+
+	cancelClaim = (e)=>{
+		e.preventDefault();
+		this.setState({claim: false});
+	}
+
+	acceptClaim = ()=>{
+		e.preventDefault();
+		$.post(`${apiUrl}/claims/${e.target.id}`).then(()=>{
+			this.getBookClaims();
+			this.state({claim:false});
+		})
+	}
+
+	resolveClaim = (e)=>{
+		e.preventDefault();
+		$.ajax({
+			url:`${apiUrl}/claims/${this.state.selectedClaim._id}`,
+			method: 'PUT'
+		}).then((resp)=>{
+			this.getBookClaims();
+			this.state({claim:false});
+		})
+	}
+
+	deleteBook = (e)=>{
+		e.preventDefault();
+		var check = confirm('Are you sure?');
+		if(check){
+			$.ajax({
+				url:`${apiUrl}/books/${this.state.selectedClaim.book._id}`,
+				method: 'DELETE'
+			}).then((resp)=>{
+				$.ajax({
+					url:`${apiUrl}/claims/${this.state.selectedClaim._id}`,
+					method: 'PUT'
+				}).then((resp)=>{
+					this.getBookClaims();
+					this.state({claim:false});
+				})
+			})
+		}
 	}
 
 	loadBooks = id => {
@@ -270,6 +328,7 @@ class Parent extends React.Component {
 					}
 					{this.state.user.role > 0 &&
 						<div className="content-block content-block-standard account-block">
+							{this.state.claim?(<Claims claim={this.state.claim} user={this.state.selectedClaim.reporter} book={this.state.selectedClaim.book} content={this.state.selectedClaim.content} cancelClaim={this.cancelClaim} deleteBook={this.deleteBook} resolveClaim={this.resolveClaim} view='true'/>):''}
 							<header>
 								<h3>Admin Account</h3>
 							</header>
@@ -334,11 +393,40 @@ class Parent extends React.Component {
 							<hr />
 							<div className="title-row">
 								<h4>Book Claims</h4>
-								{/* <a className="control" href=".">See All</a> */}
 							</div>
 							<div className="book-blocks book-blocks-small">
-								You don't have any book claims
-									</div>
+								<ul>
+									{
+										this.state.bookClaims.map((claim, i)=>{
+											return (
+												<li key={i}>
+													<div className="content-block content-block-book">
+														<figure>
+															<div className="cover" style={{backgroundImage: 'url('+claim.book.cover+')'}}>
+																<div className="overlay">
+																	<div className="button button-red" onClick={()=>this.viewClaim(i)}>View Claim</div>
+																	<a className="button button-white" id={claim.book._id}>Accept</a>
+																</div>
+															</div>
+															<figcaption>
+																<h4>{claim.book.title}</h4>
+																<p>{claim.book.author.name}</p>
+																<ul className="rating-display">
+																	<li className=""></li>
+																	<li className=""></li>
+																	<li className=""></li>
+																	<li className=""></li>
+																	<li className=""></li>
+																</ul>
+															</figcaption>
+														</figure>
+													</div>
+												</li>
+											)
+										})
+									}
+								</ul>
+							</div>
 							<hr />
 							<div className="title-row">
 								<h4>Show or Hide Ads</h4>
