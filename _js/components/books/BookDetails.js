@@ -19,7 +19,7 @@ export default class BookDetails extends React.Component {
 	state = {following: this.props.following};
 
 	componentWillReceiveProps(nextProps){
-		this.setState({following: nextProps.following})
+		this.setState({following: nextProps.following});
 	}
 
 	follow = ()=>{
@@ -69,6 +69,7 @@ export default class BookDetails extends React.Component {
 		      <p><strong>Tags</strong>: {this.props.tags.length ? this.props.tags.join(", ") : 'N/A'}</p>
 		    </div>
 		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
+		    <a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>
 		    <div style={{ position: 'absolute', bottom: '1rem'}}><p>Details | Cover | Table of Contents</p></div>
 		  </div>
 		);

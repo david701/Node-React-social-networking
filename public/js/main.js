@@ -53044,6 +53044,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var types = ["Serial", "Published"];
+var book_id = location.href.split("/").pop();
 
 var DashboardCreate = function (_Component) {
   _inherits(DashboardCreate, _Component);
@@ -53077,13 +53078,31 @@ var DashboardCreate = function (_Component) {
         twitter: 'https://'
       }
     }, _this.componentDidMount = function () {
+      console.log('go');
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
         _this.setState({ user: resp.data });
       });
-    }, _this._handleChange = function (e) {
-      _this.setState(_defineProperty({}, e.target.id, e.target.value), function () {
-        return console.log(_this.state);
+
+      if (book_id !== 0) {
+        _this.getBookInfo();
+      }
+    }, _this.getBookInfo = function () {
+      self = _this;
+      _jquery2.default.get('/api/v1/books/' + bookId).then(function (book) {
+        self.setState({
+          user: book.data.author,
+          coverFile: book.data.cover,
+          title: book.data.title,
+          description: book.data.description,
+          type: '',
+          genres: [],
+          themes: [],
+          warnings: []
+        });
+        //this.setState({book: book.data});
       });
+    }, _this._handleChange = function (e) {
+      _this.setState(_defineProperty({}, e.target.id, e.target.value));
     }, _this._handleCover = function (e) {
       var reader = new FileReader();
       var file = e.target.files[0];
@@ -53152,14 +53171,23 @@ var DashboardCreate = function (_Component) {
         cover: _this.state.coverFile
       };
       e.preventDefault();
-      _jquery2.default.post('/api/v1/books', data).then(function (res) {
-        if (res.status === "error") {
-          console.log(res.message);
-        } else {
-          //console.log(res);
-          window.location.href = "/dashboard";
-        }
-      });
+      if (book_id === 0) {
+        _jquery2.default.post('/api/v1/books', data).then(function (res) {
+          if (res.status === "error") {
+            console.log(res.message);
+          } else {
+            //console.log(res);
+            window.location.href = "/dashboard";
+          }
+        });
+      } else {
+        _jquery2.default.ajax({ url: '/api/v1/books/' + book_id,
+          method: 'PUT',
+          data: data
+        }).then(function (response) {
+          window.location.href = "/books/" + book_id;
+        });
+      }
     }, _this._onUrlChange = function (e) {
       _this.setState({
         socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value))
@@ -53228,7 +53256,7 @@ var DashboardCreate = function (_Component) {
               _react2.default.createElement(
                 'a',
                 { id: 'bookSubmit', href: '#', className: 'button button-red' },
-                'Create'
+                bookId !== 0 ? 'Update' : 'Create'
               )
             )
           )
@@ -55939,6 +55967,11 @@ var BookDetails = function (_React$Component) {
 					this.props.toggleStatus
 				),
 				_react2.default.createElement(
+					'a',
+					{ href: '/dashboard/edit/books/' + this.props.bookId, className: 'button toggleScreen' },
+					'Edit Book'
+				),
+				_react2.default.createElement(
 					'div',
 					{ style: { position: 'absolute', bottom: '1rem' } },
 					_react2.default.createElement(
@@ -57445,12 +57478,16 @@ var DetailsContainer = function (_React$Component) {
           tags = _state.tags,
           warnings = _state.warnings;
 
+      var bookTitle = this.props.book ? this.props.book.title : '';
+      var bookWarnings = this.props.book ? this.props.book.warnings : '';
+      var bookTags = this.props.book ? this.props.book.tags : '';
+
       return _react2.default.createElement(_BookDetails2.default, {
         type: this.state.type // Endpoint for type?
         , bookId: this.props.bookId,
         book: this.props.book,
         length: this.props.length,
-        title: this.state.title,
+        title: bookTitle,
         author: this.state.author,
         rating: this.props.rating,
         following: this.props.following,
@@ -57458,8 +57495,8 @@ var DetailsContainer = function (_React$Component) {
         toggleScreen: this.props.toggleScreen,
         toggleStatus: this.props.toggleStatus,
         genre: genre,
-        tags: tags,
-        warnings: warnings
+        tags: bookTags,
+        warnings: bookWarnings
       });
     }
   }]);
@@ -57749,16 +57786,11 @@ var EditorContainer = function (_React$Component) {
           bookId = _this$props2.bookId,
           chapterId = _this$props2.chapterId,
           chapterNumber = _this$props2.chapterNumber;
-      //lets strip any html
 
-      var html = _this.state.content;
-      var text = (0, _jQuery2.default)(html).text();
       var data = {
-        body: {
-          name: _this.state.name,
-          number: _this.state.number,
-          content: text
-        }
+        name: _this.state.name,
+        number: _this.state.number,
+        content: _this.state.content
       };
 
       _jQuery2.default.ajax({

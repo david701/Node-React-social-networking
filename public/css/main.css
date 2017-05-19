@@ -898,8 +898,9 @@ button, .button {
   transition: background-color 0.1875s ease-out, box-shadow 0.1875s ease-out;
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18); }
   button.toggleScreen, .button.toggleScreen {
-    width: 200px;
-    margin: 20px 0 0 0; }
+    width: 120px;
+    margin: 20px 10px 0 0;
+    float: left; }
   button:hover, .button:hover {
     background-color: #0D9DE5;
     box-shadow: 0 0.1875em 0.3125em 0 rgba(0, 0, 0, 0.375); }
