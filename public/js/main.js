@@ -50053,11 +50053,6 @@ var SignUp = function (_React$Component) {
             _react2.default.createElement('li', { className: 'spacing-block' })
           ),
           _react2.default.createElement(
-            'p',
-            null,
-            'What type of Fiction Themes?'
-          ),
-          _react2.default.createElement(
             'ul',
             { className: 'toggle-list' },
             _react2.default.createElement(

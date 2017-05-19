@@ -354,7 +354,6 @@ class SignUp extends React.Component{
 					<li className="spacing-block"></li>
 					<li className="spacing-block"></li>
 				</ul>
-				<p>What type of Fiction Themes?</p>
 				<ul className="toggle-list">
         <div className="title password">
           <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>

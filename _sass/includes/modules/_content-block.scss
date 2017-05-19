@@ -46,11 +46,9 @@
         font-size: em(14);
         display: block;
       }
-      label {
-        margin-bottom: em(4);
-      }
       textarea {
         margin: 1em 0 2em;
+        background: #17181A;
       }
     }
     &-standard-new { /* for spacing between blocks - TEMPORARY FIX */
@@ -206,6 +204,23 @@
       flex-wrap: wrap;
       justify-content: space-between;
       margin: 0.75em 0;
+      .title.password {
+        width: 100%;
+        display: block;
+        margin: 0 0 10px 0;
+        label {
+          text-align: left;
+          margin: 0;
+          padding: 0;
+          span {
+            float: left;
+            width: auto;
+          }
+        }
+        span {
+          width: 100%;
+        }
+      }
       ::selection {
         background-color: transparent;
       }
@@ -422,7 +437,7 @@
 
   .slick-next:before,
   .slick-prev:before, {
-    color: black !important;
+    color: rgb(242, 245, 247) !important;
   }
 
 }
