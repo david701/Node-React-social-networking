@@ -14,12 +14,11 @@ const handle = require('../helpers/handle.js');
 
 
 exports.getComments = (req,res)=>{
-	mongoReview.find({book_id: req.params.id}).then((reviews)=>{
-		handle.res(res, reviews)
+	mongoComment.find({chapter_id: req.params.id}).where('status').equals(1).populate('author', 'name avatar').then((comments)=>{
+		handle.res(res, comments)
 	}).catch((err)=>{
 		handle.err(res, err)
 	})
-	// handle.res(res)
 }
 
 exports.getCommentById = (req,res)=>{
@@ -27,7 +26,21 @@ exports.getCommentById = (req,res)=>{
 }
 
 exports.addComment = (req,res)=>{
-	handle.res(res)
+	var user = req.session;
+	var comment = {
+			chapter_id: req.params.id,
+			book_id: req.body.book_id,
+			content: req.body.content,
+			author: user._id,
+			status: 1
+		}
+
+	var newComment = new mongoComment(comment);
+	newComment.save().then((comment)=>{
+		handle.res(res, comment);
+	}).catch((err)=>{
+		handle.err(res, err.message);
+	})
 }
 
 exports.editComment = (req,res)=>{

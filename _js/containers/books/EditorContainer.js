@@ -1,5 +1,7 @@
 import React from 'react';
 
+import $ from 'jQuery';
+
 import Editor from '../../components/books/Editor';
 import Reader from '../../components/books/Reader';
 
@@ -10,6 +12,7 @@ export default class EditorContainer extends React.Component {
 		name: '',
 		number: '',
 		content: '',
+		chapter_id: '',
 		editChapter: false
 	};
 
@@ -25,13 +28,13 @@ export default class EditorContainer extends React.Component {
   }
 
   loadChapterInfo = () => {
-    const { bookId, chapterNumber } = this.props;
-		if(chapterNumber){
-			fetch(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
-			.then(res => res.json())
+    const { bookId, chapterId } = this.props;
+		if(chapterId){
+			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterId}`)
 			.then(res => {
 				const nextState = {
 					...this.state,
+					chapter_id: res.data._id,
 					name: res.data.name,
 					number: res.data.number,
 					content: res.data.content,
@@ -82,7 +85,7 @@ export default class EditorContainer extends React.Component {
 	        name={this.state.name}
 	      />
 		}else{
-			cardContent = <Reader content={this.state.content} />
+			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.state.chapter_id}/>
 		}
     return (
     <div className="content-block content-block-standard-slide">
