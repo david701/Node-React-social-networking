@@ -30,10 +30,11 @@ class Author extends React.Component{
     	super(props);
     	this.user = new Profile();
     	this.state = {
-    		id: id,
-    		me: this.user,
-    		user: this.user,
-    		following: false
+    		id: id, //the user id
+    		me: this.user, //my id
+    		user: this.user, //whose looking at the profile
+    		following: false,
+    		authorsBooks: []
     	};
     	this.handleFollow = this.handleFollow.bind(this);
     	this.isFollowing = this.isFollowing.bind(this);
@@ -75,10 +76,21 @@ class Author extends React.Component{
 			if(!status.error){
 				self.setState({me: response.data})
 				self.loadUserInfo(response.data._id,this.state.id);
+				self.loadAuthorsBooks(this.state.id)
 			}else {
 				window.location.href = "/";
 			}
 		});
+	}
+
+	loadAuthorsBooks(userId){
+		let self = this;
+		$.get(`/api/v1/users/${userId}/books`)
+		.then(function(res){
+		 	self.setState({
+				authorsBooks: res.data
+			})
+		})
 	}
 
 	isFollowing(userId,followers){
@@ -255,11 +267,47 @@ class Author extends React.Component{
 					</ul>
 					*/}
 				</div>
-
-
-
-
-
+                {this.state.authorsBooks.length > 0 &&
+                  <div>
+                  	  <hr/>
+	    			  <div className="title-row">
+						<h4><span id="author-name">{this.state.user.name + "'s"}</span> Books</h4>
+						<a className="control" href=".">See All</a>
+					  </div>
+	                  <div className="book-blocks book-blocks-small">
+		                  <ul>
+		                  {
+		                    this.state.authorsBooks.map(function(book, i){
+		                      return (
+		                        <li key={i}>
+		                          <div className="content-block content-block-book">
+		                            <figure>
+		                              <div className="cover pending">
+		                                <div className="overlay">
+		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
+		                                </div>
+		                              </div>
+		                              <figcaption>
+		                                <h4>{book.title}</h4>
+		                                <p>Author Name Here</p>
+		                                <ul className="rating-display">
+		                                  <li className="filled"></li>
+		                                  <li className="filled"></li>
+		                                  <li className="filled"></li>
+		                                  <li className="filled"></li>
+		                                  <li className="filled"></li>
+		                                </ul>
+		                              </figcaption>
+		                            </figure>
+		                          </div>
+		                        </li>
+		                      )
+		                    })
+		                  }
+		                  </ul>
+	                  </div>
+                  </div>
+                }
 			</div>
 		)
 	}

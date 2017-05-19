@@ -1001,45 +1001,54 @@ a:hover .avatar {
 #hide {
   display: none; }
 
-#full-screen .book-top-half .content-block:first-child {
-  height: 5em;
-  padding: 0 2em;
-  width: 100%;
-  margin: 0 5px 10px 5px;
-  max-width: none; }
+.content-block-standard-slide h1 {
+  color: #005876; }
 
-#full-screen .book-top-half .title-row {
-  display: none; }
-
-#full-screen .book-top-half .control, #full-screen .book-top-half img {
-  display: none; }
-
-#full-screen .book-top-half .profile-info .book-title {
-  width: 50%;
-  float: left;
-  font-size: 28px; }
-
-#full-screen .book-top-half .profile-info p, #full-screen .book-top-half .profile-info ul, #full-screen .book-top-half .profile-info img {
-  height: 0em;
-  opacity: 0; }
-
-#full-screen .book-top-half .toggleScreen {
-  float: right;
-  position: relative;
-  margin: 5px 0 0 0; }
-
-#full-screen .book-top-half .content-block:last-child {
-  width: 0px;
-  padding: 0px 2em;
-  margin: 0px;
-  height: 0px; }
-
-#full-screen .content-block-standard-slide {
-  height: 38em; }
+.content-block-standard-slide.chapter-begin {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .content-block-standard-slide.chapter-begin h4 {
+    display: block;
+    margin: 0; }
+  .content-block-standard-slide.chapter-begin span {
+    font-size: 22px;
+    display: block; }
 
 #night-mode {
   /* card fronts and backs */
   /* click effect */ }
+  #night-mode #full-screen .book-top-half .content-block:first-child {
+    height: 5em;
+    padding: 0 2em;
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    margin: 0 5px 10px 5px;
+    max-width: none; }
+  #night-mode #full-screen .book-top-half .title-row {
+    float: left; }
+  #night-mode #full-screen .book-top-half .control, #night-mode #full-screen .book-top-half img {
+    display: none; }
+  #night-mode #full-screen .book-top-half .profile-info .book-title {
+    width: 50%;
+    float: left;
+    font-size: 28px; }
+  #night-mode #full-screen .book-top-half .profile-info p, #night-mode #full-screen .book-top-half .profile-info ul, #night-mode #full-screen .book-top-half .profile-info img {
+    height: 0em;
+    opacity: 0; }
+  #night-mode #full-screen .book-top-half .toggleScreen {
+    float: right;
+    position: relative;
+    margin: 5px 0 0 0; }
+  #night-mode #full-screen .book-top-half .content-block:last-child {
+    width: 0px;
+    padding: 0px 2em;
+    margin: 0px;
+    height: 0px; }
+  #night-mode #full-screen .content-block-standard-slide {
+    height: 38em; }
   #night-mode .main-footer {
     background: #222324; }
   #night-mode .view {
@@ -1490,17 +1499,11 @@ label span {
       align-items: center;
       transition: opacity 0.1875s ease-out;
       display: none; }
-      .view-sidebar .fixed-area .brand:hover {
-        background-color: #F2F5F7; }
-        .view-sidebar .fixed-area .brand:hover figure .logo {
-          background-color: #D9DCDD; }
       .view-sidebar .fixed-area .brand figure .logo {
-        background-color: #F2F5F7;
-        height: 7.5em;
+        height: 9.6875em;
         width: 7.5em;
-        border-radius: 100%;
         margin-bottom: 0.4375em;
-        background-image: url("/assets/images/logo.png");
+        background-image: url("/assets/images/logo-temp.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat; }
@@ -1673,6 +1676,44 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
     .standard-section-with-sidebar > .container > .flex-row > div:last-child {
       width: calc( 26.66667vw  - 1.5em); } }
 
+#full-screen .book-top-half .content-block:first-child {
+  height: 5em;
+  padding: 0 2em;
+  width: 100%;
+  background: none;
+  box-shadow: none;
+  margin: 0 5px 10px 5px;
+  max-width: none; }
+
+#full-screen .book-top-half .title-row {
+  float: left; }
+
+#full-screen .book-top-half .control, #full-screen .book-top-half img {
+  display: none; }
+
+#full-screen .book-top-half .profile-info .book-title {
+  width: 50%;
+  float: left;
+  font-size: 28px; }
+
+#full-screen .book-top-half .profile-info p, #full-screen .book-top-half .profile-info ul, #full-screen .book-top-half .profile-info img {
+  height: 0em;
+  opacity: 0; }
+
+#full-screen .book-top-half .toggleScreen {
+  float: right;
+  position: relative;
+  margin: 5px 0 0 0; }
+
+#full-screen .book-top-half .content-block:last-child {
+  width: 0px;
+  padding: 0px 2em;
+  margin: 0px;
+  height: 0px; }
+
+#full-screen .content-block-standard-slide {
+  height: 38em; }
+
 .main-footer {
   background-color: #005876;
   color: #FFFFFF;
@@ -1782,6 +1823,9 @@ form .instructions {
 #night-mode a, #night-mode .notice-404 .flex-row .copy p {
   color: #FFFFFF; }
 
+#night-mode .button-white {
+  color: red; }
+
 #night-mode .admin-link {
   color: red; }
 
@@ -1844,10 +1888,10 @@ form .instructions {
     #night-mode .content-block-standard p, #night-mode .content-block-standard label {
       font-size: 0.875em;
       display: block; }
-    #night-mode .content-block-standard label {
-      margin-bottom: 0.25em; }
     #night-mode .content-block-standard textarea {
-      margin: 1em 0 2em; }
+      margin: 1em 0 2em;
+      background: #17181A;
+      color: #fff; }
   #night-mode .content-block-standard-new {
     /* for spacing between blocks - TEMPORARY FIX */
     margin: 0 auto;
@@ -1860,6 +1904,8 @@ form .instructions {
       #night-mode .content-block-standard-new {
         width: calc(50% - 0.75em);
         padding: 2em; } }
+    #night-mode .content-block-standard-new .day {
+      display: none; }
     #night-mode .content-block-standard-new header, #night-mode .content-block-standard-new h3, #night-mode .content-block-standard-new h4 {
       color: #005876; }
     #night-mode .content-block-standard-new h5 {
@@ -1954,6 +2000,19 @@ form .instructions {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0.75em 0; }
+    #night-mode .content-block .toggle-list .title.password {
+      width: 100%;
+      display: block;
+      margin: 0 0 10px 0; }
+      #night-mode .content-block .toggle-list .title.password label {
+        text-align: left;
+        margin: 0;
+        padding: 0; }
+        #night-mode .content-block .toggle-list .title.password label span {
+          float: left;
+          width: auto; }
+      #night-mode .content-block .toggle-list .title.password span {
+        width: 100%; }
     #night-mode .content-block .toggle-list ::selection {
       background-color: transparent; }
     #night-mode .content-block .toggle-list li {
@@ -2123,7 +2182,7 @@ form .instructions {
 
 #night-mode .slick-next:before,
 #night-mode .slick-prev:before {
-  color: black !important; }
+  color: #f2f5f7 !important; }
 
 .content-block {
   position: relative;
@@ -2185,6 +2244,8 @@ form .instructions {
       .content-block-standard-new {
         width: calc(50% - 0.75em);
         padding: 2em; } }
+    .content-block-standard-new .night {
+      display: none; }
     .content-block-standard-new header, .content-block-standard-new h3, .content-block-standard-new h4 {
       color: #005876; }
     .content-block-standard-new h5 {
@@ -2312,6 +2373,23 @@ form .instructions {
     .content-block .toggle-list ::selection,
     .content-block .category-list ::selection {
       background-color: transparent; }
+    .content-block .toggle-list .title.password,
+    .content-block .category-list .title.password {
+      width: 100%;
+      display: block;
+      margin: 0 0 10px 0; }
+      .content-block .toggle-list .title.password label,
+      .content-block .category-list .title.password label {
+        text-align: left;
+        margin: 0;
+        padding: 0; }
+        .content-block .toggle-list .title.password label span,
+        .content-block .category-list .title.password label span {
+          float: left;
+          width: auto; }
+      .content-block .toggle-list .title.password span,
+      .content-block .category-list .title.password span {
+        width: 100%; }
     .content-block .toggle-list li,
     .content-block .category-list li {
       color: #0FAFFF;
@@ -2541,7 +2619,8 @@ form .instructions {
   font-size: 0.75em;
   color: #0D9DE5;
   margin-left: 1em;
-  cursor: pointer; }
+  cursor: pointer;
+  float: right; }
 
 #night-mode .brawl-feature {
   position: relative; }
@@ -3137,12 +3216,12 @@ form .instructions {
         display: none; }
       @media screen and (min-width: 62.5em) {
         #night-mode .book-blocks-small > ul > li {
-          width: calc(33.33% - (1.5em*(1/3))); }
+          width: calc(30% - (1.5em*(1/3))); }
           #night-mode .book-blocks-small > ul > li:nth-child(1n+4) {
             display: none; } }
       @media screen and (min-width: 80em) {
         #night-mode .book-blocks-small > ul > li {
-          width: calc(25% - (1.5em*(3/4))); }
+          width: calc(24% - (1.5em*(3/4))); }
           #night-mode .book-blocks-small > ul > li:nth-child(1n+4) {
             display: block; }
           #night-mode .book-blocks-small > ul > li:nth-child(1n+5) {
@@ -3475,6 +3554,38 @@ form .instructions {
         width: 80%;
         background-color: #005876; }
 
+#night-mode .notice-404 .flex-row {
+  margin-bottom: 1em; }
+  @media screen and (min-width: 40em) {
+    #night-mode .notice-404 .flex-row {
+      margin-top: 0.75em;
+      display: flex; } }
+  #night-mode .notice-404 .flex-row figure {
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-bottom: 1.5em; }
+    @media screen and (min-width: 40em) {
+      #night-mode .notice-404 .flex-row figure {
+        margin-bottom: initial;
+        margin-right: 5em; } }
+    #night-mode .notice-404 .flex-row figure .img {
+      max-width: 14.375em;
+      margin-top: -5em; }
+    #night-mode .notice-404 .flex-row figure .day {
+      display: none; }
+  #night-mode .notice-404 .flex-row .copy h1 {
+    font-size: 3em;
+    line-height: 1;
+    color: #005876;
+    margin-bottom: 1.25rem; }
+  #night-mode .notice-404 .flex-row .copy p, #night-mode .notice-404 .flex-row .copy ul {
+    color: #222324;
+    font-size: 1.125em; }
+  #night-mode .notice-404 .flex-row .copy p {
+    margin-bottom: 0.5rem; }
+  #night-mode .notice-404 .flex-row .copy ul li {
+    list-style: circle inside; }
+
 .notice-404 .flex-row {
   margin-bottom: 1em; }
   @media screen and (min-width: 40em) {
@@ -3492,6 +3603,8 @@ form .instructions {
     .notice-404 .flex-row figure img {
       max-width: 14.375em;
       margin-top: -5em; }
+    .notice-404 .flex-row figure .night {
+      display: none; }
   .notice-404 .flex-row .copy h1 {
     font-size: 3em;
     line-height: 1;

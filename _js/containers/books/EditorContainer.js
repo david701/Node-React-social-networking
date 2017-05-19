@@ -13,7 +13,8 @@ export default class EditorContainer extends React.Component {
 		number: '',
 		content: '',
 		chapter_id: '',
-		editChapter: false
+		editChapter: false,
+    authorized: true
 	};
 
   componentDidMount() {
@@ -50,24 +51,29 @@ export default class EditorContainer extends React.Component {
   }
 
   handleSubmit = e => {
-    const { bookId, chapterId } = this.props;
-    fetch(`${apiUrl}/books/${bookId}/chapters/${chapterId}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    const self = this;
+    const { bookId, chapterId, chapterNumber } = this.props;
+    //lets strip any html
+    let html = this.state.content;
+    let text = $(html).text();
+    let data = {
+      body: {
         name: this.state.name,
         number: this.state.number,
-        content: this.state.content,
-      })
-    })
-    .then(res => res.json())
-    .then(res => {
-			this.setState({editChapter: false});
-		})
-    .catch(err => console.log(err));
+        content: text
+      }
+    }
+
+    $.ajax({
+        url: `${apiUrl}/books/${bookId}/chapters/${chapterNumber}`,
+        type: 'PUT',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+        success: function(response){
+          self.setState({editChapter: false});
+        }
+    });
   }
 
 	editChapter = e => {
@@ -89,7 +95,7 @@ export default class EditorContainer extends React.Component {
 		}
     return (
     <div className="content-block content-block-standard-slide">
-			<h1>{this.state.name} {this.props.authorized? <span className="edit_chapter_btn" onClick={this.editChapter}>(Edit Chapter)</span>:''}</h1>
+			<h4>Chapter {this.state.number} Editor {this.state.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit {this.state.name}</span>:''}</h4>
     	{cardContent}
     </div>
     );
