@@ -49049,10 +49049,11 @@ var Author = function (_React$Component) {
 
 		_this.user = new Profile();
 		_this.state = {
-			id: id,
-			me: _this.user,
-			user: _this.user,
-			following: false
+			id: id, //the user id
+			me: _this.user, //my id
+			user: _this.user, //whose looking at the profile
+			following: false,
+			authorsBooks: []
 		};
 		_this.handleFollow = _this.handleFollow.bind(_this);
 		_this.isFollowing = _this.isFollowing.bind(_this);
@@ -49087,9 +49088,20 @@ var Author = function (_React$Component) {
 				if (!status.error) {
 					self.setState({ me: response.data });
 					self.loadUserInfo(response.data._id, _this3.state.id);
+					self.loadAuthorsBooks(_this3.state.id);
 				} else {
 					window.location.href = "/";
 				}
+			});
+		}
+	}, {
+		key: 'loadAuthorsBooks',
+		value: function loadAuthorsBooks(userId) {
+			var self = this;
+			_jquery2.default.get('/api/v1/users/' + userId + '/books').then(function (res) {
+				self.setState({
+					authorsBooks: res.data
+				});
 			});
 		}
 	}, {
@@ -49365,6 +49377,88 @@ var Author = function (_React$Component) {
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
+				),
+				this.state.authorsBooks.length > 0 && _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement('hr', null),
+					_react2.default.createElement(
+						'div',
+						{ className: 'title-row' },
+						_react2.default.createElement(
+							'h4',
+							null,
+							_react2.default.createElement(
+								'span',
+								{ id: 'author-name' },
+								this.state.user.name + "'s"
+							),
+							' Books'
+						),
+						_react2.default.createElement(
+							'a',
+							{ className: 'control', href: '.' },
+							'See All'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'book-blocks book-blocks-small' },
+						_react2.default.createElement(
+							'ul',
+							null,
+							this.state.authorsBooks.map(function (book, i) {
+								return _react2.default.createElement(
+									'li',
+									{ key: i },
+									_react2.default.createElement(
+										'div',
+										{ className: 'content-block content-block-book' },
+										_react2.default.createElement(
+											'figure',
+											null,
+											_react2.default.createElement(
+												'div',
+												{ className: 'cover pending' },
+												_react2.default.createElement(
+													'div',
+													{ className: 'overlay' },
+													_react2.default.createElement(
+														'a',
+														{ className: 'button button-red', href: '/books/' + book._id },
+														'Preview'
+													)
+												)
+											),
+											_react2.default.createElement(
+												'figcaption',
+												null,
+												_react2.default.createElement(
+													'h4',
+													null,
+													book.title
+												),
+												_react2.default.createElement(
+													'p',
+													null,
+													'Author Name Here'
+												),
+												_react2.default.createElement(
+													'ul',
+													{ className: 'rating-display' },
+													_react2.default.createElement('li', { className: 'filled' }),
+													_react2.default.createElement('li', { className: 'filled' }),
+													_react2.default.createElement('li', { className: 'filled' }),
+													_react2.default.createElement('li', { className: 'filled' }),
+													_react2.default.createElement('li', { className: 'filled' })
+												)
+											)
+										)
+									)
+								);
+							})
+						)
+					)
 				)
 			);
 		}

@@ -1809,6 +1809,9 @@ form .instructions {
 #night-mode a, #night-mode .notice-404 .flex-row .copy p {
   color: #FFFFFF; }
 
+#night-mode .button-white {
+  background: red; }
+
 #night-mode .admin-link {
   color: red; }
 
