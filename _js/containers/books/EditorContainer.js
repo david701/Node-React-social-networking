@@ -22,16 +22,16 @@ export default class EditorContainer extends React.Component {
   }
 
   componentDidUpdate(nextProps) {
-    if (this.props.chapterId !== nextProps.chapterId) {
+    if (this.props.chapterNumber !== nextProps.chapterNumber) {
       this.loadChapterInfo();
     }
     return false;
   }
 
   loadChapterInfo = () => {
-    const { bookId, chapterId } = this.props;
-		if(chapterId){
-			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterId}`)
+    const { bookId, chapterNumber } = this.props;
+		if(chapterNumber){
+			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
 			.then(res => {
 				const nextState = {
 					...this.state,
@@ -91,7 +91,7 @@ export default class EditorContainer extends React.Component {
 	        name={this.state.name}
 	      />
 		}else{
-			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.state.chapter_id}/>
+			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId}/>
 		}
     return (
     <div className="content-block content-block-standard-slide">

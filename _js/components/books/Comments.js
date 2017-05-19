@@ -64,9 +64,10 @@ export default class Comments extends React.Component{
 
 		return(
 			<div>
-				<div style={{position:'absolute', top:'0.5rem', right:'1rem', zIndex:'1', width: '24px', cursor:'pointer'}} onClick={this.toggleComments}>
-					<img src='/assets/images/comment.png'/>
-					<span style={{textAlign:'center', fontSize:'0.8125em', color:'#666', display:'block', marginTop:'-5px'}}>{this.state.comments.length?this.state.comments.length:''}</span></div>
+				<div style={{position:'absolute', top:'0.5rem', right:'1rem', zIndex:'1', cursor:'pointer'}} onClick={this.toggleComments}>
+					<span style={{fontSize:'0.8125em', color:'#666', float:'left', marginTop: '5px', lineHeight:'1em'}}>{this.state.comments.length?this.state.comments.length:''}</span>
+					<img style={{width:'24px', float:'right'}} src='/assets/images/comment.png'/>
+				</div>
 				<div style={this.state.commentClass}>
 					<div className="comments_head" style={{ paddingBottom:'0.5rem', borderBottom: '1px solid rgba(217, 220, 221, 0.5)'}}>
 						<h5 className="comments_count" style={{width:'50%', display:'inline-block'}}>{this.state.comments.length} Comments</h5>
