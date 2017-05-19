@@ -14,7 +14,7 @@ export default class EditorContainer extends React.Component {
 		content: '',
 		chapter_id: '',
 		editChapter: false,
-    authorized: true
+    authorized: false
 	};
 
   componentDidMount() {
@@ -86,11 +86,11 @@ export default class EditorContainer extends React.Component {
 	        name={this.state.name}
 	      />
 		}else{
-			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId}/>
+			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>
 		}
     return (
     <div className="content-block content-block-standard-slide">
-			<h4>Chapter {this.state.number} Editor {this.state.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit {this.state.name}</span>:''}</h4>
+			<h4>Chapter {this.state.number} Editor {this.props.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit {this.state.name}</span>:''}</h4>
     	{cardContent}
     </div>
     );

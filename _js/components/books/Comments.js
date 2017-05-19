@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jQuery';
 
 export default class Comments extends React.Component{
-	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem'}, comments:[]}
+	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem',transition: 'right 0.25s'}, comments:[]}
 
 	componentWillReceiveProps(nextProps){
 		this.getComments(nextProps.chapterId)
@@ -16,9 +16,9 @@ export default class Comments extends React.Component{
 
 	toggleComments = ()=>{
 		if(!this.state.open){
-			this.setState({open: true, commentClass: {position:'absolute', top:0, right:0, bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem'}})
+			this.setState({open: true, commentClass: {position:'absolute', top:0, right:0, bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
 		}else{
-			this.setState({open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem'}})
+			this.setState({open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
 		}
 	}
 
@@ -27,7 +27,6 @@ export default class Comments extends React.Component{
 			var chapter_id = chapterId || this.props.chapterId;
 			$.get(`/api/v1/chapter/${chapter_id}/comments`)
 			.then((resp)=>{
-				console.log(resp);
 				var comments = resp.data;
 				this.setState({comments: comments, comment:''});
 			})
@@ -40,7 +39,6 @@ export default class Comments extends React.Component{
 			book_id:this.props.bookId,
 			content: this.state.comment
 		};
-		console.log(postData);
 		$.post(`/api/v1/chapter/${this.props.chapterId}/comments`, postData)
 		.then((resp)=>{
 			this.getComments();
@@ -49,11 +47,27 @@ export default class Comments extends React.Component{
 		})
 	}
 
+	deleteComment = (commentId)=>{
+		$.ajax({
+				url: `/api/v1/comments/${commentId}`,
+				type: 'DELETE',
+		}).then((resp)=>{
+			this.getComments();
+		}).catch((err)=>{
+			console.log(err);
+		});
+	}
+
 	render(){
 
 		var comments = this.state.comments.map((comment, key)=>{
+			var canDelete;
+			if(this.props.admin || comment.author._id === this.props.user._id){
+				canDelete = true;
+			}
 			return(
-				<li key={key} style={{padding:'0.5rem 0', borderBottom:'1px solid rgba(217, 220, 221, 0.5)'}}>
+				<li key={key} style={{padding:'0.5rem 0', borderBottom:'1px solid rgba(217, 220, 221, 0.5)', position:'relative'}}>
+					{canDelete?<div className='comment_delete' style={{position:'absolute', bottom:0, right:0, textTransform: 'uppercase', fontSize:'0.5em', color:'red', cursor:'pointer'}} onClick={()=>this.deleteComment(comment._id)}>Delete Comment</div>:''}
 					<div className="comment_image" style={{width:'25%', padding:'0.25rem', marginRight:'2%', display:'inline-block'}}><img src={comment.author.avatar}/></div>
 					<div className="comment_text" style={{width:'68%', display:'inline-block', fontSize:'0.8125em', lineHeight:'1.25em'}}> {comment.content}
 						<div className="comment_details" style={{fontWeight:'bold'}}>{comment.author.name}</div>
