@@ -877,6 +877,11 @@ img {
   width: auto;
   max-width: 100%; }
 
+.buttons span {
+  cursor: pointer; }
+  .buttons span:hover {
+    text-decoration: underline; }
+
 button, .button {
   -webkit-appearance: none;
   appearance: none;
@@ -1688,6 +1693,8 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
 
 #full-screen .book-top-half .title-row {
   float: left; }
+  #full-screen .book-top-half .title-row h2 {
+    display: none; }
 
 #full-screen .book-top-half .control, #full-screen .book-top-half img {
   display: none; }
@@ -1704,7 +1711,8 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
 #full-screen .book-top-half .toggleScreen {
   float: right;
   position: relative;
-  margin: 5px 0 0 0; }
+  margin: 5px 10px 0 0;
+  width: 150px; }
 
 #full-screen .book-top-half .content-block:last-child {
   width: 0px;
