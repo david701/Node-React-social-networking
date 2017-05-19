@@ -13,7 +13,8 @@ const mongoUser = mongo.schema.user,
 const handle = require('../helpers/handle.js');
 
 exports.getReviews = (req,res)=>{
-	mongoReview.find({book_id: req.params.id}).then((reviews)=>{
+	var status = req.query.status || 1;
+	mongoReview.find({book_id: req.params.id}).where('status').equals(status).populate('author', 'name').then((reviews)=>{
 		handle.res(res, reviews)
 	}).catch((err)=>{
 		handle.err(res, err)
@@ -21,7 +22,7 @@ exports.getReviews = (req,res)=>{
 }
 
 exports.getReviewById = (req,res)=>{
-	mongoReview.findOne({_id: req.params.id}).then((review)=>{
+	mongoReview.findOne({_id: req.params.id}).populate('author', 'name').then((review)=>{
 		handle.res(res, review)
 	}).catch((err)=>{
 		handle.err(res, err)
@@ -29,13 +30,50 @@ exports.getReviewById = (req,res)=>{
 }
 
 exports.addReview = (req,res)=>{
-	handle.res(res)
+	var user = req.session;
+	var review = {
+			author: user._id,
+			book_id: req.params.id,
+			content: req.body.content,
+			rating: req.body.rating || 0,
+			status: 1
+		}
+
+	var newReview = new mongoReview(review);
+	newReview.save().then((review)=>{
+		handle.res(res, review);
+	}).catch((err)=>{
+		handle.err(res, err.message);
+	})
+
 }
 
 exports.editReview = (req,res)=>{
-	handle.res(res)
+	mongoReview.findOne({_id: req.params.id}).then((review)=>{
+		if(!review){
+			handle.err(res, 'No review with this ID')
+		}
+		review.update(req.body).then((update)=>{
+			hackndle.res(res)
+		}).catch(err=>{
+			handle.err(res, err.message)
+		})
+	}).catch(err=>{
+		handle.err(res, err.message)
+	})
 }
 
 exports.removeReview = (req,res)=>{
-	handle.res(res)
+	mongoReview.findOne({_id: req.params.id}).then((review)=>{
+		if(!review){
+			handle.err(res, 'No review with this ID')
+		}
+		review.update({status: 0}).then((update)=>{
+			handle.res(res)
+		}).catch(err=>{
+			handle.err(res, err.message)
+		})
+	}).catch(err=>{
+		handle.err(res, err.message)
+	})
 }

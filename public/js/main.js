@@ -52684,7 +52684,11 @@ var EditBookPage = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview', status: 'Read Book' }, _this.toggleScreen = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview', admin: false, status: 'Read Book' }, _this.getBook = function () {
+			_jQuery2.default.get('/api/v1/books/' + bookId).then(function (book) {
+				_this.setState({ book: book.data });
+			});
+		}, _this.toggleScreen = function () {
 			var preview = _this.state.screen === 'preview' ? 'full-screen' : 'preview';
 			var status = _this.state.screen === 'preview' ? 'Show Preview' : 'Read Book';
 			_this.setState({ screen: preview, status: status });
@@ -52699,14 +52703,18 @@ var EditBookPage = function (_React$Component) {
 			_jQuery2.default.get('/api/v1/user_session').then(function (resp) {
 				_jQuery2.default.get('/api/v1/books/' + bookId).then(function (book) {
 					var authorized = false,
-					    following = false;
+					    following = false,
+					    admin = false;
+					if (resp.data.role > 1) {
+						admin = true;
+					}
 					if (resp.data.role > 1 || book.data.author._id == resp.data._id) {
 						authorized = true;
 					}
 					if (book.data.followers.indexOf(resp.data._id) > -1) {
 						following = true;
 					}
-					_this2.setState({ user: resp.data, book: book.data, authorized: authorized, following: following });
+					_this2.setState({ user: resp.data, book: book.data, authorized: authorized, following: following, admin: admin });
 				});
 			});
 		}
@@ -52716,7 +52724,7 @@ var EditBookPage = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				{ id: this.state.screen },
-				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following })
+				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following, admin: this.state.admin, getBook: this.getBook })
 			);
 		}
 	}]);
@@ -55266,7 +55274,8 @@ var BookDetails = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var followBtn;
+			var followBtn,
+			    rating = 0;
 			if (!this.props.authorized) {
 				if (this.state.following) {
 					followBtn = _react2.default.createElement(
@@ -55281,6 +55290,10 @@ var BookDetails = function (_React$Component) {
 						'Follow'
 					);
 				}
+			}
+
+			if (this.props.book && this.props.book.rating) {
+				rating = this.props.book.rating;
 			}
 
 			return _react2.default.createElement(
@@ -55314,7 +55327,7 @@ var BookDetails = function (_React$Component) {
 						null,
 						this.props.author
 					),
-					_react2.default.createElement(_Rating2.default, { stars: this.props.rating }),
+					_react2.default.createElement(_Rating2.default, { stars: rating }),
 					_react2.default.createElement(
 						'p',
 						null,
@@ -55445,7 +55458,6 @@ var Description = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-
 			var followBtn;
 			if (!this.props.authorized) {
 				if (this.state.following) {
@@ -55475,7 +55487,7 @@ var Description = function (_React$Component) {
 						null,
 						this.props.description
 					),
-					_react2.default.createElement(_Reviews2.default, null)
+					_react2.default.createElement(_Reviews2.default, { bookId: this.props.bookId, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook })
 				)
 			);
 		}
@@ -55672,6 +55684,10 @@ var _jQuery = __webpack_require__(31);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
+var _reactStarRatingComponent = __webpack_require__(401);
+
+var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
+
 var _Rating = __webpack_require__(52);
 
 var _Rating2 = _interopRequireDefault(_Rating);
@@ -55683,6 +55699,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var apiUrl = '/api/v1';
 
 var Reviews = function (_React$Component) {
 	_inherits(Reviews, _React$Component);
@@ -55698,77 +55716,105 @@ var Reviews = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '' }, _this.addReview = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '', rating: 0, authorized: false }, _this.getReviews = function () {
+			var bookId = _this.props.bookId;
+			_jQuery2.default.get(apiUrl + '/books/' + bookId + '/reviews').then(function (reviews) {
+				_this.setState({ reviews: reviews.data });
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.addReview = function () {
 			_this.setState({ addReview: true });
 		}, _this.cancelReview = function () {
 			_this.setState({ addReview: false });
-		}, _this.submitReview = function () {
-			_this.setState({ content: '' });
+		}, _this.submitReview = function (e) {
+			e.preventDefault();
+			var bookId = _this.props.bookId;
+			var postData = { content: _this.state.content, rating: _this.state.rating };
+			_jQuery2.default.post(apiUrl + '/books/' + bookId + '/reviews', postData).then(function (resp) {
+				_this.getReviews();
+				_this.props.getBook();
+				_this.setState({ content: '', rating: 0, addReview: false });
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.deleteReview = function (e) {
+			e.preventDefault();
+			_jQuery2.default.ajax({
+				url: apiUrl + '/reviews/' + e.target.id,
+				method: 'DELETE'
+			}).then(function () {
+				_this.getReviews();
+				_this.props.getBook();
+			}).catch(function (err) {
+				console.log(err);
+			});
 		}, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
 			_this.setState(state);
+		}, _this.handleRating = function (rating) {
+			_this.setState({ rating: rating });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(Reviews, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			var reviews = [{
-				book_id: 'BookId',
-				content: 'This is the most amazing book I have ever read. I can wait to read more.',
-				rating: 5,
-				author: { name: 'Michael Way' },
-				status: 1
-			}, {
-				book_id: 'BookId',
-				content: 'This is the most amazing book I have ever read. I can wait to read more.',
-				rating: 5,
-				author: { name: 'Michael Way' },
-				status: 1
-			}, {
-				book_id: 'BookId',
-				content: 'This is the most amazing book I have ever read. I can wait to read more.',
-				rating: 5,
-				author: { name: 'Michael Way' },
-				status: 1
-			}];
-			this.setState({ reviews: reviews });
+			this.getReviews();
 		}
+
+		// componentWillReceiveProps(nextProps){
+		// 	if(nextProps.authorized){
+		// 		this.setState({authorized: nextProps.authorized})
+		// 	}
+		// }
+
 	}, {
 		key: 'render',
 		value: function render() {
-			var reviews = this.state.reviews.map(function (review, key) {
-				if (review.status > 0) {
-					return _react2.default.createElement(
-						'li',
-						{ key: key },
-						_react2.default.createElement(_Rating2.default, { stars: review.rating }),
-						_react2.default.createElement(
-							'p',
-							null,
-							'By ',
-							review.author.name
-						),
-						_react2.default.createElement(
-							'p',
-							null,
-							review.content
-						)
-					);
-				}
-			});
+			var _this2 = this;
+
+			var reviews;
+			if (this.state.reviews.length) {
+				reviews = this.state.reviews.map(function (review, key) {
+					if (review.status > 0) {
+						return _react2.default.createElement(
+							'li',
+							{ key: key, style: { marginBottom: '0.5rem' } },
+							_react2.default.createElement(_Rating2.default, { stars: review.rating }),
+							_react2.default.createElement(
+								'p',
+								null,
+								'By ',
+								review.author.name
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								review.content
+							),
+							_this2.props.admin ? _react2.default.createElement(
+								'a',
+								{ style: { fontSize: '0.75em', textTramsform: 'uppercase', color: 'red' }, id: review._id, onClick: _this2.deleteReview },
+								'Delete Comment'
+							) : ''
+						);
+					}
+				});
+			}
+
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
 					'h4',
-					null,
+					{ style: { marginBottom: '0.25em', marginTop: '0.5rem' } },
 					'Reviews'
 				),
 				_react2.default.createElement(
 					'ul',
-					null,
+					{ style: { paddingBottom: '2rem' } },
 					reviews
 				),
 				_react2.default.createElement(
@@ -55788,26 +55834,29 @@ var Reviews = function (_React$Component) {
 						{ style: { position: 'absolute', bottom: '0.5rem', left: '0.5rem', right: '0.5rem', top: '0.5rem', background: '#fff', padding: '1rem' } },
 						_react2.default.createElement(
 							'h4',
-							{ style: { textAlign: 'center', fontSize: '1.5em' } },
+							{ style: { textAlign: 'center', fontSize: '1.5em', marginBottom: '0' } },
 							'Create Review'
 						),
+						_react2.default.createElement(_reactStarRatingComponent2.default, {
+							name: 'rating',
+							emptyStarColor: '#D9DCDD',
+							value: this.state.rating,
+							onStarClick: this.handleRating
+						}),
+						_react2.default.createElement('hr', { style: { marginTop: 0 } }),
+						_react2.default.createElement('textarea', { rows: '4', name: 'content', onChange: this._onChange, value: this.state.content }),
 						_react2.default.createElement(
-							'form',
-							null,
-							_react2.default.createElement('textarea', { rows: '4', name: 'content', onChange: this._onChange, value: this.state.content }),
+							'div',
+							{ style: { float: 'right' } },
 							_react2.default.createElement(
-								'div',
-								{ style: { float: 'right' } },
-								_react2.default.createElement(
-									'button',
-									{ className: 'button-white', onClick: this.cancelReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginRight: '1rem', marginTop: '1rem', display: 'inline-block' } },
-									'Cancel'
-								),
-								_react2.default.createElement(
-									'button',
-									{ className: 'button-red', style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' } },
-									'Submit'
-								)
+								'button',
+								{ className: 'button-white', onClick: this.cancelReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginRight: '1rem', marginTop: '1rem', display: 'inline-block' } },
+								'Cancel'
+							),
+							_react2.default.createElement(
+								'button',
+								{ className: 'button-red', onClick: this.submitReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' } },
+								'Submit'
 							)
 						)
 					)
@@ -56587,7 +56636,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized });
+      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook });
     }
   }]);
 
@@ -56649,27 +56698,6 @@ var DetailsContainer = function (_React$Component) {
   }
 
   _createClass(DetailsContainer, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.book) {
-        var state = {
-          title: nextProps.book.title,
-          author: nextProps.book.author.name,
-          genre: nextProps.book.genre
-        };
-
-        if (nextProps.book.tags && nextProps.book.tags.length) {
-          state.tag = JSON.parse(nextProps.book.tags).join(', ');
-        }
-
-        if (nextProps.book.warnings && nextProps.book.warnings.length) {
-          state.warnings = JSON.parse(nextProps.book.warnings).join(', ');
-        }
-
-        this.setState(state);
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       // const { length, rating, selectedChapter } = this.props;
@@ -56684,6 +56712,7 @@ var DetailsContainer = function (_React$Component) {
       return _react2.default.createElement(_BookDetails2.default, {
         type: this.state.type // Endpoint for type?
         , bookId: this.props.bookId,
+        book: this.props.book,
         length: this.props.length,
         title: this.state.title,
         author: this.state.author,
@@ -56726,6 +56755,10 @@ var _react2 = _interopRequireDefault(_react);
 var _reactSlick = __webpack_require__(395);
 
 var _reactSlick2 = _interopRequireDefault(_reactSlick);
+
+var _jQuery = __webpack_require__(31);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
 
 var _DetailsContainer = __webpack_require__(289);
 
@@ -56792,13 +56825,17 @@ var EditBookContainer = function (_React$Component) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookContainer.__proto__ || Object.getPrototypeOf(EditBookContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       selectedChapter: null,
       chapters: [],
-      authorized: false
+      reviews: []
     }, _this.loadChapters = function () {
-      fetch(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
-        return res.json();
-      }).then(function (res) {
+      _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
         var nextState = { chapters: res.data };
         _this.setState(nextState);
+      });
+    }, _this.loadReviews = function () {
+      _jQuery2.default.get(apiUrl + '/books/' + bookId + '/reviews').then(function (res) {
+        _this.setState({ reviews: res.data });
+      }).catch(function (err) {
+        console.log(err);
       });
     }, _this.selectChapter = function (id) {
       var nextState = { selectedChapter: id.toString() };
@@ -56849,7 +56886,7 @@ var EditBookContainer = function (_React$Component) {
         slidesToShow: 2,
         slidesToScroll: 1
       };
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized }), _react2.default.createElement(_EditorContainer2.default, { bookId: this.props.bookId, chapterId: this.state.selectedChapter, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized }), _react2.default.createElement(_EditorContainer2.default, { bookId: this.props.bookId, chapterId: this.state.selectedChapter, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,

@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
+import $ from 'jQuery';
 
 import DetailsContainer from './DetailsContainer';
 import EditorContainer from './EditorContainer';
@@ -22,7 +23,7 @@ export default class EditBookContainer extends React.Component {
 	state = {
 		selectedChapter: null,
 		chapters: [],
-		authorized: false
+		reviews: []
 	};
 
   componentDidMount() {
@@ -30,12 +31,20 @@ export default class EditBookContainer extends React.Component {
   }
 
   loadChapters = () => {
-    fetch(`${apiUrl}/books/${bookId}/chapters`)
-      .then(res => res.json())
+    $.get(`${apiUrl}/books/${bookId}/chapters`)
       .then(res => {
         const nextState= {chapters: res.data };
         this.setState(nextState);
       });
+  }
+
+	loadReviews = () => {
+    $.get(`${apiUrl}/books/${bookId}/reviews`)
+      .then(res => {
+        this.setState({reviews: res.data});
+      }).catch((err)=>{
+				console.log(err);
+			})
   }
 
   selectChapter = id => {
@@ -68,7 +77,7 @@ export default class EditBookContainer extends React.Component {
       slidesToScroll: 1
     };
     const slides = [
-      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} />,
+      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
       <EditorContainer bookId={this.props.bookId} chapterId={this.state.selectedChapter} authorized={this.props.authorized} />
     ];

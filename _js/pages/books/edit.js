@@ -5,23 +5,36 @@ import $ from 'jQuery';
 import EditBookContainer from '../../containers/books/EditBookContainer';
 
 class EditBookPage extends React.Component {
-	state = {user: {}, authorized: false, following: false, screen: 'preview', status: 'Read Book'};
+
+	state = {user: {}, authorized: false, following: false, screen: 'preview',admin: false, status: 'Read Book'};
 	componentDidMount(){
 		$.get('/api/v1/user_session').then(
 			resp => {
 				$.get(`/api/v1/books/${bookId}`).then(
 					book =>{
 						var authorized = false,
-								following = false;
+								following = false,
+								admin = false;
+						if(resp.data.role > 1){
+							admin = true;
+						}
 						if(resp.data.role > 1 || book.data.author._id == resp.data._id){
 							authorized =  true;
 						}
 						if(book.data.followers.indexOf(resp.data._id) > -1){
 							following = true;
 						}
-						this.setState({user: resp.data, book: book.data, authorized: authorized, following: following});
+						this.setState({user: resp.data, book: book.data, authorized: authorized, following: following, admin: admin});
 					}
 				)
+			}
+		)
+	}
+
+	getBook = ()=>{
+		$.get(`/api/v1/books/${bookId}`).then(
+			book =>{
+				this.setState({book: book.data});
 			}
 		)
 	}
@@ -35,7 +48,7 @@ class EditBookPage extends React.Component {
 	render(){
 		return(
 			<div id={this.state.screen}>
-				<EditBookContainer bookId={bookId} toggleStatus={this.state.status} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following}/>
+				<EditBookContainer bookId={bookId} toggleStatus={this.state.status} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following} admin={this.state.admin} getBook={this.getBook}/>
 			</div>
 		)
 	}
