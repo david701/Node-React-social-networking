@@ -7,6 +7,7 @@ import EditorContainer from './EditorContainer';
 import TOCContainer from './TOCContainer';
 import DescriptionContainer from './DescriptionContainer';
 import ViewBookContainer from './ViewBookContainer';
+import Claims from '../../components/claims/ClaimDetailsModal';
 
 const apiUrl = '/api/v1';
 
@@ -23,7 +24,9 @@ export default class EditBookContainer extends React.Component {
 	state = {
 		selectedChapter: null,
 		chapters: [],
-		reviews: []
+		reviews: [],
+		claim:false,
+		claimContent:''
 	};
 
   componentDidMount() {
@@ -79,6 +82,34 @@ export default class EditBookContainer extends React.Component {
     })
   }
 
+	_onChange = (e)=>{
+		var state = {};
+		state[e.target.name]=e.target.value;
+		this.setState(state)
+	}
+
+	claim = ()=>{
+		this.setState({claim:true});
+	}
+
+	submitClaim = (e)=>{
+		e.preventDefault();
+		var postData = {
+			bookId: this.props.bookId,
+			content: this.state.claimContent
+		}
+		$.post(`${apiUrl}/books/${bookId}/claims`, postData).then((claim)=>{
+			this.setState({claim:false, claimContent:''});
+		}).catch((err)=>{
+			console.log(err);
+		})
+	}
+
+	cancelClaim = (e)=>{
+		e.preventDefault();
+		this.setState({claim:false, claimContent:''});
+	}
+
   render() {
     const { bookId } = this.props;
     const { chapters, selectedChapter } = this.state;
@@ -90,11 +121,12 @@ export default class EditBookContainer extends React.Component {
       slidesToScroll: 1
     };
     const slides = [
-      <DescriptionContainer bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
+      <DescriptionContainer claim={this.claim} bookId={this.props.bookId} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
     ];
     return (
       <div>
+				{this.state.claim?(<Claims book={this.props.book} user={this.props.user} claimContent={this.state.claimContent} submitClaim={this.submitClaim} cancelClaim={this.cancelClaim} _onChange={this._onChange}/>):''}
         <div className="book-top-half">
           <DetailsContainer bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           <Placeholder />

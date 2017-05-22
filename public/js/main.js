@@ -56024,6 +56024,11 @@ var Description = function (_React$Component) {
 					'div',
 					{ style: { overflow: 'scroll', height: '100%', width: '120%', paddingRight: '5rem' } },
 					followBtn,
+					!this.props.authorized ? _react2.default.createElement(
+						'button',
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
+						'Claim'
+					) : '',
 					_react2.default.createElement(
 						'p',
 						null,
@@ -57178,7 +57183,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook });
+      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook, claim: this.props.claim });
     }
   }]);
 
@@ -57326,6 +57331,10 @@ var _ViewBookContainer = __webpack_require__(295);
 
 var _ViewBookContainer2 = _interopRequireDefault(_ViewBookContainer);
 
+var _ClaimDetailsModal = __webpack_require__(517);
+
+var _ClaimDetailsModal2 = _interopRequireDefault(_ClaimDetailsModal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57369,7 +57378,9 @@ var EditBookContainer = function (_React$Component) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookContainer.__proto__ || Object.getPrototypeOf(EditBookContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       selectedChapter: null,
       chapters: [],
-      reviews: []
+      reviews: [],
+      claim: false,
+      claimContent: ''
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
         var nextState = { chapters: res.data };
@@ -57426,6 +57437,26 @@ var EditBookContainer = function (_React$Component) {
           slide
         );
       });
+    }, _this._onChange = function (e) {
+      var state = {};
+      state[e.target.name] = e.target.value;
+      _this.setState(state);
+    }, _this.claim = function () {
+      _this.setState({ claim: true });
+    }, _this.submitClaim = function (e) {
+      e.preventDefault();
+      var postData = {
+        bookId: _this.props.bookId,
+        content: _this.state.claimContent
+      };
+      _jQuery2.default.post(apiUrl + '/books/' + bookId + '/claims', postData).then(function (claim) {
+        _this.setState({ claim: false, claimContent: '' });
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }, _this.cancelClaim = function (e) {
+      e.preventDefault();
+      _this.setState({ claim: false, claimContent: '' });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -57449,10 +57480,11 @@ var EditBookContainer = function (_React$Component) {
         slidesToShow: 2,
         slidesToScroll: 1
       };
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,
+        this.state.claim ? _react2.default.createElement(_ClaimDetailsModal2.default, { book: this.props.book, user: this.props.user, claimContent: this.state.claimContent, submitClaim: this.submitClaim, cancelClaim: this.cancelClaim, _onChange: this._onChange }) : '',
         _react2.default.createElement(
           'div',
           { className: 'book-top-half' },
@@ -78386,6 +78418,142 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */,
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(9);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ClaimDetailsModal = function ClaimDetailsModal(props) {
+	return _react2.default.createElement(
+		'div',
+		{ className: 'modal', style: { visibility: 'visible', opacity: 1 } },
+		_react2.default.createElement(
+			'div',
+			{ className: 'overlay' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'content-block content-block-standard', style: { marginTop: '-20%' } },
+				_react2.default.createElement(
+					'form',
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'title-row', style: { marginBottom: 0 } },
+						_react2.default.createElement(
+							'h4',
+							null,
+							'Claim Details'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'flex-row' },
+						_react2.default.createElement(
+							'p',
+							null,
+							_react2.default.createElement(
+								'strong',
+								null,
+								'Reporter\'s Name: '
+							),
+							' ',
+							props.user.name
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							_react2.default.createElement(
+								'strong',
+								null,
+								'Book Reference: '
+							),
+							props.book ? props.book.author.name : '',
+							' of ',
+							props.book ? props.book.title : ''
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							_react2.default.createElement(
+								'strong',
+								null,
+								'Posted on: '
+							),
+							' ',
+							props.book ? props.book.genre : ''
+						)
+					),
+					_react2.default.createElement('hr', null),
+					_react2.default.createElement('textarea', {
+						id: 'claim',
+						rows: '5',
+						placeholder: 'Description of claim...',
+						name: 'claimContent',
+						value: props.claimContent,
+						onChange: props._onChange
+					}),
+					_react2.default.createElement(
+						'div',
+						{ className: 'submit-row submit-row-claim' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'buttons' },
+							_react2.default.createElement(
+								'button',
+								{ className: 'button button-white', onClick: props.cancelClaim },
+								'Cancel'
+							),
+							_react2.default.createElement(
+								'button',
+								{ className: 'button button-red', onClick: props.submitClaim },
+								'Submit'
+							)
+						)
+					)
+				)
+			)
+		)
+	);
+};
+
+if (document.getElementById('claim-details')) {
+	_reactDom2.default.render(_react2.default.createElement(ClaimDetailsModal, null), document.getElementById('claim-details'));
+}
+
+exports.default = ClaimDetailsModal;
 
 /***/ })
 /******/ ]);

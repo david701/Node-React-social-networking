@@ -5,7 +5,8 @@ const express = require('express'),
 const Users = require('./models/users.js'),
 			Books = require('./models/books.js'),
 			Reviews = require('./models/reviews.js'),
-			Comments = require('./models/comments.js');
+			Comments = require('./models/comments.js'),
+			Claims = require('./models/claims.js');
 
 /// USER API ///
 router.route('/users')
@@ -87,6 +88,12 @@ router.route('/comments/:id')
 	.delete(Comments.removeComment)
 /// END COMMENTS API ///
 
+/// CLAIMS API ///
+router.route('/books/:id/claims')
+	.get(Claims.getBookClaims)
+	.post(Claims.addClaim)
+
+/// END CLAIMS API ///
 
 
 // === DEPRICATED ROUTES ===
