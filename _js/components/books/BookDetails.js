@@ -78,7 +78,7 @@ export default class BookDetails extends React.Component {
 		  <div className="content-block content-block-standard-new" style={{overflow: 'hidden'}}>
 		    <div className="title-row">
 		      <h2>{this.props.type}</h2>
-		      <a href="/books" className="control">{sanitizeLength(this.props.length)}</a>
+		      <span className="control">{sanitizeLength(this.props.length)}</span>
 		    </div>
 		    <div className="profile-info">
 		      <img src="/assets/images/day-read.gif" className="day" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />

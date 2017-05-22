@@ -55750,8 +55750,8 @@ var BookDetails = function (_React$Component) {
 						this.props.type
 					),
 					_react2.default.createElement(
-						'a',
-						{ href: '/books', className: 'control' },
+						'span',
+						{ className: 'control' },
 						sanitizeLength(this.props.length)
 					)
 				),
