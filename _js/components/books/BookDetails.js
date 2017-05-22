@@ -29,7 +29,7 @@ export default class BookDetails extends React.Component {
 		})
 	}
 
-	moveSlide = (slide) => {
+	moveSlide = (slide,event) => {
 		let slideWidth = $('.slick-slide').width(),
 		slideOver;
 
@@ -37,6 +37,8 @@ export default class BookDetails extends React.Component {
 			slideOver = 0;
 		}else if(slide === 'toc'){
 			slideOver = -slideWidth;
+		}else if(slide === 'chapter'){
+			slideOver = (parseInt(event.target.value) * 2) * -slideWidth;
 		}
 
 		$('.slick-track').css({transform: 'translate3d('+slideOver+'px, 0px, 0px)'})
@@ -52,12 +54,19 @@ export default class BookDetails extends React.Component {
 	}
 
 	render(){
-		var followBtn, rating=0;
+		var followBtn, rating=0, chapters = [],
+		self = this;
 		if(!this.props.authorized){
 			if(this.state.following){
 				followBtn = <button onClick={this.unfollow} className="button-red" style={{width: 'auto', padding: '0.9375rem 2rem', margin: '1rem 0 0'}}>Unfollow</button>;
 			}else{
 				followBtn = <button onClick={this.follow}  style={{width: 'auto', padding: '0.9375rem 2rem', margin: '1rem 0 0'}}>Follow</button>;
+			}
+		}
+
+		if(this.props.length) {
+			for(var x = 0; x < this.props.length; x++){
+				chapters.push(x)
 			}
 		}
 
@@ -69,7 +78,7 @@ export default class BookDetails extends React.Component {
 		  <div className="content-block content-block-standard-new" style={{overflow: 'hidden'}}>
 		    <div className="title-row">
 		      <h2>{this.props.type}</h2>
-		      <a href="/books" className="control">{sanitizeLength(this.props.length)}</a>
+		      <span className="control">{sanitizeLength(this.props.length)}</span>
 		    </div>
 		    <div className="profile-info">
 		      <img src="/assets/images/day-read.gif" className="day" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
@@ -85,10 +94,22 @@ export default class BookDetails extends React.Component {
 		    {this.props.authorized? (<a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>):''}
 		    <div style={{ position: 'absolute', bottom: '1rem'}}>
 		    	<p className="buttons">
-		    		<span onClick={() => this.moveSlide('details')}>Details</span> |
-		    		<span onClick={() => this.moveSlide('toc')}> Table of Contents</span>
+		    		<span onClick={(e) => this.moveSlide('details',e)}>Details</span> |
+		    		<span onClick={(e) => this.moveSlide('toc',e)}> Table of Contents</span>
 		    	</p>
 		    </div>
+		    <div className="go-to-chapter">
+		    	Go to:
+				<select onChange={(e) => this.moveSlide('chapter',e)} className="slide-to-chapter">
+				{
+				  chapters.map(function(chapter,i){
+				  	return (
+						<option key={i} value={i + 1}>Chapter {i + 1}</option>
+				  	)
+				  })
+				}
+				</select>
+			</div>
 		  </div>
 		);
 	}

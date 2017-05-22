@@ -51,9 +51,10 @@ export default class EditBookContainer extends React.Component {
   }
 
   selectChapter = id => {
-    const nextState = {selectedChapter: id.toString() };
+    const slidesToSkip = parseInt(id) * 2
+    const nextState = {selectedChapter: slidesToSkip.toString() };
     this.setState(nextState, (id) => {
-      this.refs.slider.slickGoTo(parseInt(this.state.selectedChapter)); // manual, can change later
+      this.refs.slider.slickGoTo(slidesToSkip); // manual, can change later
     });
   }
 
