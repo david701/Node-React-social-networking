@@ -56439,6 +56439,13 @@ var Comments = function (_React$Component) {
 	}
 
 	_createClass(Comments, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			if (this.props.chapterId) {
+				this.getComments(this.props.chapterId);
+			}
+		}
+	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
 			this.getComments(nextProps.chapterId);
