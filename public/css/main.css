@@ -714,6 +714,34 @@ body {
   font-weight: 400;
   color: #7D7D7D; }
 
+.go-to-chapter {
+  float: right;
+  width: 150px;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 14px;
+  line-height: 39px;
+  height: 33px; }
+  .go-to-chapter select.slide-to-chapter {
+    width: 100px;
+    height: 33px;
+    line-height: 15px;
+    font-size: 14px;
+    float: right; }
+    .go-to-chapter select.slide-to-chapter span {
+      float: left;
+      line-height: 43px;
+      margin: 0 10px 0 0;
+      height: 32px;
+      font-size: 14px; }
+    .go-to-chapter select.slide-to-chapter select {
+      height: 100%;
+      line-height: 15px;
+      float: left;
+      width: auto;
+      padding: 5px 15px; }
+
 a {
   text-decoration: none;
   display: block;
