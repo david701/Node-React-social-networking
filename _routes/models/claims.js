@@ -14,8 +14,22 @@ const mongoUser = mongo.schema.user,
 const handle = require('../helpers/handle.js');
 
 
+exports.getClaims = (req, res)=>{
+	var status = req.query.status || 1;
+	mongoClaim.find().where('status').equals(status).populate({path: 'book',
+     populate: {
+       path: 'author',
+       model: 'Users',
+			 select: 'name email'
+     }}).populate('reporter', 'name email').then((comments)=>{
+		handle.res(res, comments)
+	}).catch((err)=>{
+		handle.err(res, err)
+	})
+}
+
 exports.getBookClaims = (req,res)=>{
-	mongoComment.find({book: req.params.id}).where('status').equals(1).populate('book').populate('reporter', 'name email').then((comments)=>{
+	mongoClaim.find({book: req.params.id}).where('status').equals(1).populate('book').populate('reporter', 'name email').then((comments)=>{
 		handle.res(res, comments)
 	}).catch((err)=>{
 		handle.err(res, err)
@@ -35,5 +49,35 @@ exports.addClaim = (req,res)=>{
 		handle.res(res, claim);
 	}).catch((err)=>{
 		handle.err(res, err.message);
+	})
+}
+
+exports.acceptClaim = (req,res)=>{
+	mongoClaim.findOne({_id: req.params.id}).then((claim)=>{
+		mongoBook.findOne({_id: claim.book._id}).then((book)=>{
+			book.autor = claim.reporter
+			book.save().then((book)=>{
+				handle.res(res, book);
+			}).catch(err=>{
+				handle.err(res, err.message)
+			})
+		}).catch(err=>{
+			handle.err(res, err.message)
+		})
+	}).catch(err=>{
+		handle.err(res, err.message)
+	})
+}
+
+exports.editClaim = (req,res)=>{
+	mongoClaim.findOne({_id: req.params.id}).then((claim)=>{
+		claim.status = 0;
+		claim.save().then((claim)=>{
+			handle.res(res, claim);
+		}).catch(err=>{
+			handle.err(res, err.message)
+		})
+	}).catch(err=>{
+		handle.err(res, err.message)
 	})
 }

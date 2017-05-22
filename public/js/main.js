@@ -51140,6 +51140,10 @@ var _Library = __webpack_require__(282);
 
 var _Library2 = _interopRequireDefault(_Library);
 
+var _ClaimDetailsModal = __webpack_require__(517);
+
+var _ClaimDetailsModal2 = _interopRequireDefault(_ClaimDetailsModal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51246,6 +51250,59 @@ var Parent = function (_React$Component) {
 			});
 		};
 
+		_this.getBookClaims = function () {
+			_jquery2.default.get(apiUrl + '/claims').then(function (res) {
+				_this.setState({ bookClaims: res.data });
+			});
+		};
+
+		_this.viewClaim = function (i) {
+			_this.setState({ claim: true, selectedClaim: _this.state.bookClaims[i] });
+		};
+
+		_this.cancelClaim = function (e) {
+			e.preventDefault();
+			_this.setState({ claim: false });
+		};
+
+		_this.acceptClaim = function () {
+			e.preventDefault();
+			_jquery2.default.post(apiUrl + '/claims/' + e.target.id).then(function () {
+				_this.getBookClaims();
+				_this.state({ claim: false });
+			});
+		};
+
+		_this.resolveClaim = function (e) {
+			e.preventDefault();
+			_jquery2.default.ajax({
+				url: apiUrl + '/claims/' + _this.state.selectedClaim._id,
+				method: 'PUT'
+			}).then(function (resp) {
+				_this.getBookClaims();
+				_this.state({ claim: false });
+			});
+		};
+
+		_this.deleteBook = function (e) {
+			e.preventDefault();
+			var check = confirm('Are you sure?');
+			if (check) {
+				_jquery2.default.ajax({
+					url: apiUrl + '/books/' + _this.state.selectedClaim.book._id,
+					method: 'DELETE'
+				}).then(function (resp) {
+					_jquery2.default.ajax({
+						url: apiUrl + '/claims/' + _this.state.selectedClaim._id,
+						method: 'PUT'
+					}).then(function (resp) {
+						_this.getBookClaims();
+						_this.state({ claim: false });
+					});
+				});
+			}
+		};
+
 		_this.loadBooks = function (id) {
 			_jquery2.default.get(apiUrl + '/users/' + id + '/books').then(function (res) {
 				return _this.setState({
@@ -51258,7 +51315,9 @@ var Parent = function (_React$Component) {
 		_this.state = {
 			user: _this.user,
 			books: [],
-			pendingBooks: []
+			pendingBooks: [],
+			bookClaims: [],
+			claim: false
 		};
 		return _this;
 	}
@@ -51273,6 +51332,7 @@ var Parent = function (_React$Component) {
 					_this2.user.id = response.data._id;
 					if (response.data.role > 1) {
 						_this2.pendingBooks(_this2.user.id);
+						_this2.getBookClaims();
 					} else {
 						_this2.loadBooks(_this2.user.id);
 					}
@@ -51287,6 +51347,8 @@ var Parent = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this3 = this;
+
 			var self = this,
 			    following = "You're not following any authors",
 			    authors = this.state.user.following_authors,
@@ -51539,6 +51601,7 @@ var Parent = function (_React$Component) {
 					this.state.user.role > 0 && _react2.default.createElement(
 						'div',
 						{ className: 'content-block content-block-standard account-block' },
+						this.state.claim ? _react2.default.createElement(_ClaimDetailsModal2.default, { claim: this.state.claim, user: this.state.selectedClaim.reporter, book: this.state.selectedClaim.book, content: this.state.selectedClaim.content, cancelClaim: this.cancelClaim, deleteBook: this.deleteBook, resolveClaim: this.resolveClaim, view: 'true' }) : '',
 						_react2.default.createElement(
 							'header',
 							null,
@@ -51689,7 +51752,67 @@ var Parent = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'book-blocks book-blocks-small' },
-							'You don\'t have any book claims'
+							_react2.default.createElement(
+								'ul',
+								null,
+								this.state.bookClaims.map(function (claim, i) {
+									return _react2.default.createElement(
+										'li',
+										{ key: i },
+										_react2.default.createElement(
+											'div',
+											{ className: 'content-block content-block-book' },
+											_react2.default.createElement(
+												'figure',
+												null,
+												_react2.default.createElement(
+													'div',
+													{ className: 'cover', style: { backgroundImage: 'url(' + claim.book.cover + ')' } },
+													_react2.default.createElement(
+														'div',
+														{ className: 'overlay' },
+														_react2.default.createElement(
+															'div',
+															{ className: 'button button-red', onClick: function onClick() {
+																	return _this3.viewClaim(i);
+																} },
+															'View Claim'
+														),
+														_react2.default.createElement(
+															'a',
+															{ className: 'button button-white', id: claim.book._id },
+															'Accept'
+														)
+													)
+												),
+												_react2.default.createElement(
+													'figcaption',
+													null,
+													_react2.default.createElement(
+														'h4',
+														null,
+														claim.book.title
+													),
+													_react2.default.createElement(
+														'p',
+														null,
+														claim.book.author.name
+													),
+													_react2.default.createElement(
+														'ul',
+														{ className: 'rating-display' },
+														_react2.default.createElement('li', { className: '' }),
+														_react2.default.createElement('li', { className: '' }),
+														_react2.default.createElement('li', { className: '' }),
+														_react2.default.createElement('li', { className: '' }),
+														_react2.default.createElement('li', { className: '' })
+													)
+												)
+											)
+										)
+									);
+								})
+							)
 						),
 						_react2.default.createElement('hr', null),
 						_react2.default.createElement(
@@ -51755,14 +51878,14 @@ var Report = function (_React$Component2) {
 	function Report(props) {
 		_classCallCheck(this, Report);
 
-		var _this3 = _possibleConstructorReturn(this, (Report.__proto__ || Object.getPrototypeOf(Report)).call(this, props));
+		var _this4 = _possibleConstructorReturn(this, (Report.__proto__ || Object.getPrototypeOf(Report)).call(this, props));
 
-		_this3._handleSubmit = _this3._handleSubmit.bind(_this3);
-		_this3._handleChange = _this3._handleChange.bind(_this3);
-		_this3.state = {
+		_this4._handleSubmit = _this4._handleSubmit.bind(_this4);
+		_this4._handleChange = _this4._handleChange.bind(_this4);
+		_this4.state = {
 			message: ""
 		};
-		return _this3;
+		return _this4;
 	}
 
 	_createClass(Report, [{
@@ -78517,7 +78640,11 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 						)
 					),
 					_react2.default.createElement('hr', null),
-					_react2.default.createElement('textarea', {
+					props.view ? _react2.default.createElement(
+						'p',
+						null,
+						props.content
+					) : _react2.default.createElement('textarea', {
 						id: 'claim',
 						rows: '5',
 						placeholder: 'Description of claim...',
@@ -78525,10 +78652,64 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 						value: props.claimContent,
 						onChange: props._onChange
 					}),
-					_react2.default.createElement(
+					props.view ? _react2.default.createElement(
 						'div',
 						{ className: 'submit-row submit-row-claim' },
 						_react2.default.createElement(
+							'div',
+							{ className: 'claim-details' },
+							_react2.default.createElement(
+								'a',
+								{ href: 'mailto:' },
+								_react2.default.createElement(
+									'p',
+									null,
+									'Email ',
+									props.user.name
+								)
+							),
+							_react2.default.createElement(
+								'a',
+								null,
+								_react2.default.createElement(
+									'p',
+									null,
+									'Email ',
+									props.book.author.name
+								)
+							),
+							_react2.default.createElement(
+								'a',
+								{ onClick: props.deleteBook },
+								_react2.default.createElement(
+									'p',
+									null,
+									'Delete Book Immediately'
+								)
+							),
+							_react2.default.createElement(
+								'a',
+								{ onClick: props.resolveClaim },
+								_react2.default.createElement(
+									'p',
+									null,
+									'Mark as Resolved'
+								)
+							)
+						)
+					) : '',
+					_react2.default.createElement(
+						'div',
+						{ className: 'submit-row submit-row-claim' },
+						props.view ? _react2.default.createElement(
+							'div',
+							{ className: 'buttons' },
+							_react2.default.createElement(
+								'button',
+								{ className: 'button button-red', onClick: props.cancelClaim },
+								'Close'
+							)
+						) : _react2.default.createElement(
 							'div',
 							{ className: 'buttons' },
 							_react2.default.createElement(

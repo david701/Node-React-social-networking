@@ -93,6 +93,10 @@ router.route('/books/:id/claims')
 	.get(Claims.getBookClaims)
 	.post(Claims.addClaim)
 
+router.get('/claims', Claims.getClaims)
+router.post('/claims/:id', Claims.acceptClaim)
+router.put('/claims/:id', Claims.editClaim)
+
 /// END CLAIMS API ///
 
 

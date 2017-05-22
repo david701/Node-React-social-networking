@@ -201,7 +201,6 @@ exports.removeUser = (req, res)=>{
 exports.login = (req, res)=>{
 	mongoUser.findOne({email: req.body.email}, (err, user)=>{
 		if(err || !user){
-			console.error(err);
 			req.session = null;
 			handle.err(res, 'Invalid Username or Password');
 		}else{
@@ -228,6 +227,8 @@ exports.login = (req, res)=>{
 				});
 			}
 		}
+	}).catch((err)=>{
+		console.log(err);
 	});
 }
 
