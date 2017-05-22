@@ -11,7 +11,14 @@
   </main>
   <% include ./partials/sidebar %>
 </div>
+
+<% if (bookId){ %>
 <script>
     var bookId = '<%= bookId %>';
 </script>
+<% }else{ %>
+	<script>
+	    var bookId = false;
+	</script>
+<% } %>
 <% include ./partials/end %>

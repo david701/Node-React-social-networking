@@ -11,17 +11,17 @@ import genres from '../../../data/genres.json';
 import warnings from '../../../data/warnings.json';
 
 const types = ["Serial", "Published"];
-const book_id = location.href.split("/").pop();
 
 class DashboardCreate extends Component {
 	state = {
+		bookId: bookId,
 		user:{},
-		coverFile: '../../../assets/images/default-cover-art.jpg',
+		coverFile: '',
 		title: '',
 		description: '',
 		type: '',
 		genres: [],
-		themes: [],
+		tags: [],
 		warnings: [],
 		socialMedia: {
 			amazon: 'https://',
@@ -34,32 +34,31 @@ class DashboardCreate extends Component {
 	};
 
   componentDidMount = () => {
-    console.log('go')
     $.get('/api/v1/user_session/')
       .then(resp => {
 				this.setState({user: resp.data})
 		});
 
-    if(book_id !== 0){
+    if(bookId){
       this.getBookInfo();
     }
   }
 
   getBookInfo = () => {
-    self = this;
-    $.get(`/api/v1/books/${bookId}`).then(function(book){
-      self.setState({
-        user: book.data.author,
-        coverFile: book.data.cover,
-        title: book.data.title,
-        description: book.data.description,
-        type: '',
-        genres: [],
-        themes: [],
-        warnings: []
-      })
-      //this.setState({book: book.data});
-    })
+		if(bookId){
+			$.get(`/api/v1/books/${bookId}`).then((book)=>{
+				this.setState({
+					user: book.data.author,
+					coverFile: book.data.cover,
+					title: book.data.title,
+					description: book.data.description,
+					type: book.data.type,
+					genres: [],
+					tags: [],
+					warnings: []
+				})
+			})
+		}
   }
 
   _handleChange = e => {
@@ -71,14 +70,13 @@ class DashboardCreate extends Component {
     const file = e.target.files[0];
     reader.onload = upload => {
       // const coverFile = upload.target.result;
-      this.setState({coverFile: upload.target.result}, () => console.log(this.state.coverFile));
+      this.setState({coverFile: upload.target.result});
     };
     reader.readAsDataURL(file);
   }
 
   _handleGenre = e => {
-    const nextState = { ...this.state, genre: e.target.value };
-    this.setState(nextState, () => { console.log(this.state) });
+    this.setState({genre: e.target.value});
   }
 
   _handleTags = e => {
@@ -98,45 +96,51 @@ class DashboardCreate extends Component {
     const newWarning = e.target.value;
     if (!warnings.includes(newWarning)) {
       const newAry = [...warnings, newWarning];
-      this.setState({ ...this.state, warnings: newAry }, () => console.log(this.state.warnings));
+      this.setState({ ...this.state, warnings: newAry});
     } else if (warnings.includes(newWarning)) {
       const newAry = warnings.filter(warning => warning !== newWarning);
-      this.setState({ ...this.state, warnings: newAry }, () => console.log(this.state.warnings));
+      this.setState({ ...this.state, warnings: newAry});
     }
   }
 
   _handleType = e => {
-    this.setState({ ...this.state, type: e.target.value}, () => console.log(this.state.type));
+    this.setState({type: e.target.value});
   }
 
   _handleSubmit = e => {
     e.preventDefault();
-    const { title, description, genre, tags, warnings } = this.state;
     const data = {
-      title,
-      status: 1,
+      title: this.state.title,
       description: this.state.description,
-      genre: this.state.genres[0],
-      tags: this.state.themes,
+      genre: this.state.genre,
+      tags: this.state.tags,
       warnings: this.state.warnings,
-			cover: this.state.coverFile
+			cover: this.state.coverFile,
+			type: this.state.type
     };
     e.preventDefault();
-    if(book_id === 0){
-      $.post('/api/v1/books', data).then(res => {
+    if(!bookId){
+			$.ajax({
+				url: '/api/v1/books',
+				method: 'POST',
+				data: JSON.stringify(data),
+				dataType: 'json',
+				contentType: 'application/json; charset=UTF-8',
+			}).then(res => {
         if (res.status === "error") {
           console.log(res.message);
         } else {
-          //console.log(res);
-  				window.location.href = "/dashboard";
+  				window.location.href = "/books/" + res.data._id;
         }
       });
     }else{
-      $.ajax({url:`/api/v1/books/${book_id}`,
-          method: 'PUT',
-          data: data,
+      $.ajax({url:`/api/v1/books/${bookId}`,
+				method: 'PUT',
+				data: JSON.stringify(data),
+				dataType: 'json',
+				contentType: 'application/json; charset=UTF-8',
        }).then((response)=>{
-          window.location.href = "/books/" + book_id;
+          window.location.href = "/books/" + bookId;
        })
     }
   }
@@ -148,7 +152,6 @@ class DashboardCreate extends Component {
         [e.target.id]: e.target.value,
       }
     });
-    console.log(this.state.socialMedia);
   }
 
   render() {
@@ -174,7 +177,7 @@ class DashboardCreate extends Component {
           <div className="submit-row submit-row-single">
             <div className="buttons">
               <a href="/views/dashboard/" className="button button-white">Cancel</a>
-              <a id="bookSubmit" href="#" className="button button-red">{bookId !== 0 ? 'Update' : 'Create' }</a>
+              <a id="bookSubmit" href="#" className="button button-red">{this.state.bookId? 'Update' : 'Create'}</a>
             </div>
           </div>
         </form>

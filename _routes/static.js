@@ -96,7 +96,7 @@ router.get('/dashboard/edit/books/:bookId', (req, res) => {
 
 router.get('/dashboard/create', (req, res) => {
 	if(req.session){
-		res.render('dashboard-create', {title: 'Create', bookId: 0})
+		res.render('dashboard-create', {title: 'Create', bookId: false})
 	}else{
 		res.redirect('/login');
 	}

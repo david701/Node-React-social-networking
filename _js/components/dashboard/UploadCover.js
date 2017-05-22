@@ -48,7 +48,7 @@ const Caption = ({ title, author, stars = 5 }) => (
 export const Cover = ({ coverFile }) => (
   <div className="cover">
     <div className="flex">
-      <img src={coverFile} alt="defaultCoverFile" />
+      <img src={coverFile? coverFile : '/assets/images/default-cover-art.jpg'} alt="Cover Image" />
     </div>
   </div>
 );
