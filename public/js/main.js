@@ -57238,7 +57238,7 @@ var SearchCheckbox = function (_Component) {
         null,
         _react2.default.createElement("input", {
           type: "checkbox",
-          value: label + "-" + val,
+          value: "" + label,
           id: label + "-" + val,
           checked: isChecked,
           onChange: this.toggleCheckboxChange,
@@ -58063,9 +58063,9 @@ var _reactStarRatingComponent = __webpack_require__(229);
 
 var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
 
-var _Checkbox = __webpack_require__(84);
+var _RadioButton = __webpack_require__(522);
 
-var _Checkbox2 = _interopRequireDefault(_Checkbox);
+var _RadioButton2 = _interopRequireDefault(_RadioButton);
 
 var _SearchCheckbox = __webpack_require__(289);
 
@@ -58079,8 +58079,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -58089,8 +58087,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var apiUrl = '/api/v1';
 
-var oldCategories = ["Genre", "Author", "Book"];
-var oldTags = ["Tag", "Tag", "Tag", "Tag", "Tag", "Tag", "Tag", "Tag", "Tag", "Tag", "Tag", "Tag"];
+var oldCategories = ["Book", "Author"];
+var oldTags = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Children", "Thriller", "Mystery", "Classic"];
+var oldGenres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "Poetry", "LitRPG"];
 
 var SearchContainer = function (_React$Component) {
   _inherits(SearchContainer, _React$Component);
@@ -58100,34 +58099,32 @@ var SearchContainer = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SearchContainer.__proto__ || Object.getPrototypeOf(SearchContainer)).call(this, props));
 
-    _this.handleCategory = function (e) {
-      var _this$state = _this.state,
-          categories = _this$state.categories,
-          searchCategoryValue = _this$state.searchCategoryValue;
-
-      var type = e.target.value;
-      if (!categories.includes(type)) {
-        var newCategories = [].concat(_toConsumableArray(categories), [type]);
-        _this.setState(_extends({}, _this.state, { categories: newCategories }));
-      } else if (categories.includes(type)) {
-        var _newCategories = categories.filter(function (cat) {
-          return cat !== type;
-        });
-        _this.setState(_extends({}, _this.state, { categories: _newCategories }));
-      }
+    _this.removeSearch = function (e) {
+      alert("I was created to delete searches");
     };
 
     _this.handleChange = function (e) {
-      var tags = _this.state.tags;
+      var _this$state = _this.state,
+          tags = _this$state.tags,
+          genres = _this$state.genres,
+          searchBy = _this$state.searchBy;
 
-      if (!tags.includes(e.target.value)) {
-        var newTags = [].concat(_toConsumableArray(tags), [e.target.value]);
-        _this.setState(_extends({}, _this.state, _defineProperty({}, e.target.name, e.target.value)));
-      } else if (tags.includes(e.target.value)) {
-        var _newTags = tags.filter(function (tag) {
-          return tag !== e.target.value;
-        });
-        _this.setState(_extends({}, _this.state, { tags: _newTags }));
+      if (e.target.name === "genres") {
+        if (e.target.checked) {
+          genres.push(e.target.value);
+        } else {
+          genres.splice(genres.indexOf(e.target.value), 1);
+        }
+      } else if (e.target.name === "tags") {
+        if (e.target.checked) {
+          tags.push(e.target.value);
+        } else {
+          tags.splice(tags.indexOf(e.target.value), 1);
+        }
+      } else if (e.target.name === "searchCategoryValue") {
+        _this.setState({ search: e.target.value });
+      } else if (e.target.name === "categories") {
+        _this.setState({ searchBy: e.target.value, search: "" });
       }
     };
 
@@ -58148,39 +58145,29 @@ var SearchContainer = function (_React$Component) {
 
     _this.handleSubmit = function (e) {
       e.preventDefault();
-      var value = _this.textInput.value;
-      _this.handleCategory(value);
+      //what you will send
+      alert('Ready to send: ' + JSON.stringify(_this.state));
     };
 
     _this.state = {
-      // searchValue: '',
-      rating: 1,
-      searchCategoryValue: '',
-      categories: [],
-      tags: []
+      search: "", //input field
+      searchBy: "Book", // default search by
+      rating: 1, //star rating
+      tags: [], // all tags
+      genres: [], // all genre
+      savedSearches: ["Search by [Book] and [Tag Name], [Tag name], and [Genre name]", "Search by [Author Name]"] //saved searches
     };
     return _this;
   }
 
   _createClass(SearchContainer, [{
     key: 'render',
-
-
-    // componentDidMount() {
-    //   this.loadSavedSearches();
-    // }
-    //
-    // loadSavedSearches = () => {
-    //
-    // }
-
     value: function render() {
-      var _this2 = this;
-
       var _state = this.state,
-          categories = _state.categories,
           rating = _state.rating,
-          searchCategoryValue = _state.searchCategoryValue;
+          searchBy = _state.searchBy,
+          savedSearches = _state.savedSearches,
+          search = _state.search;
 
       return _react2.default.createElement(
         'div',
@@ -58204,27 +58191,39 @@ var SearchContainer = function (_React$Component) {
                 )
               ),
               _react2.default.createElement(SearchCategories, {
-                handleCategory: this.handleCategory,
-                handleChange: this.handleSearch,
-                handleSubmit: this.handleSubmit,
-                inputRef: function inputRef(el) {
-                  return _this2.textInput = el;
-                },
-                searchCategoryValue: searchCategoryValue,
-                categories: categories
+                handleChange: this.handleChange,
+                searchBy: searchBy,
+                search: search
               }),
-              _react2.default.createElement('hr', null),
               _react2.default.createElement(SearchRating, {
                 handleRating: this.handleRating,
+                searchBy: searchBy,
                 rating: rating
               }),
-              _react2.default.createElement('hr', { style: { marginTop: 0 } }),
               _react2.default.createElement(SearchTags, {
                 handleChange: this.handleChange,
-                tags: oldTags
+                tags: oldTags, genres: oldGenres,
+                searchBy: searchBy
               }),
-              _react2.default.createElement('hr', null),
-              _react2.default.createElement(SavedSearches, null)
+              _react2.default.createElement(
+                'div',
+                { className: 'submit-row submit-row-single', style: { marginTop: '0px' } },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'buttons' },
+                  _react2.default.createElement(
+                    'button',
+                    { type: 'button', className: 'button button-white' },
+                    'Save'
+                  ),
+                  _react2.default.createElement(
+                    'button',
+                    { type: 'button', onClick: this.handleSubmit, className: 'button button-red' },
+                    'Search'
+                  )
+                )
+              ),
+              _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: savedSearches })
             ),
             _react2.default.createElement(
               'div',
@@ -58275,7 +58274,7 @@ var SearchCategories = function SearchCategories(props) {
     _react2.default.createElement(
       'h4',
       null,
-      'Search by Genre, Author, or Book'
+      'Search by Author or Book'
     ),
     _react2.default.createElement(
       'div',
@@ -58291,47 +58290,27 @@ var SearchCategories = function SearchCategories(props) {
         _react2.default.createElement('input', {
           name: 'searchCategoryValue',
           onChange: props.handleChange,
-          placeholder: 'Favorite by Genre, Author, or Book',
+          placeholder: "Type in favorite " + props.searchBy,
           ref: props.inputRef,
-          type: 'text',
-          value: props.searchCategoryValue
-        }),
-        _react2.default.createElement(
-          'button',
-          {
-            className: 'button button-nested',
-            onClick: props.handleSubmit
-          },
-          '+'
-        )
+          value: props.search,
+          type: 'text'
+        })
       )
     ),
     _react2.default.createElement(
       'div',
       { className: 'new-create-books-row' },
       oldCategories.map(function (category, index) {
-        return _react2.default.createElement(_Checkbox2.default, {
+        return _react2.default.createElement(_RadioButton2.default, {
+          key: index,
           name: 'categories',
           label: category,
-          handleCheckboxChange: props.handleCategory
+          selected: props.searchBy === category,
+          handleChange: props.handleChange
         });
       })
     ),
-    _react2.default.createElement(CategoryList, { categories: props.categories, handleCategory: props.handleCategory })
-  );
-};
-
-var CategoryList = function CategoryList(props) {
-  return _react2.default.createElement(
-    'ul',
-    { className: 'category-list' },
-    props.categories && props.categories.map(function (category, index) {
-      return _react2.default.createElement(_SearchCategory2.default, {
-        name: 'categories',
-        label: category,
-        handleCategory: props.handleCategory
-      });
-    })
+    _react2.default.createElement('hr', null)
   );
 };
 
@@ -58339,39 +58318,28 @@ var SavedSearches = function SavedSearches(props) {
   return _react2.default.createElement(
     'div',
     null,
+    _react2.default.createElement('hr', null),
     _react2.default.createElement(
       'h4',
       null,
       'Saved Searches'
     ),
-    _react2.default.createElement(
-      'div',
-      { style: { display: 'flex' } },
-      _react2.default.createElement(
-        'h5',
-        { className: 'saved-search-remover' },
-        'Remove'
-      ),
-      _react2.default.createElement(
-        'p',
-        null,
-        'Search by [Genre Name] and [Tag Name], [Tag name], and [Tag name]'
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { style: { display: 'flex' } },
-      _react2.default.createElement(
-        'h5',
-        { className: 'saved-search-remover' },
-        'Remove'
-      ),
-      _react2.default.createElement(
-        'p',
-        null,
-        'Search by [Genre Name] and [Tag Name], [Tag name], and [Tag name]'
-      )
-    )
+    props.savedSearches.map(function (search, index) {
+      return _react2.default.createElement(
+        'div',
+        { style: { display: 'flex' }, key: index },
+        _react2.default.createElement(
+          'h5',
+          { className: 'saved-search-remover', onClick: props.onDelete },
+          'Remove'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          search
+        )
+      );
+    })
   );
 };
 
@@ -58379,68 +58347,64 @@ var SearchRating = function SearchRating(props) {
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(
-      'h4',
-      null,
-      'Search by Review'
-    ),
-    _react2.default.createElement(
+    props.searchBy === "Book" && _react2.default.createElement(
       'div',
-      { style: { fontSize: 32 } },
-      _react2.default.createElement(_reactStarRatingComponent2.default, {
-        name: 'rating',
-        emptyStarColor: '#D9DCDD',
-        value: props.rating,
-        onStarClick: props.handleRating
-      })
+      null,
+      _react2.default.createElement(
+        'h4',
+        null,
+        'Search by Review'
+      ),
+      _react2.default.createElement(
+        'div',
+        { style: { fontSize: 32 } },
+        _react2.default.createElement(_reactStarRatingComponent2.default, {
+          name: 'rating',
+          emptyStarColor: '#D9DCDD',
+          value: props.rating,
+          onStarClick: props.handleRating
+        })
+      ),
+      _react2.default.createElement('hr', { style: { marginTop: 0 } })
     )
   );
 };
-
-// const SearchRating = prop => {
-//
-//   return (
-//     <div>
-//       <h4>Search by Review</h4>
-//       <ul className="rating-display">
-//       </ul>
-//     </div>
-//   );
-// }
 
 var SearchTags = function SearchTags(props) {
   return _react2.default.createElement(
     'div',
     null,
-    _react2.default.createElement(
-      'h4',
-      null,
-      'Search by Tags'
-    ),
-    _react2.default.createElement(
-      'ul',
-      { className: 'toggle-list' },
-      props.tags.map(function (tag, index) {
-        return _react2.default.createElement(_SearchCheckbox2.default, { name: 'tags', label: tag, val: index, key: index, handleCheckboxChange: props.handleChange });
-      })
-    ),
-    _react2.default.createElement(
+    props.searchBy === "Book" && _react2.default.createElement(
       'div',
-      { className: 'submit-row submit-row-single', style: { marginTop: '0px' } },
+      null,
       _react2.default.createElement(
-        'div',
-        { className: 'buttons' },
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'button button-white' },
-          'Save'
-        ),
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'button button-red' },
-          'Search'
-        )
-      )
+        'h4',
+        null,
+        'Search by Tags'
+      ),
+      _react2.default.createElement(
+        'ul',
+        { className: 'toggle-list' },
+        props.tags.map(function (tag, index) {
+          var _React$createElement;
+
+          return _react2.default.createElement(_SearchCheckbox2.default, (_React$createElement = { key: index, name: 'tags', label: tag, val: index }, _defineProperty(_React$createElement, 'key', index), _defineProperty(_React$createElement, 'handleCheckboxChange', props.handleChange), _React$createElement));
+        })
+      ),
+      _react2.default.createElement('hr', null),
+      _react2.default.createElement(
+        'h4',
+        null,
+        'Search by Genres'
+      ),
+      _react2.default.createElement(
+        'ul',
+        { className: 'toggle-list' },
+        props.genres.map(function (genre, index) {
+          return _react2.default.createElement(_SearchCheckbox2.default, { name: 'genres', label: genre, val: index, key: index, handleCheckboxChange: props.handleChange });
+        })
+      ),
+      _react2.default.createElement('hr', { style: { marginTop: 0 } })
     )
   );
 };
@@ -79534,6 +79498,99 @@ var Brawl = function Brawl(props) {
 };
 
 exports.default = Brawl;
+
+/***/ }),
+/* 522 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RadioButton = function (_Component) {
+  _inherits(RadioButton, _Component);
+
+  function RadioButton() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, RadioButton);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RadioButton.__proto__ || Object.getPrototypeOf(RadioButton)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      isChecked: false
+    }, _this.toggleRadioChange = function (e) {
+      var _this$props = _this.props,
+          handleRadioChange = _this$props.handleRadioChange,
+          label = _this$props.label;
+
+      _this.setState(function (_ref2) {
+        var isChecked = _ref2.isChecked;
+        return {
+          isChecked: !isChecked
+        };
+      });
+      handleRadioChange(e);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(RadioButton, [{
+    key: "render",
+    value: function render() {
+      var _props = this.props,
+          label = _props.label,
+          name = _props.name,
+          selected = _props.selected,
+          handleChange = _props.handleChange;
+      var isChecked = this.state.isChecked;
+
+      return _react2.default.createElement(
+        "div",
+        { className: "new-field" },
+        _react2.default.createElement("input", _defineProperty({
+          type: "radio",
+          value: label,
+          id: label,
+          checked: isChecked,
+          onChange: handleChange,
+          name: name
+        }, "checked", selected)),
+        _react2.default.createElement(
+          "label",
+          { htmlFor: label },
+          label
+        )
+      );
+    }
+  }]);
+
+  return RadioButton;
+}(_react.Component);
+
+exports.default = RadioButton;
 
 /***/ })
 /******/ ]);
