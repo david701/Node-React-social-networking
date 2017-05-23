@@ -8,7 +8,7 @@ module.exports = {
 	err: function(res, message){
 		var resp = {status: 'error'};
 		if(message) resp.message = message;
-		res.status(500)
+		res.status(200)
 		res.json(resp);
 	}
 }

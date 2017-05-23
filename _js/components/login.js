@@ -95,7 +95,7 @@ class Login extends React.Component{
             }
             this.resetProfile();
             this.resetErrors();
-        });
+        })
         //restart profile
 		event.preventDefault();
 	}
