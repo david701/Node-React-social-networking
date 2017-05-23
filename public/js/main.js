@@ -51280,7 +51280,7 @@ var Parent = function (_React$Component) {
 				method: 'PUT'
 			}).then(function (resp) {
 				_this.getBookClaims();
-				_this.state({ claim: false });
+				_this.setState({ claim: false });
 			});
 		};
 
@@ -53238,7 +53238,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var types = ["Serial", "Published"];
-var book_id = location.href.split("/").pop();
 
 var DashboardCreate = function (_Component) {
   _inherits(DashboardCreate, _Component);
@@ -53255,13 +53254,14 @@ var DashboardCreate = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DashboardCreate.__proto__ || Object.getPrototypeOf(DashboardCreate)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      bookId: bookId,
       user: {},
-      coverFile: '../../../assets/images/default-cover-art.jpg',
+      coverFile: '',
       title: '',
       description: '',
       type: '',
       genres: [],
-      themes: [],
+      tags: [],
       warnings: [],
       socialMedia: {
         amazon: 'https://',
@@ -53272,29 +53272,28 @@ var DashboardCreate = function (_Component) {
         twitter: 'https://'
       }
     }, _this.componentDidMount = function () {
-      console.log('go');
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
         _this.setState({ user: resp.data });
       });
 
-      if (book_id !== 0) {
+      if (bookId) {
         _this.getBookInfo();
       }
     }, _this.getBookInfo = function () {
-      self = _this;
-      _jquery2.default.get('/api/v1/books/' + bookId).then(function (book) {
-        self.setState({
-          user: book.data.author,
-          coverFile: book.data.cover,
-          title: book.data.title,
-          description: book.data.description,
-          type: '',
-          genres: [],
-          themes: [],
-          warnings: []
+      if (bookId) {
+        _jquery2.default.get('/api/v1/books/' + bookId).then(function (book) {
+          _this.setState({
+            user: book.data.author,
+            coverFile: book.data.cover,
+            title: book.data.title,
+            description: book.data.description,
+            type: book.data.type,
+            genres: [],
+            tags: [],
+            warnings: []
+          });
         });
-        //this.setState({book: book.data});
-      });
+      }
     }, _this._handleChange = function (e) {
       _this.setState(_defineProperty({}, e.target.id, e.target.value));
     }, _this._handleCover = function (e) {
@@ -53302,16 +53301,11 @@ var DashboardCreate = function (_Component) {
       var file = e.target.files[0];
       reader.onload = function (upload) {
         // const coverFile = upload.target.result;
-        _this.setState({ coverFile: upload.target.result }, function () {
-          return console.log(_this.state.coverFile);
-        });
+        _this.setState({ coverFile: upload.target.result });
       };
       reader.readAsDataURL(file);
     }, _this._handleGenre = function (e) {
-      var nextState = _extends({}, _this.state, { genre: e.target.value });
-      _this.setState(nextState, function () {
-        console.log(_this.state);
-      });
+      _this.setState({ genre: e.target.value });
     }, _this._handleTags = function (e) {
       var tags = _this.state.tags;
 
@@ -53331,62 +53325,55 @@ var DashboardCreate = function (_Component) {
       var newWarning = e.target.value;
       if (!warnings.includes(newWarning)) {
         var newAry = [].concat(_toConsumableArray(warnings), [newWarning]);
-        _this.setState(_extends({}, _this.state, { warnings: newAry }), function () {
-          return console.log(_this.state.warnings);
-        });
+        _this.setState(_extends({}, _this.state, { warnings: newAry }));
       } else if (warnings.includes(newWarning)) {
         var _newAry2 = warnings.filter(function (warning) {
           return warning !== newWarning;
         });
-        _this.setState(_extends({}, _this.state, { warnings: _newAry2 }), function () {
-          return console.log(_this.state.warnings);
-        });
+        _this.setState(_extends({}, _this.state, { warnings: _newAry2 }));
       }
     }, _this._handleType = function (e) {
-      _this.setState(_extends({}, _this.state, { type: e.target.value }), function () {
-        return console.log(_this.state.type);
-      });
+      _this.setState({ type: e.target.value });
     }, _this._handleSubmit = function (e) {
       e.preventDefault();
-      var _this$state = _this.state,
-          title = _this$state.title,
-          description = _this$state.description,
-          genre = _this$state.genre,
-          tags = _this$state.tags,
-          warnings = _this$state.warnings;
-
       var data = {
-        title: title,
-        status: 1,
+        title: _this.state.title,
         description: _this.state.description,
-        genre: _this.state.genres[0],
-        tags: _this.state.themes,
+        genre: _this.state.genre,
+        tags: _this.state.tags,
         warnings: _this.state.warnings,
-        cover: _this.state.coverFile
+        cover: _this.state.coverFile,
+        type: _this.state.type
       };
       e.preventDefault();
-      if (book_id === 0) {
-        _jquery2.default.post('/api/v1/books', data).then(function (res) {
+      if (!bookId) {
+        _jquery2.default.ajax({
+          url: '/api/v1/books',
+          method: 'POST',
+          data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json; charset=UTF-8'
+        }).then(function (res) {
           if (res.status === "error") {
             console.log(res.message);
           } else {
-            //console.log(res);
-            window.location.href = "/dashboard";
+            window.location.href = "/books/" + res.data._id;
           }
         });
       } else {
-        _jquery2.default.ajax({ url: '/api/v1/books/' + book_id,
+        _jquery2.default.ajax({ url: '/api/v1/books/' + bookId,
           method: 'PUT',
-          data: data
+          data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json; charset=UTF-8'
         }).then(function (response) {
-          window.location.href = "/books/" + book_id;
+          window.location.href = "/books/" + bookId;
         });
       }
     }, _this._onUrlChange = function (e) {
       _this.setState({
         socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value))
       });
-      console.log(_this.state.socialMedia);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -53444,13 +53431,13 @@ var DashboardCreate = function (_Component) {
               { className: 'buttons' },
               _react2.default.createElement(
                 'a',
-                { href: bookId !== '0' ? '/books/' + bookId : '/dashboard/', className: 'button button-white' },
+                { href: this.state.bookId ? '/books/' + bookId : '/dashboard/', className: 'button button-white' },
                 'Cancel'
               ),
               _react2.default.createElement(
                 'a',
                 { id: 'bookSubmit', href: '#', className: 'button button-red' },
-                bookId !== '0' ? 'Update' : 'Create'
+                this.state.bookId ? 'Update' : 'Create'
               )
             )
           )
@@ -55779,10 +55766,26 @@ var BookDetails = function (_React$Component) {
 						_react2.default.createElement(
 							'strong',
 							null,
+							this.props.book && this.props.book.viewed_by.length ? this.props.book.viewed_by.length : '0'
+						),
+						' Views | ',
+						_react2.default.createElement(
+							'strong',
+							null,
+							this.props.book && this.props.book.followers.length ? this.props.book.followers.length : '0'
+						),
+						' Followers'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						_react2.default.createElement(
+							'strong',
+							null,
 							'Content Warnings'
 						),
 						': ',
-						this.props.warnings.length ? this.props.warnings.join(", ") : 'N/A'
+						this.props.book && this.props.book.warnings.length ? this.props.book.warnings.join(", ") : 'N/A'
 					),
 					_react2.default.createElement(
 						'p',
@@ -55793,7 +55796,7 @@ var BookDetails = function (_React$Component) {
 							'Genre'
 						),
 						': ',
-						this.props.genre.length ? this.props.genre.join(", ") : 'N/A'
+						this.props.book && this.props.book.genre ? this.props.book.genre : 'N/A'
 					),
 					_react2.default.createElement(
 						'p',
@@ -55958,6 +55961,13 @@ var Comments = function (_React$Component) {
 	}
 
 	_createClass(Comments, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			if (this.props.chapterId) {
+				this.getComments(this.props.chapterId);
+			}
+		}
+	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
 			this.getComments(nextProps.chapterId);
@@ -56979,7 +56989,7 @@ var Cover = exports.Cover = function Cover(_ref2) {
     _react2.default.createElement(
       "div",
       { className: "flex" },
-      _react2.default.createElement("img", { src: coverFile, alt: "defaultCoverFile" })
+      _react2.default.createElement("img", { src: coverFile ? coverFile : '/assets/images/default-cover-art.jpg', alt: "Cover Image" })
     )
   );
 };
@@ -57330,7 +57340,7 @@ exports.default = DescriptionContainer;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -57354,62 +57364,68 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var apiUrl = '/api/v1';
 
 var DetailsContainer = function (_React$Component) {
-  _inherits(DetailsContainer, _React$Component);
+	_inherits(DetailsContainer, _React$Component);
 
-  function DetailsContainer(props) {
-    _classCallCheck(this, DetailsContainer);
+	function DetailsContainer() {
+		var _ref;
 
-    var _this = _possibleConstructorReturn(this, (DetailsContainer.__proto__ || Object.getPrototypeOf(DetailsContainer)).call(this, props));
+		var _temp, _this, _ret;
 
-    _this.state = {
-      type: 'Serial',
-      length: 2,
-      title: '',
-      author: '',
-      role: '',
-      genre: '',
-      tags: [],
-      warnings: []
-    };
-    return _this;
-  }
+		_classCallCheck(this, DetailsContainer);
 
-  _createClass(DetailsContainer, [{
-    key: 'render',
-    value: function render() {
-      // const { length, rating, selectedChapter } = this.props;
-      var _state = this.state,
-          type = _state.type,
-          title = _state.title,
-          author = _state.author,
-          genre = _state.genre,
-          tags = _state.tags,
-          warnings = _state.warnings;
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
 
-      var bookTitle = this.props.book ? this.props.book.title : '';
-      var bookWarnings = this.props.book ? this.props.book.warnings : '';
-      var bookTags = this.props.book ? this.props.book.tags : '';
-      return _react2.default.createElement(_BookDetails2.default, {
-        type: this.state.type // Endpoint for type?
-        , bookId: this.props.bookId,
-        book: this.props.book,
-        length: this.props.length,
-        slider: this.props.slider,
-        title: bookTitle,
-        author: this.state.author,
-        rating: this.props.rating,
-        following: this.props.following,
-        authorized: this.props.authorized,
-        toggleScreen: this.props.toggleScreen,
-        toggleStatus: this.props.toggleStatus,
-        genre: genre,
-        tags: bookTags,
-        warnings: bookWarnings
-      });
-    }
-  }]);
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DetailsContainer.__proto__ || Object.getPrototypeOf(DetailsContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			type: '',
+			length: 0,
+			title: '',
+			author: '',
+			role: '',
+			genre: '',
+			tags: [],
+			warnings: []
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
 
-  return DetailsContainer;
+	_createClass(DetailsContainer, [{
+		key: 'render',
+		value: function render() {
+			// const { length, rating, selectedChapter } = this.props;
+			var _state = this.state,
+			    type = _state.type,
+			    title = _state.title,
+			    author = _state.author,
+			    genre = _state.genre,
+			    tags = _state.tags,
+			    warnings = _state.warnings;
+
+			var bookTitle = this.props.book ? this.props.book.title : '';
+			var bookWarnings = this.props.book ? this.props.book.warnings : '';
+			var bookTags = this.props.book ? this.props.book.tags : '';
+
+			return _react2.default.createElement(_BookDetails2.default, {
+				type: this.state.type,
+				bookId: this.props.bookId,
+				book: this.props.book,
+				length: this.props.length,
+				slider: this.props.slider,
+				title: bookTitle,
+				author: this.state.author,
+				rating: this.props.rating,
+				following: this.props.following,
+				authorized: this.props.authorized,
+				toggleScreen: this.props.toggleScreen,
+				toggleStatus: this.props.toggleStatus,
+				genre: genre,
+				tags: bookTags,
+				warnings: bookWarnings
+			});
+		}
+	}]);
+
+	return DetailsContainer;
 }(_react2.default.Component);
 
 exports.default = DetailsContainer;
@@ -58484,6 +58500,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Polyfills
+if (!Array.prototype.includes) {
+	Object.defineProperty(Array.prototype, 'includes', {
+		value: function value(searchElement, fromIndex) {
+			if (this == null) {
+				throw new TypeError('"this" is null or not defined');
+			}
+			var o = Object(this);
+			var len = o.length >>> 0;
+			if (len === 0) {
+				return false;
+			}
+			var n = fromIndex | 0;
+			var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+			function sameValueZero(x, y) {
+				return x === y || typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y);
+			}
+			while (k < len) {
+				if (sameValueZero(o[k], searchElement)) {
+					return true;
+				}
+				k++;
+			}
+			return false;
+		}
+	});
+}
 
 //components
 
@@ -78667,7 +78711,7 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 							{ className: 'claim-details' },
 							_react2.default.createElement(
 								'a',
-								{ href: 'mailto:' },
+								{ href: 'mailto:' + props.user.email },
 								_react2.default.createElement(
 									'p',
 									null,
@@ -78677,7 +78721,7 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 							),
 							_react2.default.createElement(
 								'a',
-								null,
+								{ href: 'mailto:' + props.book.author.email },
 								_react2.default.createElement(
 									'p',
 									null,

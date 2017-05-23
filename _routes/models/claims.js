@@ -2,7 +2,8 @@ const express = require('express'),
 			mongo = require('../../mongo.js'),
 			async = require('async'),
 			mandrill = require('mandrill-api/mandrill'),
-			mandrill_client = new mandrill.Mandrill('CdbvIytAJInbYckp3pj1Jg');
+			mandrill_client = new mandrill.Mandrill('CdbvIytAJInbYckp3pj1Jg'),
+			moment = require('moment');
 
 const mongoUser = mongo.schema.user,
 			mongoBook = mongo.schema.book,
@@ -21,15 +22,20 @@ exports.getClaims = (req, res)=>{
        path: 'author',
        model: 'Users',
 			 select: 'name email'
-     }}).populate('reporter', 'name email').then((comments)=>{
-		handle.res(res, comments)
+     }}).populate('reporter', 'name email').lean().then((claims)=>{
+				handle.res(res, claims);
 	}).catch((err)=>{
 		handle.err(res, err)
 	})
 }
 
 exports.getBookClaims = (req,res)=>{
-	mongoClaim.find({book: req.params.id}).where('status').equals(1).populate('book').populate('reporter', 'name email').then((comments)=>{
+	mongoClaim.find({book: req.params.id}).where('status').equals(1).populate({path: 'book',
+     populate: {
+       path: 'author',
+       model: 'Users',
+			 select: 'name email'
+     }}).populate('reporter', 'name email').then((comments)=>{
 		handle.res(res, comments)
 	}).catch((err)=>{
 		handle.err(res, err)

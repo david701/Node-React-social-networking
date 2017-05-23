@@ -77,7 +77,6 @@ exports.createBook = (req, res)=>{
   book.author = req.session._id;
   book.status = 1;
 
-
 	if(book.cover){
 		var newBook = new mongoBook(book);
 		newBook.save().then((book)=>{

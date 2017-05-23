@@ -159,7 +159,7 @@ class Parent extends React.Component {
 			method: 'PUT'
 		}).then((resp)=>{
 			this.getBookClaims();
-			this.state({claim:false});
+			this.setState({claim:false});
 		})
 	}
 

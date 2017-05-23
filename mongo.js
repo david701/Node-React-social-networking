@@ -35,7 +35,7 @@ const bookSchema = new Schema({
 	title: String,
 	cover: String,
 	author: { type: Schema.Types.ObjectId, ref: 'Users' },
-	type: Number,
+	type: String,
 	description: String,
 	genre: String,
 	tags: [],
