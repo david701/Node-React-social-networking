@@ -310,7 +310,7 @@ class Parent extends React.Component {
 								</ul>
 								<hr />
 								{this.state.user.following_books? <Library books={this.state.user.following_books} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" />: ''}
-								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"Books I've Written"} user={this.state.user} loadUserInfo={this.loadUserInfo}/>}
+								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo}/>}
 							</div>
 							<div>
 								<div className="content-block">

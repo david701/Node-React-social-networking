@@ -51565,7 +51565,7 @@ var Parent = function (_React$Component) {
 							),
 							_react2.default.createElement('hr', null),
 							this.state.user.following_books ? _react2.default.createElement(_Library2.default, { books: this.state.user.following_books, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : '',
-							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "Books I've Written", user: this.state.user, loadUserInfo: this.loadUserInfo })
+							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, loadUserInfo: this.loadUserInfo })
 						),
 						_react2.default.createElement(
 							'div',
