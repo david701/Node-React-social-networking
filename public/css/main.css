@@ -724,7 +724,7 @@ body {
   line-height: 39px;
   height: 33px; }
   .go-to-chapter select.slide-to-chapter {
-    width: 100px;
+    width: 110px;
     height: 33px;
     line-height: 15px;
     font-size: 14px;
@@ -1713,6 +1713,9 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
   @media screen and (min-width: 62.5em) {
     .standard-section-with-sidebar > .container > .flex-row > div:last-child {
       width: calc( 26.66667vw  - 1.5em); } }
+
+#full-screen .book-top-half .go-to-chapter {
+  display: none; }
 
 #full-screen .book-top-half .content-block:first-child {
   height: 5em;

@@ -53444,13 +53444,13 @@ var DashboardCreate = function (_Component) {
               { className: 'buttons' },
               _react2.default.createElement(
                 'a',
-                { href: '/views/dashboard/', className: 'button button-white' },
+                { href: bookId !== '0' ? '/books/' + bookId : '/dashboard/', className: 'button button-white' },
                 'Cancel'
               ),
               _react2.default.createElement(
                 'a',
                 { id: 'bookSubmit', href: '#', className: 'button button-red' },
-                bookId !== 0 ? 'Update' : 'Create'
+                bookId !== '0' ? 'Update' : 'Create'
               )
             )
           )
@@ -55628,6 +55628,10 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactSlick = __webpack_require__(397);
+
+var _reactSlick2 = _interopRequireDefault(_reactSlick);
+
 var _jQuery = __webpack_require__(19);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
@@ -55676,18 +55680,16 @@ var BookDetails = function (_React$Component) {
 				_this.setState({ following: true });
 			});
 		}, _this.moveSlide = function (slide, event) {
-			var slideWidth = (0, _jQuery2.default)('.slick-slide').width(),
-			    slideOver = void 0;
+			var slideOver = void 0;
 
 			if (slide === "details") {
 				slideOver = 0;
 			} else if (slide === 'toc') {
-				slideOver = -slideWidth;
+				slideOver = 1;
 			} else if (slide === 'chapter') {
-				slideOver = parseInt(event.target.value) * 2 * -slideWidth;
+				slideOver = parseInt(event.target.value) * 2;
 			}
-
-			(0, _jQuery2.default)('.slick-track').css({ transform: 'translate3d(' + slideOver + 'px, 0px, 0px)' });
+			_this.props.slider.slickGoTo(slideOver);
 		}, _this.unfollow = function () {
 			_jQuery2.default.ajax({
 				url: apiUrl + '/books/' + _this.props.bookId + '/follow',
@@ -55838,7 +55840,7 @@ var BookDetails = function (_React$Component) {
 						)
 					)
 				),
-				_react2.default.createElement(
+				chapters.length > 0 && _react2.default.createElement(
 					'div',
 					{ className: 'go-to-chapter' },
 					'Go to:',
@@ -55847,6 +55849,11 @@ var BookDetails = function (_React$Component) {
 						{ onChange: function onChange(e) {
 								return _this2.moveSlide('chapter', e);
 							}, className: 'slide-to-chapter' },
+						_react2.default.createElement(
+							'option',
+							{ value: '0' },
+							'Select Chapter'
+						),
 						chapters.map(function (chapter, i) {
 							return _react2.default.createElement(
 								'option',
@@ -57382,12 +57389,12 @@ var DetailsContainer = function (_React$Component) {
       var bookTitle = this.props.book ? this.props.book.title : '';
       var bookWarnings = this.props.book ? this.props.book.warnings : '';
       var bookTags = this.props.book ? this.props.book.tags : '';
-
       return _react2.default.createElement(_BookDetails2.default, {
         type: this.state.type // Endpoint for type?
         , bookId: this.props.bookId,
         book: this.props.book,
         length: this.props.length,
+        slider: this.props.slider,
         title: bookTitle,
         author: this.state.author,
         rating: this.props.rating,
@@ -57611,7 +57618,7 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'book-top-half' },
-          _react2.default.createElement(_DetailsContainer2.default, { bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          _react2.default.createElement(_DetailsContainer2.default, { slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           _react2.default.createElement(Placeholder, null)
         ),
         _react2.default.createElement(

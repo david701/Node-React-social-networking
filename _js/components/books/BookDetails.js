@@ -1,4 +1,5 @@
 import React from 'react';
+import Slider from 'react-slick';
 import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
 
@@ -30,18 +31,16 @@ export default class BookDetails extends React.Component {
 	}
 
 	moveSlide = (slide,event) => {
-		let slideWidth = $('.slick-slide').width(),
-		slideOver;
+		let slideOver;
 
 		if(slide === "details"){
 			slideOver = 0;
 		}else if(slide === 'toc'){
-			slideOver = -slideWidth;
+			slideOver = 1;
 		}else if(slide === 'chapter'){
-			slideOver = (parseInt(event.target.value) * 2) * -slideWidth;
+			slideOver = (parseInt(event.target.value) * 2);
 		}
-
-		$('.slick-track').css({transform: 'translate3d('+slideOver+'px, 0px, 0px)'})
+		this.props.slider.slickGoTo(slideOver);
 	}
 
 	unfollow = ()=>{
@@ -98,9 +97,11 @@ export default class BookDetails extends React.Component {
 		    		<span onClick={(e) => this.moveSlide('toc',e)}> Table of Contents</span>
 		    	</p>
 		    </div>
+		    {chapters.length > 0 &&
 		    <div className="go-to-chapter">
 		    	Go to:
 				<select onChange={(e) => this.moveSlide('chapter',e)} className="slide-to-chapter">
+					<option value="0">Select Chapter</option>
 				{
 				  chapters.map(function(chapter,i){
 				  	return (
@@ -110,6 +111,7 @@ export default class BookDetails extends React.Component {
 				}
 				</select>
 			</div>
+			}
 		  </div>
 		);
 	}
