@@ -176,8 +176,8 @@ class DashboardCreate extends Component {
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
           <div className="submit-row submit-row-single">
             <div className="buttons">
-              <a href="/views/dashboard/" className="button button-white">Cancel</a>
-              <a id="bookSubmit" href="#" className="button button-red">{this.state.bookId? 'Update' : 'Create'}</a>
+              <a href={this.state.bookId ? '/books/' + bookId : '/dashboard/'} className="button button-white">Cancel</a>
+              <a id="bookSubmit" href="#" className="button button-red">{this.state.bookId ? 'Update' : 'Create'}</a>
             </div>
           </div>
         </form>

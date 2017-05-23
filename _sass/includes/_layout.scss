@@ -948,6 +948,9 @@ body.search-open {
 
 #full-screen {
     .book-top-half {
+        .go-to-chapter {
+            display: none;
+        }
         .content-block:first-child {
             height: 5em;
             padding: 0 2em;
