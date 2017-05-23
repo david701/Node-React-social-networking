@@ -27,7 +27,7 @@ export default class SearchContainer extends React.Component {
     this.state = {
       search: "", //input field
       searchBy: "Book", // default search by
-      rating: 1, //star rating
+      rating: 0, //star rating
       tags: [], // all tags
       genres: [], // all genre
       savedSearches: ["Search by [Book] and [Tag Name], [Tag name], and [Genre name]","Search by [Author Name]"] //saved searches
