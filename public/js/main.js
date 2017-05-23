@@ -52467,13 +52467,40 @@ var SignUp = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this, props));
 
+        _this.handleSubmit = function (event) {
+            //stop bubbling
+            event.preventDefault();
+            event.stopPropagation();
+
+            var $this = _this;
+            _this.new_profile.bday = _this.new_profile.bday._d;
+
+            _this.new_profile.social_media = _this.cleanUrls(_this.new_profile.social_media);
+
+            //restart profile
+            _jquery2.default.ajax({
+                url: '/api/v1/users/',
+                type: 'POST',
+                data: JSON.stringify(_this.new_profile),
+                dataType: 'json',
+                contentType: 'application/json; charset=UTF-8'
+            }).then(function (response) {
+                if (response.status !== "error") {
+                    window.location.href = "/email";
+                } else {
+                    _this.setState({ error: response.message });
+                }
+                _this.new_profile = new Profile();
+                _this.setState({ profile: _this.new_profile });
+            });
+        };
+
         _this.new_profile = new Profile();
         _this.state = {
             profile: _this.new_profile,
             error: ''
         };
         _this.handleChange = _this.handleChange.bind(_this);
-        _this.handleSubmit = _this.handleSubmit.bind(_this);
         _this.cleanUrls = _this.cleanUrls.bind(_this);
         return _this;
     }
@@ -52553,34 +52580,6 @@ var SignUp = function (_React$Component) {
             }
 
             return links;
-        }
-    }, {
-        key: 'handleSubmit',
-        value: function handleSubmit(event) {
-            var $this = this;
-            this.new_profile.bday = this.new_profile.bday._d;
-
-            this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
-
-            //restart profile
-            _jquery2.default.ajax({
-                url: '/api/v1/users/',
-                type: 'post',
-                data: JSON.stringify(this.new_profile),
-                dataType: 'json',
-                contentType: 'application/json; charset=UTF-8',
-                success: function success(response) {
-                    if (response.status !== "error") {
-                        window.location.href = "/email";
-                    } else {
-                        $this.setState({ error: response.message });
-                    }
-                    this.new_profile = new Profile();
-                    this.setState({ profile: this.new_profile });
-                }
-            });
-
-            event.preventDefault();
         }
     }, {
         key: 'isChecked',
