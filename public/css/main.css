@@ -3648,6 +3648,9 @@ form .instructions {
       max-width: 14.375em;
       margin-top: -5em; }
     .notice-404 .flex-row figure .night {
+      position: relative;
+      top: 5px;
+      left: 2px;
       display: none; }
   .notice-404 .flex-row .copy h1 {
     font-size: 3em;
