@@ -32,11 +32,56 @@ exports.getBooks = (req, res)=>{
 	var query = {status: status}
 	if(req.query.genre) query.genre = req.query.genre;
 
-  mongoBook.find(query).limit(limit).populate('author', 'avatar name').then((books)=>{
-    handle.res(res, books)
-  }).catch((err)=>{
-    handle.err(res, err)
-  });
+	if(req.query.genres){
+		var genres = req.query.genres.split(',');
+		query.genre = {$in: genres}
+	}
+
+	if(req.query.tags){
+		var tags = req.query.tags.split(',');
+		query.tags = {$in: tags}
+	}
+
+	if(req.query.title){
+		query.title={ "$regex": req.query.title, "$options": "i" }
+	}
+
+	if(req.query.rating){
+		var rating = parseInt(req.query.rating);
+		var ratingFloor = Math.floor(rating);
+		var ratingCeil = ratingFloor + 1;
+		query.rating = {$gte : ratingFloor, $lt : ratingCeil}
+	}
+
+	if(req.query.author){
+		var BookList=[];
+		mongoUser.find({name:{ "$regex": req.query.author, "$options": "i" }}).select('_id').then((authors)=>{
+			async.each(authors, (author, cb)=>{
+				query.author = author;
+				mongoBook.find(query).limit(limit).populate('author', 'avatar name').then((books)=>{
+					if(books && books.length){
+						BookList = BookList.concat(books);
+						cb();
+					}else{
+						cb();
+					}
+				})
+			}, (err)=>{
+				if(err){
+					handle.err(res, err)
+				}else{
+					handle.res(res, BookList)
+				}
+			})
+		});
+	}else{
+		mongoBook.find(query).limit(limit).populate('author', 'avatar name').then((books)=>{
+			handle.res(res, books)
+		}).catch((err)=>{
+			handle.err(res, err)
+		});
+	}
+
 }
 
 exports.getUserBooks = (req, res)=>{

@@ -41,9 +41,23 @@ exports.addReview = (req,res)=>{
 
 	var newReview = new mongoReview(review);
 	newReview.save().then((review)=>{
-		handle.res(res, review);
+		mongoBook.findOne({_id: review.book_id}).then((book)=>{
+			mongoReview.find({book_id: review.book_id}).then((reviews)=>{
+				var rating = 0;
+				for (var i = 0; i < reviews.length; i++) {
+					rating = rating + reviews[i].rating;
+				}
+				rating = rating/reviews.length;
+				book.rating = rating;
+				book.save().then((book)=>{
+					handle.res(res, review);
+				}).catch((err)=>{
+					handle.err(res, err);
+				})
+			})
+		});
 	}).catch((err)=>{
-		handle.err(res, err.message);
+		handle.err(res, err);
 	})
 
 }

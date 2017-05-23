@@ -46,6 +46,7 @@ const bookSchema = new Schema({
 	featured: Boolean,
 	in_library: Boolean,
 	links: {},
+	rating: {type:Number, default: 0},
 	updated_at: { type: Date, default: Date.now }
 });
 
