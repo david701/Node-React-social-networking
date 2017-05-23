@@ -78819,7 +78819,6 @@ var Home = function (_React$Component) {
 			var url = apiUrl + '/books?limit=4';
 			if (genre) url = url + '&genre=' + genre;
 			_jQuery2.default.get(url).then(function (books) {
-				console.log(books.data);
 				_this.setState({ books: books.data });
 			}).catch(function (err) {
 				console.log(err);
@@ -79056,7 +79055,7 @@ var Book = function Book(props) {
 												'By ',
 												props.book.author.name
 										),
-										_react2.default.createElement(_Rating2.default, { stars: '5' })
+										_react2.default.createElement(_Rating2.default, { stars: props.book.rating ? Math.floor(props.book.rating) : 0 })
 								)
 						)
 				)

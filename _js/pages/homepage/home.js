@@ -30,7 +30,6 @@ class Home extends React.Component{
 		var url = apiUrl + '/books?limit=4';
 		if(genre) url = url + '&genre='+genre;
 		$.get(url).then((books)=>{
-			console.log(books.data);
 			this.setState({books: books.data});
 		}).catch(err=>{
 			console.log(err);
