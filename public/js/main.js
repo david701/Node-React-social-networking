@@ -53345,7 +53345,6 @@ var DashboardCreate = function (_Component) {
         cover: _this.state.coverFile,
         type: _this.state.type
       };
-      e.preventDefault();
       if (!bookId) {
         _jquery2.default.ajax({
           url: '/api/v1/books',
