@@ -51330,7 +51330,7 @@ var Parent = function (_React$Component) {
 			_jquery2.default.get(apiUrl + '/user_session/').then(function (response) {
 				if (response.status !== "error") {
 					_this2.user.id = response.data._id;
-					if (response.data.role > 1) {
+					if (response.data.role > 0) {
 						_this2.pendingBooks(_this2.user.id);
 						_this2.getBookClaims();
 					} else {
@@ -51693,7 +51693,7 @@ var Parent = function (_React$Component) {
 												null,
 												_react2.default.createElement(
 													'div',
-													{ className: 'cover pending' },
+													{ className: 'cover', style: { backgroundImage: 'url(' + book.cover + ')' } },
 													_react2.default.createElement(
 														'div',
 														{ className: 'overlay' },
@@ -58771,7 +58771,7 @@ var LoginButtons = function (_React$Component) {
 												)
 											)
 										),
-										this.state.user.role >= 1 && _react2.default.createElement(
+										this.state.user.role > 0 && _react2.default.createElement(
 											'li',
 											{ className: this.state.title === "Following" ? 'selected' : '' },
 											_react2.default.createElement(

@@ -66,7 +66,7 @@ class Parent extends React.Component {
 		$.get(`${apiUrl}/user_session/`).then((response) => {
 			if (response.status !== "error") {
 				this.user.id = response.data._id;
-				if(response.data.role > 1){
+				if(response.data.role > 0){
 					this.pendingBooks(this.user.id);
 					this.getBookClaims();
 				}else{
@@ -365,7 +365,7 @@ class Parent extends React.Component {
 				                        <li key={i}>
 				                          <div className="content-block content-block-book">
 				                            <figure>
-				                              <div className="cover pending">
+				                              <div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 				                                <div className="overlay">
 				                                  <div className="button button-red" onClick={() => self.approveBooks(book)}>Approve</div>
 				                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
