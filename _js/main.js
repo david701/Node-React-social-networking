@@ -176,7 +176,7 @@ class LoginButtons extends React.Component{
 				                        </li>
 			                        </div>
 			                    	}
-			                    	{this.state.user.role >= 1 &&
+			                    	{this.state.user.role > 0 &&
 			                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 			                            <a href="/dashboard/all-users/1">All Users</a>
 			                        </li>
