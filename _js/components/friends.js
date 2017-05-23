@@ -140,10 +140,10 @@ class AllUsers extends React.Component{
         $.get('/api/v1/user_session/').then((response)=>{
             if(response.status === "error"){
                 window.location.href = "/";
-            }else {
+            }else{
                 this.setState({me: response.data});
-                if(this.state.me.role > 1){
-                    this.getUsers(this.state.me._id);
+                if(this.state.me.role > 0){
+                	this.getUsers(this.state.me._id);
                 }
             }
         });

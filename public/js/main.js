@@ -50672,7 +50672,7 @@ var AllUsers = function (_React$Component2) {
                     window.location.href = "/";
                 } else {
                     _this4.setState({ me: response.data });
-                    if (_this4.state.me.role > 1) {
+                    if (_this4.state.me.role > 0) {
                         _this4.getUsers(_this4.state.me._id);
                     }
                 }
