@@ -14,7 +14,7 @@ const Book = props => (
 							<figcaption>
 									<h4>{props.book.title}</h4>
 									<p>By {props.book.author.name}</p>
-									<Rating stars='5' />
+									<Rating stars={props.book.rating? Math.floor(props.book.rating):0} />
 							</figcaption>
 					</figure>
 			</div>
