@@ -6,7 +6,11 @@ const express = require('express'),
 			mandrill = require('mandrill-api/mandrill'),
 			mandrill_client = new mandrill.Mandrill('CdbvIytAJInbYckp3pj1Jg');
 
-const mongoUser = mongo.schema.user;
+const mongoUser = mongo.schema.user,
+			mongoBook = mongo.schema.book,
+			mongoChapter = mongo.schema.chapter,
+			mongoComment = mongo.schema.comment,
+			mongoReview = mongo.schema.review;
 
 const handle = require('../helpers/handle.js');
 
@@ -56,7 +60,18 @@ exports.getUsers = (req, res) => {
 			query = {},
 			sort = {};
 
-	var query = mongoUser.find(query).where('status').gt(0).limit(limit).skip(skip).sort(sort).exec();
+	var query = mongoUser.find(query).where('status').gt(0).limit(limit).skip(skip).sort(sort)
+	.populate({
+		path:'following_authors',
+		select:'name avatar',
+		match: {'status':1}
+	})
+	.populate({
+		path:'followers',
+		select: 'name avatar',
+		match: {'status':1}
+	})
+	.exec();
 
 	query.then((users)=>{
 		handle.res(res, users);
@@ -97,11 +112,24 @@ exports.createUser = (req, res)=>{
 
 /// GET SINGLE USER BY ID
 exports.getUserById = (req, res)=>{
-	mongoUser.findOne({_id: req.params.id}).populate('following_authors', 'name avatar').populate('followers', 'name avatar').populate({path: 'following_books',
+	mongoUser.findOne({_id: req.params.id})
+	.populate({
+		path:'following_authors',
+		select:'name avatar',
+		match: {'status':1}
+	})
+	.populate({
+		path:'followers',
+		select: 'name avatar',
+		match: {'status':1}
+	})
+	.populate({
+		path: 'following_books',
+		match: {'status':1},
      populate: {
        path: 'author',
        model: 'Users',
-			 select: 'name'
+			 select: 'name',
      }})
 		.then((user)=>{
 			if(user.status > 0){
@@ -162,35 +190,50 @@ exports.removeUser = (req, res)=>{
 	}
 	mongoUser.findOne({_id: req.params.id})
 		.then((user)=>{
-			user.update({status: 0})
-				.then((userUpdate)=>{
-					// TODO: SOFT REMOVE BOOKS
-					// TODO: SOFT REMOVE COMMENTS
-					// TODO: SOFT REMOVE REVIEWS
-					// TODO: REMOVE FOLLOWS
-					// TODO: REMOVE FOLLOWER
-					handle.res(res, req.params.id);
-					// mongoUser.find({followers: req.params.id}).then((follow)=>{
-							// async.each(follow, (item, cb)=>{
-							//
-							// })
-					// 	if(follow){
-					// 		follow.followers.remove(req.params.id);
-					// 		follow.save();
-					// 	}
-					// 	mongoUser.find({following_authors: req.params.id}).then((author)=>{
-					// 		if(author){
-					// 			author.following_authors.remove(req.params.id);
-					// 			author.save();
-					// 		}
-					// 	})
-					// }).catch((err)=>{
-					// 	handle.err(res, err.message)
-					// })
-				})
-				.catch((err)=>{
-					handle.err(res, err.message)
-				})
+			if(user.role > 0){
+				handle.err(res, 'Admins can not be removed')
+			}else{
+				user.update({status: 0})
+					.then((userUpdate)=>{
+						mongoBook.find({author: req.params.id}).then((books)=>{
+							async.each(books, (book, cb)=>{
+								book.status = 0;
+								book.save().then((book)=>{
+									cb()
+								}).catch(err=>{
+									cb(err)
+								});
+							}, (err)=>{
+								mongoComment.find({author: req.params.id}).then((comments)=>{
+									async.each(comments, (comment, cb)=>{
+										comment.status = 0;
+										comment.save().then((comment)=>{
+											cb()
+										}).catch(err=>{
+											cb(err)
+										})
+									}, (err)=>{
+										mongoReview.find({author: req.params.id}).then((reviews)=>{
+											async.each(reviews, (review, cb)=>{
+												review.status = 0;
+												review.save().then((review)=>{
+													cb()
+												}).catch(err=>{
+													cb(err)
+												})
+											}, (err)=>{
+												handle.res(res, req.params.id);
+											})
+										});
+									})
+								})
+							});
+						})
+					})
+					.catch((err)=>{
+						handle.err(res, err.message)
+					})
+			}
 		})
 		.catch((err)=>{
 			handle.err(res, err.message)
