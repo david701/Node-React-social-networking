@@ -39,7 +39,6 @@ class SignUp extends React.Component{
         error: ''
     	};
     	this.handleChange = this.handleChange.bind(this);
-    	this.handleSubmit = this.handleSubmit.bind(this);
       this.cleanUrls = this.cleanUrls.bind(this);
   	}
 
@@ -115,7 +114,11 @@ class SignUp extends React.Component{
 
   }
 
-  handleSubmit(event){
+  handleSubmit = (event) => {
+    //stop bubbling
+    event.preventDefault();
+    event.stopPropagation();
+
     let $this = this;
 		this.new_profile.bday = this.new_profile.bday._d;
 
@@ -124,22 +127,20 @@ class SignUp extends React.Component{
     //restart profile
     $.ajax({
         url: '/api/v1/users/',
-        type: 'post',
+        type: 'POST',
         data: JSON.stringify(this.new_profile),
         dataType: 'json',
         contentType: 'application/json; charset=UTF-8',
-        success: function(response){
-            if(response.status !== "error"){
-              window.location.href = "/email";
-            }else{
-              $this.setState({error: response.message});
-            }
-            this.new_profile = new Profile();
-            this.setState({profile: this.new_profile});
+    })
+    .then((response) =>{
+        if(response.status !== "error"){
+          window.location.href = "/email";
+        }else{
+          this.setState({error: response.message});
         }
-    });
-
-		event.preventDefault();
+        this.new_profile = new Profile();
+        this.setState({profile: this.new_profile});
+    })
 	}
 
 	isChecked(array,value){

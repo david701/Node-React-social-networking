@@ -118,7 +118,6 @@ class DashboardCreate extends Component {
 			cover: this.state.coverFile,
 			type: this.state.type
     };
-    e.preventDefault();
     if(!bookId){
 			$.ajax({
 				url: '/api/v1/books',

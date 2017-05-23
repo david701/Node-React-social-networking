@@ -2288,7 +2288,12 @@ form .instructions {
         width: calc(50% - 0.75em);
         padding: 2em; } }
     .content-block-standard-new .night {
-      display: none; }
+      display: none;
+      width: 134px;
+      height: 165px;
+      position: relative;
+      top: 11px;
+      right: 1px; }
     .content-block-standard-new header, .content-block-standard-new h3, .content-block-standard-new h4 {
       color: #005876; }
     .content-block-standard-new h5 {
@@ -3647,6 +3652,9 @@ form .instructions {
       max-width: 14.375em;
       margin-top: -5em; }
     .notice-404 .flex-row figure .night {
+      position: relative;
+      top: 5px;
+      left: 2px;
       display: none; }
   .notice-404 .flex-row .copy h1 {
     font-size: 3em;
