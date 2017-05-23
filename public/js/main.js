@@ -56230,7 +56230,7 @@ var BookDetails = function (_React$Component) {
 					_react2.default.createElement(
 						'h2',
 						null,
-						this.props.type
+						this.props.book ? this.props.book.type : ''
 					),
 					_react2.default.createElement(
 						'span',
@@ -58980,6 +58980,8 @@ __webpack_require__(255);
 __webpack_require__(259);
 
 __webpack_require__(258);
+
+__webpack_require__(514);
 
 __webpack_require__(260);
 
@@ -78856,6 +78858,769 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */,
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(9);
+
+var _jQuery = __webpack_require__(19);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
+var _BooksRow = __webpack_require__(515);
+
+var _BooksRow2 = _interopRequireDefault(_BooksRow);
+
+var _Brawl = __webpack_require__(517);
+
+var _Brawl2 = _interopRequireDefault(_Brawl);
+
+var _genres = __webpack_require__(263);
+
+var _genres2 = _interopRequireDefault(_genres);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var apiUrl = '/api/v1';
+
+var Home = function (_React$Component) {
+	_inherits(Home, _React$Component);
+
+	function Home() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, Home);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Home.__proto__ || Object.getPrototypeOf(Home)).call.apply(_ref, [this].concat(args))), _this), _this.state = { books: [], genre: '' }, _this.getUser = function () {
+			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
+				if (user.data) {
+					_jQuery2.default.get(apiUrl + '/users/' + user.data._id).then(function (user) {
+						//console.log(user);
+					});
+				}
+			});
+		}, _this.getBooks = function (genre) {
+			var url = apiUrl + '/books?limit=4';
+			if (genre) url = url + '&genre=' + genre;
+			_jQuery2.default.get(url).then(function (books) {
+				console.log(books.data);
+				_this.setState({ books: books.data });
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.changeGenre = function (e) {
+			_this.setState({ genre: e.target.value });
+			_this.getBooks(e.target.value);
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(Home, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.getUser();
+			this.getBooks();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_Brawl2.default, null),
+				_react2.default.createElement(
+					'section',
+					{ className: 'standard-section' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'container' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content-block' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'placeholder' },
+								_react2.default.createElement(
+									'h4',
+									null,
+									'Ad Space'
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'filter-controls' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'flex-row' },
+								_react2.default.createElement(
+									'strong',
+									null,
+									'View: '
+								),
+								_react2.default.createElement(
+									'div',
+									{ className: 'minimal-select minimal-select-large' },
+									_react2.default.createElement(
+										'select',
+										{ value: this.state.genre, onChange: this.changeGenre },
+										_react2.default.createElement(
+											'option',
+											{ value: '' },
+											'All Genres'
+										),
+										_genres2.default.map(function (genre, key) {
+											return _react2.default.createElement(
+												'option',
+												{ key: key, value: genre },
+												genre
+											);
+										})
+									)
+								)
+							)
+						),
+						_react2.default.createElement(_BooksRow2.default, { title: 'Recommended', books: this.state.books }),
+						_react2.default.createElement(_BooksRow2.default, { title: 'Top Rated', books: this.state.books }),
+						_react2.default.createElement(
+							'div',
+							{ className: 'content-block-spread' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'content-block' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'placeholder' },
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Ad Space'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'content-block' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'placeholder' },
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Ad Space'
+									)
+								)
+							)
+						),
+						_react2.default.createElement(_BooksRow2.default, { title: this.state.genre ? this.state.genre : 'Books', books: this.state.books })
+					)
+				)
+			);
+		}
+	}]);
+
+	return Home;
+}(_react2.default.Component);
+
+if (document.getElementById('home')) {
+	(0, _reactDom.render)(_react2.default.createElement(Home, null), document.getElementById('home'));
+}
+
+/***/ }),
+/* 515 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _book = __webpack_require__(516);
+
+var _book2 = _interopRequireDefault(_book);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BookRow = function BookRow(props) {
+	return _react2.default.createElement(
+		'div',
+		{ className: 'book-blocks' },
+		props.title ? _react2.default.createElement(
+			'div',
+			{ className: 'title-row' },
+			_react2.default.createElement(
+				'h3',
+				null,
+				props.title
+			),
+			_react2.default.createElement(
+				'a',
+				{ className: 'expand-control', href: '.' },
+				'All ',
+				props.title
+			)
+		) : '',
+		props.books ? _react2.default.createElement(
+			'ul',
+			null,
+			props.books.map(function (book, key) {
+				return _react2.default.createElement(_book2.default, { book: book, key: key });
+			})
+		) : ''
+	);
+};
+
+exports.default = BookRow;
+
+/***/ }),
+/* 516 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+		value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Rating = __webpack_require__(53);
+
+var _Rating2 = _interopRequireDefault(_Rating);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Book = function Book(props) {
+		return _react2.default.createElement(
+				'li',
+				null,
+				_react2.default.createElement(
+						'div',
+						{ className: 'content-block content-block-book' },
+						_react2.default.createElement(
+								'figure',
+								null,
+								_react2.default.createElement(
+										'div',
+										{ className: 'cover', style: { backgroundImage: 'url(' + props.book.cover + ')' } },
+										_react2.default.createElement(
+												'div',
+												{ className: 'overlay' },
+												_react2.default.createElement(
+														'a',
+														{ className: 'button button-red', href: '/books/' + props.book._id },
+														'Preview'
+												),
+												_react2.default.createElement(
+														'button',
+														{ className: 'button button-white' },
+														'Add to Library'
+												)
+										)
+								),
+								_react2.default.createElement(
+										'figcaption',
+										null,
+										_react2.default.createElement(
+												'h4',
+												null,
+												props.book.title
+										),
+										_react2.default.createElement(
+												'p',
+												null,
+												'By ',
+												props.book.author.name
+										),
+										_react2.default.createElement(_Rating2.default, { stars: '5' })
+								)
+						)
+				)
+		);
+};
+
+exports.default = Book;
+
+/***/ }),
+/* 517 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+		value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Brawl = function Brawl(props) {
+		return _react2.default.createElement(
+				"section",
+				{ className: "brawl-feature" },
+				_react2.default.createElement(
+						"header",
+						null,
+						_react2.default.createElement(
+								"div",
+								{ className: "container" },
+								_react2.default.createElement(
+										"div",
+										{ className: "flex-row" },
+										_react2.default.createElement(
+												"a",
+												{ href: "#last-week", className: "week-control-last" },
+												_react2.default.createElement(
+														"span",
+														{ className: "label label-small" },
+														"Previous"
+												),
+												_react2.default.createElement(
+														"span",
+														{ className: "label label-large" },
+														"Last Week\u2019s Brawl"
+												)
+										),
+										_react2.default.createElement(
+												"h2",
+												null,
+												_react2.default.createElement(
+														"span",
+														{ className: "week-title week-title-this" },
+														"Current Brawl"
+												),
+												_react2.default.createElement(
+														"span",
+														{ className: "week-title week-title-last" },
+														"Last Week\u2019s Brawl"
+												)
+										),
+										_react2.default.createElement(
+												"a",
+												{ href: "#this-week", className: "week-control-this" },
+												_react2.default.createElement(
+														"span",
+														{ className: "label label-small" },
+														"Next"
+												),
+												_react2.default.createElement(
+														"span",
+														{ className: "label label-large" },
+														"This Week\u2019s Brawl"
+												)
+										)
+								)
+						)
+				),
+				_react2.default.createElement(
+						"main",
+						null,
+						_react2.default.createElement(
+								"div",
+								{ className: "week week-last" },
+								_react2.default.createElement(
+										"div",
+										{ className: "container" },
+										_react2.default.createElement(
+												"div",
+												{ className: "flex-row" },
+												_react2.default.createElement(
+														"div",
+														{ className: "mascot your-pick" },
+														_react2.default.createElement(
+																"div",
+																{ className: "vote-count" },
+																_react2.default.createElement(
+																		"div",
+																		null,
+																		_react2.default.createElement(
+																				"strong",
+																				null,
+																				"45%"
+																		),
+																		_react2.default.createElement(
+																				"span",
+																				null,
+																				"of the votes"
+																		)
+																)
+														),
+														_react2.default.createElement("img", { src: "/assets/images/dog.gif", alt: "" })
+												),
+												_react2.default.createElement(
+														"div",
+														{ className: "book-blocks book-blocks-feature" },
+														_react2.default.createElement(
+																"ul",
+																null,
+																_react2.default.createElement(
+																		"li",
+																		null,
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "content-block content-block-book" },
+																				_react2.default.createElement(
+																						"figure",
+																						null,
+																						_react2.default.createElement(
+																								"div",
+																								{ className: "cover", style: { backgroundImage: "url('/assets/images/samples/covers/feature-1.jpg')" } },
+																								_react2.default.createElement(
+																										"div",
+																										{ className: "overlay" },
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-red", href: "." },
+																												"Preview"
+																										),
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-white", href: "." },
+																												"Add to Library"
+																										)
+																								)
+																						),
+																						_react2.default.createElement(
+																								"figcaption",
+																								null,
+																								_react2.default.createElement(
+																										"h4",
+																										null,
+																										"Title Area"
+																								),
+																								_react2.default.createElement(
+																										"p",
+																										null,
+																										"By [Author Name]"
+																								),
+																								_react2.default.createElement(
+																										"ul",
+																										{ className: "rating-display" },
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", null)
+																								)
+																						)
+																				)
+																		),
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "button button-hidden" },
+																				"Vote"
+																		)
+																),
+																_react2.default.createElement(
+																		"li",
+																		null,
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "content-block content-block-book" },
+																				_react2.default.createElement(
+																						"figure",
+																						null,
+																						_react2.default.createElement(
+																								"div",
+																								{ className: "cover", style: { backgroundImage: "url('/assets/images/samples/covers/feature-2.jpg')" } },
+																								_react2.default.createElement(
+																										"div",
+																										{ className: "overlay" },
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-red", href: "." },
+																												"Preview"
+																										),
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-white", href: "." },
+																												"Add to Library"
+																										)
+																								)
+																						),
+																						_react2.default.createElement(
+																								"figcaption",
+																								null,
+																								_react2.default.createElement(
+																										"h4",
+																										null,
+																										"Title Area"
+																								),
+																								_react2.default.createElement(
+																										"p",
+																										null,
+																										"By [Author Name]"
+																								),
+																								_react2.default.createElement(
+																										"ul",
+																										{ className: "rating-display" },
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", null)
+																								)
+																						)
+																				)
+																		),
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "button button-hidden" },
+																				"Vote"
+																		)
+																)
+														)
+												),
+												_react2.default.createElement(
+														"div",
+														{ className: "mascot" },
+														_react2.default.createElement(
+																"div",
+																{ className: "vote-count has-won" },
+																_react2.default.createElement(
+																		"div",
+																		null,
+																		_react2.default.createElement(
+																				"strong",
+																				null,
+																				"55%"
+																		),
+																		_react2.default.createElement(
+																				"span",
+																				null,
+																				"of the votes"
+																		)
+																)
+														),
+														_react2.default.createElement("img", { src: "/assets/images/cat.gif", alt: "" })
+												)
+										)
+								)
+						),
+						_react2.default.createElement(
+								"div",
+								{ className: "week week-this" },
+								_react2.default.createElement(
+										"div",
+										{ className: "container" },
+										_react2.default.createElement(
+												"div",
+												{ className: "flex-row" },
+												_react2.default.createElement(
+														"div",
+														{ className: "mascot" },
+														_react2.default.createElement("img", { src: "/assets/images/dog.gif", alt: "" })
+												),
+												_react2.default.createElement(
+														"div",
+														{ className: "book-blocks book-blocks-feature" },
+														_react2.default.createElement(
+																"ul",
+																null,
+																_react2.default.createElement(
+																		"li",
+																		null,
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "content-block content-block-book" },
+																				_react2.default.createElement(
+																						"figure",
+																						null,
+																						_react2.default.createElement(
+																								"div",
+																								{ className: "cover", style: { backgroundImage: "url('/assets/images/samples/covers/feature-1.jpg')" } },
+																								_react2.default.createElement(
+																										"div",
+																										{ className: "overlay" },
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-red", href: "." },
+																												"Preview"
+																										),
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-white", href: "." },
+																												"Add to Library"
+																										)
+																								)
+																						),
+																						_react2.default.createElement(
+																								"figcaption",
+																								null,
+																								_react2.default.createElement(
+																										"h4",
+																										null,
+																										"Title Area"
+																								),
+																								_react2.default.createElement(
+																										"p",
+																										null,
+																										"By [Author Name]"
+																								),
+																								_react2.default.createElement(
+																										"ul",
+																										{ className: "rating-display" },
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", null)
+																								)
+																						)
+																				)
+																		),
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "button" },
+																				"Vote"
+																		)
+																),
+																_react2.default.createElement(
+																		"li",
+																		null,
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "content-block content-block-book" },
+																				_react2.default.createElement(
+																						"figure",
+																						null,
+																						_react2.default.createElement(
+																								"div",
+																								{ className: "cover", style: { backgroundImage: "url('/assets/images/samples/covers/feature-2.jpg')" } },
+																								_react2.default.createElement(
+																										"div",
+																										{ className: "overlay" },
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-red", href: "." },
+																												"Preview"
+																										),
+																										_react2.default.createElement(
+																												"button",
+																												{ className: "button button-white", href: "." },
+																												"Add to Library"
+																										)
+																								)
+																						),
+																						_react2.default.createElement(
+																								"figcaption",
+																								null,
+																								_react2.default.createElement(
+																										"h4",
+																										null,
+																										"Title Area"
+																								),
+																								_react2.default.createElement(
+																										"p",
+																										null,
+																										"By [Author Name]"
+																								),
+																								_react2.default.createElement(
+																										"ul",
+																										{ className: "rating-display" },
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", { className: "filled" }),
+																										_react2.default.createElement("li", null)
+																								)
+																						)
+																				)
+																		),
+																		_react2.default.createElement(
+																				"a",
+																				{ href: ".", className: "button" },
+																				"Vote"
+																		)
+																)
+														)
+												),
+												_react2.default.createElement(
+														"div",
+														{ className: "mascot" },
+														_react2.default.createElement("img", { src: "/assets/images/cat.gif", alt: "" })
+												)
+										)
+								)
+						)
+				),
+				_react2.default.createElement(
+						"footer",
+						null,
+						_react2.default.createElement(
+								"div",
+								{ className: "container" },
+								_react2.default.createElement(
+										"h4",
+										null,
+										_react2.default.createElement(
+												"span",
+												{ className: "week-results week-results-this" },
+												"Vote to see results"
+										),
+										_react2.default.createElement(
+												"span",
+												{ className: "week-results week-results-last is-announced" },
+												"[Book Title] Won!"
+										)
+								)
+						)
+				)
+		);
+};
+
+exports.default = Brawl;
 
 /***/ })
 /******/ ]);
