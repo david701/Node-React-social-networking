@@ -26,8 +26,13 @@ const saveImage = (bookId, img, cb) => {
 }
 
 exports.getBooks = (req, res)=>{
-  var status = req.query.status || 2;
-  mongoBook.find({status: status}).then((books)=>{
+	var limit  = parseInt(req.query.limit) || 0;
+  var status = parseInt(req.query.status) || 2;
+
+	var query = {status: status}
+	if(req.query.genre) query.genre = req.query.genre;
+
+  mongoBook.find(query).limit(limit).populate('author', 'avatar name').then((books)=>{
     handle.res(res, books)
   }).catch((err)=>{
     handle.err(res, err)
@@ -35,7 +40,7 @@ exports.getBooks = (req, res)=>{
 }
 
 exports.getUserBooks = (req, res)=>{
-  var limit  = req.query.limit || 0;
+  var limit  = parseInt(req.query.limit) || 0;
   mongoBook.find({author: req.params.id}).where('status').gt(0).sort( [['_id', -1]] ).limit(limit).populate('author', 'name avatar').then((books)=>{
     if(!books){
       res.json({status: 'error', message: 'No books for current user'});
@@ -101,6 +106,7 @@ exports.createBook = (req, res)=>{
 
 	}else{
 		var newBook = new mongoBook(book);
+		book.cover = '/assets/images/default-cover-art.jpg';
 		newBook.save().then((book)=>{
 			res.json({status: 'ok', data: book});
 		}).catch((err)=>{
