@@ -57582,7 +57582,7 @@ var Book = function Book(props) {
 												'By ',
 												props.book.author.name
 										),
-										_react2.default.createElement(_Rating2.default, { stars: '5' })
+										_react2.default.createElement(_Rating2.default, { stars: props.book.rating ? Math.floor(props.book.rating) : 0 })
 								)
 						)
 				)
