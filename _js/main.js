@@ -41,6 +41,7 @@ import './components/friends.js';
 import './components/reset-password.js';
 import './pages/dashboard/create';
 import './pages/books/edit';
+import './pages/homepage/home';
 import './pages/search';
 import '../_sass/main.scss';
 
