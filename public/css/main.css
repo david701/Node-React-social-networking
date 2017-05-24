@@ -180,7 +180,8 @@
 
 .react-datepicker__input-container {
   position: relative;
-  display: inline-block; }
+  display: inline-block;
+  width: 100%; }
 
 .react-datepicker__year-read-view,
 .react-datepicker__month-read-view {
@@ -2239,6 +2240,9 @@ form .instructions {
     display: flex;
     justify-content: center;
     align-items: center; }
+  .content-block .search-link {
+    cursor: pointer;
+    text-decoration: underline; }
   .content-block-standard, .content-block-standard-search {
     margin: 0 auto;
     max-width: 46.5em;
@@ -2271,10 +2275,11 @@ form .instructions {
       margin: 1em 0 2em; }
     .content-block-standard h5.saved-search-remover, .content-block-standard-search h5.saved-search-remover {
       font-family: "franklin-gothic-urw", -apple-system, Helvetica, Arial, sans-serif;
-      font-size: 0.875em;
+      font-size: 16px;
       font-weight: 500;
       color: #0FAFFF;
-      margin-right: 10px; }
+      margin-right: 10px;
+      cursor: pointer; }
   .content-block-standard-new {
     /* for spacing between blocks - TEMPORARY FIX */
     margin: 0 auto;
@@ -2416,7 +2421,7 @@ form .instructions {
   .content-block .category-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin: 0.75em 0; }
     .content-block .toggle-list ::selection,
     .content-block .category-list ::selection {
@@ -2446,7 +2451,8 @@ form .instructions {
       border: 1px solid #0FAFFF;
       text-align: center;
       margin-bottom: 1em;
-      width: calc(1/2*100% - 1/2*1em); }
+      width: calc(1/2*100% - 1/2*1em);
+      margin-right: 10px; }
       @media screen and (min-width: 30em) {
         .content-block .toggle-list li,
         .content-block .category-list li {
