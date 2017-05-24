@@ -95,6 +95,38 @@ exports.getUserBooks = (req, res)=>{
   })
 }
 
+exports.getRecommendedBooks = (req, res)=>{
+	var user = req.session;
+	console.log(user);
+	handle.res(res)
+	// if(user){
+	// 	mongoUser.findOne({_id: user._id}).then((user)=>{
+	// 		if(user){
+	// 			var query = {};
+	// 			if(user.themes) query.tags = {$in: user.themes};
+	// 			if(user.genres) query.tags = {$in: user.genres};
+	//
+	// 			mongoBook.find(query).sort('rating', 'desc').(then(books)=>{
+	// 				handle.res(res, books)
+	// 			}).catch(err=>{
+	// 				handle.err(res, err)
+	// 			})
+	// 		}else{
+	// 			handle.err(res, 'User Not Found');
+	// 		}
+	// 	}).catch(err=>{
+	// 		handle.err(res, err)
+	// 	})
+	// }else{
+	// 	var query = {};
+	// 	mongoBook.find(query).sort('rating', 'desc').(then(books)=>{
+	// 		handle.res(res, books)
+	// 	}).catch(err=>{
+	// 		handle.err(res, err)
+	// 	})
+	// }
+}
+
 exports.getBooksById = (req, res)=>{
   mongoBook.findOne({_id: req.params.id}).populate('author', 'avatar name').lean().then((book)=>{
     if(!book){

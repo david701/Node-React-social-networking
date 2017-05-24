@@ -22,7 +22,7 @@ class SearchCheckbox extends Component {
       <li>
         <input
           type="checkbox"
-          value={`${label}-${val}`}
+          value={`${label}`}
           id={`${label}-${val}`}
           checked={isChecked}
           onChange={this.toggleCheckboxChange}
