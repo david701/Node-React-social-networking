@@ -9,25 +9,33 @@ const apiUrl = '/api/v1';
 
 import genres from '../../../data/genres.json';
 
+const limit = 4;
+
 class Home extends React.Component{
-	state = {books:[], genre:''}
+	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:''}
 	componentDidMount(){
 		this.getUser();
-		this.getBooks();
+		this.getAllBooks();
 	}
 
 	getUser = ()=>{
 		$.get(`${apiUrl}/user_session`).then((user)=>{
 			if(user.data){
-				$.get(`${apiUrl}/users/${user.data._id}`).then((user)=>{
-					//console.log(user);
+				$.get(`${apiUrl}/users/${user.data._id}?book_list=true`).then((user)=>{
+					this.setState({user:user.data});
 				})
 			}
 		})
 	}
 
+	getAllBooks = (genre)=>{
+		this.getBooks(genre);
+		this.getRecommended(genre);
+		this.getTopRated(genre);
+	}
+
 	getBooks = (genre)=>{
-		var url = apiUrl + '/books?limit=4';
+		var url = apiUrl + '/books?limit='+limit;
 		if(genre) url = url + '&genre='+genre;
 		$.get(url).then((books)=>{
 			this.setState({books: books.data});
@@ -36,9 +44,46 @@ class Home extends React.Component{
 		})
 	}
 
+	getRecommended = (genre)=>{
+		var url = apiUrl + '/books/recommended?limit='+limit;
+		if(genre) url = url + '&genre='+genre;
+		$.get(url).then((books)=>{
+			console.log(books);
+			this.setState({recommendedBooks: books.data});
+		}).catch(err=>{
+			console.log(err);
+		})
+	}
+
+	getTopRated = (genre)=>{
+		var url = apiUrl + '/books?sort=-rating&limit='+limit;
+		if(genre) url = url + '&genre='+genre;
+		$.get(url).then((books)=>{
+			this.setState({topBooks: books.data});
+		}).catch(err=>{
+			console.log(err);
+		})
+	}
+
 	changeGenre = (e)=>{
 		this.setState({genre: e.target.value});
-		this.getBooks(e.target.value);
+		this.getAllBooks(e.target.value);
+	}
+
+	followBook = (e)=>{
+		$.post(`${apiUrl}/books/${e.target.id}/follow`)
+		.then(res => {
+			this.getUser();
+		})
+	}
+
+	unfollowBook = (e)=>{
+		$.ajax({
+			url: `${apiUrl}/books/${e.target.id}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.getUser();
+		})
 	}
 
 	render(){
@@ -65,8 +110,8 @@ class Home extends React.Component{
 												</div>
 										</div>
 								</div>
-						<BookRow title="Recommended" books={this.state.books} />
-						<BookRow title="Top Rated" books={this.state.books} />
+						<BookRow title="Recommended" books={this.state.recommendedBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
+						<BookRow title="Top Rated" books={this.state.topBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 						<div className="content-block-spread">
 								<div className="content-block">
 										<div className="placeholder">
@@ -79,7 +124,7 @@ class Home extends React.Component{
 										</div>
 								</div>
 						</div>
-						<BookRow title={this.state.genre?this.state.genre:'Books'} books={this.state.books} />
+						<BookRow title={this.state.genre?this.state.genre:'Books'} books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 					</div>
 				</section>
 			</div>

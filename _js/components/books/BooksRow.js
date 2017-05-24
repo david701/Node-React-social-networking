@@ -10,7 +10,7 @@ const BookRow = props => (
 			{props.books?(
 				<ul>
 					{props.books.map((book, key)=>(
-						<Book book={book} key={key}/>
+						<Book book={book} key={key} user={props.user} followBook={props.followBook} unfollowBook={props.unfollowBook}/>
 					))}
 				</ul>
 			):''}

@@ -112,27 +112,33 @@ exports.createUser = (req, res)=>{
 
 /// GET SINGLE USER BY ID
 exports.getUserById = (req, res)=>{
-	mongoUser.findOne({_id: req.params.id})
-	.populate({
-		path:'following_authors',
-		select:'name avatar',
-		match: {'status':1}
-	})
-	.populate({
-		path:'followers',
-		select: 'name avatar',
-		match: {'status':1}
-	})
-	.populate({
-		path: 'following_books',
-		match: {'status':1},
-     populate: {
-       path: 'author',
-       model: 'Users',
-			 select: 'name',
-     }})
+	var query = mongoUser.findOne({_id: req.params.id});
+	if(!req.query.following_list){
+		query = query.populate({
+			path:'following_authors',
+			select:'name avatar',
+			match: {'status':1}
+		})
+		.populate({
+			path:'followers',
+			select: 'name avatar',
+			match: {'status':1}
+		})
+	}
+	if(!req.query.book_list){
+		query = query.populate({
+			path: 'following_books',
+			match: {'status':1},
+			populate: {
+				path: 'author',
+				model: 'Users',
+				select: 'name',
+			}})
+	}
+		query.lean()
 		.then((user)=>{
 			if(user.status > 0){
+				delete user.password;
 				handle.res(res, user)
 			}else{
 				handle.err(res, 'User has been removed');
