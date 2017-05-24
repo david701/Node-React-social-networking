@@ -8,7 +8,7 @@ const Book = props => (
 							<div className="cover" style={{backgroundImage: 'url('+props.book.cover+')'}}>
 									<div className="overlay">
 											<a className="button button-red" href={'/books/'+props.book._id}>Preview</a>
-											<button className="button button-white">Add to Library</button>
+											{props.user?<button className="button button-white">Add to Library</button>:''}
 									</div>
 							</div>
 							<figcaption>
