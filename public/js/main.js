@@ -56526,7 +56526,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var BookRow = function BookRow(props) {
 	return _react2.default.createElement(
 		'div',
-		{ className: 'book-blocks' },
+		{ className: props.smallBooks ? 'book-blocks book-blocks-small' : 'book-blocks' },
 		props.title ? _react2.default.createElement(
 			'div',
 			{ className: 'title-row' },
@@ -59451,6 +59451,10 @@ var _SearchCategory = __webpack_require__(294);
 
 var _SearchCategory2 = _interopRequireDefault(_SearchCategory);
 
+var _BooksRow = __webpack_require__(280);
+
+var _BooksRow2 = _interopRequireDefault(_BooksRow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -59487,6 +59491,7 @@ var SearchContainer = function (_React$Component) {
       rating: 0, //star rating
       tags: [], // all tags
       genres: [], // all genre
+      results: null,
       savedSearches: [{
         link: "#",
         searchBy: "Book",
@@ -59564,7 +59569,7 @@ var SearchContainer = function (_React$Component) {
       url = url + search + tags + genres + rating;
 
       _jQuery2.default.get(url).then(function (books) {
-        console.log(books.data);
+        _this.setState({ results: books.data });
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -59632,7 +59637,8 @@ var SearchContainer = function (_React$Component) {
                   )
                 )
               ),
-              _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: savedSearches })
+              _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: savedSearches }),
+              this.state.results ? _react2.default.createElement(_BooksRow2.default, { title: 'Search Results', books: this.state.results }) : ''
             ),
             _react2.default.createElement(
               'div',
