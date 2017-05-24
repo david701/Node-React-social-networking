@@ -112,7 +112,7 @@ exports.getRecommendedBooks = (req, res)=>{
 				if(user.genres.length && !req.query.genre) query.genre = {$in: user.genres};
 				if(req.query.genre) query.genre = req.query.genre;
 
-				var mongoQuery = mongoBook.find(query).sort('-rating');
+				var mongoQuery = mongoBook.find(query).populate('author', 'avatar name').sort('-rating');
 				if(limit) mongoQuery = mongoQuery.limit(limit);
 
 				mongoQuery.then((books)=>{
@@ -128,7 +128,7 @@ exports.getRecommendedBooks = (req, res)=>{
 		})
 	}else{
 		var query = {};
-		var mongoQuery = mongoBook.find(query).sort('-rating');
+		var mongoQuery = mongoBook.find(query).populate('author', 'avatar name').sort('-rating');
 		if(limit) mongoQuery = mongoQuery.limit(limit);
 
 		mongoQuery.then((books)=>{
