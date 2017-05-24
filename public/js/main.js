@@ -59435,6 +59435,10 @@ var _reactStarRatingComponent = __webpack_require__(232);
 
 var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
 
+var _jQuery = __webpack_require__(18);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 var _RadioButton = __webpack_require__(291);
 
 var _RadioButton2 = _interopRequireDefault(_RadioButton);
@@ -59466,16 +59470,39 @@ var oldGenres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery
 var SearchContainer = function (_React$Component) {
   _inherits(SearchContainer, _React$Component);
 
-  function SearchContainer(props) {
+  function SearchContainer() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, SearchContainer);
 
-    var _this = _possibleConstructorReturn(this, (SearchContainer.__proto__ || Object.getPrototypeOf(SearchContainer)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.removeSearch = function (e) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchContainer.__proto__ || Object.getPrototypeOf(SearchContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      search: "", //input field
+      searchBy: "Book", // default search by
+      rating: 0, //star rating
+      tags: [], // all tags
+      genres: [], // all genre
+      savedSearches: [{
+        link: "#",
+        searchBy: "Book",
+        search: "",
+        genres: ["Non-Fiction"],
+        tags: ["Spiritual", "Humor", "Mystery"]
+      }, {
+        link: "#",
+        searchBy: "Author",
+        search: "Elon Mitchell",
+        genres: [],
+        tags: []
+      }] //saved searches
+    }, _this.removeSearch = function (e) {
       alert("I was created to delete searches");
-    };
-
-    _this.handleChange = function (e) {
+    }, _this.handleChange = function (e) {
       var _this$state = _this.state,
           tags = _this$state.tags,
           genres = _this$state.genres,
@@ -59498,50 +59525,48 @@ var SearchContainer = function (_React$Component) {
       } else if (e.target.name === "categories") {
         _this.setState({ searchBy: e.target.value, search: "" });
       }
-    };
-
-    _this.handleRating = function (nextValue) {
+    }, _this.handleRating = function (nextValue) {
       _this.setState(_extends({}, _this.state, { rating: nextValue }), function () {
         return console.log(_this.state.rating);
       });
-    };
-
-    _this.handleSearch = function (e) {
+    }, _this.handleSearch = function (e) {
       var change = {};
       change[e.target.name] = e.target.value;
       console.log(change);
       _this.setState(change, function () {
         return console.log(_this.state);
       });
-    };
-
-    _this.handleSubmit = function (e) {
+    }, _this.handleSubmit = function (e) {
       e.preventDefault();
-      //what you will send
-      alert('Ready to send: ' + JSON.stringify(_this.state));
-    };
+      var limit = 8;
+      var search = '',
+          tags = '',
+          genres = '',
+          rating = '';
+      var url = '/api/v1/books?limit=' + limit;
+      if (_this.state.searchBy == 'Author') {
+        search = '&author=' + _this.state.search;
+      } else {
+        search = '&title=' + _this.state.search;
+      }
 
-    _this.state = {
-      search: "", //input field
-      searchBy: "Book", // default search by
-      rating: 0, //star rating
-      tags: [], // all tags
-      genres: [], // all genre
-      savedSearches: [{
-        link: "#",
-        searchBy: "Book",
-        search: "",
-        genres: ["Non-Fiction"],
-        tags: ["Spiritual", "Humor", "Mystery"]
-      }, {
-        link: "#",
-        searchBy: "Author",
-        search: "Elon Mitchell",
-        genres: [],
-        tags: []
-      }] //saved searches
-    };
-    return _this;
+      if (_this.state.tags.length) {
+        tags = '&tags=' + _this.state.tags.join(',');
+      }
+
+      if (_this.state.genres.length) {
+        genres = '&genres=' + _this.state.genres.join(',');
+      }
+
+      if (_this.state.rating > 0) {
+        rating = '&rating=' + _this.state.rating;
+      }
+      url = url + search + tags + genres + rating;
+
+      _jQuery2.default.get(url).then(function (books) {
+        console.log(books.data);
+      });
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(SearchContainer, [{

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import StarRatingComponent from 'react-star-rating-component';
 
+import $ from 'jQuery';
+
 import RadioButton from '../../components/dashboard/RadioButton';
 import SearchCheckbox from '../../components/search/SearchCheckbox';
 import SearchCategory from '../../components/search/SearchCategory';
@@ -21,9 +23,7 @@ const oldGenres = ["Fantasy","Science Fiction",
                 "Romance","Poetry","LitRPG"]
 
 export default class SearchContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+		state = {
       search: "", //input field
       searchBy: "Book", // default search by
       rating: 0, //star rating
@@ -43,7 +43,6 @@ export default class SearchContainer extends React.Component {
         tags: []
       }] //saved searches
     };
-  }
 
   removeSearch = e => {
     alert("I was created to delete searches")
@@ -86,8 +85,32 @@ export default class SearchContainer extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    //what you will send
-    alert('Ready to send: ' + JSON.stringify(this.state))
+		var limit = 8;
+		var search = '', tags = '', genres = '', rating = '';
+		var url = '/api/v1/books?limit='+limit;
+    if(this.state.searchBy == 'Author'){
+			search = '&author='+this.state.search;
+		}else{
+			search = '&title='+this.state.search;
+		}
+
+		if(this.state.tags.length){
+			tags = '&tags='+this.state.tags.join(',');
+		}
+
+		if(this.state.genres.length){
+			genres = '&genres='+this.state.genres.join(',');
+		}
+
+		if(this.state.rating > 0){
+			rating = '&rating=' + this.state.rating;
+		}
+		url = url + search + tags + genres + rating;
+
+		$.get(url).then((books)=>{
+			console.log(books.data);
+		})
+
   }
 
   render() {
@@ -228,4 +251,3 @@ const SearchTags = props => (
     }
   </div>
 );
-
