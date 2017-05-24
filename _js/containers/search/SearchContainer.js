@@ -20,7 +20,6 @@ const oldGenres = ["Fantasy","Science Fiction",
                 "Horror","Non-Fiction","Mystery",
                 "Romance","Poetry","LitRPG"]
 
-
 export default class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +29,19 @@ export default class SearchContainer extends React.Component {
       rating: 0, //star rating
       tags: [], // all tags
       genres: [], // all genre
-      savedSearches: ["Search by [Book] and [Tag Name], [Tag name], and [Genre name]","Search by [Author Name]"] //saved searches
+      savedSearches: [{
+        link: "#",
+        searchBy: "Book",
+        search: "",
+        genres: ["Non-Fiction"],
+        tags: ["Spiritual", "Humor","Mystery"]
+      },{
+        link: "#",
+        searchBy: "Author",
+        search: "Elon Mitchell",
+        genres: [],
+        tags: []
+      }] //saved searches
     };
   }
 
@@ -170,7 +181,7 @@ const SavedSearches = props => (
     {props.savedSearches.map((search, index) => (
     <div style={{ display: 'flex' }} key={index}>
       <h5 className="saved-search-remover" onClick={props.onDelete}>Remove</h5>
-      <p>{search}</p>
+      <a className="search-link" href={search.link}>{"Search by " + search.searchBy.toLowerCase() + (search.search.length ? " for " + search.search + " " : " ") + (search.tags.length ? " and tags " + search.tags.join(', ').toLowerCase() : "") + (search.genres.length ? " and genres " + search.genres.join(', ').toLowerCase() : "")}</a>
     </div>
     ))}
   </div>

@@ -58155,7 +58155,19 @@ var SearchContainer = function (_React$Component) {
       rating: 0, //star rating
       tags: [], // all tags
       genres: [], // all genre
-      savedSearches: ["Search by [Book] and [Tag Name], [Tag name], and [Genre name]", "Search by [Author Name]"] //saved searches
+      savedSearches: [{
+        link: "#",
+        searchBy: "Book",
+        search: "",
+        genres: ["Non-Fiction"],
+        tags: ["Spiritual", "Humor", "Mystery"]
+      }, {
+        link: "#",
+        searchBy: "Author",
+        search: "Elon Mitchell",
+        genres: [],
+        tags: []
+      }] //saved searches
     };
     return _this;
   }
@@ -58334,9 +58346,9 @@ var SavedSearches = function SavedSearches(props) {
           'Remove'
         ),
         _react2.default.createElement(
-          'p',
-          null,
-          search
+          'a',
+          { className: 'search-link', href: search.link },
+          "Search by " + search.searchBy.toLowerCase() + (search.search.length ? " for " + search.search + " " : " ") + (search.tags.length ? " and tags " + search.tags.join(', ').toLowerCase() : "") + (search.genres.length ? " and genres " + search.genres.join(', ').toLowerCase() : "")
         )
       );
     })

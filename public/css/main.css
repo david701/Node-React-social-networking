@@ -2240,6 +2240,9 @@ form .instructions {
     display: flex;
     justify-content: center;
     align-items: center; }
+  .content-block .search-link {
+    cursor: pointer;
+    text-decoration: underline; }
   .content-block-standard, .content-block-standard-search {
     margin: 0 auto;
     max-width: 46.5em;
@@ -2272,7 +2275,7 @@ form .instructions {
       margin: 1em 0 2em; }
     .content-block-standard h5.saved-search-remover, .content-block-standard-search h5.saved-search-remover {
       font-family: "franklin-gothic-urw", -apple-system, Helvetica, Arial, sans-serif;
-      font-size: 0.875em;
+      font-size: 16px;
       font-weight: 500;
       color: #0FAFFF;
       margin-right: 10px;
