@@ -26,8 +26,10 @@ const saveImage = (bookId, img, cb) => {
 }
 
 exports.getBooks = (req, res)=>{
-	var limit  = parseInt(req.query.limit) || 0;
-  var status = parseInt(req.query.status) || 2;
+	var limit  = parseInt(req.query.limit) || 0,
+  		status = parseInt(req.query.status) || 2,
+			page = parseInt(req.query.page) || 1,
+			skip = (page - 1) * limit;
 
 	var query = {status: status}
 	if(req.query.genre) query.genre = req.query.genre;
@@ -64,11 +66,14 @@ exports.getBooks = (req, res)=>{
 					handle.err(res, err)
 				}else{
 					query.author = {$in: authorList};
-					var mongoQuery = mongoBook.find(query).limit(limit).populate('author', 'avatar name');
+					var mongoQuery = mongoBook.find(query).limit(limit).skip(skip).populate('author', 'avatar name');
+					var countQuery = mongoBook.find(query).count();
 					if(req.query.sort) mongoQuery = mongoQuery.sort(req.query.sort);
 
 					mongoQuery.then((books)=>{
-						handle.res(res, books)
+						countQuery.then((count)=>{
+							handle.res(res, books, count)
+						})
 					}).catch(err=>{
 						handle.err(res, err);
 					})
@@ -76,11 +81,14 @@ exports.getBooks = (req, res)=>{
 			})
 		});
 	}else{
-		var mongoQuery = mongoBook.find(query).limit(limit).populate('author', 'avatar name');
+		var mongoQuery = mongoBook.find(query).limit(limit).skip(skip).populate('author', 'avatar name');
+		var countQuery = mongoBook.find(query).count();
 		if(req.query.sort) mongoQuery = mongoQuery.sort(req.query.sort);
 
 		mongoQuery.then((books)=>{
-			handle.res(res, books)
+			countQuery.then((count)=>{
+				handle.res(res, books, count)
+			})
 		}).catch((err)=>{
 			handle.err(res, err)
 		});
@@ -89,12 +97,17 @@ exports.getBooks = (req, res)=>{
 }
 
 exports.getUserBooks = (req, res)=>{
-  var limit  = parseInt(req.query.limit) || 0;
-  mongoBook.find({author: req.params.id}).where('status').gt(0).sort( [['_id', -1]] ).limit(limit).populate('author', 'name avatar').then((books)=>{
+  var limit  = parseInt(req.query.limit) || 0
+			page = parseInt(req.query.page) || 1,
+			skip = (page - 1) * limit;
+
+  mongoBook.find({author: req.params.id}).where('status').gt(0).sort( [['_id', -1]] ).limit(limit).skip(skip).populate('author', 'name avatar').then((books)=>{
     if(!books){
-      res.json({status: 'error', message: 'No books for current user'});
+      handle.err(res, 'No books for current user');
     }else{
-      res.json({status: 'ok', data: books})
+			mongoBook.find({author: req.params.id}).where('status').gt(0).count().then((count)=>{
+				handle.res(res, books, count)
+			})
     }
   })
 }
@@ -113,10 +126,13 @@ exports.getRecommendedBooks = (req, res)=>{
 				if(req.query.genre) query.genre = req.query.genre;
 
 				var mongoQuery = mongoBook.find(query).populate('author', 'avatar name').sort('-rating');
+				var countQuery = mongoBook.find(query).count();
 				if(limit) mongoQuery = mongoQuery.limit(limit);
 
 				mongoQuery.then((books)=>{
-					handle.res(res, books)
+					countQuery.then((count)=>{
+						handle.res(res, books, count)
+					})
 				}).catch(err=>{
 					handle.err(res, err)
 				})

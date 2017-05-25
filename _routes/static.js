@@ -46,6 +46,10 @@ router.get('/author/:id/reset-password', (req, res)=>{
 	res.render('reset-password', {title: 'Reset Password',id: req.params.id})
 });
 
+router.get('/books/all', (req, res)=>{
+	res.render('view_all', {title:'Browse', query: req.query})
+});
+
 router.get('/books/:id', (req, res) => {
 	var user = req.session
 	if(user && user._id){
