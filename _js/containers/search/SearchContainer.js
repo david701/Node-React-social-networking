@@ -76,25 +76,24 @@ export default class SearchContainer extends React.Component {
   }
 
   handleRating = (nextValue) => {
-    this.setState({ ...this.state, rating: nextValue }, () => console.log(this.state.rating));
+    this.setState({ ...this.state, rating: nextValue });
   }
 
   handleSearch = e => {
     let change = {};
     change[e.target.name] = e.target.value;
-    console.log(change);
-    this.setState(change, () => console.log(this.state));
+    this.setState(change);
   }
 
   handleSubmit = e => {
     e.preventDefault();
 		var limit = 8;
 		var search = '', tags = '', genres = '', rating = '';
-		var url = '/api/v1/books?limit='+limit;
+		var url = '/books/all?view=search';
     if(this.state.searchBy == 'Author'){
-			search = '&author='+this.state.search;
+			if(this.state.search)search = '&author='+this.state.search;
 		}else{
-			search = '&title='+this.state.search;
+			if(this.state.search)search = '&title='+this.state.search;
 		}
 
 		if(this.state.tags.length){
@@ -110,10 +109,7 @@ export default class SearchContainer extends React.Component {
 		}
 		url = url + search + tags + genres + rating;
 
-		$.get(url).then((books)=>{
-			this.setState({results: books.data})
-		})
-
+		window.location.href = url;
   }
 
   render() {
