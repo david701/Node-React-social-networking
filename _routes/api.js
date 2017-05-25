@@ -44,6 +44,9 @@ router.route('/books')
 router.route('/books/recommended')
 	.get(Books.getRecommendedBooks)
 
+router.route('/books/library')
+	.get(Books.getUserLibrary)
+
 router.route('/books/:id')
 	.get(Books.getBooksById)
 	.put(Books.editBook)

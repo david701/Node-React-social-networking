@@ -120,7 +120,7 @@ class LoginButtons extends React.Component{
 		                            <a href="/books/all">All</a>
 		                        </li>
 														{this.state.loggedIn?<li>
-															 <a href=".">My Library</a>
+															 <a href="/books/all?view=user-library">My Library</a>
 													 </li>:''}
 		                        <li>
 		                            <a href="/books/all?view=top">Top Rated</a>
