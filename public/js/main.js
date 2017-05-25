@@ -54035,28 +54035,29 @@ var ViewAll = function (_React$Component) {
 			rating: query.rating || '',
 			page: parseInt(query.page) || 1,
 			books: [],
-			limit: 20,
+			limit: 1,
 			count: 0
-		}, _this.getView = function () {
+		}, _this.getView = function (page) {
 			switch (_this.state.view) {
 				case 'user-library':
-					_this.getUserLibrary();
+					_this.getUserLibrary(page);
 					break;
 				case 'user-books':
-					_this.getUserBooks();
+					_this.getUserBooks(page);
 					break;
 				default:
-					_this.getBooks();
+					_this.getBooks(page);
 
 			}
-		}, _this.getUserBooks = function () {
-			var query = apiUrl + '/users/' + _this.state.user.data._id + '/books?limit=' + _this.state.limit + '&page=' + _this.state.page;
+		}, _this.getUserBooks = function (page) {
+			var page = page || _this.state.page;
+			var query = apiUrl + '/users/' + _this.state.user.data._id + '/books?limit=' + _this.state.limit + '&page=' + page;
 			_jQuery2.default.get(query).then(function (books) {
 				_this.setState({ user: user.data, books: books.data, count: books.count, title: 'Viewing Your Books' });
 			});
 		}, _this.getUserLibrary = function () {
 			_this.setState({ books: _this.state.user.following_books, title: 'Viewing Your Library' });
-		}, _this.getBooks = function () {
+		}, _this.getBooks = function (page) {
 			var query = apiUrl + '/books?limit=' + _this.state.limit,
 			    title = 'Viewing All Books';
 			if (_this.state.view == 'top') {
@@ -54076,10 +54077,20 @@ var ViewAll = function (_React$Component) {
 			}
 
 			if (_this.state.view == 'search') title = 'Search Results';
-
-			_jQuery2.default.get(query + '&page=' + _this.state.page).then(function (books) {
+			var page = page || _this.state.page;
+			_jQuery2.default.get(query + '&page=' + page).then(function (books) {
 				_this.setState({ books: books.data, count: books.count, title: title });
 			});
+		}, _this.prev = function (e) {
+			e.preventDefault();
+			var page = _this.state.page - 1;
+			_this.setState({ page: page }, _this.getView(page));
+			window.history.pushState('Browse', 'Browse', e.target.href);
+		}, _this.next = function (e) {
+			e.preventDefault();
+			var page = _this.state.page + 1;
+			_this.setState({ page: page }, _this.getView(page));
+			window.history.pushState('Browse', 'Browse', e.target.href);
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -54118,7 +54129,7 @@ var ViewAll = function (_React$Component) {
 					{ className: 'pages' },
 					this.state.page > 1 && _react2.default.createElement(
 						'a',
-						{ href: url + '&page=' + (this.state.page - 1), className: 'prev' },
+						{ href: url + '&page=' + (this.state.page - 1), className: 'prev', onClick: this.prev },
 						'Previous'
 					),
 					_react2.default.createElement(
@@ -54139,7 +54150,7 @@ var ViewAll = function (_React$Component) {
 					),
 					this.state.page < Math.ceil(this.state.count / this.state.limit) && _react2.default.createElement(
 						'a',
-						{ href: url + '&page=' + (this.state.page + 1), className: 'next' },
+						{ href: url + '&page=' + (this.state.page + 1), className: 'next', onClick: this.next },
 						'Next'
 					)
 				);

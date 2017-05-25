@@ -18,7 +18,7 @@ class ViewAll extends React.Component{
 		rating: query.rating || '',
 		page: parseInt(query.page) || 1,
 		books:[],
-		limit: 20,
+		limit: 1,
 		count: 0
 	}
 
@@ -35,19 +35,20 @@ class ViewAll extends React.Component{
 		});
 	}
 
-	getView = ()=>{
+	getView = (page)=>{
 		switch (this.state.view) {
-			case 'user-library': this.getUserLibrary();
+			case 'user-library': this.getUserLibrary(page);
 				break;
-			case 'user-books': this.getUserBooks();
+			case 'user-books': this.getUserBooks(page);
 				break;
-			default: this.getBooks();
+			default: this.getBooks(page);
 
 		}
 	}
 
-	getUserBooks = ()=>{
-		var query = apiUrl+'/users/'+this.state.user.data._id+'/books?limit='+this.state.limit+'&page='+this.state.page;
+	getUserBooks = (page)=>{
+		var page = page || this.state.page;
+		var query = apiUrl+'/users/'+this.state.user.data._id+'/books?limit='+this.state.limit+'&page='+page;
 		$.get(query).then((books)=>{
 			this.setState({user: user.data, books: books.data, count: books.count, title: 'Viewing Your Books'});
 		})
@@ -57,7 +58,7 @@ class ViewAll extends React.Component{
 		this.setState({books: this.state.user.following_books, title: 'Viewing Your Library'});
 	}
 
-	getBooks = ()=>{
+	getBooks = (page)=>{
 		var query = apiUrl+'/books?limit='+this.state.limit, title = 'Viewing All Books';
 		if(this.state.view == 'top'){ query = query + '&sort=-rating'; title = 'Viewing Top Rated' }
 		if(this.state.view == 'recommended'){ query = '/recommended' + query; title = 'Viewing Recommended' }
@@ -66,10 +67,24 @@ class ViewAll extends React.Component{
 		if(this.state.genres){ query = query + '&genres='+this.state.genres; title = title + ' : ' + this.state.genres }
 
 		if(this.state.view == 'search') title = 'Search Results';
-
-		$.get(query+'&page='+this.state.page).then((books)=>{
+		var page = page || this.state.page;
+		$.get(query+'&page='+page).then((books)=>{
 			this.setState({books: books.data, count: books.count, title: title});
 		})
+	}
+
+	prev = (e)=>{
+		e.preventDefault();
+		var page = this.state.page - 1;
+		this.setState({page: page}, this.getView(page));
+		window.history.pushState('Browse', 'Browse', e.target.href);
+	}
+
+	next = (e)=>{
+		e.preventDefault();
+		var page = this.state.page + 1;
+		this.setState({page: page}, this.getView(page));
+		window.history.pushState('Browse', 'Browse', e.target.href);
 	}
 
 	render(){
@@ -83,13 +98,13 @@ class ViewAll extends React.Component{
 			paginate = (
 				<div className="pages">
 					{this.state.page > 1 &&
-							<a href={url + '&page=' + (this.state.page - 1)} className="prev">Previous</a>
+							<a href={url + '&page=' + (this.state.page - 1)} className="prev" onClick={this.prev}>Previous</a>
 					}
 					<span className="currentPage">Page {this.state.page}</span>
 					<span>of</span>
 					<span className="allPages">{Math.ceil(this.state.count/this.state.limit)}</span>
 					{this.state.page < Math.ceil(this.state.count/this.state.limit) &&
-							<a href={url+ '&page=' + (this.state.page + 1)} className="next">Next</a>
+							<a href={url+ '&page=' + (this.state.page + 1)} className="next" onClick={this.next}>Next</a>
 					}
 				</div>
 			)
