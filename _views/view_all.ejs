@@ -1,0 +1,21 @@
+<% include ./partials/head %>
+	<% include ./partials/mobile-head %>
+<div class="view">
+	<main class="main-view">
+		<section class="standard-section">
+			<div class="container">
+
+				<div class="content-block content-block-standard account-block">
+					<div id="view_all"></div>
+				</div>
+
+			</div>
+		</section>
+		<% include ./partials/main-footer %>
+	</main>
+	<% include ./partials/sidebar %>
+</div>
+<script>
+	var query = <%-JSON.stringify(query) %>;
+</script>
+<% include ./partials/end %>

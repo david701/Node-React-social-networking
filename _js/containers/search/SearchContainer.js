@@ -8,6 +8,8 @@ import RadioButton from '../../components/dashboard/RadioButton';
 import SearchCheckbox from '../../components/search/SearchCheckbox';
 import SearchCategory from '../../components/search/SearchCategory';
 
+import BookRow from '../../components/books/BooksRow';
+
 const apiUrl = '/api/v1';
 
 const oldCategories = ["Book", "Author"];
@@ -29,6 +31,7 @@ export default class SearchContainer extends React.Component {
       rating: 0, //star rating
       tags: [], // all tags
       genres: [], // all genre
+			results: null,
       savedSearches: [{
         link: "#",
         searchBy: "Book",
@@ -108,7 +111,7 @@ export default class SearchContainer extends React.Component {
 		url = url + search + tags + genres + rating;
 
 		$.get(url).then((books)=>{
-			console.log(books.data);
+			this.setState({results: books.data})
 		})
 
   }
@@ -145,6 +148,7 @@ export default class SearchContainer extends React.Component {
                 </div>
               </div>
               <SavedSearches onDelete={this.removeSearch} savedSearches={savedSearches} />
+							{this.state.results?(<BookRow title='Search Results' books={this.state.results}/>):''}
             </div>
             <div>
               <div className="content-block">

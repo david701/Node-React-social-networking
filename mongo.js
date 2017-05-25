@@ -28,7 +28,8 @@ const userSchema = new Schema({
 	status: Number,
 	token: String,
 	reset_request: Date,
-	newsletter: Boolean
+	newsletter: Boolean,
+	searches: []
 });
 
 const bookSchema = new Schema({

@@ -9,7 +9,7 @@ const apiUrl = '/api/v1';
 
 import genres from '../../../data/genres.json';
 
-const limit = 4;
+const limit = 8;
 
 class Home extends React.Component{
 	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:''}
@@ -20,7 +20,7 @@ class Home extends React.Component{
 
 	getUser = ()=>{
 		$.get(`${apiUrl}/user_session`).then((user)=>{
-			if(user.data){
+			if(user.data._id){
 				$.get(`${apiUrl}/users/${user.data._id}?book_list=true`).then((user)=>{
 					this.setState({user:user.data});
 				})
@@ -110,9 +110,14 @@ class Home extends React.Component{
 												</div>
 										</div>
 								</div>
-						<BookRow title="Recommended" books={this.state.recommendedBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
-						<BookRow title="Top Rated" books={this.state.topBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
-						<div className="content-block-spread">
+
+						{this.state.genre?<BookRow title={this.state.genre} link={'/books/all?genres='+ this.state.genre} books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>:''}
+
+						{this.state.recommendedBooks && this.state.recommendedBooks.length?<BookRow title="Recommended" link='/books/all?view=recommended' books={this.state.recommendedBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>:''}
+
+						<BookRow title="Top Rated" link='/books/all?view=top' books={this.state.topBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
+
+					<div className="content-block-spread">
 								<div className="content-block">
 										<div className="placeholder">
 												<h4>Ad Space</h4>
@@ -124,7 +129,6 @@ class Home extends React.Component{
 										</div>
 								</div>
 						</div>
-						<BookRow title={this.state.genre?this.state.genre:'Books'} books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 					</div>
 				</section>
 			</div>

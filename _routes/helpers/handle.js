@@ -1,7 +1,8 @@
 module.exports = {
-	res: function(res, data){
+	res: function(res, data,  count){
 		var resp = {status: 'ok'};
 		if(data) resp.data = data;
+		if(count) resp.count = count;
 		res.status(200)
 		res.json(resp);
 	},
