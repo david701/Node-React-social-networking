@@ -18,14 +18,14 @@ class ViewAll extends React.Component{
 		rating: query.rating || '',
 		page: parseInt(query.page) || 1,
 		books:[],
-		limit: 1,
+		limit: 20,
 		count: 0
 	}
 
 	componentDidMount(){
 		$.get(apiUrl+'/user_session').then((user)=>{
 			if(user.data._id){
-				$.get(apiUrl+'/user_session').then((user)=>{
+				$.get(apiUrl+'/users/'+user.data._id+'?book_list=true').then((user)=>{
 					this.setState({user: user.data});
 					this.getView();
 				})
@@ -48,14 +48,19 @@ class ViewAll extends React.Component{
 
 	getUserBooks = (page)=>{
 		var page = page || this.state.page;
-		var query = apiUrl+'/users/'+this.state.user.data._id+'/books?limit='+this.state.limit+'&page='+page;
+		console.log('/users/'+this.state.user._id+'/books');
+		var query = apiUrl+'/users/'+this.state.user._id+'/books?limit='+this.state.limit+'&page='+page;
 		$.get(query).then((books)=>{
-			this.setState({user: user.data, books: books.data, count: books.count, title: 'Viewing Your Books'});
+			this.setState({books: books.data, count: books.count, title: 'Viewing Your Books'});
 		})
 	}
 
-	getUserLibrary = ()=>{
-		this.setState({books: this.state.user.following_books, title: 'Viewing Your Library'});
+	getUserLibrary = (page)=>{
+		var query = apiUrl+'/books/library?limit='+this.state.limit;
+		var page = page || this.state.page;
+		$.get(query+'&page='+page).then((books)=>{
+			this.setState({books: books.data, count: books.count, title: 'Viewing Your Library'});
+		})
 	}
 
 	getBooks = (page)=>{
@@ -110,10 +115,17 @@ class ViewAll extends React.Component{
 			)
 		}
 
+		var bookRow;
+		if(this.state.view == 'user-books'){
+			bookRow = <BookRow userBooks='true' smallBooks='true' books={this.state.books} user={this.state.user} />
+		}else{
+			bookRow = <BookRow smallBooks='true' books={this.state.books} user={this.state.user} />
+		}
+
 		return(
 			<div>
 				<h3>{this.state.title}</h3>
-				{this.state.count > 0?(<BookRow smallBooks='true' books={this.state.books} user={this.state.user} />):''}
+				{bookRow}
 				{paginate}
 			</div>
 		)

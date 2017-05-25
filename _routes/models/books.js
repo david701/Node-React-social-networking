@@ -112,6 +112,39 @@ exports.getUserBooks = (req, res)=>{
   })
 }
 
+exports.getUserLibrary = (req, res)=>{
+	if(!req.session._id){
+		handle.err(res, 'Not logged in');
+		return;
+	}
+
+	var limit = parseInt(req.query.limit) || 0,
+			page = parseInt(req.query.page) || 1,
+			skip = (page - 1) * limit;
+
+
+	mongoUser.findOne({_id: req.session._id}).populate({
+			path: 'following_books',
+			model: 'Books',
+			populate: {
+	      path: 'author',
+	      model: 'Users',
+				select: 'name email'
+     }}).lean().then((user)=>{
+			var count = user.following_books.length;
+			if(limit > 0){
+				var bookList = user.following_books.filter((user,index)=>{
+					return index > (skip - 1) && index < (skip + limit)
+				});
+			}else{
+				var bookList = user.following_books;
+			}
+			handle.res(res, bookList, count)
+	}).catch(err=>{
+		handle.err(res, err);
+	})
+}
+
 exports.getRecommendedBooks = (req, res)=>{
 	var user = req.session;
 	var status = parseInt(req.query.status) || 2;
@@ -235,7 +268,6 @@ exports.removeBook = (req, res)=>{
 }
 
 exports.editBook = (req, res)=>{
-	console.log(req.body);
   var user = req.session;
   if(!user){
     res.json({status:'error', message: 'Not logged in'})
@@ -276,14 +308,12 @@ exports.followBook = (req, res)=>{
 					handle.err(res, err.message)
 				})
 			}).catch((err)=>{
-				console.log('couldnt save user');
 				handle.err(res, err.message)
 			})
 		}else{
 			handle.err(res, 'Already following')
 		}
 	}).catch((err)=>{
-		console.log('couldnt find user');
 		handle.err(res, err.message)
 	})
 }
@@ -303,20 +333,16 @@ exports.unfollowBook = (req, res)=>{
 				book.save().then((bookSaved)=>{
 					handle.res(res, bookId)
 				}).catch((err) => {
-					console.log(err);
-					handle.err(res, err.message)
+					handle.err(res, err)
 				})
 			}).catch((err) => {
-				console.log(err);
-				handle.err(res, err.message)
+				handle.err(res, err)
 			})
 		}).catch((err) => {
-			console.log(err);
-			handle.err(res, err.message)
+			handle.err(res, err)
 		})
 	}).catch((err) => {
-		console.log(err);
-		handle.err(res, err.message)
+		handle.err(res, err)
 	})
 }
 

@@ -31108,7 +31108,7 @@ var BookRow = function BookRow(props) {
 			'ul',
 			null,
 			props.books.map(function (book, key) {
-				return _react2.default.createElement(_book2.default, { book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
+				return _react2.default.createElement(_book2.default, { userBooks: props.userBooks, book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
 			}),
 			_react2.default.createElement('li', null),
 			_react2.default.createElement('li', null)
@@ -54035,7 +54035,7 @@ var ViewAll = function (_React$Component) {
 			rating: query.rating || '',
 			page: parseInt(query.page) || 1,
 			books: [],
-			limit: 1,
+			limit: 20,
 			count: 0
 		}, _this.getView = function (page) {
 			switch (_this.state.view) {
@@ -54051,12 +54051,17 @@ var ViewAll = function (_React$Component) {
 			}
 		}, _this.getUserBooks = function (page) {
 			var page = page || _this.state.page;
-			var query = apiUrl + '/users/' + _this.state.user.data._id + '/books?limit=' + _this.state.limit + '&page=' + page;
+			console.log('/users/' + _this.state.user._id + '/books');
+			var query = apiUrl + '/users/' + _this.state.user._id + '/books?limit=' + _this.state.limit + '&page=' + page;
 			_jQuery2.default.get(query).then(function (books) {
-				_this.setState({ user: user.data, books: books.data, count: books.count, title: 'Viewing Your Books' });
+				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Books' });
 			});
-		}, _this.getUserLibrary = function () {
-			_this.setState({ books: _this.state.user.following_books, title: 'Viewing Your Library' });
+		}, _this.getUserLibrary = function (page) {
+			var query = apiUrl + '/books/library?limit=' + _this.state.limit;
+			var page = page || _this.state.page;
+			_jQuery2.default.get(query + '&page=' + page).then(function (books) {
+				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Library' });
+			});
 		}, _this.getBooks = function (page) {
 			var query = apiUrl + '/books?limit=' + _this.state.limit,
 			    title = 'Viewing All Books';
@@ -54101,7 +54106,7 @@ var ViewAll = function (_React$Component) {
 
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
 				if (user.data._id) {
-					_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
+					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
 						_this2.setState({ user: user.data });
 						_this2.getView();
 					});
@@ -54156,6 +54161,13 @@ var ViewAll = function (_React$Component) {
 				);
 			}
 
+			var bookRow;
+			if (this.state.view == 'user-books') {
+				bookRow = _react2.default.createElement(_BooksRow2.default, { userBooks: 'true', smallBooks: 'true', books: this.state.books, user: this.state.user });
+			} else {
+				bookRow = _react2.default.createElement(_BooksRow2.default, { smallBooks: 'true', books: this.state.books, user: this.state.user });
+			}
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -54164,7 +54176,7 @@ var ViewAll = function (_React$Component) {
 					null,
 					this.state.title
 				),
-				this.state.count > 0 ? _react2.default.createElement(_BooksRow2.default, { smallBooks: 'true', books: this.state.books, user: this.state.user }) : '',
+				bookRow,
 				paginate
 			);
 		}
@@ -57709,12 +57721,12 @@ var Book = function Book(props) {
 														{ className: 'button button-red', href: '/books/' + props.book._id },
 														'Preview'
 												),
-												props.user && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
+												props.user && !props.userBooks && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.followBook },
 														'Add to Library'
 												) : '',
-												props.user && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
+												props.user && !props.userBooks && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.unfollowBook },
 														'Unfollow Book'
@@ -60228,7 +60240,7 @@ var LoginButtons = function (_React$Component) {
 											null,
 											_react2.default.createElement(
 												'a',
-												{ href: '.' },
+												{ href: '/books/all?view=user-library' },
 												'My Library'
 											)
 										) : '',
