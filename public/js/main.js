@@ -59833,6 +59833,7 @@ var SearchContainer = function (_React$Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchContainer.__proto__ || Object.getPrototypeOf(SearchContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      user: '',
       search: "", //input field
       searchBy: "Book", // default search by
       rating: 0, //star rating
@@ -59852,8 +59853,77 @@ var SearchContainer = function (_React$Component) {
         genres: [],
         tags: []
       }] //saved searches
+    }, _this.getUser = function () {
+      _jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
+        if (user.data && user.data._id) {
+          _jQuery2.default.get(apiUrl + '/users/' + user.data._id).then(function (user) {
+            _this.setState({ user: user.data });
+          });
+        }
+      });
+    }, _this.getUrl = function () {
+      var url = '/books/all?view=search';
+      var search = '',
+          tags = '',
+          genres = '',
+          rating = '';
+      if (_this.state.searchBy == 'Author') {
+        url = '/authors/all?view=search';
+        if (_this.state.search) search = '&author=' + _this.state.search;
+      } else {
+        if (_this.state.search) search = '&title=' + _this.state.search;
+      }
+
+      if (_this.state.tags.length) {
+        tags = '&tags=' + _this.state.tags.join(',');
+      }
+
+      if (_this.state.genres.length) {
+        genres = '&genres=' + _this.state.genres.join(',');
+      }
+
+      if (_this.state.rating > 0) {
+        rating = '&rating=' + _this.state.rating;
+      }
+      url = url + search + tags + genres + rating;
+      return url;
+    }, _this.saveSearch = function (e) {
+      e.preventDefault();
+      var search = {
+        link: _this.getUrl(),
+        searchBy: _this.state.searchBy,
+        search: _this.state.search,
+        genres: _this.state.genres,
+        tags: _this.state.tags
+      };
+
+      var searches = _this.state.user.searches;
+      searches.push(search);
+
+      _jQuery2.default.ajax({
+        method: 'PUT',
+        url: '/api/v1/users/' + _this.state.user._id,
+        data: JSON.stringify({ searches: searches }),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8'
+      }).then(function () {
+        _this.getUser();
+      });
     }, _this.removeSearch = function (e) {
-      alert("I was created to delete searches");
+      e.preventDefault();
+      var index = e.target.id;
+      var searches = _this.state.user.searches;
+      searches.splice(index, 1);
+
+      _jQuery2.default.ajax({
+        method: 'PUT',
+        url: '/api/v1/users/' + _this.state.user._id,
+        data: JSON.stringify({ searches: searches }),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8'
+      }).then(function () {
+        _this.getUser();
+      });
     }, _this.handleChange = function (e) {
       var _this$state = _this.state,
           tags = _this$state.tags,
@@ -59916,6 +59986,11 @@ var SearchContainer = function (_React$Component) {
   }
 
   _createClass(SearchContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.getUser();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _state = this.state,
@@ -59966,11 +60041,11 @@ var SearchContainer = function (_React$Component) {
                 _react2.default.createElement(
                   'div',
                   { className: 'buttons' },
-                  _react2.default.createElement(
+                  this.state.user ? _react2.default.createElement(
                     'button',
-                    { type: 'button', className: 'button button-white' },
+                    { type: 'button', className: 'button button-white', onClick: this.saveSearch },
                     'Save'
-                  ),
+                  ) : '',
                   _react2.default.createElement(
                     'button',
                     { type: 'button', onClick: this.handleSubmit, className: 'button button-red' },
@@ -59978,7 +60053,7 @@ var SearchContainer = function (_React$Component) {
                   )
                 )
               ),
-              _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: savedSearches }),
+              this.state.user ? _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: this.state.user.searches }) : '',
               this.state.results ? _react2.default.createElement(_BooksRow2.default, { title: 'Search Results', books: this.state.results }) : ''
             ),
             _react2.default.createElement(
@@ -60086,7 +60161,7 @@ var SavedSearches = function SavedSearches(props) {
         { style: { display: 'flex' }, key: index },
         _react2.default.createElement(
           'h5',
-          { className: 'saved-search-remover', onClick: props.onDelete },
+          { className: 'saved-search-remover', id: index, onClick: props.onDelete },
           'Remove'
         ),
         _react2.default.createElement(

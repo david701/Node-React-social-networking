@@ -26,6 +26,7 @@ const oldGenres = ["Fantasy","Science Fiction",
 
 export default class SearchContainer extends React.Component {
 		state = {
+			user:'',
       search: "", //input field
       searchBy: "Book", // default search by
       rating: 0, //star rating
@@ -47,8 +48,85 @@ export default class SearchContainer extends React.Component {
       }] //saved searches
     };
 
+	componentDidMount(){
+		this.getUser();
+	}
+
+	getUser=()=>{
+		$.get(apiUrl+'/user_session').then((user)=>{
+			if(user.data && user.data._id){
+				$.get(apiUrl+'/users/'+user.data._id).then((user)=>{
+					this.setState({user: user.data});
+				})
+			}
+		})
+	}
+
+	getUrl = ()=>{
+		var url = '/books/all?view=search';
+		var search = '', tags = '', genres = '', rating = '';
+		if(this.state.searchBy == 'Author'){
+			url = '/authors/all?view=search';
+			if(this.state.search)search = '&author='+this.state.search;
+		}else{
+			if(this.state.search)search = '&title='+this.state.search;
+		}
+
+		if(this.state.tags.length){
+			tags = '&tags='+this.state.tags.join(',');
+		}
+
+		if(this.state.genres.length){
+			genres = '&genres='+this.state.genres.join(',');
+		}
+
+		if(this.state.rating > 0){
+			rating = '&rating=' + this.state.rating;
+		}
+		url = url + search + tags + genres + rating;
+		return url;
+	}
+
+	saveSearch = e =>{
+		e.preventDefault();
+		var search = {
+        link: this.getUrl(),
+        searchBy: this.state.searchBy,
+        search: this.state.search,
+        genres: this.state.genres,
+        tags: this.state.tags
+      }
+
+			var searches = this.state.user.searches;
+			searches.push(search);
+
+			$.ajax({
+				method: 'PUT',
+				url: '/api/v1/users/'+this.state.user._id,
+				data: JSON.stringify({searches: searches}),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8',
+			}).then(()=>{
+				this.getUser();
+			})
+	}
+
   removeSearch = e => {
-    alert("I was created to delete searches")
+		e.preventDefault();
+		var index = e.target.id;
+    var searches = this.state.user.searches;
+		searches.splice(index, 1);
+
+		$.ajax({
+			method: 'PUT',
+			url: '/api/v1/users/'+this.state.user._id,
+			data: JSON.stringify({searches: searches}),
+			dataType: 'json',
+			contentType: 'application/json; charset=UTF-8',
+		}).then(()=>{
+			this.getUser();
+		})
+
   }
 
   handleChange = e => {
@@ -140,11 +218,11 @@ export default class SearchContainer extends React.Component {
               />
               <div className="submit-row submit-row-single" style={{ marginTop: '0px' }}>
                 <div className="buttons">
-                  <button type="button" className="button button-white">Save</button>
+                  {this.state.user?<button type="button" className="button button-white" onClick={this.saveSearch}>Save</button>:''}
                   <button type="button" onClick={this.handleSubmit} className="button button-red">Search</button>
                 </div>
               </div>
-              <SavedSearches onDelete={this.removeSearch} savedSearches={savedSearches} />
+              {this.state.user?<SavedSearches onDelete={this.removeSearch} savedSearches={this.state.user.searches} />:''}
 							{this.state.results?(<BookRow title='Search Results' books={this.state.results}/>):''}
             </div>
             <div>
@@ -204,7 +282,7 @@ const SavedSearches = props => (
     <h4>Saved Searches</h4>
     {props.savedSearches.map((search, index) => (
     <div style={{ display: 'flex' }} key={index}>
-      <h5 className="saved-search-remover" onClick={props.onDelete}>Remove</h5>
+      <h5 className="saved-search-remover" id={index} onClick={props.onDelete}>Remove</h5>
       <a className="search-link" href={search.link}>{"Search by " + search.searchBy.toLowerCase() + (search.search.length ? " for " + search.search + " " : " ") + (search.tags.length ? " and tags " + search.tags.join(', ').toLowerCase() : "") + (search.genres.length ? " and genres " + search.genres.join(', ').toLowerCase() : "")}</a>
     </div>
     ))}
