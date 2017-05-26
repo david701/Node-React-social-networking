@@ -56,11 +56,16 @@ const sendEmail = (template, subject, options, email, cb)=>{
 //// GET USERS LIST
 exports.getUsers = (req, res) => {
 	var limit = parseInt(req.query.limit) || 0,
-			skip = parseInt(req.query.skip) || 0,
+			page = parseInt(req.query.page) || 1,
+			skip = (page - 1)*limit,
 			query = {},
 			sort = {};
 
-	var query = mongoUser.find(query).where('status').gt(0).limit(limit).skip(skip).sort(sort)
+	if(req.query.author){
+		query.name = { "$regex": req.query.author, "$options": "i" };
+	}
+
+	mongoUser.find(query, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches').where('status').gt(0).limit(limit).skip(skip).sort(sort)
 	.populate({
 		path:'following_authors',
 		select:'name avatar',
@@ -70,11 +75,10 @@ exports.getUsers = (req, res) => {
 		path:'followers',
 		select: 'name avatar',
 		match: {'status':1}
-	})
-	.exec();
-
-	query.then((users)=>{
-		handle.res(res, users);
+	}).then((users)=>{
+		mongoUser.find(query).where('status').gt(0).count().then((count)=>{
+			handle.res(res, users, count);
+		})
 	})
 	.catch(function(err){
 	 handle.err(res, err);
@@ -112,7 +116,7 @@ exports.createUser = (req, res)=>{
 
 /// GET SINGLE USER BY ID
 exports.getUserById = (req, res)=>{
-	var query = mongoUser.findOne({_id: req.params.id});
+	var query = mongoUser.findOne({_id: req.params.id}, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches');
 	if(!req.query.following_list){
 		query = query.populate({
 			path:'following_authors',
@@ -150,7 +154,7 @@ exports.getUserById = (req, res)=>{
 }
 /// GET SINGLE USER BY EMAIL
 exports.getUserByEmail = (req, res)=>{
-	mongoUser.findOne({email: req.query.email}, (err, user)=>{
+	mongoUser.findOne({email: req.query.email}, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches', (err, user)=>{
 		if(err){
 			handle.err(res, err);
 		}else{

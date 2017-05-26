@@ -47,7 +47,7 @@ router.get('/author/:id/reset-password', (req, res)=>{
 });
 
 router.get('/books/all', (req, res)=>{
-	res.render('view_all', {title:'Browse', query: req.query})
+	res.render('view_all', {title:'Browse', query: req.query, author: false})
 });
 
 router.get('/books/:id', (req, res) => {
@@ -77,6 +77,10 @@ router.get('/books/:id', (req, res) => {
 // 		res.send(chapter.content)
 // 	})
 // });
+
+router.get('/authors/all', (req, res)=>{
+	res.render('view_all', {title:'Browse', query: req.query, author: true})
+});
 
 router.get('/dashboard', (req, res)=>{
 	if(req.session){
