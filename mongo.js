@@ -94,6 +94,11 @@ const claimSchema = new Schema({
 	status: {type: Number, default: 1}
 })
 
+const adSchema = new Schema({
+	page: String,
+	ad: Boolean
+})
+
 const genreSchema = new Schema({
 	name: String
 })
@@ -114,6 +119,7 @@ const schema = {
 	brawl: mongo.model('Brawls', brawlSchema),
 	review: mongo.model('Reviews', reviewSchema),
 	claim: mongo.model('Claims', claimSchema),
+	ad: mongo.model('Ads', adSchema),
 	genre: mongo.model('Genres', genreSchema),
   tag: mongo.model('Tags', tagSchema),
   warning: mongo.model('Warnings', warningSchema)
