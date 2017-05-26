@@ -6,7 +6,8 @@ const Users = require('./models/users.js'),
 			Books = require('./models/books.js'),
 			Reviews = require('./models/reviews.js'),
 			Comments = require('./models/comments.js'),
-			Claims = require('./models/claims.js');
+			Claims = require('./models/claims.js'),
+			Brawls = require('./models/brawls.js');
 
 /// USER API ///
 router.route('/users')
@@ -105,6 +106,15 @@ router.put('/claims/:id', Claims.editClaim)
 
 /// END CLAIMS API ///
 
+/// BRAWLS API ///
+router.route('/brawls')
+	.get(Brawls.getBrawls)
+	.post(Brawls.newBrawl)
+
+router.route('/brawls/:id')
+	.get(Brawls.getBrawlById)
+	.put(Brawls.editBrawl)
+/// END BRAWLS API ///
 
 // === DEPRICATED ROUTES ===
 router.get('/mybooks', (req, res)=>{

@@ -48,6 +48,8 @@ const bookSchema = new Schema({
 	in_library: Boolean,
 	links: {},
 	rating: {type:Number, default: 0},
+	brawl_submit: Boolean,
+	brawl: { type: Schema.Types.ObjectId, ref: 'Brawls' },
 	updated_at: { type: Date, default: Date.now }
 });
 
@@ -68,10 +70,11 @@ const commentSchema = new Schema({
 })
 
 const brawlSchema = new Schema({
-	book_a_id: { type: Schema.Types.ObjectId, ref: 'Books' },
-	book_b_id: { type: Schema.Types.ObjectId, ref: 'Books' },
-	book_a_vote: Number,
-	book_b_vote: Number,
+	book_a: { type: Schema.Types.ObjectId, ref: 'Books' },
+	book_b: { type: Schema.Types.ObjectId, ref: 'Books' },
+	book_a_vote: { type: Number, default: 0 },
+	book_b_vote: { type: Number, default: 0 },
+	voters: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
 	status: Number,
 	updated_at: { type: Date, default: Date.now }
 })
