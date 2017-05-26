@@ -48,6 +48,8 @@ const bookSchema = new Schema({
 	in_library: Boolean,
 	links: {},
 	rating: {type:Number, default: 0},
+	brawl_submit: Boolean,
+	brawl: { type: Schema.Types.ObjectId, ref: 'Brawls' },
 	updated_at: { type: Date, default: Date.now }
 });
 
@@ -68,10 +70,11 @@ const commentSchema = new Schema({
 })
 
 const brawlSchema = new Schema({
-	book_a_id: { type: Schema.Types.ObjectId, ref: 'Books' },
-	book_b_id: { type: Schema.Types.ObjectId, ref: 'Books' },
-	book_a_vote: Number,
-	book_b_vote: Number,
+	book_a: { type: Schema.Types.ObjectId, ref: 'Books' },
+	book_b: { type: Schema.Types.ObjectId, ref: 'Books' },
+	book_a_vote: { type: Number, default: 0 },
+	book_b_vote: { type: Number, default: 0 },
+	voters: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
 	status: Number,
 	updated_at: { type: Date, default: Date.now }
 })
@@ -89,6 +92,11 @@ const claimSchema = new Schema({
 	reporter: {type: Schema.Types.ObjectId, ref: 'Users' },
 	content: String,
 	status: {type: Number, default: 1}
+})
+
+const adSchema = new Schema({
+	page: String,
+	ad: Boolean
 })
 
 const genreSchema = new Schema({
@@ -111,6 +119,7 @@ const schema = {
 	brawl: mongo.model('Brawls', brawlSchema),
 	review: mongo.model('Reviews', reviewSchema),
 	claim: mongo.model('Claims', claimSchema),
+	ad: mongo.model('Ads', adSchema),
 	genre: mongo.model('Genres', genreSchema),
   tag: mongo.model('Tags', tagSchema),
   warning: mongo.model('Warnings', warningSchema)
