@@ -51317,10 +51317,9 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.loadUserInfo = function (id) {
-			fetch(apiUrl + '/users/' + id).then(function (res) {
-				return res.json();
-			}).then(function (res) {
-				return _this.setState({ user: res.data });
+			_jquery2.default.get(apiUrl + '/users/' + id).then(function (res) {
+				_this.getLibrary();
+				_this.setState({ user: res.data });
 			});
 		};
 
@@ -51402,9 +51401,14 @@ var Parent = function (_React$Component) {
 
 		_this.loadBooks = function (id) {
 			_jquery2.default.get(apiUrl + '/users/' + id + '/books').then(function (res) {
-				return _this.setState({
-					books: res.data
-				});
+				_this.setState({ books: res.data });
+			});
+		};
+
+		_this.getLibrary = function () {
+			var query = '/api/v1/books/library?limit=4';
+			_jquery2.default.get(query).then(function (books) {
+				_this.setState({ library: books.data });
 			});
 		};
 
@@ -51414,7 +51418,8 @@ var Parent = function (_React$Component) {
 			books: [],
 			pendingBooks: [],
 			bookClaims: [],
-			claim: false
+			claim: false,
+			library: []
 		};
 		return _this;
 	}
@@ -51661,7 +51666,7 @@ var Parent = function (_React$Component) {
 								following
 							),
 							_react2.default.createElement('hr', null),
-							this.state.user.following_books ? _react2.default.createElement(_Library2.default, { books: this.state.user.following_books, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : '',
+							this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : '',
 							_react2.default.createElement('hr', null),
 							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, loadUserInfo: this.loadUserInfo })
 						),
@@ -54037,6 +54042,17 @@ var ViewAll = function (_React$Component) {
 			books: [],
 			limit: 20,
 			count: 0
+		}, _this.getUser = function () {
+			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
+				if (user.data._id) {
+					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
+						_this.setState({ user: user.data });
+						_this.getView();
+					});
+				} else {
+					_this.getView();
+				}
+			});
 		}, _this.getView = function (page) {
 			switch (_this.state.view) {
 				case 'user-library':
@@ -54096,24 +54112,25 @@ var ViewAll = function (_React$Component) {
 			var page = _this.state.page + 1;
 			_this.setState({ page: page }, _this.getView(page));
 			window.history.pushState('Browse', 'Browse', e.target.href);
+		}, _this.followBook = function (e) {
+			_jQuery2.default.post(apiUrl + '/books/' + e.target.id + '/follow').then(function (res) {
+				_this.getUser();
+			});
+		}, _this.unfollowBook = function (e) {
+			console.log('UNFOLLOW');
+			_jQuery2.default.ajax({
+				url: apiUrl + '/books/' + e.target.id + '/follow',
+				type: 'DELETE'
+			}).then(function (res) {
+				_this.getUser();
+			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(ViewAll, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			var _this2 = this;
-
-			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
-				if (user.data._id) {
-					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
-						_this2.setState({ user: user.data });
-						_this2.getView();
-					});
-				} else {
-					_this2.getView();
-				}
-			});
+			this.getUser();
 		}
 	}, {
 		key: 'render',
@@ -54163,9 +54180,9 @@ var ViewAll = function (_React$Component) {
 
 			var bookRow;
 			if (this.state.view == 'user-books') {
-				bookRow = _react2.default.createElement(_BooksRow2.default, { userBooks: 'true', smallBooks: 'true', books: this.state.books, user: this.state.user });
+				bookRow = _react2.default.createElement(_BooksRow2.default, { userBooks: 'true', smallBooks: 'true', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
 			} else {
-				bookRow = _react2.default.createElement(_BooksRow2.default, { smallBooks: 'true', books: this.state.books, user: this.state.user });
+				bookRow = _react2.default.createElement(_BooksRow2.default, { smallBooks: 'true', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
 			}
 
 			return _react2.default.createElement(
