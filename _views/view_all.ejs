@@ -16,6 +16,10 @@
 	<% include ./partials/sidebar %>
 </div>
 <script>
+	var author;
 	var query = <%-JSON.stringify(query) %>;
+	<% if(author){ %>
+		author = true;
+	<% } %>
 </script>
 <% include ./partials/end %>

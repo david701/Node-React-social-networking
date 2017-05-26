@@ -91,6 +91,7 @@ export default class SearchContainer extends React.Component {
 		var search = '', tags = '', genres = '', rating = '';
 		var url = '/books/all?view=search';
     if(this.state.searchBy == 'Author'){
+			url = '/authors/all?view=search';
 			if(this.state.search)search = '&author='+this.state.search;
 		}else{
 			if(this.state.search)search = '&title='+this.state.search;
