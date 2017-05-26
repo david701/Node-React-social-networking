@@ -23,6 +23,10 @@ class ViewAll extends React.Component{
 	}
 
 	componentDidMount(){
+		this.getUser()
+	}
+
+	getUser = ()=>{
 		$.get(apiUrl+'/user_session').then((user)=>{
 			if(user.data._id){
 				$.get(apiUrl+'/users/'+user.data._id+'?book_list=true').then((user)=>{
@@ -92,6 +96,23 @@ class ViewAll extends React.Component{
 		window.history.pushState('Browse', 'Browse', e.target.href);
 	}
 
+	followBook = (e)=>{
+		$.post(`${apiUrl}/books/${e.target.id}/follow`)
+		.then(res => {
+			this.getUser();
+		})
+	}
+
+	unfollowBook = (e)=>{
+		console.log('UNFOLLOW');
+		$.ajax({
+			url: `${apiUrl}/books/${e.target.id}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.getUser();
+		})
+	}
+
 	render(){
 		var url = '/books/all?', view = '', tags = '', genres = '', paginate;
 		if(this.state.view) view = 'view=' + this.state.view;
@@ -117,9 +138,9 @@ class ViewAll extends React.Component{
 
 		var bookRow;
 		if(this.state.view == 'user-books'){
-			bookRow = <BookRow userBooks='true' smallBooks='true' books={this.state.books} user={this.state.user} />
+			bookRow = <BookRow userBooks='true' smallBooks='true' books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 		}else{
-			bookRow = <BookRow smallBooks='true' books={this.state.books} user={this.state.user} />
+			bookRow = <BookRow smallBooks='true' books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 		}
 
 		return(

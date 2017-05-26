@@ -40,7 +40,8 @@ class Parent extends React.Component {
 			books: [],
 			pendingBooks: [],
 			bookClaims: [],
-			claim: false
+			claim: false,
+			library: []
 		};
 	}
 
@@ -100,9 +101,11 @@ class Parent extends React.Component {
 	}
 
 	loadUserInfo = id => {
-		fetch(`${apiUrl}/users/${id}`)
-			.then(res => res.json())
-			.then(res => this.setState({user: res.data}));
+		$.get(`${apiUrl}/users/${id}`)
+			.then(res => {
+				this.getLibrary();
+				this.setState({user: res.data});
+			});
 	}
 
 	approveBooks = (book) => {
@@ -184,9 +187,16 @@ class Parent extends React.Component {
 
 	loadBooks = id => {
 		$.get(`${apiUrl}/users/${id}/books`)
-			.then(res => this.setState({
-				books: res.data
-			}))
+			.then(res => {
+				this.setState({books: res.data})
+			})
+	}
+
+	getLibrary = () => {
+		var query = '/api/v1/books/library?limit=4';
+		$.get(query).then((books)=>{
+			this.setState({library: books.data});
+		})
 	}
 
 	render() {
@@ -309,7 +319,7 @@ class Parent extends React.Component {
 									{following}
 								</ul>
 								<hr />
-								{this.state.user.following_books? <Library books={this.state.user.following_books} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" />: ''}
+								{this.state.library.length? <Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" />: ''}
 								<hr />
 								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo}/>}
 							</div>
