@@ -12,10 +12,114 @@ import genres from '../../../data/genres.json';
 const limit = 4;
 
 class Home extends React.Component{
-	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:''}
+	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:'',brawls:[]}
 	componentDidMount(){
 		this.getUser();
 		this.getAllBooks();
+		this.getBrawls();
+	}
+
+
+	vote = (e,voterId,brawlerId) => {
+		alert('voter id: ' + voterId + " brawler id: " + brawlerId);
+		this.getBrawls();
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	getBrawls = () => {
+		let brawls =  [
+   		{
+	      brawlers:[
+	         {
+	            _id:"0",
+	            author:{
+	               _id:"0",
+	               name:"Elon Mitchell",
+	               avatar:"/assets/images/dog.gif"
+	            },
+	            cover:"/assets/images/default-cover-art.jpg",
+	            title:"Some Book",
+	            rating:5,
+	            voters: ["1"],
+	            votes:1
+	         },
+	         {
+	            _id:"1",
+	            author:{
+	               _id:"1",
+	               name:"Terry Pierre",
+	               avatar:"/assets/images/cat.gif"
+	            },
+	            cover:"/assets/images/default-cover-art.jpg",
+	            title:"Some Book",
+	            rating:5,
+	            voters: ["0"],
+	            votes:1
+	         }
+	      ],
+	      results:{
+	         declared:true,
+	         totalVotes:2,
+	         voters: ["0","1"],
+	         winner:{
+	            _id:"1",
+	            author:{
+	               _id:"1",
+	               name:"Elon Mitchell",
+	               avatar:"/assets/images/cat.gif"
+	            },
+	            title:"Some Book"
+	         }
+	      },
+	      updated_at:"XXXX-XX-XX"
+	   },
+	   {
+	      brawlers:[
+	         {
+	            _id:"0",
+	            author:{
+	               _id:"0",
+	               name:"Ericka Emery",
+	               avatar:"/assets/images/cat.gif"
+	            },
+	            cover:"/assets/images/default-cover-art.jpg",
+	            title:"Some Book",
+	            rating:5,
+	            voters: ["0"],
+	            votes:1
+	         },
+	         {
+	            _id:"1",
+	            author:{
+	               _id:"1",
+	               name:"Michael Way",
+	               avatar:"/assets/images/dog.gif"
+	            },
+	            cover:"/assets/images/default-cover-art.jpg",
+	            title:"Some Book",
+	            rating:5,
+	            voters: ["1"],
+	            votes:1
+	         }
+	      ],
+	      results:{
+	         declared:false,
+	         totalVotes:2,
+	         voters: ["0","1"],
+	         winner:{
+	            _id:"1",
+	            author:{
+	               _id:"1",
+	               name:"Michael Way",
+	               avatar:"/assets/images/cat.gif"
+	            },
+	            title:"Some Book"
+	         }
+	      },
+	      updated_at:"XXXX-XX-XX"
+	   }];
+	 	this.setState({brawls: brawls});
 	}
 
 	getUser = ()=>{
@@ -89,7 +193,7 @@ class Home extends React.Component{
 	render(){
 		return(
 			<div>
-				<Brawl />
+				<Brawl brawls={this.state.brawls} me={this.state.user} vote={this.vote}/>
 				<section className="standard-section">
 						<div className="container">
 								<div className="content-block">

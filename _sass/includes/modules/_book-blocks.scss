@@ -358,9 +358,7 @@
   }
   &-feature {
     width: 100%;
-    max-width: em(426);
     @include w1000 {
-      max-width: em(426);
     }
     > ul {
       display: flex;
@@ -369,7 +367,6 @@
       > li {
         width: calc(50% - #{$gutter/2});
         display: flex;
-        flex-direction: column;
         align-items: center;
         a:first-child {
           figure {

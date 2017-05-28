@@ -520,7 +520,7 @@
         display: flex;
         width: 100vw;
         @include w640 {
-            padding: em(59+50) 0 em(24);
+            padding: 5em 0 0 0;
         }
         @include w1000 {
             width: calc(100vw - #{em(200)});
@@ -549,13 +549,19 @@
             @include w640 {
                 justify-content: space-between;
             }
+            .book {
+                width: calc(50% - 1em);
+                .button {
+                    margin: 0 auto;
+                }
+            }
             .mascot {
                 max-width: em(244);
                 display: none;
                 margin-top: em(32);
                 position: relative;
                 @include w1000 {
-                    width: 25%;
+                    width: 50%;
                     margin-top: 0;
                     margin-bottom: em(28);
                 }
@@ -648,7 +654,7 @@
         h4 {
             color: $light-blue;
             text-align: center;
-            width: 10em;
+            width: 15em;
             position: relative;
             height: rem(28);
             margin: 0 auto;

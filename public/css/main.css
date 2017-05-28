@@ -180,7 +180,8 @@
 
 .react-datepicker__input-container {
   position: relative;
-  display: inline-block; }
+  display: inline-block;
+  width: 100%; }
 
 .react-datepicker__year-read-view,
 .react-datepicker__month-read-view {
@@ -3055,7 +3056,7 @@ form .instructions {
     width: 100vw; }
     @media screen and (min-width: 40em) {
       .brawl-feature main {
-        padding: 6.8125em 0 1.5em; } }
+        padding: 5em 0 0 0; } }
     @media screen and (min-width: 62.5em) {
       .brawl-feature main {
         width: calc(100vw - 12.5em); } }
@@ -3081,6 +3082,10 @@ form .instructions {
       @media screen and (min-width: 40em) {
         .brawl-feature main .flex-row {
           justify-content: space-between; } }
+      .brawl-feature main .flex-row .book {
+        width: calc(50% - 1em); }
+        .brawl-feature main .flex-row .book .button {
+          margin: 0 auto; }
       .brawl-feature main .flex-row .mascot {
         max-width: 15.25em;
         display: none;
@@ -3088,7 +3093,7 @@ form .instructions {
         position: relative; }
         @media screen and (min-width: 62.5em) {
           .brawl-feature main .flex-row .mascot {
-            width: 25%;
+            width: 50%;
             margin-top: 0;
             margin-bottom: 1.75em; } }
         @media screen and (min-width: 40em) {
@@ -3156,7 +3161,7 @@ form .instructions {
     .brawl-feature footer h4 {
       color: #0FAFFF;
       text-align: center;
-      width: 10em;
+      width: 15em;
       position: relative;
       height: 1.75rem;
       margin: 0 auto; }
@@ -3439,11 +3444,7 @@ form .instructions {
           .book-blocks-small > ul > li:nth-child(1n+5) {
             display: none; } }
   .book-blocks-feature {
-    width: 100%;
-    max-width: 26.625em; }
-    @media screen and (min-width: 62.5em) {
-      .book-blocks-feature {
-        max-width: 26.625em; } }
+    width: 100%; }
     .book-blocks-feature > ul {
       display: flex;
       justify-content: space-between;
@@ -3451,7 +3452,6 @@ form .instructions {
       .book-blocks-feature > ul > li {
         width: calc(50% - 0.75em);
         display: flex;
-        flex-direction: column;
         align-items: center; }
         .book-blocks-feature > ul > li a:first-child figure figcaption {
           padding: 0.625em 0.75em 0.8125em; }
