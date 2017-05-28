@@ -6,7 +6,7 @@
 			<div class="container">
 
 				<div class="content-block content-block-standard account-block">
-					<div id="edit-page" title="<%= title %>"></div>
+					<div id="view_all"></div>
 				</div>
 
 			</div>
@@ -16,6 +16,10 @@
 	<% include ./partials/sidebar %>
 </div>
 <script>
-	var profile_id = '<%= id %>';
+	var author;
+	var query = <%-JSON.stringify(query) %>;
+	<% if(author){ %>
+		author = true;
+	<% } %>
 </script>
 <% include ./partials/end %>

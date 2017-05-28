@@ -34108,7 +34108,7 @@ var BookRow = function BookRow(props) {
 			),
 			_react2.default.createElement(
 				'a',
-				{ className: 'expand-control', href: '.' },
+				{ className: 'expand-control', href: props.link },
 				'All ',
 				props.title
 			)
@@ -34117,8 +34117,10 @@ var BookRow = function BookRow(props) {
 			'ul',
 			null,
 			props.books.map(function (book, key) {
-				return _react2.default.createElement(_book2.default, { book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
-			})
+				return _react2.default.createElement(_book2.default, { userBooks: props.userBooks, book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
+			}),
+			_react2.default.createElement('li', null),
+			_react2.default.createElement('li', null)
 		) : ''
 	);
 };
@@ -51381,10 +51383,9 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.loadUserInfo = function (id) {
-			fetch(apiUrl + '/users/' + id).then(function (res) {
-				return res.json();
-			}).then(function (res) {
-				return _this.setState({ user: res.data });
+			_jquery2.default.get(apiUrl + '/users/' + id).then(function (res) {
+				_this.getLibrary();
+				_this.setState({ user: res.data });
 			});
 		};
 
@@ -51466,9 +51467,14 @@ var Parent = function (_React$Component) {
 
 		_this.loadBooks = function (id) {
 			_jquery2.default.get(apiUrl + '/users/' + id + '/books').then(function (res) {
-				return _this.setState({
-					books: res.data
-				});
+				_this.setState({ books: res.data });
+			});
+		};
+
+		_this.getLibrary = function () {
+			var query = '/api/v1/books/library?limit=4';
+			_jquery2.default.get(query).then(function (books) {
+				_this.setState({ library: books.data });
 			});
 		};
 
@@ -51478,7 +51484,8 @@ var Parent = function (_React$Component) {
 			books: [],
 			pendingBooks: [],
 			bookClaims: [],
-			claim: false
+			claim: false,
+			library: []
 		};
 		return _this;
 	}
@@ -51725,7 +51732,7 @@ var Parent = function (_React$Component) {
 								following
 							),
 							_react2.default.createElement('hr', null),
-							this.state.user.following_books ? _react2.default.createElement(_Library2.default, { books: this.state.user.following_books, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : '',
+							this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : '',
 							_react2.default.createElement('hr', null),
 							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, loadUserInfo: this.loadUserInfo })
 						),
@@ -53830,7 +53837,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var apiUrl = '/api/v1';
 
-var limit = 4;
+var limit = 8;
 
 var Home = function (_React$Component) {
 	_inherits(Home, _React$Component);
@@ -53938,7 +53945,7 @@ var Home = function (_React$Component) {
 			_this.setState({ brawls: brawls });
 		}, _this.getUser = function () {
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
-				if (user.data) {
+				if (user.data._id) {
 					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
 						_this.setState({ user: user.data });
 					});
@@ -53960,7 +53967,6 @@ var Home = function (_React$Component) {
 			var url = apiUrl + '/books/recommended?limit=' + limit;
 			if (genre) url = url + '&genre=' + genre;
 			_jQuery2.default.get(url).then(function (books) {
-				console.log(books);
 				_this.setState({ recommendedBooks: books.data });
 			}).catch(function (err) {
 				console.log(err);
@@ -54056,8 +54062,9 @@ var Home = function (_React$Component) {
 								)
 							)
 						),
-						_react2.default.createElement(_BooksRow2.default, { title: 'Recommended', books: this.state.recommendedBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }),
-						_react2.default.createElement(_BooksRow2.default, { title: 'Top Rated', books: this.state.topBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }),
+						this.state.genre ? _react2.default.createElement(_BooksRow2.default, { title: this.state.genre, link: '/books/all?genres=' + this.state.genre, books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }) : '',
+						this.state.recommendedBooks && this.state.recommendedBooks.length ? _react2.default.createElement(_BooksRow2.default, { title: 'Recommended', link: '/books/all?view=recommended', books: this.state.recommendedBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }) : '',
+						_react2.default.createElement(_BooksRow2.default, { title: 'Top Rated', link: '/books/all?view=top', books: this.state.topBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }),
 						_react2.default.createElement(
 							'div',
 							{ className: 'content-block-spread' },
@@ -54087,8 +54094,7 @@ var Home = function (_React$Component) {
 									)
 								)
 							)
-						),
-						_react2.default.createElement(_BooksRow2.default, { title: this.state.genre ? this.state.genre : 'Books', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook })
+						)
 					)
 				)
 			);
@@ -57290,12 +57296,12 @@ var Book = function Book(props) {
 														{ className: 'button button-red', href: '/books/' + props.book._id },
 														'Preview'
 												),
-												props.user && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
+												props.user && !props.userBooks && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.followBook },
 														'Add to Library'
 												) : '',
-												props.user && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
+												props.user && !props.userBooks && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.unfollowBook },
 														'Unfollow Book'
@@ -59101,6 +59107,7 @@ var SearchContainer = function (_React$Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchContainer.__proto__ || Object.getPrototypeOf(SearchContainer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      user: '',
       search: "", //input field
       searchBy: "Book", // default search by
       rating: 0, //star rating
@@ -59120,8 +59127,77 @@ var SearchContainer = function (_React$Component) {
         genres: [],
         tags: []
       }] //saved searches
+    }, _this.getUser = function () {
+      _jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
+        if (user.data && user.data._id) {
+          _jQuery2.default.get(apiUrl + '/users/' + user.data._id).then(function (user) {
+            _this.setState({ user: user.data });
+          });
+        }
+      });
+    }, _this.getUrl = function () {
+      var url = '/books/all?view=search';
+      var search = '',
+          tags = '',
+          genres = '',
+          rating = '';
+      if (_this.state.searchBy == 'Author') {
+        url = '/authors/all?view=search';
+        if (_this.state.search) search = '&author=' + _this.state.search;
+      } else {
+        if (_this.state.search) search = '&title=' + _this.state.search;
+      }
+
+      if (_this.state.tags.length) {
+        tags = '&tags=' + _this.state.tags.join(',');
+      }
+
+      if (_this.state.genres.length) {
+        genres = '&genres=' + _this.state.genres.join(',');
+      }
+
+      if (_this.state.rating > 0) {
+        rating = '&rating=' + _this.state.rating;
+      }
+      url = url + search + tags + genres + rating;
+      return url;
+    }, _this.saveSearch = function (e) {
+      e.preventDefault();
+      var search = {
+        link: _this.getUrl(),
+        searchBy: _this.state.searchBy,
+        search: _this.state.search,
+        genres: _this.state.genres,
+        tags: _this.state.tags
+      };
+
+      var searches = _this.state.user.searches;
+      searches.push(search);
+
+      _jQuery2.default.ajax({
+        method: 'PUT',
+        url: '/api/v1/users/' + _this.state.user._id,
+        data: JSON.stringify({ searches: searches }),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8'
+      }).then(function () {
+        _this.getUser();
+      });
     }, _this.removeSearch = function (e) {
-      alert("I was created to delete searches");
+      e.preventDefault();
+      var index = e.target.id;
+      var searches = _this.state.user.searches;
+      searches.splice(index, 1);
+
+      _jQuery2.default.ajax({
+        method: 'PUT',
+        url: '/api/v1/users/' + _this.state.user._id,
+        data: JSON.stringify({ searches: searches }),
+        dataType: 'json',
+        contentType: 'application/json; charset=UTF-8'
+      }).then(function () {
+        _this.getUser();
+      });
     }, _this.handleChange = function (e) {
       var _this$state = _this.state,
           tags = _this$state.tags,
@@ -59146,16 +59222,11 @@ var SearchContainer = function (_React$Component) {
         _this.setState({ searchBy: e.target.value, search: "" });
       }
     }, _this.handleRating = function (nextValue) {
-      _this.setState(_extends({}, _this.state, { rating: nextValue }), function () {
-        return console.log(_this.state.rating);
-      });
+      _this.setState(_extends({}, _this.state, { rating: nextValue }));
     }, _this.handleSearch = function (e) {
       var change = {};
       change[e.target.name] = e.target.value;
-      console.log(change);
-      _this.setState(change, function () {
-        return console.log(_this.state);
-      });
+      _this.setState(change);
     }, _this.handleSubmit = function (e) {
       e.preventDefault();
       var limit = 8;
@@ -59163,11 +59234,12 @@ var SearchContainer = function (_React$Component) {
           tags = '',
           genres = '',
           rating = '';
-      var url = '/api/v1/books?limit=' + limit;
+      var url = '/books/all?view=search';
       if (_this.state.searchBy == 'Author') {
-        search = '&author=' + _this.state.search;
+        url = '/authors/all?view=search';
+        if (_this.state.search) search = '&author=' + _this.state.search;
       } else {
-        search = '&title=' + _this.state.search;
+        if (_this.state.search) search = '&title=' + _this.state.search;
       }
 
       if (_this.state.tags.length) {
@@ -59183,13 +59255,16 @@ var SearchContainer = function (_React$Component) {
       }
       url = url + search + tags + genres + rating;
 
-      _jQuery2.default.get(url).then(function (books) {
-        _this.setState({ results: books.data });
-      });
+      window.location.href = url;
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(SearchContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.getUser();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _state = this.state,
@@ -59240,11 +59315,11 @@ var SearchContainer = function (_React$Component) {
                 _react2.default.createElement(
                   'div',
                   { className: 'buttons' },
-                  _react2.default.createElement(
+                  this.state.user ? _react2.default.createElement(
                     'button',
-                    { type: 'button', className: 'button button-white' },
+                    { type: 'button', className: 'button button-white', onClick: this.saveSearch },
                     'Save'
-                  ),
+                  ) : '',
                   _react2.default.createElement(
                     'button',
                     { type: 'button', onClick: this.handleSubmit, className: 'button button-red' },
@@ -59252,7 +59327,7 @@ var SearchContainer = function (_React$Component) {
                   )
                 )
               ),
-              _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: savedSearches }),
+              this.state.user ? _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: this.state.user.searches }) : '',
               this.state.results ? _react2.default.createElement(_BooksRow2.default, { title: 'Search Results', books: this.state.results }) : ''
             ),
             _react2.default.createElement(
@@ -59360,7 +59435,7 @@ var SavedSearches = function SavedSearches(props) {
         { style: { display: 'flex' }, key: index },
         _react2.default.createElement(
           'h5',
-          { className: 'saved-search-remover', onClick: props.onDelete },
+          { className: 'saved-search-remover', id: index, onClick: props.onDelete },
           'Remove'
         ),
         _react2.default.createElement(
@@ -59483,6 +59558,8 @@ __webpack_require__(259);
 __webpack_require__(261);
 
 __webpack_require__(262);
+
+__webpack_require__(523);
 
 __webpack_require__(264);
 
@@ -59636,35 +59713,44 @@ var LoginButtons = function (_React$Component) {
 											null,
 											_react2.default.createElement(
 												'a',
-												{ href: '.' },
+												{ href: '/books/all' },
 												'All'
 											)
 										),
-										_react2.default.createElement(
+										this.state.loggedIn ? _react2.default.createElement(
 											'li',
 											null,
 											_react2.default.createElement(
 												'a',
-												{ href: '.' },
-												'Trending'
-											)
-										),
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '.' },
-												'Genre Name'
-											)
-										),
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '.' },
+												{ href: '/books/all?view=user-library' },
 												'My Library'
+											)
+										) : '',
+										_react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: '/books/all?view=top' },
+												'Top Rated'
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: '/books/all?genres=Fantasy' },
+												'Fantasy Books'
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
+												{ href: '/books/all?genres=Horror' },
+												'Horror Books'
 											)
 										)
 									)
@@ -79578,6 +79664,363 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(8);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jQuery = __webpack_require__(15);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
+var _BooksRow = __webpack_require__(84);
+
+var _BooksRow2 = _interopRequireDefault(_BooksRow);
+
+var _AuthorRow = __webpack_require__(524);
+
+var _AuthorRow2 = _interopRequireDefault(_AuthorRow);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var apiUrl = '/api/v1';
+
+var ViewAll = function (_React$Component) {
+	_inherits(ViewAll, _React$Component);
+
+	function ViewAll() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
+		_classCallCheck(this, ViewAll);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ViewAll.__proto__ || Object.getPrototypeOf(ViewAll)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			title: '',
+			user: '',
+			authorPage: author || false,
+			view: query.view || '',
+			genres: query.genres || '',
+			tags: query.tags || '',
+			author: query.author || '',
+			rating: query.rating || '',
+			page: parseInt(query.page) || 1,
+			books: [],
+			authors: [],
+			limit: 20,
+			count: 0
+		}, _this.getUser = function () {
+			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
+				if (user.data._id) {
+					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
+						_this.setState({ user: user.data });
+						_this.getSection();
+					});
+				} else {
+					_this.getSection();
+				}
+			});
+		}, _this.getSection = function (page) {
+			if (_this.state.authorPage) {
+				_this.getAuthors(page);
+			} else {
+				_this.getView(page);
+			}
+		}, _this.getView = function (page) {
+			switch (_this.state.view) {
+				case 'user-library':
+					_this.getUserLibrary(page);
+					break;
+				case 'user-books':
+					_this.getUserBooks(page);
+					break;
+				case 'search':
+					if (_this.state.author) {
+						_this.getAuthors(page);
+					} else {
+						_this.getUserBooks(page);
+					}
+					break;
+				default:
+					_this.getBooks(page);
+
+			}
+		}, _this.getAuthors = function (page) {
+			var page = page || _this.state.page,
+			    author = '';
+
+			if (_this.state.author) author = '&author=' + _this.state.author;
+
+			var query = apiUrl + '/users?limit=' + _this.state.limit + '&page=' + page + author;
+
+			var title = 'Viewing Authors';
+			if (_this.state.view == 'search') title = 'Search Results';
+
+			_jQuery2.default.get(query).then(function (authors) {
+				_this.setState({ authors: authors.data, count: authors.count, title: title });
+			});
+		}, _this.getUserBooks = function (page) {
+			var page = page || _this.state.page;
+			var query = apiUrl + '/users/' + _this.state.user._id + '/books?limit=' + _this.state.limit + '&page=' + page;
+			_jQuery2.default.get(query).then(function (books) {
+				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Books' });
+			});
+		}, _this.getUserLibrary = function (page) {
+			var query = apiUrl + '/books/library?limit=' + _this.state.limit;
+			var page = page || _this.state.page;
+			_jQuery2.default.get(query + '&page=' + page).then(function (books) {
+				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Library' });
+			});
+		}, _this.getBooks = function (page) {
+			var query = apiUrl + '/books?limit=' + _this.state.limit,
+			    title = 'Viewing All Books';
+			if (_this.state.view == 'top') {
+				query = query + '&sort=-rating';title = 'Viewing Top Rated';
+			}
+			if (_this.state.view == 'recommended') {
+				query = '/recommended' + query;title = 'Viewing Recommended';
+			}
+			if (_this.state.rating) {
+				query = query + '&rating=' + _this.state.rating;
+			}
+			if (_this.state.author) {
+				query = query + '&author=' + _this.state.author;
+			}
+			if (_this.state.genres) {
+				query = query + '&genres=' + _this.state.genres;title = title + ' : ' + _this.state.genres;
+			}
+
+			if (_this.state.view == 'search') title = 'Search Results';
+			var page = page || _this.state.page;
+			_jQuery2.default.get(query + '&page=' + page).then(function (books) {
+				_this.setState({ books: books.data, count: books.count, title: title });
+			});
+		}, _this.prev = function (e) {
+			e.preventDefault();
+			var page = _this.state.page - 1;
+			_this.setState({ page: page }, _this.getSection(page));
+			window.history.pushState('Browse', 'Browse', e.target.href);
+		}, _this.next = function (e) {
+			e.preventDefault();
+			var page = _this.state.page + 1;
+			_this.setState({ page: page }, _this.getSection(page));
+			window.history.pushState('Browse', 'Browse', e.target.href);
+		}, _this.followBook = function (e) {
+			_jQuery2.default.post(apiUrl + '/books/' + e.target.id + '/follow').then(function (res) {
+				_this.getUser();
+			});
+		}, _this.unfollowBook = function (e) {
+			console.log('UNFOLLOW');
+			_jQuery2.default.ajax({
+				url: apiUrl + '/books/' + e.target.id + '/follow',
+				type: 'DELETE'
+			}).then(function (res) {
+				_this.getUser();
+			});
+		}, _temp), _possibleConstructorReturn(_this, _ret);
+	}
+
+	_createClass(ViewAll, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.getUser();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var section = '/books/all?';
+			if (this.state.authorPage) {
+				section = '/authors/all?';
+			}
+			var url = section,
+			    view = '',
+			    tags = '',
+			    genres = '',
+			    author = '',
+			    paginate;
+			if (this.state.view) view = 'view=' + this.state.view;
+			if (this.state.tags) tags = '&tags=' + this.state.tags;
+			if (this.state.genres) genres = '&genres=' + this.state.genres;
+			if (this.state.author) author = '&author=' + this.state.author;
+			url = url + view + tags + genres + author;
+
+			if (Math.ceil(this.state.count / this.state.limit) > 1) {
+				paginate = _react2.default.createElement(
+					'div',
+					{ className: 'pages' },
+					this.state.page > 1 && _react2.default.createElement(
+						'a',
+						{ href: url + '&page=' + (this.state.page - 1), className: 'prev', onClick: this.prev },
+						'Previous'
+					),
+					_react2.default.createElement(
+						'span',
+						{ className: 'currentPage' },
+						'Page ',
+						this.state.page
+					),
+					_react2.default.createElement(
+						'span',
+						null,
+						'of'
+					),
+					_react2.default.createElement(
+						'span',
+						{ className: 'allPages' },
+						Math.ceil(this.state.count / this.state.limit)
+					),
+					this.state.page < Math.ceil(this.state.count / this.state.limit) && _react2.default.createElement(
+						'a',
+						{ href: url + '&page=' + (this.state.page + 1), className: 'next', onClick: this.next },
+						'Next'
+					)
+				);
+			}
+
+			var bookRow;
+			if (!this.state.authorPage && this.state.view == 'user-books') {
+				bookRow = _react2.default.createElement(_BooksRow2.default, { userBooks: 'true', smallBooks: 'true', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
+			} else {
+				bookRow = _react2.default.createElement(_BooksRow2.default, { smallBooks: 'true', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
+			}
+
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h3',
+					null,
+					this.state.title
+				),
+				this.state.authorPage || this.state.author ? _react2.default.createElement(_AuthorRow2.default, { authors: this.state.authors, user: this.state.user }) : '',
+				bookRow,
+				paginate
+			);
+		}
+	}]);
+
+	return ViewAll;
+}(_react2.default.Component);
+
+if (document.getElementById('view_all')) {
+	_reactDom2.default.render(_react2.default.createElement(ViewAll, null), document.getElementById('view_all'));
+}
+
+/***/ }),
+/* 524 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AuthorRow = function (_React$Component) {
+	_inherits(AuthorRow, _React$Component);
+
+	function AuthorRow() {
+		_classCallCheck(this, AuthorRow);
+
+		return _possibleConstructorReturn(this, (AuthorRow.__proto__ || Object.getPrototypeOf(AuthorRow)).apply(this, arguments));
+	}
+
+	_createClass(AuthorRow, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var button = "Unfollow";
+			return _react2.default.createElement(
+				'ul',
+				{ className: 'user-list' },
+				this.props.authors.map(function (author, key) {
+					return _react2.default.createElement(
+						'li',
+						{ key: key },
+						_react2.default.createElement(
+							'a',
+							{ href: '/author/' + author._id },
+							_react2.default.createElement(
+								'figure',
+								{ className: 'avatar' },
+								_react2.default.createElement('img', { src: author.avatar, alt: '' })
+							),
+							_react2.default.createElement(
+								'h5',
+								null,
+								author.name
+							)
+						),
+						_this2.props.dashboard ? _react2.default.createElement(
+							'div',
+							{ className: 'control unfollow' },
+							button
+						) : ''
+					);
+				})
+			);
+		}
+	}]);
+
+	return AuthorRow;
+}(_react2.default.Component);
+
+exports.default = AuthorRow;
 
 /***/ })
 /******/ ]);

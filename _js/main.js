@@ -43,6 +43,7 @@ import './pages/dashboard/create';
 import './pages/books/edit';
 import './pages/homepage/home';
 import './pages/search';
+import './pages/view_all/view_all';
 import '../_sass/main.scss';
 
 //plugins
@@ -116,16 +117,19 @@ class LoginButtons extends React.Component{
 		                    </a>
 		                    <ul>
 		                        <li>
-		                            <a href=".">All</a>
+		                            <a href="/books/all">All</a>
+		                        </li>
+														{this.state.loggedIn?<li>
+															 <a href="/books/all?view=user-library">My Library</a>
+													 </li>:''}
+		                        <li>
+		                            <a href="/books/all?view=top">Top Rated</a>
 		                        </li>
 		                        <li>
-		                            <a href=".">Trending</a>
+		                            <a href="/books/all?genres=Fantasy">Fantasy Books</a>
 		                        </li>
-		                        <li>
-		                            <a href=".">Genre Name</a>
-		                        </li>
-		                        <li>
-		                            <a href=".">My Library</a>
+														<li>
+		                            <a href="/books/all?genres=Horror">Horror Books</a>
 		                        </li>
 		                    </ul>
 		                </li>

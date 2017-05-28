@@ -6,7 +6,9 @@ const Users = require('./models/users.js'),
 			Books = require('./models/books.js'),
 			Reviews = require('./models/reviews.js'),
 			Comments = require('./models/comments.js'),
-			Claims = require('./models/claims.js');
+			Claims = require('./models/claims.js'),
+			Brawls = require('./models/brawls.js'),
+			Ads = require('./models/ads.js');
 
 /// USER API ///
 router.route('/users')
@@ -43,6 +45,9 @@ router.route('/books')
 
 router.route('/books/recommended')
 	.get(Books.getRecommendedBooks)
+
+router.route('/books/library')
+	.get(Books.getUserLibrary)
 
 router.route('/books/:id')
 	.get(Books.getBooksById)
@@ -102,6 +107,25 @@ router.put('/claims/:id', Claims.editClaim)
 
 /// END CLAIMS API ///
 
+/// BRAWLS API ///
+router.route('/brawls')
+	.get(Brawls.getBrawls)
+	.post(Brawls.newBrawl)
+
+router.route('/brawls/:id')
+	.get(Brawls.getBrawlById)
+	.put(Brawls.editBrawl)
+/// END BRAWLS API ///
+
+/// ADS API ///
+router.route('/ads')
+	.get(Ads.getAds)
+	.post(Ads.createAd)
+
+router.route('/ads/:id')
+	.get(Ads.getAdById)
+	.put(Ads.editAd)
+/// END ADS API ///
 
 // === DEPRICATED ROUTES ===
 router.get('/mybooks', (req, res)=>{
