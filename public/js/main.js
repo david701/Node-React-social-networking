@@ -51307,6 +51307,10 @@ var _Brawl = __webpack_require__(290);
 
 var _Brawl2 = _interopRequireDefault(_Brawl);
 
+var _Ad = __webpack_require__(525);
+
+var _Ad2 = _interopRequireDefault(_Ad);
+
 var _ClaimDetailsModal = __webpack_require__(86);
 
 var _ClaimDetailsModal2 = _interopRequireDefault(_ClaimDetailsModal);
@@ -52000,7 +52004,7 @@ var Parent = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'book-blocks book-blocks-small' },
-							'This feature will be built in phase 3'
+							_react2.default.createElement(_Ad2.default, { page: 'admin' })
 						),
 						_react2.default.createElement('hr', null),
 						_react2.default.createElement(
@@ -57720,7 +57724,7 @@ var Brawl = function (_React$Component) {
 									oldBrawls.map(function (brawl, i) {
 										return _react2.default.createElement(
 											'option',
-											{ key: i, selected: i === 0, value: brawl._id },
+											{ key: i, value: brawl._id },
 											i === 0 ? "Current Brawl" : brawl.updated_at
 										);
 									})
@@ -80404,6 +80408,167 @@ var AuthorRow = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = AuthorRow;
+
+/***/ }),
+/* 525 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _jQuery = __webpack_require__(15);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var adModel = {};
+
+var Ad = function (_React$Component) {
+	_inherits(Ad, _React$Component);
+
+	function Ad(props) {
+		_classCallCheck(this, Ad);
+
+		var _this = _possibleConstructorReturn(this, (Ad.__proto__ || Object.getPrototypeOf(Ad)).call(this, props));
+
+		_this.handleChange = function (e, index) {
+			adModel[index].ads.visible = !(e.target.value === "true");
+			_this.setState({ ads: adModel });
+		};
+
+		_this.getAds = function () {
+			var ads = [{
+				page: "home",
+				_id: "0",
+				ads: {
+					visible: false
+				}
+			}, {
+				page: "dashboard",
+				_id: "1",
+				ads: {
+					visible: true
+				}
+			}, {
+				page: "users",
+				_id: "2",
+				ads: {
+					visible: false
+				}
+			}, {
+				page: "forum",
+				_id: "3",
+				ads: {
+					visible: false
+				}
+			}, {
+				page: "messages",
+				_id: "4",
+				ads: {
+					visible: true
+				}
+			}, {
+				page: "create",
+				_id: "5",
+				ads: {
+					visible: true
+				}
+			}];
+			adModel = ads;
+			_this.setState({ ads: ads });
+		};
+
+		_this.state = {
+			ads: []
+		};
+		return _this;
+	}
+
+	_createClass(Ad, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.getAds();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var ads = this.state.ads;
+
+			var $this = this;
+			return _react2.default.createElement(
+				'div',
+				{ className: 'divTable' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'divTableBody' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'divTableRow divTableHeading' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'divTableHead' },
+							'Ad'
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'divTableHead' },
+							'Location'
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'divTableHead isVisible' },
+							'Is Visible'
+						)
+					),
+					ads.map(function (ad, i) {
+						return _react2.default.createElement(
+							'div',
+							{ className: 'divTableRow', key: i },
+							_react2.default.createElement(
+								'div',
+								{ className: 'divTableCell' },
+								ad.page + " Ads"
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'divTableCell' },
+								ad.page + " page"
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'divTableCell' },
+								_react2.default.createElement('input', { type: 'checkbox', name: ad.page + i, onChange: function onChange(e) {
+										$this.handleChange(e, i);
+									}, value: ad.ads.visible, checked: ad.ads.visible })
+							)
+						);
+					})
+				)
+			);
+		}
+	}]);
+
+	return Ad;
+}(_react2.default.Component);
+
+exports.default = Ad;
 
 /***/ })
 /******/ ]);

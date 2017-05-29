@@ -3529,6 +3529,39 @@ form .instructions {
       .book-blocks-preview > ul > li .content-block figure .cover .flex h4 {
         text-align: center; }
 
+.divTable {
+  display: table;
+  width: 100%; }
+
+.divTableRow {
+  display: table-row; }
+
+.divTableHeading {
+  font-family: "clarendon-urw", -apple-system, Georgia, serif;
+  border: none;
+  color: #005876; }
+
+.divTableCell {
+  display: table-cell;
+  padding: 3px 10px;
+  text-transform: capitalize; }
+  .divTableCell input {
+    margin: 0 auto; }
+
+.divTableHead {
+  display: table-cell;
+  padding: 3px 10px; }
+  .divTableHead.isVisible {
+    text-align: center; }
+
+.divTableFoot {
+  background-color: #EEE;
+  display: table-footer-group;
+  font-weight: bold; }
+
+.divTableBody {
+  display: table-row-group; }
+
 .rating-display {
   display: flex; }
   .rating-display li {

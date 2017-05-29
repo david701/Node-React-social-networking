@@ -411,7 +411,7 @@ export default class Brawl extends React.Component {
 												{
 													oldBrawls.map(function(brawl, i){
 														return (
-															<option key={i} selected={i === 0} value={brawl._id}>{i === 0 ? "Current Brawl" : brawl.updated_at}</option>
+															<option key={i} value={brawl._id}>{i === 0 ? "Current Brawl" : brawl.updated_at}</option>
 														)
 													})
 												}
