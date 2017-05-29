@@ -25,8 +25,9 @@ router.post('/login', Users.login)
 router.get('/logout', Users.logout)
 
 router.get('/user_session', Users.userSession)
-
 router.post('/follow_author', Users.followAuthor)
+
+
 router.post('/unfollow_author', Users.unfollowAuthor)
 
 router.post('/reset_request', Users.resetRequest)

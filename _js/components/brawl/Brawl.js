@@ -466,8 +466,8 @@ export default class Brawl extends React.Component {
 
 																				//REPLACE "0" WITH THIS
 																				//props.me._id
-																				let myVote = $.inArray("0",brawler.voters) === 0;
-																				let iVoted = $.inArray("0",brawl.results.voters) === 0;
+																				let myVote = $.inArray("10",brawler.voters) === 0;
+																				let iVoted = $.inArray("10",brawl.results.voters) === 0;
 
 																				if(isCurrentBrawl && page === "home"){
 																					currentResult = iVoted ? "Keep checking for results" : "Please Vote"

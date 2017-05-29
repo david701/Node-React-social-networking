@@ -38,6 +38,7 @@ import './components/author.js';
 import './components/login.js';
 import './components/edit.js';
 import './components/friends.js';
+import './components/forum.js';
 import './components/reset-password.js';
 import './pages/dashboard/create';
 import './pages/books/edit';

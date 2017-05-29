@@ -34734,8 +34734,8 @@ var Brawl = function (_React$Component) {
 
 												//REPLACE "0" WITH THIS
 												//props.me._id
-												var myVote = _jQuery2.default.inArray("0", brawler.voters) === 0;
-												var iVoted = _jQuery2.default.inArray("0", brawl.results.voters) === 0;
+												var myVote = _jQuery2.default.inArray("10", brawler.voters) === 0;
+												var iVoted = _jQuery2.default.inArray("10", brawl.results.voters) === 0;
 
 												if (isCurrentBrawl && page === "home") {
 													currentResult = iVoted ? "Keep checking for results" : "Please Vote";
@@ -60524,6 +60524,8 @@ __webpack_require__(253);
 
 __webpack_require__(254);
 
+__webpack_require__(526);
+
 __webpack_require__(257);
 
 __webpack_require__(261);
@@ -80639,6 +80641,83 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(8);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jquery = __webpack_require__(13);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Forum = function (_React$Component) {
+    _inherits(Forum, _React$Component);
+
+    function Forum(props) {
+        _classCallCheck(this, Forum);
+
+        var _this = _possibleConstructorReturn(this, (Forum.__proto__ || Object.getPrototypeOf(Forum)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(Forum, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {}
+    }, {
+        key: 'render',
+        value: function render() {
+            var self = this;
+            return _react2.default.createElement(
+                'div',
+                null,
+                'Forum'
+            );
+        }
+    }]);
+
+    return Forum;
+}(_react2.default.Component);
+
+if (document.getElementById('forum')) _reactDom2.default.render(_react2.default.createElement(Forum, null), document.getElementById('forum'));
 
 /***/ })
 /******/ ]);
