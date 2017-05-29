@@ -51303,6 +51303,10 @@ var _Library = __webpack_require__(285);
 
 var _Library2 = _interopRequireDefault(_Library);
 
+var _Brawl = __webpack_require__(290);
+
+var _Brawl2 = _interopRequireDefault(_Brawl);
+
 var _ClaimDetailsModal = __webpack_require__(86);
 
 var _ClaimDetailsModal2 = _interopRequireDefault(_ClaimDetailsModal);
@@ -52011,7 +52015,7 @@ var Parent = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'book-blocks book-blocks-small' },
-							'This feature will be built in phase 3'
+							_react2.default.createElement(_Brawl2.default, { me: this.state.user, page: 'admin' })
 						),
 						_react2.default.createElement('hr', null),
 						_react2.default.createElement(
@@ -53853,97 +53857,7 @@ var Home = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Home.__proto__ || Object.getPrototypeOf(Home)).call.apply(_ref, [this].concat(args))), _this), _this.state = { books: [], topBooks: [], recommendedBooks: [], genre: '', user: '', brawls: [] }, _this.vote = function (e, voterId, brawlerId) {
-			alert('voter id: ' + voterId + " brawler id: " + brawlerId);
-			_this.getBrawls();
-			e.preventDefault();
-			e.stopPropagation();
-		}, _this.getBrawls = function () {
-			var brawls = [{
-				brawlers: [{
-					_id: "0",
-					author: {
-						_id: "0",
-						name: "Elon Mitchell",
-						avatar: "/assets/images/dog.gif"
-					},
-					cover: "/assets/images/default-cover-art.jpg",
-					title: "Some Book",
-					rating: 5,
-					voters: ["1"],
-					votes: 1
-				}, {
-					_id: "1",
-					author: {
-						_id: "1",
-						name: "Terry Pierre",
-						avatar: "/assets/images/cat.gif"
-					},
-					cover: "/assets/images/default-cover-art.jpg",
-					title: "Some Book",
-					rating: 5,
-					voters: ["0"],
-					votes: 1
-				}],
-				results: {
-					declared: true,
-					totalVotes: 2,
-					voters: ["0", "1"],
-					winner: {
-						_id: "1",
-						author: {
-							_id: "1",
-							name: "Elon Mitchell",
-							avatar: "/assets/images/cat.gif"
-						},
-						title: "Some Book"
-					}
-				},
-				updated_at: "XXXX-XX-XX"
-			}, {
-				brawlers: [{
-					_id: "0",
-					author: {
-						_id: "0",
-						name: "Ericka Emery",
-						avatar: "/assets/images/cat.gif"
-					},
-					cover: "/assets/images/default-cover-art.jpg",
-					title: "Some Book",
-					rating: 5,
-					voters: ["0"],
-					votes: 1
-				}, {
-					_id: "1",
-					author: {
-						_id: "1",
-						name: "Michael Way",
-						avatar: "/assets/images/dog.gif"
-					},
-					cover: "/assets/images/default-cover-art.jpg",
-					title: "Some Book",
-					rating: 5,
-					voters: ["1"],
-					votes: 1
-				}],
-				results: {
-					declared: false,
-					totalVotes: 2,
-					voters: ["0", "1"],
-					winner: {
-						_id: "1",
-						author: {
-							_id: "1",
-							name: "Michael Way",
-							avatar: "/assets/images/cat.gif"
-						},
-						title: "Some Book"
-					}
-				},
-				updated_at: "XXXX-XX-XX"
-			}];
-			_this.setState({ brawls: brawls });
-		}, _this.getUser = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Home.__proto__ || Object.getPrototypeOf(Home)).call.apply(_ref, [this].concat(args))), _this), _this.state = { books: [], topBooks: [], recommendedBooks: [], genre: '', user: '', brawls: [] }, _this.getUser = function () {
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
 				if (user.data._id) {
 					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
@@ -54001,7 +53915,6 @@ var Home = function (_React$Component) {
 		value: function componentDidMount() {
 			this.getUser();
 			this.getAllBooks();
-			this.getBrawls();
 		}
 	}, {
 		key: 'render',
@@ -54009,7 +53922,7 @@ var Home = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Brawl2.default, { brawls: this.state.brawls, me: this.state.user, vote: this.vote }),
+				_react2.default.createElement(_Brawl2.default, { me: this.state.user, page: 'home' }),
 				_react2.default.createElement(
 					'section',
 					{ className: 'standard-section' },
@@ -57342,6 +57255,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
@@ -57350,249 +57265,717 @@ var _jQuery = __webpack_require__(15);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
+var _Rating = __webpack_require__(41);
+
+var _Rating2 = _interopRequireDefault(_Rating);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Brawl = function Brawl(props) {
-	var currentResult = "";
-	var lastResult = "";
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	return _react2.default.createElement(
-		'section',
-		{ className: 'brawl-feature' },
-		_react2.default.createElement(
-			'header',
-			null,
-			_react2.default.createElement(
-				'div',
-				{ className: 'container' },
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var currentResult = "";
+var lastResult = "";
+var newBrawl = [{
+	_id: "",
+	brawlers: [{
+		_id: "",
+		author: {
+			_id: "0",
+			name: "Brawler Name",
+			avatar: "/assets/images/blank-dog.png"
+		},
+		cover: "/assets/images/default-brawl-art.jpg",
+		title: "Some Book",
+		voters: [],
+		votes: 0,
+		rating: 0
+	}, {
+		_id: "",
+		author: {
+			_id: "1",
+			name: "Brawler Name",
+			avatar: "/assets/images/blank-cat.png"
+		},
+		cover: "/assets/images/default-brawl-art.jpg",
+		title: "Some Book",
+		voters: [],
+		votes: 0,
+		rating: 0
+	}],
+	results: {
+		declared: false,
+		totalVotes: 1,
+		voters: [],
+		winner: {}
+	},
+	updated_at: "XXXX-XX-XX"
+}];
+
+var Brawl = function (_React$Component) {
+	_inherits(Brawl, _React$Component);
+
+	function Brawl(props) {
+		_classCallCheck(this, Brawl);
+
+		var _this = _possibleConstructorReturn(this, (Brawl.__proto__ || Object.getPrototypeOf(Brawl)).call(this, props));
+
+		_this.vote = function (e, voterId, brawlerId) {
+			alert('voter id: ' + voterId + " brawler id: " + brawlerId);
+			_this.getBrawls();
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		_this.findBrawlerByProp = function (prop, value) {
+			return _this.state.oldBrawls.filter(function (brawl, index) {
+				return brawl[prop] === value;
+			});
+		};
+
+		_this.handleChange = function (e) {
+			var createBrawlSelected = e.target.value === "Create Brawl";
+			var brawler = createBrawlSelected ? newBrawl : _this.findBrawlerByProp('_id', e.target.value);
+			var title = createBrawlSelected ? "Create Brawl" : e.target.selectedIndex === 1 ? "Current Brawl" : _this.state.currentBrawl[0].updated_at + " Brawl";
+
+			_this.setState({ currentBrawl: brawler, title: title });
+		};
+
+		_this.declareWinner = function () {
+			alert('declare winner');
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		_this.startBrawl = function () {
+			alert('start brawl');
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		_this.pickBrawler = function () {
+			alert('pick brawler');
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		_this.getBrawlsers = function () {
+			var brawlers = [{
+				_id: "0",
+				author: {
+					_id: "0",
+					name: "Elon Mitchell",
+					avatar: "/assets/images/dog.gif"
+				},
+				cover: "/assets/images/samples/covers/1.jpg",
+				title: "Some Book",
+				rating: 3,
+				voters: ["1", "2", "3"],
+				votes: 3
+			}, {
+				_id: "1",
+				author: {
+					_id: "1",
+					name: "Terry Pierre",
+					avatar: "/assets/images/cat.gif"
+				},
+				cover: "/assets/images/samples/covers/2.jpg",
+				title: "Some Book",
+				rating: 5,
+				voters: ["0"],
+				votes: 1
+			}, {
+				_id: "2",
+				author: {
+					_id: "1",
+					name: "Terry Pierre",
+					avatar: "/assets/images/cat.gif"
+				},
+				cover: "/assets/images/samples/covers/3.jpg",
+				title: "Some Book",
+				rating: 5,
+				voters: ["0"],
+				votes: 1
+			}, {
+				_id: "3",
+				author: {
+					_id: "1",
+					name: "Terry Pierre",
+					avatar: "/assets/images/cat.gif"
+				},
+				cover: "/assets/images/samples/covers/4.jpg",
+				title: "Some Book",
+				rating: 5,
+				voters: ["0"],
+				votes: 1
+			}, {
+				_id: "4",
+				author: {
+					_id: "1",
+					name: "Terry Pierre",
+					avatar: "/assets/images/cat.gif"
+				},
+				cover: "/assets/images/samples/covers/feature-1.jpg",
+				title: "Some Book",
+				rating: 5,
+				voters: ["0"],
+				votes: 1
+			}, {
+				_id: "5",
+				author: {
+					_id: "1",
+					name: "Terry Pierre",
+					avatar: "/assets/images/cat.gif"
+				},
+				cover: "/assets/images/samples/covers/feature-2.jpg",
+				title: "Some Book",
+				rating: 5,
+				voters: ["0"],
+				votes: 1
+			}];
+			_this.setState({ brawlers: brawlers });
+		};
+
+		_this.getBrawls = function () {
+			var page = _this.props.page;
+
+			var brawls = [{
+				_id: "0",
+				brawlers: [{
+					_id: "0",
+					author: {
+						_id: "0",
+						name: "Elon Mitchell",
+						avatar: "/assets/images/dog.gif"
+					},
+					cover: "/assets/images/samples/covers/1.jpg",
+					title: "Some Book",
+					rating: 3,
+					voters: ["1", "2", "3"],
+					votes: 3
+				}, {
+					_id: "1",
+					author: {
+						_id: "1",
+						name: "Terry Pierre",
+						avatar: "/assets/images/cat.gif"
+					},
+					cover: "/assets/images/samples/covers/2.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["0"],
+					votes: 1
+				}],
+				results: {
+					declared: false,
+					totalVotes: 4,
+					voters: ["0", "1", "2", "3"],
+					winner: {
+						_id: "1",
+						author: {
+							_id: "1",
+							name: "Elon Mitchell",
+							avatar: "/assets/images/cat.gif"
+						},
+						title: "Some Book"
+					}
+				},
+				updated_at: "XXXX-XX-XX"
+			}, {
+				_id: "1",
+				brawlers: [{
+					_id: "0",
+					author: {
+						_id: "0",
+						name: "Ericka Emery",
+						avatar: "/assets/images/cat.gif"
+					},
+					cover: "/assets/images/samples/covers/3.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["0"],
+					votes: 1
+				}, {
+					_id: "1",
+					author: {
+						_id: "1",
+						name: "Michael Way",
+						avatar: "/assets/images/dog.gif"
+					},
+					cover: "/assets/images/samples/covers/4.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["1"],
+					votes: 1
+				}],
+				results: {
+					declared: true,
+					totalVotes: 2,
+					voters: ["0", "1"],
+					winner: {
+						_id: "1",
+						author: {
+							_id: "1",
+							name: "Michael Way",
+							avatar: "/assets/images/cat.gif"
+						},
+						title: "Some Book"
+					}
+				},
+				updated_at: "XXXX-XX-XX"
+			}, {
+				_id: "2",
+				brawlers: [{
+					_id: "0",
+					author: {
+						_id: "0",
+						name: "Deniesia Williford",
+						avatar: "/assets/images/cat.gif"
+					},
+					cover: "/assets/images/samples/covers/feature-1.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["0"],
+					votes: 1
+				}, {
+					_id: "1",
+					author: {
+						_id: "1",
+						name: "Jarvis Williford",
+						avatar: "/assets/images/dog.gif"
+					},
+					cover: "/assets/images/samples/covers/feature-2.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["1"],
+					votes: 1
+				}],
+				results: {
+					declared: true,
+					totalVotes: 2,
+					voters: ["0", "1"],
+					winner: {
+						_id: "1",
+						author: {
+							_id: "1",
+							name: "Jarvis Willifod",
+							avatar: "/assets/images/cat.gif"
+						},
+						title: "Some Book"
+					}
+				},
+				updated_at: "XXXX-XX-XX"
+			}, {
+				_id: "3",
+				brawlers: [{
+					_id: "0",
+					author: {
+						_id: "0",
+						name: "Sharla Pierre",
+						avatar: "/assets/images/cat.gif"
+					},
+					cover: "/assets/images/default-cover-art.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["0"],
+					votes: 1
+				}, {
+					_id: "1",
+					author: {
+						_id: "1",
+						name: "Terry Pierre",
+						avatar: "/assets/images/dog.gif"
+					},
+					cover: "/assets/images/default-cover-art.jpg",
+					title: "Some Book",
+					rating: 5,
+					voters: ["1"],
+					votes: 1
+				}],
+				results: {
+					declared: true,
+					totalVotes: 2,
+					voters: ["0", "1"],
+					winner: {
+						_id: "1",
+						author: {
+							_id: "1",
+							name: "Sharla Pierre",
+							avatar: "/assets/images/cat.gif"
+						},
+						title: "Some Book"
+					}
+				},
+				updated_at: "XXXX-XX-XX"
+			}];
+
+			if (page === "admin") {
+				_this.setState({ currentBrawl: brawls.slice(0, 1), oldBrawls: brawls });
+			} else {
+				_this.setState({ currentBrawl: brawls.slice(0, 2).reverse(), oldBrawls: brawls });
+			}
+		};
+
+		_this.state = {
+			currentBrawl: [],
+			oldBrawls: [],
+			brawlers: [],
+			title: "Current Brawl"
+		};
+		return _this;
+	}
+
+	_createClass(Brawl, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.getBrawls();
+			this.getBrawlsers();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var $this = this;
+			var _state = this.state,
+			    currentBrawl = _state.currentBrawl,
+			    oldBrawls = _state.oldBrawls,
+			    title = _state.title,
+			    brawlers = _state.brawlers;
+			var page = this.props.page;
+
+			var isCurrentBrawl = true;
+
+			return _react2.default.createElement(
+				'section',
+				{ className: 'brawl-feature', id: page },
 				_react2.default.createElement(
-					'div',
-					{ className: 'flex-row' },
-					_react2.default.createElement(
-						'a',
-						{ href: '#last-week', className: 'week-control-last' },
-						_react2.default.createElement(
-							'span',
-							{ className: 'label label-small' },
-							'Previous'
-						),
-						_react2.default.createElement(
-							'span',
-							{ className: 'label label-large' },
-							'Last Week\u2019s Brawl'
-						)
-					),
-					_react2.default.createElement(
-						'h2',
-						null,
-						_react2.default.createElement(
-							'span',
-							{ className: 'week-title week-title-this' },
-							'Current Brawl'
-						),
-						_react2.default.createElement(
-							'span',
-							{ className: 'week-title week-title-last' },
-							'Last Week\u2019s Brawl'
-						)
-					),
-					_react2.default.createElement(
-						'a',
-						{ href: '#this-week', className: 'week-control-this' },
-						_react2.default.createElement(
-							'span',
-							{ className: 'label label-small' },
-							'Next'
-						),
-						_react2.default.createElement(
-							'span',
-							{ className: 'label label-large' },
-							'This Week\u2019s Brawl'
-						)
-					)
-				)
-			)
-		),
-		_react2.default.createElement(
-			'main',
-			null,
-			props.brawls.map(function (brawl, i) {
-				//the current brawl is the one that hasn't been declared
-				var isCurrentBrawl = !brawl.results.declared;
-				return _react2.default.createElement(
-					'div',
-					{ key: i, className: isCurrentBrawl ? "week week-this" : "week week-last" },
+					'header',
+					null,
 					_react2.default.createElement(
 						'div',
 						{ className: 'container' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'flex-row' },
-							_react2.default.createElement(
+							page === "home" && _react2.default.createElement(
 								'div',
-								{ className: 'book-blocks book-blocks-feature' },
+								{ className: 'week-control-last' },
 								_react2.default.createElement(
-									'ul',
+									'span',
+									{ className: 'label label-small' },
+									'Previous'
+								),
+								_react2.default.createElement(
+									'span',
+									{ className: 'label label-large' },
+									'Last Week\u2019s Brawl'
+								)
+							),
+							_react2.default.createElement(
+								'h2',
+								null,
+								_react2.default.createElement(
+									'span',
+									{ className: 'week-title week-title-this' },
+									title
+								),
+								_react2.default.createElement(
+									'span',
+									{ className: 'week-title week-title-last' },
+									'Last Week\u2019s Brawl'
+								)
+							),
+							page === "home" ? _react2.default.createElement(
+								'a',
+								{ href: '#this-week', className: 'week-control-this' },
+								_react2.default.createElement(
+									'span',
+									{ className: 'label label-small' },
+									'Next'
+								),
+								_react2.default.createElement(
+									'span',
+									{ className: 'label label-large' },
+									'This Week\u2019s Brawl'
+								)
+							) : _react2.default.createElement(
+								'div',
+								{ className: 'week-control-this' },
+								_react2.default.createElement(
+									'span',
 									null,
-									brawl.brawlers.map(function (brawler, i) {
-										var isFirstBrawler = i === 0;
-										var winPercentage = Math.round(brawler.votes / brawl.results.totalVotes * 100) + "%";
-										//need to change to my user id
-
-										//REPLACE "0" WITH THIS
-										//props.me._id
-										var myVote = _jQuery2.default.inArray("13", brawler.voters) === 0;
-										var iVoted = _jQuery2.default.inArray("13", brawl.results.voters) === 0;
-
-										if (isCurrentBrawl) {
-											currentResult = iVoted ? "Keep checking for results" : "Please Vote";
-										} else {
-											lastResult = brawl.results.winner.title + " won!";
-										}
-
+									'Select Brawl: '
+								),
+								_react2.default.createElement(
+									'select',
+									{ onChange: $this.handleChange, className: 'label label-large' },
+									_react2.default.createElement(
+										'option',
+										{ value: 'Create Brawl' },
+										'Create Brawl'
+									),
+									';',
+									oldBrawls.map(function (brawl, i) {
 										return _react2.default.createElement(
-											'li',
-											{ key: i },
-											isFirstBrawler && _react2.default.createElement(
-												'div',
-												{ className: "mascot" + (myVote ? " your-pick" : "") },
-												!isCurrentBrawl && _react2.default.createElement(
-													'div',
-													{ className: 'vote-count' },
-													_react2.default.createElement(
-														'div',
-														null,
-														_react2.default.createElement(
-															'strong',
-															null,
-															winPercentage
-														),
-														_react2.default.createElement(
-															'span',
-															null,
-															'of the votes'
-														)
-													)
-												),
-												_react2.default.createElement('img', { src: brawler.author.avatar, alt: '' })
-											),
-											_react2.default.createElement(
-												'div',
-												{ className: 'book' },
-												_react2.default.createElement(
-													'a',
-													{ href: '.', className: 'content-block content-block-book' },
-													_react2.default.createElement(
-														'figure',
-														null,
-														_react2.default.createElement(
-															'div',
-															{ className: 'cover', style: { backgroundImage: "url(" + brawler.cover + ")" } },
-															_react2.default.createElement(
-																'div',
-																{ className: 'overlay' },
-																_react2.default.createElement(
-																	'button',
-																	{ className: 'button button-red', href: "/books/0" },
-																	'Preview'
-																),
-																_react2.default.createElement(
-																	'button',
-																	{ className: 'button button-white', href: '.' },
-																	'Add to Library'
-																)
-															)
-														),
-														_react2.default.createElement(
-															'figcaption',
-															null,
-															_react2.default.createElement(
-																'h4',
-																null,
-																brawler.title
-															),
-															_react2.default.createElement(
-																'p',
-																null,
-																'By ',
-																brawler.author.name
-															),
-															_react2.default.createElement(
-																'ul',
-																{ className: 'rating-display' },
-																_react2.default.createElement('li', { className: 'filled' }),
-																_react2.default.createElement('li', { className: 'filled' }),
-																_react2.default.createElement('li', { className: 'filled' }),
-																_react2.default.createElement('li', { className: 'filled' }),
-																_react2.default.createElement('li', null)
-															)
-														)
-													)
-												),
-												!iVoted && isCurrentBrawl && _react2.default.createElement(
-													'a',
-													{ href: 'javascript:void(0)', className: "button" + (!isCurrentBrawl ? " button-hidden" : ""), onClick: function onClick(e) {
-															props.vote(e, "0", brawler._id);
-														} },
-													'Vote'
-												)
-											),
-											!isFirstBrawler && _react2.default.createElement(
-												'div',
-												{ className: "mascot" + (myVote ? " your-pick" : "") },
-												_react2.default.createElement(
-													'div',
-													{ className: 'vote-count has-won' },
-													!isCurrentBrawl && _react2.default.createElement(
-														'div',
-														null,
-														_react2.default.createElement(
-															'strong',
-															null,
-															winPercentage
-														),
-														_react2.default.createElement(
-															'span',
-															null,
-															'of the votes'
-														)
-													)
-												),
-												_react2.default.createElement('img', { src: brawler.author.avatar, alt: '' })
-											)
+											'option',
+											{ key: i, selected: i === 0, value: brawl._id },
+											i === 0 ? "Current Brawl" : brawl.updated_at
 										);
 									})
 								)
 							)
 						)
 					)
-				);
-			})
-		),
-		_react2.default.createElement(
-			'footer',
-			null,
-			_react2.default.createElement(
-				'div',
-				{ className: 'container' },
+				),
 				_react2.default.createElement(
-					'h4',
+					'main',
+					null,
+					currentBrawl.map(function (brawl, i) {
+						//the current brawl is the one that hasn't been declared
+						isCurrentBrawl = !brawl.results.declared;
+						return _react2.default.createElement(
+							'div',
+							{ key: i, className: isCurrentBrawl || page === "admin" ? "week week-this" : "week week-last" },
+							_react2.default.createElement(
+								'div',
+								{ className: 'container' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'flex-row' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'book-blocks book-blocks-feature' },
+										_react2.default.createElement(
+											'ul',
+											null,
+											brawl.brawlers.map(function (brawler, i) {
+												var isFirstBrawler = i === 0;
+												var winPercentage = Math.round(brawler.votes / brawl.results.totalVotes * 100) + "%";
+												//need to change to my user id
+
+												//REPLACE "0" WITH THIS
+												//props.me._id
+												var myVote = _jQuery2.default.inArray("0", brawler.voters) === 0;
+												var iVoted = _jQuery2.default.inArray("0", brawl.results.voters) === 0;
+
+												if (isCurrentBrawl && page === "home") {
+													currentResult = iVoted ? "Keep checking for results" : "Please Vote";
+												} else if (isCurrentBrawl && page === "admin") {
+													currentResult = "Choose brawlers";
+												} else {
+													lastResult = brawl.results.winner.title + " won!";
+												}
+
+												return _react2.default.createElement(
+													'li',
+													{ key: i },
+													isFirstBrawler && _react2.default.createElement(
+														'div',
+														{ className: "mascot" + (myVote && page !== "admin" ? " your-pick" : "") },
+														(!isCurrentBrawl || page === "admin") && _react2.default.createElement(
+															'div',
+															{ className: 'vote-count' },
+															_react2.default.createElement(
+																'div',
+																null,
+																_react2.default.createElement(
+																	'strong',
+																	null,
+																	winPercentage
+																),
+																_react2.default.createElement(
+																	'span',
+																	null,
+																	'of the votes'
+																)
+															)
+														),
+														_react2.default.createElement('img', { src: brawler.author.avatar, alt: '' })
+													),
+													_react2.default.createElement(
+														'div',
+														{ className: 'book' },
+														_react2.default.createElement(
+															'a',
+															{ href: '.', className: 'content-block content-block-book' },
+															_react2.default.createElement(
+																'figure',
+																null,
+																_react2.default.createElement(
+																	'div',
+																	{ className: 'cover', style: { backgroundImage: "url(" + brawler.cover + ")" } },
+																	_react2.default.createElement(
+																		'div',
+																		{ className: 'overlay' },
+																		_react2.default.createElement(
+																			'button',
+																			{ className: 'button button-red', href: "/books/0" },
+																			'Preview'
+																		),
+																		page !== "admin" && _react2.default.createElement(
+																			'button',
+																			{ className: 'button button-white', href: '.' },
+																			'Add to Library'
+																		)
+																	)
+																),
+																_react2.default.createElement(
+																	'figcaption',
+																	null,
+																	_react2.default.createElement(
+																		'h4',
+																		null,
+																		brawler.title
+																	),
+																	_react2.default.createElement(
+																		'p',
+																		null,
+																		'By ',
+																		brawler.author.name
+																	),
+																	_react2.default.createElement(_Rating2.default, { stars: brawler.rating })
+																)
+															)
+														),
+														!iVoted && isCurrentBrawl && page !== "admin" && _react2.default.createElement(
+															'a',
+															{ href: 'javascript:void(0)', className: "button" + (!isCurrentBrawl ? " button-hidden" : ""), onClick: function onClick(e) {
+																	$this.vote(e, "0", brawler._id);
+																} },
+															'Vote'
+														)
+													),
+													!isFirstBrawler && _react2.default.createElement(
+														'div',
+														{ className: "mascot" + (myVote && page !== "admin" ? " your-pick" : "") },
+														_react2.default.createElement(
+															'div',
+															{ className: 'vote-count has-won' },
+															(!isCurrentBrawl || page === "admin") && _react2.default.createElement(
+																'div',
+																null,
+																_react2.default.createElement(
+																	'strong',
+																	null,
+																	winPercentage
+																),
+																_react2.default.createElement(
+																	'span',
+																	null,
+																	'of the votes'
+																)
+															)
+														),
+														_react2.default.createElement('img', { src: brawler.author.avatar, alt: '' })
+													)
+												);
+											})
+										)
+									)
+								)
+							)
+						);
+					})
+				),
+				page === "admin" && _react2.default.createElement(
+					'div',
+					{ className: 'brawlers book-blocks book-blocks-small' },
+					_react2.default.createElement(
+						'ul',
+						null,
+						brawlers.map(function (book, i) {
+							return _react2.default.createElement(
+								'li',
+								{ key: i },
+								_react2.default.createElement(
+									'div',
+									{ className: 'content-block content-block-book' },
+									_react2.default.createElement(
+										'figure',
+										null,
+										_react2.default.createElement(
+											'div',
+											{ className: 'cover', style: { backgroundImage: 'url(' + book.cover + ')' } },
+											_react2.default.createElement(
+												'div',
+												{ className: 'overlay' },
+												_react2.default.createElement(
+													'a',
+													{ href: '', className: 'button button-white', id: book._id },
+													'Brawl'
+												)
+											)
+										),
+										_react2.default.createElement(
+											'figcaption',
+											null,
+											_react2.default.createElement(
+												'h4',
+												null,
+												book.title
+											),
+											_react2.default.createElement(
+												'p',
+												null,
+												book.author.name
+											),
+											_react2.default.createElement(_Rating2.default, { stars: book.rating })
+										)
+									)
+								)
+							);
+						})
+					)
+				),
+				_react2.default.createElement(
+					'footer',
 					null,
 					_react2.default.createElement(
-						'span',
-						{ className: 'week-results week-results-this' },
-						currentResult
+						'div',
+						{ className: 'container' },
+						_react2.default.createElement(
+							'h4',
+							null,
+							_react2.default.createElement(
+								'span',
+								{ className: 'week-results week-results-this' },
+								currentResult
+							),
+							_react2.default.createElement(
+								'span',
+								{ className: 'week-results week-results-last is-announced' },
+								lastResult
+							)
+						)
 					),
-					_react2.default.createElement(
-						'span',
-						{ className: 'week-results week-results-last is-announced' },
-						lastResult
+					page === "admin" && _react2.default.createElement(
+						'div',
+						{ className: 'container all-buttons' },
+						_react2.default.createElement(
+							'a',
+							{ href: 'javascript:void(0)', onClick: this.pickBrawler, className: 'button' },
+							'Pick 2 Brawlers'
+						),
+						_react2.default.createElement(
+							'a',
+							{ href: 'javascript:void(0)', onClick: this.startBrawl, className: 'button' },
+							'Start Brawl'
+						),
+						_react2.default.createElement(
+							'a',
+							{ href: 'javascript:void(0)', onClick: this.declareWinner, className: 'button btn-positive' },
+							'Declare Winner'
+						)
 					)
 				)
-			)
-		)
-	);
-};
+			);
+		}
+	}]);
+
+	return Brawl;
+}(_react2.default.Component);
 
 exports.default = Brawl;
 
