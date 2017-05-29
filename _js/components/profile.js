@@ -4,7 +4,7 @@ import $ from 'jquery';
 import {validate, formValid} from '../plugins/validation.js';
 import Library from './books/Library';
 import Brawl from '../components/brawl/Brawl';
-import Ad from '../components/ads/Ad';
+import {Ads} from '../components/ads/Ad';
 
 import Claims from './claims/ClaimDetailsModal';
 
@@ -445,7 +445,7 @@ class Parent extends React.Component {
 								{/* <a className="control" href=".">See All</a> */}
 							</div>
 							<div className="book-blocks book-blocks-small">
-								<Ad page="admin"/>
+								<Ads page="admin"/>
 							</div>
 							<hr />
 							<div className="title-row">

@@ -2678,10 +2678,20 @@ form .instructions {
 
 .all-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 20px auto 0 auto; }
   .all-buttons .button {
-    width: 30%; }
+    width: 30%;
+    margin-left: 10px; }
+  .all-buttons .disabled {
+    background: #ccc;
+    box-shadow: none;
+    cursor: default; }
+
+.pick0, .pick1 {
+  opacity: 0.1; }
+  .pick0 .button, .pick1 .button {
+    display: none; }
 
 #night-mode .brawl-feature {
   position: relative; }
@@ -3383,7 +3393,8 @@ form .instructions {
     height: 0;
     overflow: hidden;
     background: #2b2b2b;
-    margin: 0; }
+    margin: 0;
+    transition: height 0.5s; }
     .book-blocks.brawlers.book-blocks-small.open {
       padding: 30px 0 5px 20px;
       height: auto; }

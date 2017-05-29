@@ -4,7 +4,8 @@ import $ from 'jQuery';
 
 let adModel = {};
 
-export default class Ad extends React.Component {
+
+export class Ads extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -13,15 +14,10 @@ export default class Ad extends React.Component {
 	}
 
   	componentDidMount() {
-  		this.getAds();
+  		this.getAds()
   	}
 
-	handleChange = (e,index) => {
-		adModel[index].ads.visible = !(e.target.value === "true");
-		this.setState({ads: adModel});
-	}
-
-  	getAds = () => {
+	getAds = () => {
 		  let ads = [
 		    {
 		        page: "home",
@@ -70,6 +66,11 @@ export default class Ad extends React.Component {
 		this.setState({ads: ads})
 	}
 
+	handleChange = (e,index) => {
+		adModel[index].ads.visible = !(e.target.value === "true");
+		this.setState({ads: adModel});
+	}
+
 	render() {
 		let {ads} = this.state;
 		let $this = this;
@@ -96,4 +97,57 @@ export default class Ad extends React.Component {
 			</div>
 		)
 	}
+}
+
+export function adExist(page) {
+		  let ads = [
+		    {
+		        page: "home",
+		        _id: "0",
+		        ads: {
+		            visible: false
+		        }
+		    },
+		    {
+		        page: "dashboard",
+		        _id: "1",
+		        ads: {
+		            visible: true
+		        }
+		    },
+		    {
+		        page: "users",
+		        _id: "2",
+		        ads: {
+		            visible: false
+		        }
+		    },
+		    {
+		        page: "forum",
+		        _id: "3",
+		        ads: {
+		            visible: false
+		        }
+		    },
+		    {
+		        page: "messages",
+		        _id: "4",
+		        ads: {
+		            visible: true
+		        }
+		    },
+		    {
+		        page: "create",
+		        _id: "5",
+		        ads: {
+		            visible: true
+		        }
+		    }
+		]
+
+		let ad = ads.filter(function(ad,index){
+			return ad.page === page;
+		})[0]
+
+		return ad.ads.visible;
 }

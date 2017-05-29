@@ -2,10 +2,22 @@
 // ---------------
 .all-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin: 20px auto 0 auto;
     .button {
         width: 30%;
+        margin-left: 10px;
+    }
+    .disabled {
+        background: #ccc;
+        box-shadow: none;
+        cursor: default;
+    }
+}
+.pick0,.pick1 {
+    opacity: 0.1;
+    .button {
+        display: none;
     }
 }
 #night-mode {

@@ -4,44 +4,7 @@ import Rating from '../dashboard/Rating';
 
 let currentResult = "";
 let lastResult = "";
-let newBrawl = [{
-	  _id: "",
-      brawlers:[
-         {
-            _id:"",
-            author:{
-               _id:"0",
-               name:"Brawler Name",
-               avatar:"/assets/images/blank-dog.png"
-            },
-            cover:"/assets/images/default-brawl-art.jpg",
-            title:"Some Book",
-	        voters: [],
-	        votes:0,
-            rating:0
-         },
-         {
-            _id:"",
-            author:{
-               _id:"1",
-               name:"Brawler Name",
-               avatar:"/assets/images/blank-cat.png"
-            },
-            cover:"/assets/images/default-brawl-art.jpg",
-            title:"Some Book",
-	        voters: [],
-	        votes:0,
-            rating:0
-         }
-      ],
-  	  results:{
-         declared:false,
-	     totalVotes:1,
-	     voters: [],
-         winner:{}
-      },
-      updated_at:"XXXX-XX-XX"
-   }]
+
 
 export default class Brawl extends React.Component {
 	constructor(props) {
@@ -50,7 +13,10 @@ export default class Brawl extends React.Component {
 	      currentBrawl: [],
 	      oldBrawls: [],
 	      brawlers: [],
-	      title: "Current Brawl"
+	      title: "Current Brawl",
+	      showBrawlers: false,
+	      selectedBrawler: 0,
+	      startBrawl: false
 	    };
 	}
 
@@ -73,27 +39,86 @@ export default class Brawl extends React.Component {
 	}
 
 	handleChange = (e) => {
+		const newBrawl = [{
+		  _id: "",
+	      brawlers:[
+	         {
+	            _id:"",
+	            author:{
+	               _id:"0",
+	               name:"Brawler Name",
+	               avatar:"/assets/images/blank-dog.png"
+	            },
+	            cover:"/assets/images/default-brawl-art.jpg",
+	            title:"Some Book",
+		        voters: [],
+		        votes:0,
+	            rating:0
+	         },
+	         {
+	            _id:"",
+	            author:{
+	               _id:"1",
+	               name:"Brawler Name",
+	               avatar:"/assets/images/blank-cat.png"
+	            },
+	            cover:"/assets/images/default-brawl-art.jpg",
+	            title:"Some Book",
+		        voters: [],
+		        votes:0,
+	            rating:0
+	         }
+	      ],
+	  	  results:{
+	         declared:false,
+		     totalVotes:1,
+		     voters: [],
+	         winner:{}
+	      },
+	      updated_at:"XXXX-XX-XX"
+	   	}]
 		let createBrawlSelected = e.target.value === "Create Brawl"
 		let brawler = createBrawlSelected ? newBrawl : this.findBrawlerByProp('_id',e.target.value);
 		let title = (createBrawlSelected) ? "Create Brawl" : (e.target.selectedIndex === 1) ? "Current Brawl" : this.state.currentBrawl[0].updated_at + " Brawl";
-
-		this.setState({currentBrawl: brawler, title: title})
+		$('.pick0,.pick1').removeClass('pick0 pick1');
+		this.setState({currentBrawl: brawler, title: title, startBrawl: false})
 	}
 
-	declareWinner = () => {
-		alert('declare winner');
+	declareWinner = (currentBrawl) => {
+		if(currentBrawl){
+			alert("Declare Winner")
+		}
 		e.preventDefault();
 		e.stopPropagation();
 	}
 
-	startBrawl = () => {
-		alert('start brawl');
+	startBrawl = (isCreatePage) => {
+		if(isCreatePage){
+			alert('start brawl');
+		}
 		e.preventDefault();
 		e.stopPropagation();
 	}
 
-	pickBrawler = () => {
-		alert('pick brawler');
+	showBrawlers = (currentBrawl, e, index) => {
+		if(currentBrawl){
+			this.setState({showBrawlers: true, selectedBrawler: index})
+		}
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	pickBrawler = (brawl,book,e) => {
+		let {currentBrawl, selectedBrawler} = this.state;
+		$(e.target).closest('li').addClass('pick' + selectedBrawler).siblings('li').removeClass('pick' + selectedBrawler)
+		currentBrawl[0].brawlers[selectedBrawler] = book;
+		if(brawl){
+			if($('.pick0').length && $('.pick1').length){
+				this.setState({currentBrawl: currentBrawl,showBrawlers: false,startBrawl: true});
+			}else{
+				this.setState({currentBrawl: currentBrawl,showBrawlers: false,startBrawl: false});
+			}
+		}
 		e.preventDefault();
 		e.stopPropagation();
 	}
@@ -110,8 +135,8 @@ export default class Brawl extends React.Component {
 	        cover:"/assets/images/samples/covers/1.jpg",
 	        title:"Some Book",
 	        rating:3,
-	        voters: ["1","2","3"],
-	        votes:3
+	        voters: [],
+	        votes:0
 	     },
 	     {
 	        _id:"1",
@@ -123,8 +148,8 @@ export default class Brawl extends React.Component {
 	        cover:"/assets/images/samples/covers/2.jpg",
 	        title:"Some Book",
 	        rating:5,
-	        voters: ["0"],
-	        votes:1
+	        voters: [],
+	        votes:0
 	     },
 	     {
 	        _id:"2",
@@ -136,8 +161,8 @@ export default class Brawl extends React.Component {
 	        cover:"/assets/images/samples/covers/3.jpg",
 	        title:"Some Book",
 	        rating:5,
-	        voters: ["0"],
-	        votes:1
+	        voters: [],
+	        votes:0
 	     },
 	     {
 	        _id:"3",
@@ -149,8 +174,8 @@ export default class Brawl extends React.Component {
 	        cover:"/assets/images/samples/covers/4.jpg",
 	        title:"Some Book",
 	        rating:5,
-	        voters: ["0"],
-	        votes:1
+	        voters: [],
+	        votes:0
 	     },
 	     {
 	        _id:"4",
@@ -163,7 +188,7 @@ export default class Brawl extends React.Component {
 	        title:"Some Book",
 	        rating:5,
 	        voters: ["0"],
-	        votes:1
+	        votes:0
 	     },
 	     {
 	        _id:"5",
@@ -175,8 +200,8 @@ export default class Brawl extends React.Component {
 	        cover:"/assets/images/samples/covers/feature-2.jpg",
 	        title:"Some Book",
 	        rating:5,
-	        voters: ["0"],
-	        votes:1
+	        voters: [],
+	        votes:0
 	     }
 	  ]
 	  this.setState({brawlers: brawlers});
@@ -377,7 +402,7 @@ export default class Brawl extends React.Component {
 
 	render() {
 		const $this = this;
-		const {currentBrawl, oldBrawls, title, brawlers} = this.state;
+		const {currentBrawl, oldBrawls, title, brawlers, showBrawlers, startBrawl} = this.state;
 		const {page} = this.props;
 		let isCurrentBrawl = true;
 
@@ -411,7 +436,7 @@ export default class Brawl extends React.Component {
 												{
 													oldBrawls.map(function(brawl, i){
 														return (
-															<option key={i} value={brawl._id}>{i === 0 ? "Current Brawl" : brawl.updated_at}</option>
+															<option key={i} selected={i===0} value={brawl._id}>{i === 0 ? "Current Brawl" : brawl.updated_at}</option>
 														)
 													})
 												}
@@ -474,7 +499,12 @@ export default class Brawl extends React.Component {
 																								<figure>
 																									<div className="cover" style={{backgroundImage: "url("+brawler.cover+")"}}>
 																										<div className="overlay">
-																											<button className="button button-red" href={"/books/0"}>Preview</button>
+																											{title !== "Create Brawl" &&
+																												<button className="button button-red" href={"/books/0"}>Preview</button>
+																											}
+																											{page === "admin" && title === "Create Brawl" &&
+																												<button className="button button-red" onClick={(e) => {$this.showBrawlers(title === "Create Brawl",e,i)}}>Find Brawler</button>
+																											}
 																											{page !== "admin" &&
 																												<button className="button button-white" href=".">Add to Library</button>
 																											}
@@ -520,7 +550,7 @@ export default class Brawl extends React.Component {
 						}
 					</main>
 					{page === "admin" &&
-						<div className="brawlers book-blocks book-blocks-small">
+						<div className={"brawlers book-blocks book-blocks-small" + (showBrawlers ? " open" : "")}>
 							<ul>
 								{
 									brawlers.map((book, i)=>{
@@ -530,7 +560,7 @@ export default class Brawl extends React.Component {
 													<figure>
 														<div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 															<div className="overlay">
-																<a href="" className="button button-white" id={book._id}>Brawl</a>
+																<a href="javascript:void(0)" onClick={(e) => {$this.pickBrawler(title === "Create Brawl",book,e)}} className="button button-white" id={book._id}>Brawl</a>
 															</div>
 														</div>
 														<figcaption>
@@ -556,9 +586,8 @@ export default class Brawl extends React.Component {
 						</div>
 						{page === "admin" &&
 						<div className="container all-buttons">
-							<a href="javascript:void(0)" onClick={this.pickBrawler} className="button">Pick 2 Brawlers</a>
-							<a href="javascript:void(0)" onClick={this.startBrawl} className="button">Start Brawl</a>
-							<a href="javascript:void(0)" onClick={this.declareWinner} className="button btn-positive">Declare Winner</a>
+							<a href="javascript:void(0)" onClick={() => {this.startBrawl(title === "Create Brawl")}} className={"button" + ((startBrawl && title === "Create Brawl") ? "" : " disabled")}>Start Brawl</a>
+							<a href="javascript:void(0)" onClick={() => {this.declareWinner(isCurrentBrawl && title !== "Create Brawl")}} className={"button btn-positive" + ((isCurrentBrawl && title !== "Create Brawl") ? "" : " disabled")}>Declare Winner</a>
 						</div>
 						}
 					</footer>
