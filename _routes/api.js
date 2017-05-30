@@ -15,11 +15,13 @@ router.route('/users')
 	.get(Users.getUsers)
 	.post(Users.createUser)
 
+router.route('/users/newsletter')
+	.post(Users.newsletter)
+
 router.route('/users/:id')
 	.get(Users.getUserById)
 	.put(Users.updateUser)
 	.delete(Users.removeUser)
-
 
 router.post('/login', Users.login)
 router.get('/logout', Users.logout)

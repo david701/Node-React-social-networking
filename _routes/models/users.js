@@ -13,6 +13,7 @@ const mongoUser = mongo.schema.user,
 			mongoReview = mongo.schema.review;
 
 const handle = require('../helpers/handle.js');
+const mailchimp = require('../helpers/mailchimp.js');
 
 const makeToken = ()=>{
 		var text = "";
@@ -102,7 +103,9 @@ exports.createUser = (req, res)=>{
 					var link = req.protocol + '://' + req.get('host')+'/verify?token='+ token;
 					var vars = [{name:'verify_link', content: link}]
 					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
-						handle.res(res, userInfo)
+						mailchimp.signup(userData.email, userData.newsletter, (err, resp)=>{
+							handle.res(res, userInfo)
+						})
 					})
 				})
 			}else{
@@ -248,6 +251,20 @@ exports.removeUser = (req, res)=>{
 		.catch((err)=>{
 			handle.err(res, err.message)
 		})
+}
+
+/// NEWS LETTER SIGNUP ///
+exports.newsletter = (req, res)=>{
+	var email = req.body.email;
+
+	mailchimp.signup(email, true, (err, resp)=>{
+		if(!err){
+			handle.res(res);
+		}else{
+			handle.err(res, err);
+		}
+	})
+
 }
 
 /// USER LOGIN
