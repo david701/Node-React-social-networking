@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import $ from 'jQuery';
+import {adExist} from '../../components/ads/Ad';
 
 import BookRow from '../../components/books/BooksRow';
 import Brawl from '../../components/brawl/Brawl';
@@ -12,7 +13,7 @@ import genres from '../../../data/genres.json';
 const limit = 8;
 
 class Home extends React.Component{
-	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:''}
+	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:'',brawls:[]}
 	componentDidMount(){
 		this.getUser();
 		this.getAllBooks();
@@ -88,14 +89,16 @@ class Home extends React.Component{
 	render(){
 		return(
 			<div>
-				<Brawl />
+				<Brawl me={this.state.user} page="home"/>
 				<section className="standard-section">
 						<div className="container">
+								{adExist("home") &&
 								<div className="content-block">
 										<div className="placeholder">
 												<h4>Ad Space</h4>
 										</div>
 								</div>
+								}
 								<div className="filter-controls">
 										<div className="flex-row">
 												<strong>View: </strong>
@@ -115,19 +118,20 @@ class Home extends React.Component{
 						{this.state.recommendedBooks && this.state.recommendedBooks.length?<BookRow title="Recommended" link='/books/all?view=recommended' books={this.state.recommendedBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>:''}
 
 						<BookRow title="Top Rated" link='/books/all?view=top' books={this.state.topBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
-
-					<div className="content-block-spread">
-								<div className="content-block">
-										<div className="placeholder">
-												<h4>Ad Space</h4>
-										</div>
-								</div>
-								<div className="content-block">
-										<div className="placeholder">
-												<h4>Ad Space</h4>
-										</div>
-								</div>
-						</div>
+						{adExist("home") &&
+							<div className="content-block-spread">
+									<div className="content-block">
+											<div className="placeholder">
+													<h4>Ad Space</h4>
+											</div>
+									</div>
+									<div className="content-block">
+											<div className="placeholder">
+													<h4>Ad Space</h4>
+											</div>
+									</div>
+							</div>
+						}
 					</div>
 				</section>
 			</div>

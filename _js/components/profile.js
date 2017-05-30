@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import {validate, formValid} from '../plugins/validation.js';
 import Library from './books/Library';
+import Brawl from '../components/brawl/Brawl';
+import {Ads} from '../components/ads/Ad';
 
 import Claims from './claims/ClaimDetailsModal';
 
@@ -61,7 +63,6 @@ class Parent extends React.Component {
 			}
 		});
 	}
-
 
 	componentDidMount() {
 		$.get(`${apiUrl}/user_session/`).then((response) => {
@@ -444,16 +445,15 @@ class Parent extends React.Component {
 								{/* <a className="control" href=".">See All</a> */}
 							</div>
 							<div className="book-blocks book-blocks-small">
-								This feature will be built in phase 3
-									</div>
+								<Ads page="admin"/>
+							</div>
 							<hr />
 							<div className="title-row">
 								<h4>Current Book Brawls</h4>
-								{/* <a className="control" href=".">See All</a> */}
 							</div>
 							<div className="book-blocks book-blocks-small">
-								This feature will be built in phase 3
-									</div>
+								<Brawl me={this.state.user} page="admin"/>
+							</div>
 							<hr />
 							<h4>Account Settings</h4>
 							<ul className="field-list account-settings">
