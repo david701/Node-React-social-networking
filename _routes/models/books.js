@@ -15,7 +15,6 @@ const saveImage = (bookId, img, cb) => {
 	var url = '/uploads/covers/';
 
 	var base64Data = img.replace(/^data:image\/png;base64,/, "");
-	console.log(base64Data);
 	require("fs").writeFile('public' + url + bookId + ".png", base64Data, 'base64', function(err) {
 		if(!err){
 			cb(null, url + bookId + ".png")
