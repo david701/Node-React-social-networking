@@ -34570,7 +34570,7 @@ var Brawl = function (_React$Component) {
 			e.stopPropagation();
 		};
 
-		_this.getBrawlsers = function () {
+		_this.getBrawlers = function () {
 			var brawlers = [{
 				_id: "0",
 				author: {
@@ -34843,7 +34843,7 @@ var Brawl = function (_React$Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.getBrawls();
-			this.getBrawlsers();
+			this.getBrawlers();
 		}
 	}, {
 		key: 'render',
@@ -55032,6 +55032,7 @@ var ViewAll = function (_React$Component) {
 			tags: query.tags || '',
 			author: query.author || '',
 			rating: query.rating || '',
+			bookTitle: query.title || '',
 			page: parseInt(query.page) || 1,
 			books: [],
 			authors: [],
@@ -55066,7 +55067,7 @@ var ViewAll = function (_React$Component) {
 					if (_this.state.author) {
 						_this.getAuthors(page);
 					} else {
-						_this.getUserBooks(page);
+						_this.getBooks(page);
 					}
 					break;
 				default:
@@ -55108,6 +55109,9 @@ var ViewAll = function (_React$Component) {
 			if (_this.state.view == 'recommended') {
 				query = '/recommended' + query;title = 'Viewing Recommended';
 			}
+			if (_this.state.bookTitle) {
+				query = query + '&title=' + _this.state.bookTitle;
+			}
 			if (_this.state.rating) {
 				query = query + '&rating=' + _this.state.rating;
 			}
@@ -55120,6 +55124,7 @@ var ViewAll = function (_React$Component) {
 
 			if (_this.state.view == 'search') title = 'Search Results';
 			var page = page || _this.state.page;
+			console.log(query + '&page=' + page);
 			_jQuery2.default.get(query + '&page=' + page).then(function (books) {
 				_this.setState({ books: books.data, count: books.count, title: title });
 			});
