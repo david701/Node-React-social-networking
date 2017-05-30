@@ -34520,10 +34520,13 @@ var Brawl = function (_React$Component) {
 
 		_this.startBrawl = function (isCreatePage) {
 			if (isCreatePage) {
-				alert('start brawl');
+				var postData = { book_a: _this.state.currentBrawl[0].brawlers[0]._id,
+					book_b: _this.state.currentBrawl[0].brawlers[1]._id };
+				_jQuery2.default.post('/api/v1/brawls', postData).then(function (brawl) {
+					console.log(brawl);
+					_this.getBrawls();
+				});
 			}
-			e.preventDefault();
-			e.stopPropagation();
 		};
 
 		_this.showBrawlers = function (currentBrawl, e, index) {
@@ -34553,84 +34556,41 @@ var Brawl = function (_React$Component) {
 		};
 
 		_this.getBrawlers = function () {
-			var brawlers = [{
-				_id: "0",
-				author: {
-					_id: "0",
-					name: "Elon Mitchell",
-					avatar: "/assets/images/dog.gif"
-				},
-				cover: "/assets/images/samples/covers/1.jpg",
-				title: "Some Book",
-				rating: 3,
-				voters: [],
-				votes: 0
-			}, {
-				_id: "1",
-				author: {
-					_id: "1",
-					name: "Terry Pierre",
-					avatar: "/assets/images/cat.gif"
-				},
-				cover: "/assets/images/samples/covers/2.jpg",
-				title: "Some Book",
-				rating: 5,
-				voters: [],
-				votes: 0
-			}, {
-				_id: "2",
-				author: {
-					_id: "1",
-					name: "Terry Pierre",
-					avatar: "/assets/images/cat.gif"
-				},
-				cover: "/assets/images/samples/covers/3.jpg",
-				title: "Some Book",
-				rating: 5,
-				voters: [],
-				votes: 0
-			}, {
-				_id: "3",
-				author: {
-					_id: "1",
-					name: "Terry Pierre",
-					avatar: "/assets/images/cat.gif"
-				},
-				cover: "/assets/images/samples/covers/4.jpg",
-				title: "Some Book",
-				rating: 5,
-				voters: [],
-				votes: 0
-			}, {
-				_id: "4",
-				author: {
-					_id: "1",
-					name: "Terry Pierre",
-					avatar: "/assets/images/cat.gif"
-				},
-				cover: "/assets/images/samples/covers/feature-1.jpg",
-				title: "Some Book",
-				rating: 5,
-				voters: ["0"],
-				votes: 0
-			}, {
-				_id: "5",
-				author: {
-					_id: "1",
-					name: "Terry Pierre",
-					avatar: "/assets/images/cat.gif"
-				},
-				cover: "/assets/images/samples/covers/feature-2.jpg",
-				title: "Some Book",
-				rating: 5,
-				voters: [],
-				votes: 0
-			}];
-			_this.setState({ brawlers: brawlers });
+			_jQuery2.default.get('/api/v1/books?brawlers=true').then(function (brawlers) {
+				_this.setState({ brawlers: brawlers.data });
+			});
 		};
 
 		_this.getBrawls = function () {
 			var page = _this.props.page;
+
+
+			_jQuery2.default.get('/api/v1/brawls').then(function (brawls) {
+				brawls = brawls.data;
+				var brawlsData = [];
+				brawls.map(function (brawl, index) {
+					brawl.book_a.voters = brawl.book_a_vote;
+					brawl.book_b.voters = brawl.book_b_vote;
+					brawl.book_a.votes = brawl.book_a_vote.length;
+					brawl.book_b.votes = brawl.book_b_vote.length;
+
+					brawl.results = {};
+					if (brawl.status > 1) {
+						brawl.results.declared = true;
+						if (brawl.book_a.votes > brawl.book_b.votes) {
+							brawl.results.winner = brawl.book_a;
+						} else {
+							brawl.results.winner = brawl.book_b;
+						}
+					}
+					brawl.results.totalVotes = brawl.book_a.votes + brawl.book_b.votes;
+					brawl.results.voters = brawl.book_a.voters.concat(brawl.book_b.voters);
+
+					brawl.brawlers = [brawl.book_a, brawl.book_b];
+					brawlsData.push(brawl);
+				});
+				console.log(brawlsData);
+			});
 
 			var brawls = [{
 				_id: "0",

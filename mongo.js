@@ -72,9 +72,8 @@ const commentSchema = new Schema({
 const brawlSchema = new Schema({
 	book_a: { type: Schema.Types.ObjectId, ref: 'Books' },
 	book_b: { type: Schema.Types.ObjectId, ref: 'Books' },
-	book_a_vote: { type: Number, default: 0 },
-	book_b_vote: { type: Number, default: 0 },
-	voters: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+	book_a_vote: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+	book_b_vote: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
 	status: Number,
 	updated_at: { type: Date, default: Date.now }
 })

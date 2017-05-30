@@ -79,7 +79,17 @@ exports.newBrawl = (req, res)=>{
 
 	brawl = new mongoBrawl(brawl);
 	brawl.save().then((brawl)=>{
-		handle.res(res, brawl);
+		mongoBook.findOne({_id: brawl.book_a}).then((book_a)=>{
+			book_a.brawl = brawl._id
+			book_a.save().then((book_a)=>{
+				mongoBook.findOne({_id: brawl.book_b}).then((book_b)=>{
+					book_b.brawl = brawl._id;
+					book_b.save().then((book_b)=>{
+						handle.res(res, brawl);
+					})
+				})
+			})
+		})
 	}).catch(err=>{
 		handle.err(res, err);
 	})
@@ -101,12 +111,11 @@ exports.editBrawl = (req, res)=>{
 			}
 			if(brawl.status == 2){
 				if(req.body.vote == brawl.book_a.toString()) {
-					brawl.book_a_vote = brawl.book_a_vote + 1;
+					brawl.book_a_vote = brawl.book_a_vote.push(user._id);
 				}
 				if(req.body.vote == brawl.book_b.toString()){
-					brawl.book_b_vote = brawl.book_b_vote + 1;
+					brawl.book_b_vote = brawl.book_b_vote.push(user._id);
 				}
-				brawl.voters.push(user._id)
 			}
 			brawl.updated_at = new Date();
 		}

@@ -94,10 +94,13 @@ export default class Brawl extends React.Component {
 
 	startBrawl = (isCreatePage) => {
 		if(isCreatePage){
-			alert('start brawl');
+			var postData = {book_a: this.state.currentBrawl[0].brawlers[0]._id,
+			book_b:this.state.currentBrawl[0].brawlers[1]._id};
+			$.post('/api/v1/brawls', postData).then((brawl)=>{
+				console.log(brawl);
+			 	this.getBrawls()
+			});
 		}
-		e.preventDefault();
-		e.stopPropagation();
 	}
 
 	showBrawlers = (currentBrawl, e, index) => {
@@ -124,91 +127,41 @@ export default class Brawl extends React.Component {
 	}
 
 	getBrawlers = () => {
-		let brawlers = [
-	     {
-	        _id:"0",
-	        author:{
-	           _id:"0",
-	           name:"Elon Mitchell",
-	           avatar:"/assets/images/dog.gif"
-	        },
-	        cover:"/assets/images/samples/covers/1.jpg",
-	        title:"Some Book",
-	        rating:3,
-	        voters: [],
-	        votes:0
-	     },
-	     {
-	        _id:"1",
-	        author:{
-	           _id:"1",
-	           name:"Terry Pierre",
-	           avatar:"/assets/images/cat.gif"
-	        },
-	        cover:"/assets/images/samples/covers/2.jpg",
-	        title:"Some Book",
-	        rating:5,
-	        voters: [],
-	        votes:0
-	     },
-	     {
-	        _id:"2",
-	        author:{
-	           _id:"1",
-	           name:"Terry Pierre",
-	           avatar:"/assets/images/cat.gif"
-	        },
-	        cover:"/assets/images/samples/covers/3.jpg",
-	        title:"Some Book",
-	        rating:5,
-	        voters: [],
-	        votes:0
-	     },
-	     {
-	        _id:"3",
-	        author:{
-	           _id:"1",
-	           name:"Terry Pierre",
-	           avatar:"/assets/images/cat.gif"
-	        },
-	        cover:"/assets/images/samples/covers/4.jpg",
-	        title:"Some Book",
-	        rating:5,
-	        voters: [],
-	        votes:0
-	     },
-	     {
-	        _id:"4",
-	        author:{
-	           _id:"1",
-	           name:"Terry Pierre",
-	           avatar:"/assets/images/cat.gif"
-	        },
-	        cover:"/assets/images/samples/covers/feature-1.jpg",
-	        title:"Some Book",
-	        rating:5,
-	        voters: ["0"],
-	        votes:0
-	     },
-	     {
-	        _id:"5",
-	        author:{
-	           _id:"1",
-	           name:"Terry Pierre",
-	           avatar:"/assets/images/cat.gif"
-	        },
-	        cover:"/assets/images/samples/covers/feature-2.jpg",
-	        title:"Some Book",
-	        rating:5,
-	        voters: [],
-	        votes:0
-	     }
-	  ]
-	  this.setState({brawlers: brawlers});
+		$.get('/api/v1/books?brawlers=true').then((brawlers)=>{
+			this.setState({brawlers: brawlers.data});
+		})
 	}
 
 	getBrawls = () => {
 		let {page} = this.props;
+
+		$.get('/api/v1/brawls').then((brawls)=>{
+			brawls = brawls.data;
+			var brawlsData = []
+			brawls.map((brawl, index)=>{
+				brawl.book_a.voters = brawl.book_a_vote;
+				brawl.book_b.voters = brawl.book_b_vote;
+				brawl.book_a.votes = brawl.book_a_vote.length;
+				brawl.book_b.votes = brawl.book_b_vote.length;
+
+				brawl.results = {};
+				if(brawl.status > 1){
+					brawl.results.declared = true;
+					if(brawl.book_a.votes > brawl.book_b.votes){
+						brawl.results.winner = brawl.book_a;
+					}else{
+						brawl.results.winner = brawl.book_b;
+					}
+				}
+				brawl.results.totalVotes = brawl.book_a.votes + brawl.book_b.votes;
+				brawl.results.voters = brawl.book_a.voters.concat(brawl.book_b.voters);
+
+				brawl.brawlers = [brawl.book_a, brawl.book_b];
+				brawlsData.push(brawl);
+			})
+			console.log(brawlsData);
+		})
+
 		let brawls =  [
    		{
    		  _id: "0",
