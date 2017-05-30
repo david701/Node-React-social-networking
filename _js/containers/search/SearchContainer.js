@@ -198,32 +198,34 @@ export default class SearchContainer extends React.Component {
         <div className="container">
           <div className="flex-row">
             <div className="content-block content-block-standard-search">
-              <header>
-                <h3>Select a category to search from</h3>
-              </header>
-              <SearchCategories
-                handleChange={this.handleChange}
-                searchBy={searchBy}
-                search={search}
-              />
-              <SearchRating
-                handleRating={this.handleRating}
-                searchBy={searchBy}
-                rating={rating}
-              />
-              <SearchTags
-                handleChange={this.handleChange}
-                tags={oldTags} genres={oldGenres}
-                searchBy={searchBy}
-              />
-              <div className="submit-row submit-row-single" style={{ marginTop: '0px' }}>
-                <div className="buttons">
-                  {this.state.user?<button type="button" className="button button-white" onClick={this.saveSearch}>Save</button>:''}
-                  <button type="button" onClick={this.handleSubmit} className="button button-red">Search</button>
-                </div>
-              </div>
-              {this.state.user?<SavedSearches onDelete={this.removeSearch} savedSearches={this.state.user.searches} />:''}
-							{this.state.results?(<BookRow title='Search Results' books={this.state.results}/>):''}
+							<form onSubmit={this.handleSubmit}>
+	              <header>
+	                <h3>Select a category to search from</h3>
+	              </header>
+	              <SearchCategories
+	                handleChange={this.handleChange}
+	                searchBy={searchBy}
+	                search={search}
+	              />
+	              <SearchRating
+	                handleRating={this.handleRating}
+	                searchBy={searchBy}
+	                rating={rating}
+	              />
+	              <SearchTags
+	                handleChange={this.handleChange}
+	                tags={oldTags} genres={oldGenres}
+	                searchBy={searchBy}
+	              />
+	              <div className="submit-row submit-row-single" style={{ marginTop: '0px' }}>
+	                <div className="buttons">
+	                  {this.state.user?<button type="button" className="button button-white" onClick={this.saveSearch}>Save</button>:''}
+	                  <button type="submit" className="button button-red">Search</button>
+	                </div>
+	              </div>
+	              {this.state.user?<SavedSearches onDelete={this.removeSearch} savedSearches={this.state.user.searches} />:''}
+								{this.state.results?(<BookRow title='Search Results' books={this.state.results}/>):''}
+							</form>
             </div>
             <div>
               <div className="content-block">
