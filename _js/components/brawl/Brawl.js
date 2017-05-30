@@ -22,7 +22,7 @@ export default class Brawl extends React.Component {
 
   	componentDidMount() {
     	this.getBrawls();
-    	this.getBrawlsers();
+    	this.getBrawlers();
   	}
 
 	vote = (e,voterId,brawlerId) => {
@@ -123,7 +123,7 @@ export default class Brawl extends React.Component {
 		e.stopPropagation();
 	}
 
-	getBrawlsers = () => {
+	getBrawlers = () => {
 		let brawlers = [
 	     {
 	        _id:"0",

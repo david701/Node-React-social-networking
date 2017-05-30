@@ -18,6 +18,7 @@ class ViewAll extends React.Component{
 		tags: query.tags || '',
 		author: query.author || '',
 		rating: query.rating || '',
+		bookTitle: query.title || '',
 		page: parseInt(query.page) || 1,
 		books:[],
 		authors: [],
@@ -60,7 +61,7 @@ class ViewAll extends React.Component{
 					if(this.state.author){
 						this.getAuthors(page);
 					}else{
-						this.getUserBooks(page)
+						this.getBooks(page)
 					}
 					break;
 			default: this.getBooks(page);
@@ -103,12 +104,14 @@ class ViewAll extends React.Component{
 		var query = apiUrl+'/books?limit='+this.state.limit, title = 'Viewing All Books';
 		if(this.state.view == 'top'){ query = query + '&sort=-rating'; title = 'Viewing Top Rated' }
 		if(this.state.view == 'recommended'){ query = '/recommended' + query; title = 'Viewing Recommended' }
+		if(this.state.bookTitle){ query = query + '&title='+this.state.bookTitle }
 		if(this.state.rating){ query = query + '&rating='+this.state.rating }
 		if(this.state.author){ query = query + '&author='+this.state.author }
 		if(this.state.genres){ query = query + '&genres='+this.state.genres; title = title + ' : ' + this.state.genres }
 
 		if(this.state.view == 'search') title = 'Search Results';
 		var page = page || this.state.page;
+		console.log(query+'&page='+page);
 		$.get(query+'&page='+page).then((books)=>{
 			this.setState({books: books.data, count: books.count, title: title});
 		})
