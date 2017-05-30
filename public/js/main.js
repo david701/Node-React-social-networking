@@ -60573,49 +60573,53 @@ var SearchContainer = function (_React$Component) {
               'div',
               { className: 'content-block content-block-standard-search' },
               _react2.default.createElement(
-                'header',
-                null,
+                'form',
+                { onSubmit: this.handleSubmit },
                 _react2.default.createElement(
-                  'h3',
+                  'header',
                   null,
-                  'Select a category to search from'
-                )
-              ),
-              _react2.default.createElement(SearchCategories, {
-                handleChange: this.handleChange,
-                searchBy: searchBy,
-                search: search
-              }),
-              _react2.default.createElement(SearchRating, {
-                handleRating: this.handleRating,
-                searchBy: searchBy,
-                rating: rating
-              }),
-              _react2.default.createElement(SearchTags, {
-                handleChange: this.handleChange,
-                tags: oldTags, genres: oldGenres,
-                searchBy: searchBy
-              }),
-              _react2.default.createElement(
-                'div',
-                { className: 'submit-row submit-row-single', style: { marginTop: '0px' } },
+                  _react2.default.createElement(
+                    'h3',
+                    null,
+                    'Select a category to search from'
+                  )
+                ),
+                _react2.default.createElement(SearchCategories, {
+                  handleChange: this.handleChange,
+                  searchBy: searchBy,
+                  search: search
+                }),
+                _react2.default.createElement(SearchRating, {
+                  handleRating: this.handleRating,
+                  searchBy: searchBy,
+                  rating: rating
+                }),
+                _react2.default.createElement(SearchTags, {
+                  handleChange: this.handleChange,
+                  tags: oldTags, genres: oldGenres,
+                  searchBy: searchBy
+                }),
                 _react2.default.createElement(
                   'div',
-                  { className: 'buttons' },
-                  this.state.user ? _react2.default.createElement(
-                    'button',
-                    { type: 'button', className: 'button button-white', onClick: this.saveSearch },
-                    'Save'
-                  ) : '',
+                  { className: 'submit-row submit-row-single', style: { marginTop: '0px' } },
                   _react2.default.createElement(
-                    'button',
-                    { type: 'button', onClick: this.handleSubmit, className: 'button button-red' },
-                    'Search'
+                    'div',
+                    { className: 'buttons' },
+                    this.state.user ? _react2.default.createElement(
+                      'button',
+                      { type: 'button', className: 'button button-white', onClick: this.saveSearch },
+                      'Save'
+                    ) : '',
+                    _react2.default.createElement(
+                      'button',
+                      { type: 'submit', className: 'button button-red' },
+                      'Search'
+                    )
                   )
-                )
-              ),
-              this.state.user ? _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: this.state.user.searches }) : '',
-              this.state.results ? _react2.default.createElement(_BooksRow2.default, { title: 'Search Results', books: this.state.results }) : ''
+                ),
+                this.state.user ? _react2.default.createElement(SavedSearches, { onDelete: this.removeSearch, savedSearches: this.state.user.searches }) : '',
+                this.state.results ? _react2.default.createElement(_BooksRow2.default, { title: 'Search Results', books: this.state.results }) : ''
+              )
             ),
             _react2.default.createElement(
               'div',
