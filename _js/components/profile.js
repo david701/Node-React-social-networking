@@ -4,7 +4,7 @@ import $ from 'jquery';
 import {validate, formValid} from '../plugins/validation.js';
 import Library from './books/Library';
 import Brawl from '../components/brawl/Brawl';
-import {Ads} from '../components/ads/Ad';
+import {Ads, AdElement} from '../components/ads/Ad';
 
 import Claims from './claims/ClaimDetailsModal';
 
@@ -325,16 +325,8 @@ class Parent extends React.Component {
 								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo}/>}
 							</div>
 							<div>
-								<div className="content-block">
-									<div className="placeholder">
-										<h4>Ad Space</h4>
-									</div>
-								</div>
-								<div className="content-block">
-									<div className="placeholder">
-										<h4>Ad Space</h4>
-									</div>
-								</div>
+								<AdElement page='dashboard'/>
+								<AdElement page='dashboard'/>
 							</div>
 						</div>
 					}

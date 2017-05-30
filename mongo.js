@@ -96,7 +96,7 @@ const claimSchema = new Schema({
 
 const adSchema = new Schema({
 	page: String,
-	ad: Boolean
+	ads: Boolean
 })
 
 const genreSchema = new Schema({

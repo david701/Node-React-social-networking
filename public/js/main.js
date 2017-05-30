@@ -34167,11 +34167,9 @@ module.exports = ReactPropTypesSecret;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Ads = undefined;
+exports.AdElement = exports.Ads = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-exports.adExist = adExist;
 
 var _react = __webpack_require__(3);
 
@@ -34200,50 +34198,25 @@ var Ads = exports.Ads = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Ads.__proto__ || Object.getPrototypeOf(Ads)).call(this, props));
 
 		_this.getAds = function () {
-			var ads = [{
-				page: "home",
-				_id: "0",
-				ads: {
-					visible: false
-				}
-			}, {
-				page: "dashboard",
-				_id: "1",
-				ads: {
-					visible: true
-				}
-			}, {
-				page: "users",
-				_id: "2",
-				ads: {
-					visible: false
-				}
-			}, {
-				page: "forum",
-				_id: "3",
-				ads: {
-					visible: false
-				}
-			}, {
-				page: "messages",
-				_id: "4",
-				ads: {
-					visible: true
-				}
-			}, {
-				page: "create",
-				_id: "5",
-				ads: {
-					visible: true
-				}
-			}];
-			adModel = ads;
-			_this.setState({ ads: ads });
+			_jQuery2.default.get('/api/v1/ads').then(function (ads) {
+				adModel = ads.data;
+				_this.setState({ ads: ads.data });
+			});
 		};
 
-		_this.handleChange = function (e, index) {
-			adModel[index].ads.visible = !(e.target.value === "true");
-			_this.setState({ ads: adModel });
+		_this.handleChange = function (e) {
+			e.preventDefault();
+			var checked = false;
+			if (!e.target.value) {
+				checked = true;
+			}
+			_jQuery2.default.ajax({
+				url: '/api/v1/ads/' + e.target.id,
+				method: 'PUT',
+				data: { ads: checked }
+			}).then(function (resp) {
+				_this.getAds();
+			});
 		};
 
 		_this.state = {
@@ -34260,9 +34233,10 @@ var Ads = exports.Ads = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var ads = this.state.ads;
 
-			var $this = this;
 			return _react2.default.createElement(
 				'div',
 				{ className: 'divTable' },
@@ -34305,9 +34279,7 @@ var Ads = exports.Ads = function (_React$Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'divTableCell' },
-								_react2.default.createElement('input', { type: 'checkbox', name: ad.page + i, onChange: function onChange(e) {
-										$this.handleChange(e, i);
-									}, value: ad.ads.visible, checked: ad.ads.visible })
+								_react2.default.createElement('input', { type: 'checkbox', id: ad._id, onChange: _this2.handleChange, value: ad.ads, checked: ad.ads })
 							)
 						);
 					})
@@ -34319,51 +34291,61 @@ var Ads = exports.Ads = function (_React$Component) {
 	return Ads;
 }(_react2.default.Component);
 
-function adExist(page) {
-	var ads = [{
-		page: "home",
-		_id: "0",
-		ads: {
-			visible: false
-		}
-	}, {
-		page: "dashboard",
-		_id: "1",
-		ads: {
-			visible: true
-		}
-	}, {
-		page: "users",
-		_id: "2",
-		ads: {
-			visible: false
-		}
-	}, {
-		page: "forum",
-		_id: "3",
-		ads: {
-			visible: false
-		}
-	}, {
-		page: "messages",
-		_id: "4",
-		ads: {
-			visible: true
-		}
-	}, {
-		page: "create",
-		_id: "5",
-		ads: {
-			visible: true
-		}
-	}];
+var AdElement = exports.AdElement = function (_React$Component2) {
+	_inherits(AdElement, _React$Component2);
 
-	var ad = ads.filter(function (ad, index) {
-		return ad.page === page;
-	})[0];
+	function AdElement() {
+		var _ref;
 
-	return ad.ads.visible;
-}
+		var _temp, _this3, _ret;
+
+		_classCallCheck(this, AdElement);
+
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this3 = _possibleConstructorReturn(this, (_ref = AdElement.__proto__ || Object.getPrototypeOf(AdElement)).call.apply(_ref, [this].concat(args))), _this3), _this3.state = { ads: false }, _temp), _possibleConstructorReturn(_this3, _ret);
+	}
+
+	_createClass(AdElement, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this4 = this;
+
+			_jQuery2.default.get('/api/v1/ads').then(function (ads) {
+				ads.data.map(function (ad, key) {
+					if (ad.page == _this4.props.page.toLowerCase() && ad.ads) {
+						_this4.setState({ ads: true });
+					}
+				});
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				this.state.ads ? _react2.default.createElement(
+					'div',
+					{ className: 'content-block' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'placeholder' },
+						_react2.default.createElement(
+							'h4',
+							null,
+							'Ad Space'
+						)
+					)
+				) : ''
+			);
+		}
+	}]);
+
+	return AdElement;
+}(_react2.default.Component);
 
 /***/ }),
 /* 88 */
@@ -52661,32 +52643,8 @@ var Parent = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							null,
-							_react2.default.createElement(
-								'div',
-								{ className: 'content-block' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'placeholder' },
-									_react2.default.createElement(
-										'h4',
-										null,
-										'Ad Space'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'content-block' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'placeholder' },
-									_react2.default.createElement(
-										'h4',
-										null,
-										'Ad Space'
-									)
-								)
-							)
+							_react2.default.createElement(_Ad.AdElement, { page: 'dashboard' }),
+							_react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
 						)
 					),
 					this.state.user.role > 0 && _react2.default.createElement(
@@ -54849,19 +54807,7 @@ var Home = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'container' },
-						(0, _Ad.adExist)("home") && _react2.default.createElement(
-							'div',
-							{ className: 'content-block' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'placeholder' },
-								_react2.default.createElement(
-									'h4',
-									null,
-									'Ad Space'
-								)
-							)
-						),
+						_react2.default.createElement(_Ad.AdElement, { page: 'home' }),
 						_react2.default.createElement(
 							'div',
 							{ className: 'filter-controls' },
@@ -54898,35 +54844,11 @@ var Home = function (_React$Component) {
 						this.state.genre ? _react2.default.createElement(_BooksRow2.default, { title: this.state.genre, link: '/books/all?genres=' + this.state.genre, books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }) : '',
 						this.state.recommendedBooks && this.state.recommendedBooks.length ? _react2.default.createElement(_BooksRow2.default, { title: 'Recommended', link: '/books/all?view=recommended', books: this.state.recommendedBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }) : '',
 						_react2.default.createElement(_BooksRow2.default, { title: 'Top Rated', link: '/books/all?view=top', books: this.state.topBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }),
-						(0, _Ad.adExist)("home") && _react2.default.createElement(
+						_react2.default.createElement(
 							'div',
 							{ className: 'content-block-spread' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'content-block' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'placeholder' },
-									_react2.default.createElement(
-										'h4',
-										null,
-										'Ad Space'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'content-block' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'placeholder' },
-									_react2.default.createElement(
-										'h4',
-										null,
-										'Ad Space'
-									)
-								)
-							)
+							_react2.default.createElement(_Ad.AdElement, { page: 'home' }),
+							_react2.default.createElement(_Ad.AdElement, { page: 'home' })
 						)
 					)
 				)
@@ -59760,6 +59682,8 @@ var _ClaimDetailsModal = __webpack_require__(90);
 
 var _ClaimDetailsModal2 = _interopRequireDefault(_ClaimDetailsModal);
 
+var _Ad = __webpack_require__(87);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59774,15 +59698,7 @@ var Placeholder = function Placeholder(props) {
   return _react2.default.createElement(
     'div',
     { className: 'content-block content-block-standard-new' },
-    _react2.default.createElement(
-      'div',
-      { className: 'placeholder' },
-      _react2.default.createElement(
-        'h4',
-        null,
-        'Ad Space'
-      )
-    )
+    _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
   );
 };
 
@@ -60359,6 +60275,8 @@ var _SearchCategory = __webpack_require__(297);
 
 var _SearchCategory2 = _interopRequireDefault(_SearchCategory);
 
+var _Ad = __webpack_require__(87);
+
 var _BooksRow = __webpack_require__(54);
 
 var _BooksRow2 = _interopRequireDefault(_BooksRow);
@@ -60624,32 +60542,8 @@ var SearchContainer = function (_React$Component) {
             _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(
-                'div',
-                { className: 'content-block' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'placeholder' },
-                  _react2.default.createElement(
-                    'h4',
-                    null,
-                    'Ad Space'
-                  )
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'content-block' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'placeholder' },
-                  _react2.default.createElement(
-                    'h4',
-                    null,
-                    'Ad Space'
-                  )
-                )
-              )
+              _react2.default.createElement(_Ad.AdElement, { page: 'search' }),
+              _react2.default.createElement(_Ad.AdElement, { page: 'search' })
             )
           )
         )
