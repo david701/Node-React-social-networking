@@ -110,12 +110,12 @@ exports.editBrawl = (req, res)=>{
 			brawl.updated_at = new Date();
 		}
 		if(req.body.vote && user){
-			if(brawl.status == 2){
+			if(brawl.status == 1){
 				if(req.body.vote == brawl.book_a.toString()) {
-					brawl.book_a_vote = brawl.book_a_vote.push(user._id);
+					brawl.book_a_vote.push(user._id);
 				}
 				if(req.body.vote == brawl.book_b.toString()){
-					brawl.book_b_vote = brawl.book_b_vote.push(user._id);
+					brawl.book_b_vote.push(user._id);
 				}
 			}
 			brawl.updated_at = new Date();

@@ -25,9 +25,14 @@ export default class Brawl extends React.Component {
     	this.getBrawlers();
   	}
 
-	vote = (e,voterId,brawlerId) => {
-		alert('voter id: ' + voterId + " brawler id: " + brawlerId);
-		this.getBrawls();
+	vote = (e,brawlId,bookId) => {
+		$.ajax({
+			url: '/api/v1/brawls/'+brawlId,
+			method: 'PUT',
+			data: {vote: bookId}
+		}).then(()=>{
+			this.getBrawls();
+		})
 		e.preventDefault();
 		e.stopPropagation();
 	}
@@ -300,7 +305,7 @@ export default class Brawl extends React.Component {
 																								</figure>
 																							</a>
 																							{(!iVoted && isCurrentBrawl && page !== "admin") &&
-																								<a href="javascript:void(0)" className={"button" + (!isCurrentBrawl ? " button-hidden" : "")} onClick={(e) => { $this.vote(e, "0",brawler._id)} }>Vote</a>
+																								<a href="javascript:void(0)" className={"button" + (!isCurrentBrawl ? " button-hidden" : "")} onClick={(e) => { $this.vote(e, brawl._id, brawler._id)} }>Vote</a>
 																							}
 																						</div>
 																						{!isFirstBrawler &&
