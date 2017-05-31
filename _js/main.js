@@ -219,7 +219,7 @@ class LoginButtons extends React.Component{
 		                            <img className="day" src="/assets/images/icons/nav/advanced-search.svg" alt="Browse"/>
                                     <img className="night" src="/assets/images/icons/nav/advanced-search-night.svg" alt="Browse"/>
 		                        </div>
-		                        <span>Advanced Search</span>
+		                        <span>Search</span>
 		                    </a>
 		                </li>
 	                </div>
@@ -227,9 +227,6 @@ class LoginButtons extends React.Component{
             </ul>
         </nav>
         <footer>
-            <form className="search-form">
-                <input type="search" placeholder="Search" />
-            </form>
             <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode day">Night Mode</a>
             <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode night">Day Mode</a>
         </footer>

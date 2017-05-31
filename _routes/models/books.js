@@ -277,12 +277,27 @@ exports.editBook = (req, res)=>{
     res.json({status:'error', message: 'Not logged in'})
     return;
   }
-
-  mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
-    res.json({status: 'ok', data: req.params.id})
-  }).catch((err)=>{
-    res.json({status: 'error', message: err});
-  })
+	if(req.body.cover){
+		saveImage(req.params.id, req.body.cover, function(err, url){
+			if(err){
+				console.log(err);
+				handle.err(res, err.message);
+			}else{
+				req.body.cover = url;
+				mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
+			    res.json({status: 'ok', data: req.params.id})
+			  }).catch((err)=>{
+			    res.json({status: 'error', message: err});
+			  })
+			}
+		});
+	}else{
+		mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
+	    res.json({status: 'ok', data: req.params.id})
+	  }).catch((err)=>{
+	    res.json({status: 'error', message: err});
+	  })
+	}
 }
 
 exports.followBook = (req, res)=>{
