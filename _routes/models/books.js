@@ -15,7 +15,6 @@ const saveImage = (bookId, img, cb) => {
 	var url = '/uploads/covers/';
 
 	var base64Data = img.replace(/^data:image\/png;base64,/, "");
-	console.log(base64Data);
 	require("fs").writeFile('public' + url + bookId + ".png", base64Data, 'base64', function(err) {
 		if(!err){
 			cb(null, url + bookId + ".png")
@@ -53,6 +52,11 @@ exports.getBooks = (req, res)=>{
 		var ratingFloor = Math.floor(rating);
 		var ratingCeil = ratingFloor + 1;
 		query.rating = {$gte : ratingFloor, $lt : ratingCeil}
+	}
+
+	if(req.query.brawlers){
+		query.brawl_submit = true;
+		query.brawl = {$exists: false};
 	}
 
 	if(req.query.author){
@@ -273,12 +277,27 @@ exports.editBook = (req, res)=>{
     res.json({status:'error', message: 'Not logged in'})
     return;
   }
-
-  mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
-    res.json({status: 'ok', data: req.params.id})
-  }).catch((err)=>{
-    res.json({status: 'error', message: err});
-  })
+	if(req.body.cover){
+		saveImage(req.params.id, req.body.cover, function(err, url){
+			if(err){
+				console.log(err);
+				handle.err(res, err.message);
+			}else{
+				req.body.cover = url;
+				mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
+			    res.json({status: 'ok', data: req.params.id})
+			  }).catch((err)=>{
+			    res.json({status: 'error', message: err});
+			  })
+			}
+		});
+	}else{
+		mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
+	    res.json({status: 'ok', data: req.params.id})
+	  }).catch((err)=>{
+	    res.json({status: 'error', message: err});
+	  })
+	}
 }
 
 exports.followBook = (req, res)=>{
