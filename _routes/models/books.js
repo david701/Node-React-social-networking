@@ -226,30 +226,24 @@ exports.createBook = (req, res)=>{
   book.status = 1;
 
 	if(book.cover){
-		var newBook = new mongoBook(book);
-		newBook.save().then((book)=>{
-			saveImage(book._id, req.body.cover, function(err, url){
-				if(err){
+		saveImage(book._id, book.cover, function(err, url){
+			if(err){
+				console.log(err);
+				handle.err(res, err.message);
+			}else{
+				var newBook = new mongoBook(book);
+				newBook.cover = url;
+				newBook.save().then((book)=>{
+					res.json({status: 'ok', data: book});
+				}).catch((err)=>{
 					console.log(err);
-					handle.err(res, err.message);
-				}else{
-					book.cover = url;
-					book.save().then((book)=>{
-						res.json({status: 'ok', data: book});
-					}).catch((err)=>{
-						console.log(err);
-						res.json({status: 'error', message: err.message});
-					})
-				}
-			})
-		}).catch((err)=>{
-			console.log(err);
-			res.json({status: 'error', message: err.message});
+					res.json({status: 'error', message: err.message});
+				})
+			}
 		})
-
 	}else{
 		var newBook = new mongoBook(book);
-		book.cover = '/assets/images/default-cover-art.jpg';
+		newBook.cover = '/assets/images/default-cover-art.jpg';
 		newBook.save().then((book)=>{
 			res.json({status: 'ok', data: book});
 		}).catch((err)=>{
