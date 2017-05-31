@@ -484,18 +484,35 @@ class MyBooks extends React.Component{
 if(document.getElementById('myBooks'))
   {ReactDOM.render(<MyBooks />, document.getElementById('myBooks'));}
 
-class NewComponent extends React.Component{
-  state = {}
+class NewsLetterForm extends React.Component{
+  state = {email:'', thanks: false}
 
-  componentDidMount(){
-		/// API call
-		/// SET STATE
-    this.setState({users: apiUsers});
-  }
+	onChange = (e)=>{
+		var state = {};
+		state[e.target.name] = e.target.value;
+		this.setState(state)
+	}
+
+	submitForm = (e)=>{
+		e.preventDefault();
+		$.post('/api/v1/users/newsletter', {email: this.state.email}).then((resp)=>{
+			this.setState({thanks: true});
+		})
+	}
 
   render(){
     return(
-			<div></div>
+			<form onSubmit={this.submitForm}>
+				{this.state.thanks?<h4>Thanks for signing up.</h4>:
+					<div>
+					<input type="text" name="email" placeholder="Enter Email Address" value={this.state.email} onChange={this.onChange}/>
+					<button type="submit">Submit</button>
+					</div>
+				}
+			</form>
     );
   }
 }
+
+if(document.getElementById('newsletter_form'))
+  {ReactDOM.render(<NewsLetterForm />, document.getElementById('newsletter_form'));}
