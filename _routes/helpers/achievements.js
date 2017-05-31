@@ -5,7 +5,7 @@ const mongoUser = mongo.schema.user,
 			mongoComment = mongo.schema.comment,
 			mongoReview = mongo.schema.review;
 
-var levelCheck = (points, cb)=>{
+const levelCheck = (points, cb)=>{
 	var level = 0, title = 'Apprentice';
 	if(points > 0){ level = 1; title = 'Bronze Acolyte' } else
 	if(points >= 2){ level = 1 } else
@@ -61,13 +61,14 @@ var levelCheck = (points, cb)=>{
 	cb(level, title);
 }
 
-var addPoints = (userId, points, cb)=>{
+const addPoints = (userId, points, cb)=>{
 	mongoUser.findOne({_id: userId}).then((user)=>{
 		if(!user.points){
 			user.points = 0;
 		}
 		user.points = user.points + points;
-		levelCheck((level, title)=>{
+		levelCheck(user.points, (level, title)=>{
+			console.log(title);
 			user.level = level;
 			user.level_title = title
 			user.save().then((user)=>{
@@ -83,63 +84,63 @@ module.exports = {
 	finishFiction: (userId, cb)=>{
 		// 1 for reading 2 last chapters
 		var points = 1/2;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	rateBook: (userId, cb)=>{
 		// 1 for rating book
 		var points = 1;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	comment: (userId, cb)=>{
 		// 1 for 4 comments left
 		var points = 1/4;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	vote: (userId, cb)=>{
 		// 1 for voting
 		var points = 1;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	publish: (userId, cb)=>{
 		// 2 for approved book
 		var points = 2;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	followers: (userId, cb)=>{
 		// 1 per 100 followers
 		var points = 1/100;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	views: (userId, cb)=>{
 		// 1 per 4000 views
 		var points = 1/4000;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	reviews: (userId, cb)=>{
 		// 1 per 20 reviews
 		var points = 1/20;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},
 	chapter: (userId, cb)=>{
 		// 1 per chapter added
 		var points = 1;
-		addpoints(userId, points, (err, user)=>{
+		addPoints(userId, points, (err, user)=>{
 			cb(err, user)
 		});
 	},

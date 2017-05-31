@@ -32,7 +32,7 @@ exports.getReviewById = (req,res)=>{
 
 exports.addReview = (req,res)=>{
 	var user = req.session;
-	if(!user || !user_id){
+	if(!user || !user._id){
 		handle.err(res, 'Not Logged In')
 		return;
 	}
@@ -56,7 +56,9 @@ exports.addReview = (req,res)=>{
 				book.rating = rating;
 				book.save().then((book)=>{
 					xp.rateBook(user._id, (err, user)=>{
-						handle.res(res, review);
+						xp.reviews(book.author, (err, user)=>{
+							handle.res(res, review);
+						})
 					})
 				}).catch((err)=>{
 					handle.err(res, err);

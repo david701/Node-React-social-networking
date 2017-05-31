@@ -375,6 +375,10 @@ exports.unfollowBook = (req, res)=>{
 }
 
 exports.addChapter = (req, res)=>{
+	if(!req.session || !req.session._id){
+		handle.err(res, 'Not Logged in');
+		return;
+	}
   var book_id = req.params.id;
 
   if(!book_id || !req.body.number || !req.body.content || !req.body.name){
@@ -393,7 +397,9 @@ exports.addChapter = (req, res)=>{
         }
         var chapter = new mongoChapter(chapterInfo);
         chapter.save().then((chapter)=>{
-          res.json({status: 'ok', data: chapter});
+					xp.chapter(req.session._id, (err, user)=>{
+						res.json({status: 'ok', data: chapter});
+					})
         })
       }
     }).catch(function(err){
