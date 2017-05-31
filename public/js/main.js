@@ -61538,39 +61538,62 @@ if (document.getElementById('myBooks')) {
 	_reactDom2.default.render(_react2.default.createElement(MyBooks, null), document.getElementById('myBooks'));
 }
 
-var NewComponent = function (_React$Component4) {
-	_inherits(NewComponent, _React$Component4);
+var NewsLetterForm = function (_React$Component4) {
+	_inherits(NewsLetterForm, _React$Component4);
 
-	function NewComponent() {
+	function NewsLetterForm() {
 		var _ref3;
 
 		var _temp3, _this6, _ret3;
 
-		_classCallCheck(this, NewComponent);
+		_classCallCheck(this, NewsLetterForm);
 
 		for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
 			args[_key3] = arguments[_key3];
 		}
 
-		return _ret3 = (_temp3 = (_this6 = _possibleConstructorReturn(this, (_ref3 = NewComponent.__proto__ || Object.getPrototypeOf(NewComponent)).call.apply(_ref3, [this].concat(args))), _this6), _this6.state = {}, _temp3), _possibleConstructorReturn(_this6, _ret3);
+		return _ret3 = (_temp3 = (_this6 = _possibleConstructorReturn(this, (_ref3 = NewsLetterForm.__proto__ || Object.getPrototypeOf(NewsLetterForm)).call.apply(_ref3, [this].concat(args))), _this6), _this6.state = { email: '', thanks: false }, _this6.onChange = function (e) {
+			var state = {};
+			state[e.target.name] = e.target.value;
+			_this6.setState(state);
+		}, _this6.submitForm = function (e) {
+			e.preventDefault();
+			_jquery2.default.post('/api/v1/users/newsletter', { email: _this6.state.email }).then(function (resp) {
+				_this6.setState({ thanks: true });
+			});
+		}, _temp3), _possibleConstructorReturn(_this6, _ret3);
 	}
 
-	_createClass(NewComponent, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			/// API call
-			/// SET STATE
-			this.setState({ users: apiUsers });
-		}
-	}, {
+	_createClass(NewsLetterForm, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement('div', null);
+			return _react2.default.createElement(
+				'form',
+				{ onSubmit: this.submitForm },
+				this.state.thanks ? _react2.default.createElement(
+					'h4',
+					null,
+					'Thanks for signing up.'
+				) : _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement('input', { type: 'text', name: 'email', placeholder: 'Enter Email Address', value: this.state.email, onChange: this.onChange }),
+					_react2.default.createElement(
+						'button',
+						{ type: 'submit' },
+						'Submit'
+					)
+				)
+			);
 		}
 	}]);
 
-	return NewComponent;
+	return NewsLetterForm;
 }(_react2.default.Component);
+
+if (document.getElementById('newsletter_form')) {
+	_reactDom2.default.render(_react2.default.createElement(NewsLetterForm, null), document.getElementById('newsletter_form'));
+}
 
 /***/ }),
 /* 308 */
