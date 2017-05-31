@@ -11,7 +11,7 @@ const mongoUser = mongo.schema.user,
 			mongoReview = mongo.schema.review;
 
 const handle = require('../helpers/handle.js');
-
+const xp = require('../helpers/achievements.js');
 
 exports.getComments = (req,res)=>{
 	mongoComment.find({chapter_id: req.params.id}).where('status').equals(1).populate('author', 'name avatar').then((comments)=>{
@@ -50,7 +50,9 @@ exports.editComment = (req,res)=>{
 		}else{
 			if(req.body.content) comment.content = req.body.content;
 			comment.save().then((comment)=>{
-				handle.res(res, comment)
+				xp.comment(user._id, (err, user)=>{
+					handle.res(res, comment)
+				})
 			})
 		}
 	}).catch((err)=>{
