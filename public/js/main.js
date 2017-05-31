@@ -34704,7 +34704,7 @@ var Brawl = function (_React$Component) {
 						isCurrentBrawl = !brawl.results.declared;
 						return _react2.default.createElement(
 							'div',
-							{ key: i, className: isCurrentBrawl || page === "admin" || !isCurrentBrawl && i === currentBrawl.length - 1 ? "week week-this" : "week week-last" },
+							{ key: i, className: page === "admin" || i === currentBrawl.length - 1 ? "week week-this" : "week week-last" },
 							_react2.default.createElement(
 								'div',
 								{ className: 'container' },

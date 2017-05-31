@@ -234,7 +234,7 @@ export default class Brawl extends React.Component {
 								//the current brawl is the one that hasn't been declared
 								isCurrentBrawl = !brawl.results.declared;
 								return (
-									<div key={i} className={(isCurrentBrawl || page === "admin" || (!isCurrentBrawl && i === (currentBrawl.length - 1))) ? "week week-this" : "week week-last"}>
+									<div key={i} className={(page === "admin" || (i === (currentBrawl.length - 1))) ? "week week-this" : "week week-last"}>
 											<div className="container">
 													<div className="flex-row">
 															<div className="book-blocks book-blocks-feature">
