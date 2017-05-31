@@ -26,7 +26,6 @@ export default class Brawl extends React.Component {
   	}
 
 	vote = (e,voterId,brawlerId) => {
-		alert('voter id: ' + voterId + " brawler id: " + brawlerId);
 		this.getBrawls();
 		e.preventDefault();
 		e.stopPropagation();
@@ -184,7 +183,7 @@ export default class Brawl extends React.Component {
 	render() {
 		const $this = this;
 		const {currentBrawl, oldBrawls, title, brawlers, showBrawlers, startBrawl} = this.state;
-		const {page} = this.props;
+		let {page, me} = this.props;
 		let isCurrentBrawl = true;
 
 		return (
@@ -245,10 +244,13 @@ export default class Brawl extends React.Component {
 																				let winPercentage = (brawler.votes === 0 ? 0 : Math.round((brawler.votes / brawl.results.totalVotes) * 100)) + "%";
 																				//need to change to my user id
 
+																				if(me){
+																					me = me._id
+																				}
+
 																				//REPLACE "0" WITH THIS
-																				//props.me._id
-																				let myVote = $.inArray("10",brawler.voters) === 0;
-																				let iVoted = $.inArray("10",brawl.results.voters) === 0;
+																				let myVote = $.inArray(me,brawler.voters) === 0;
+																				let iVoted = $.inArray(me,brawl.results.voters) === 0;
 
 																				if(isCurrentBrawl && page === "home"){
 																					currentResult = iVoted ? "Keep checking for results" : "Please Vote"
