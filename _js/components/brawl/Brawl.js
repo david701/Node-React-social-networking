@@ -81,7 +81,7 @@ export default class Brawl extends React.Component {
 		let brawler = createBrawlSelected ? newBrawl : this.findBrawlerByProp('_id',e.target.value);
 		let title = (createBrawlSelected) ? "Create Brawl" : (e.target.selectedIndex === 1) ? "Current Brawl" : this.state.currentBrawl[0].updated_at + " Brawl";
 		$('.pick0,.pick1').removeClass('pick0 pick1');
-		this.setState({currentBrawl: brawler, title: title, startBrawl: false})
+		this.setState({currentBrawl: brawler.reverse(), title: title, startBrawl: false})
 	}
 
 	declareWinner = (currentBrawl) => {
@@ -175,7 +175,7 @@ export default class Brawl extends React.Component {
 				currentBrawl = [brawlsData[0]]
 			}
 
-			this.setState({currentBrawl:currentBrawl , oldBrawls: brawlsData});
+			this.setState({currentBrawl:currentBrawl.reverse() , oldBrawls: brawlsData});
 		})
 
 
@@ -234,7 +234,7 @@ export default class Brawl extends React.Component {
 								//the current brawl is the one that hasn't been declared
 								isCurrentBrawl = !brawl.results.declared;
 								return (
-									<div key={i} className={(isCurrentBrawl || page === "admin") ? "week week-this" : "week week-last"}>
+									<div key={i} className={(isCurrentBrawl || page === "admin" || (!isCurrentBrawl && i === (currentBrawl.length - 1))) ? "week week-this" : "week week-last"}>
 											<div className="container">
 													<div className="flex-row">
 															<div className="book-blocks book-blocks-feature">
@@ -242,7 +242,7 @@ export default class Brawl extends React.Component {
 																		{
 																			brawl.brawlers.map(function(brawler, i){
 																				let isFirstBrawler = (i === 0);
-																				let winPercentage = Math.round((brawler.votes / brawl.results.totalVotes) * 100) + "%";
+																				let winPercentage = (brawler.votes === 0 ? 0 : Math.round((brawler.votes / brawl.results.totalVotes) * 100)) + "%";
 																				//need to change to my user id
 
 																				//REPLACE "0" WITH THIS
@@ -258,7 +258,8 @@ export default class Brawl extends React.Component {
 																				}else{
 																					lastResult = brawl.results.winner.title + " won!"
 																				}
-
+																				let small_avatar = brawler.author.avatar.split("/").pop();
+																				let avatar = small_avatar === "Dog_1.png" || small_avatar === "blank-dog.png" ? "/assets/images/dog.gif" : "/assets/images/cat.gif"
 
 																				return (
 																					<li key={i}>
@@ -272,7 +273,7 @@ export default class Brawl extends React.Component {
 																											</div>
 																									</div>
 																								}
-																								<img src={brawler.author.avatar} alt="" />
+																								<img src={avatar} alt="" />
 																							</div>
 																						}
 																						<div className="book">
@@ -312,7 +313,7 @@ export default class Brawl extends React.Component {
 																										</div>
 																									}
 																								</div>
-																								<img src={brawler.author.avatar} alt="" />
+																								<img src={avatar} alt="" />
 																							</div>
 																						}
 																					</li>
@@ -335,6 +336,7 @@ export default class Brawl extends React.Component {
 							<ul>
 								{
 									brawlers.map((book, i)=>{
+										//Need to change
 										return (
 											<li key={i}>
 												<div className="content-block content-block-book">
