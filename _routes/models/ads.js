@@ -36,7 +36,7 @@ exports.createAd = (req, res)=>{
 	console.log(user);
 	if(user && user.role){
 		var page = req.body.page.toLowerCase();
-		var ad = {page: page, ad: true};
+		var ad = {page: page, ads: true};
 		ad = new mongoAd(ad);
 
 		ad.save().then((ad)=>{
@@ -53,11 +53,12 @@ exports.editAd = (req, res)=>{
 	var user = req.session;
 	if(user && user.role){
 		mongoAd.findOne({_id: req.params.id}).then((ad)=>{
-			if(!req.body.ad){
-				ad.ad = false;
+			if(ad.ads){
+				ad.ads = false;
 			}else{
-				ad.ad = true;
+				ad.ads = true;
 			}
+
 			ad.save().then((ad)=>{
 				handle.res(res, ad);
 			}).catch(err=>{

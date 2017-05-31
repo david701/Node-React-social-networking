@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import $ from 'jQuery';
-import {adExist} from '../../components/ads/Ad';
+import {AdElement} from '../../components/ads/Ad';
 
 import BookRow from '../../components/books/BooksRow';
 import Brawl from '../../components/brawl/Brawl';
@@ -92,13 +92,7 @@ class Home extends React.Component{
 				<Brawl me={this.state.user} page="home"/>
 				<section className="standard-section">
 						<div className="container">
-								{adExist("home") &&
-								<div className="content-block">
-										<div className="placeholder">
-												<h4>Ad Space</h4>
-										</div>
-								</div>
-								}
+								<AdElement page='home'/>
 								<div className="filter-controls">
 										<div className="flex-row">
 												<strong>View: </strong>
@@ -118,20 +112,10 @@ class Home extends React.Component{
 						{this.state.recommendedBooks && this.state.recommendedBooks.length?<BookRow title="Recommended" link='/books/all?view=recommended' books={this.state.recommendedBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>:''}
 
 						<BookRow title="Top Rated" link='/books/all?view=top' books={this.state.topBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
-						{adExist("home") &&
-							<div className="content-block-spread">
-									<div className="content-block">
-											<div className="placeholder">
-													<h4>Ad Space</h4>
-											</div>
-									</div>
-									<div className="content-block">
-											<div className="placeholder">
-													<h4>Ad Space</h4>
-											</div>
-									</div>
-							</div>
-						}
+						<div className="content-block-spread">
+							<AdElement page='home'/>
+							<AdElement page='home'/>
+						</div>
 					</div>
 				</section>
 			</div>

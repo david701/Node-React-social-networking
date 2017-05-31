@@ -54,6 +54,11 @@ exports.getBooks = (req, res)=>{
 		query.rating = {$gte : ratingFloor, $lt : ratingCeil}
 	}
 
+	if(req.query.brawlers){
+		query.brawl_submit = true;
+		query.brawl = {$exists: false};
+	}
+
 	if(req.query.author){
 		var authorList=[];
 		mongoUser.find({name:{ "$regex": req.query.author, "$options": "i" }}).select('_id').then((authors)=>{

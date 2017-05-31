@@ -9,13 +9,13 @@ import DescriptionContainer from './DescriptionContainer';
 import ViewBookContainer from './ViewBookContainer';
 import Claims from '../../components/claims/ClaimDetailsModal';
 
+import {AdElement} from '../../components/ads/Ad';
+
 const apiUrl = '/api/v1';
 
 const Placeholder = props => (
   <div className="content-block content-block-standard-new">
-    <div className="placeholder">
-      <h4>Ad Space</h4>
-    </div>
+    <AdElement page='dashboard'/>
   </div>
 );
 

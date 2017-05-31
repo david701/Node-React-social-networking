@@ -8,6 +8,8 @@ import RadioButton from '../../components/dashboard/RadioButton';
 import SearchCheckbox from '../../components/search/SearchCheckbox';
 import SearchCategory from '../../components/search/SearchCategory';
 
+import {AdElement} from '../../components/ads/Ad';
+
 import BookRow from '../../components/books/BooksRow';
 
 const apiUrl = '/api/v1';
@@ -228,16 +230,8 @@ export default class SearchContainer extends React.Component {
 							</form>
             </div>
             <div>
-              <div className="content-block">
-                <div className="placeholder">
-                  <h4>Ad Space</h4>
-                </div>
-              </div>
-              <div className="content-block">
-                <div className="placeholder">
-                  <h4>Ad Space</h4>
-                </div>
-              </div>
+              <AdElement page='search'/>
+							<AdElement page='search'/>
             </div>
           </div>
         </div>
