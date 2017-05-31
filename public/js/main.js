@@ -60919,7 +60919,7 @@ var LoginButtons = function (_React$Component) {
 										_react2.default.createElement(
 											'span',
 											null,
-											'Advanced Search'
+											'Search'
 										)
 									)
 								)
@@ -60930,11 +60930,6 @@ var LoginButtons = function (_React$Component) {
 				_react2.default.createElement(
 					'footer',
 					null,
-					_react2.default.createElement(
-						'form',
-						{ className: 'search-form' },
-						_react2.default.createElement('input', { type: 'search', placeholder: 'Search' })
-					),
 					_react2.default.createElement(
 						'a',
 						{ href: 'javascript:void(0)', onClick: _nightMode.toggleNightMode, className: 'button button-red button-night-mode day' },
