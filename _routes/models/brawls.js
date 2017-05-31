@@ -15,7 +15,7 @@ const handle = require('../helpers/handle.js');
 
 exports.getBrawls = (req, res)=>{
 	var limit = parseInt(req.query.limit) || 0;
-	mongoBrawl.find({}).limit(limit)
+	mongoBrawl.find({}).sort( [['_id', -1]] ).limit(limit)
 	.populate({
 		path: 'book_a',
 		select:'title cover rating author',
@@ -105,10 +105,11 @@ exports.editBrawl = (req, res)=>{
 	}
 	mongoBrawl.findOne({_id: req.params.id})
 	.then((brawl)=>{
+		if(user && user.role > 1){
+			if(req.body.status) brawl.status = parseInt(req.body.status);
+			brawl.updated_at = new Date();
+		}
 		if(req.body.vote && user){
-			if(user.role > 1){
-				if(req.body.status) brawl.status = parseInt(req.body.status);
-			}
 			if(brawl.status == 2){
 				if(req.body.vote == brawl.book_a.toString()) {
 					brawl.book_a_vote = brawl.book_a_vote.push(user._id);

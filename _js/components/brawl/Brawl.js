@@ -86,10 +86,15 @@ export default class Brawl extends React.Component {
 
 	declareWinner = (currentBrawl) => {
 		if(currentBrawl){
-			alert("Declare Winner")
+			var url = '/api/v1/brawls/'+this.state.currentBrawl[0]._id;
+			$.ajax({
+				url: url,
+				method: 'PUT',
+				data: {status: 2}
+			}).then((brawl)=>{
+				this.getBrawls();
+			});
 		}
-		e.preventDefault();
-		e.stopPropagation();
 	}
 
 	startBrawl = (isCreatePage) => {
@@ -134,8 +139,13 @@ export default class Brawl extends React.Component {
 
 	getBrawls = () => {
 		let {page} = this.props;
+		var url = '/api/v1/brawls';
 
-		$.get('/api/v1/brawls').then((brawls)=>{
+		if(page !== "admin"){
+			url = url + '?limit=2';
+		}
+
+		$.get(url).then((brawls)=>{
 			brawls = brawls.data;
 			var brawlsData = []
 			brawls.map((brawl, index)=>{
@@ -159,198 +169,16 @@ export default class Brawl extends React.Component {
 				brawl.brawlers = [brawl.book_a, brawl.book_b];
 				brawlsData.push(brawl);
 			})
-			console.log(brawlsData);
+
+			var currentBrawl = brawlsData;
+			if(page == "admin"){
+				currentBrawl = [brawlsData[0]]
+			}
+
+			this.setState({currentBrawl:currentBrawl , oldBrawls: brawlsData});
 		})
 
-		let brawls =  [
-   		{
-   		  _id: "0",
-	      brawlers:[
-	         {
-	            _id:"0",
-	            author:{
-	               _id:"0",
-	               name:"Elon Mitchell",
-	               avatar:"/assets/images/dog.gif"
-	            },
-	            cover:"/assets/images/samples/covers/1.jpg",
-	            title:"Some Book",
-	            rating:3,
-	            voters: ["1","2","3"],
-	            votes:3
-	         },
-	         {
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Terry Pierre",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            cover:"/assets/images/samples/covers/2.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["0"],
-	            votes:1
-	         }
-	      ],
-	      results:{
-	         declared:false,
-	         totalVotes:4,
-	         voters: ["0","1","2","3"],
-	         winner:{
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Elon Mitchell",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            title:"Some Book"
-	         }
-	      },
-	      updated_at:"XXXX-XX-XX"
-	   },
-	   {
-   		  _id: "1",
-	      brawlers:[
-	         {
-	            _id:"0",
-	            author:{
-	               _id:"0",
-	               name:"Ericka Emery",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            cover:"/assets/images/samples/covers/3.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["0"],
-	            votes:1
-	         },
-	         {
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Michael Way",
-	               avatar:"/assets/images/dog.gif"
-	            },
-	            cover:"/assets/images/samples/covers/4.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["1"],
-	            votes:1
-	         }
-	      ],
-	      results:{
-	         declared:true,
-	         totalVotes:2,
-	         voters: ["0","1"],
-	         winner:{
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Michael Way",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            title:"Some Book"
-	         }
-	      },
-	      updated_at:"XXXX-XX-XX"
-	   },{
-   		  _id: "2",
-	      brawlers:[
-	         {
-	            _id:"0",
-	            author:{
-	               _id:"0",
-	               name:"Deniesia Williford",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            cover:"/assets/images/samples/covers/feature-1.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["0"],
-	            votes:1
-	         },
-	         {
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Jarvis Williford",
-	               avatar:"/assets/images/dog.gif"
-	            },
-	            cover:"/assets/images/samples/covers/feature-2.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["1"],
-	            votes:1
-	         }
-	      ],
-	      results:{
-	         declared:true,
-	         totalVotes:2,
-	         voters: ["0","1"],
-	         winner:{
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Jarvis Willifod",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            title:"Some Book"
-	         }
-	      },
-	      updated_at:"XXXX-XX-XX"
-	   },{
-   		  _id: "3",
-	      brawlers:[
-	         {
-	            _id:"0",
-	            author:{
-	               _id:"0",
-	               name:"Sharla Pierre",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            cover:"/assets/images/default-cover-art.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["0"],
-	            votes:1
-	         },
-	         {
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Terry Pierre",
-	               avatar:"/assets/images/dog.gif"
-	            },
-	            cover:"/assets/images/default-cover-art.jpg",
-	            title:"Some Book",
-	            rating:5,
-	            voters: ["1"],
-	            votes:1
-	         }
-	      ],
-	      results:{
-	         declared:true,
-	         totalVotes:2,
-	         voters: ["0","1"],
-	         winner:{
-	            _id:"1",
-	            author:{
-	               _id:"1",
-	               name:"Sharla Pierre",
-	               avatar:"/assets/images/cat.gif"
-	            },
-	            title:"Some Book"
-	         }
-	      },
-	      updated_at:"XXXX-XX-XX"
-	   }];
 
-	   	if(page === "admin"){
-	   		this.setState({currentBrawl: brawls.slice(0, 1), oldBrawls: brawls});
-		}else{
-			this.setState({currentBrawl: brawls.slice(0, 2).reverse(), oldBrawls: brawls})
-		}
 	}
 
 	render() {
