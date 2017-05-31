@@ -30,6 +30,18 @@ router.get('/password-reset', (req, res)=>{
 	res.render('email', {title: 'Password Reset'})
 });
 
+router.get('/terms', (req, res)=>{
+	res.render('legal', {title: 'Terms'})
+});
+
+router.get('/privacy', (req, res)=>{
+	res.render('legal', {title: 'Privacy'})
+});
+
+router.get('/conduct', (req, res)=>{
+	res.render('legal', {title: 'Conduct'})
+});
+
 router.get('/report-sent', (req, res)=>{
 	res.render('email', {title: 'Report Sent'})
 });
