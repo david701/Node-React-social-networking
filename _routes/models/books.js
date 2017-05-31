@@ -10,6 +10,7 @@ const mongoUser = mongo.schema.user,
 			mongoReview = mongo.schema.review;
 
 const handle = require('../helpers/handle.js');
+const xp = require('../helpers/achievements.js');
 
 const saveImage = (bookId, img, cb) => {
 	var url = '/uploads/covers/';
@@ -292,8 +293,16 @@ exports.editBook = (req, res)=>{
 			}
 		});
 	}else{
-		mongoBook.findOne({_id: req.params.id}).update(req.body).then((update)=>{
-	    res.json({status: 'ok', data: req.params.id})
+		mongoBook.findOne({_id: req.params.id}).then((book)=>{
+			book.update(req.body).then((update)=>{
+				if(req.body.status && req.body.status == 2){
+					xp.publish(book.author, (err, user)=>{
+						res.json({status: 'ok', data: req.params.id})
+					})
+				}else{
+					res.json({status: 'ok', data: req.params.id})
+				}
+			})
 	  }).catch((err)=>{
 	    res.json({status: 'error', message: err});
 	  })
@@ -366,6 +375,10 @@ exports.unfollowBook = (req, res)=>{
 }
 
 exports.addChapter = (req, res)=>{
+	if(!req.session || !req.session._id){
+		handle.err(res, 'Not Logged in');
+		return;
+	}
   var book_id = req.params.id;
 
   if(!book_id || !req.body.number || !req.body.content || !req.body.name){
@@ -384,7 +397,9 @@ exports.addChapter = (req, res)=>{
         }
         var chapter = new mongoChapter(chapterInfo);
         chapter.save().then((chapter)=>{
-          res.json({status: 'ok', data: chapter});
+					xp.chapter(req.session._id, (err, user)=>{
+						res.json({status: 'ok', data: chapter});
+					})
         })
       }
     }).catch(function(err){
