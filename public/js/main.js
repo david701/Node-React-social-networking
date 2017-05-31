@@ -34454,9 +34454,14 @@ var Brawl = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (Brawl.__proto__ || Object.getPrototypeOf(Brawl)).call(this, props));
 
-		_this.vote = function (e, voterId, brawlerId) {
-			alert('voter id: ' + voterId + " brawler id: " + brawlerId);
-			_this.getBrawls();
+		_this.vote = function (e, brawlId, bookId) {
+			_jQuery2.default.ajax({
+				url: '/api/v1/brawls/' + brawlId,
+				method: 'PUT',
+				data: { vote: bookId }
+			}).then(function () {
+				_this.getBrawls();
+			});
 			e.preventDefault();
 			e.stopPropagation();
 		};
@@ -34848,7 +34853,7 @@ var Brawl = function (_React$Component) {
 														!iVoted && isCurrentBrawl && page !== "admin" && _react2.default.createElement(
 															'a',
 															{ href: 'javascript:void(0)', className: "button" + (!isCurrentBrawl ? " button-hidden" : ""), onClick: function onClick(e) {
-																	$this.vote(e, "0", brawler._id);
+																	$this.vote(e, brawl._id, brawler._id);
 																} },
 															'Vote'
 														)
