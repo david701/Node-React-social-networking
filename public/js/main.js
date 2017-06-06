@@ -58151,7 +58151,7 @@ var Library = function (_Component) {
             'See All'
           )
         ),
-        _react2.default.createElement(_UserBooks2.default, { books: books, author: author, library: this.props.library, user: this.props.user, loadUserInfo: this.props.loadUserInfo, loadBooks: this.props.loadBooks })
+        _react2.default.createElement(_UserBooks2.default, { title: title, books: books, author: author, library: this.props.library, user: this.props.user, loadUserInfo: this.props.loadUserInfo, loadBooks: this.props.loadBooks })
       );
     }
   }]);
@@ -58587,6 +58587,40 @@ var UserBooks = function (_React$Component) {
 			return _react2.default.createElement(
 				'ul',
 				null,
+				this.props.title == 'My Books' ? _react2.default.createElement(
+					'li',
+					null,
+					_react2.default.createElement(
+						'a',
+						{ href: '/dashboard/create/' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content-block content-block-book' },
+							_react2.default.createElement(
+								'figure',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'cover', style: { position: 'relative' } },
+									_react2.default.createElement(
+										'div',
+										{ style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5' } },
+										'+'
+									)
+								),
+								_react2.default.createElement(
+									'figcaption',
+									null,
+									_react2.default.createElement(
+										'h4',
+										null,
+										'Add Book'
+									)
+								)
+							)
+						)
+					)
+				) : '',
 				bookList
 			);
 		}
@@ -60787,26 +60821,17 @@ var LoginButtons = function (_React$Component) {
 											null,
 											_react2.default.createElement(
 												'a',
+												{ href: '/books/all?view=recommended' },
+												'Recommended'
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											null,
+											_react2.default.createElement(
+												'a',
 												{ href: '/books/all?view=top' },
 												'Top Rated'
-											)
-										),
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '/books/all?genres=Fantasy' },
-												'Fantasy Books'
-											)
-										),
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '/books/all?genres=Horror' },
-												'Horror Books'
 											)
 										)
 									)
@@ -60904,6 +60929,15 @@ var LoginButtons = function (_React$Component) {
 												null,
 												_react2.default.createElement(
 													'a',
+													{ href: '.' },
+													'Messages'
+												)
+											),
+											_react2.default.createElement(
+												'li',
+												null,
+												_react2.default.createElement(
+													'a',
 													{ href: 'javascript:void(0)', id: 'report-issue', className: 'modal-trigger modal-trigger-report-issue' },
 													'Report Issue'
 												)
@@ -60936,19 +60970,6 @@ var LoginButtons = function (_React$Component) {
 											'span',
 											null,
 											'Forum'
-										)
-									),
-									_react2.default.createElement(
-										'ul',
-										null,
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '.' },
-												'Messages'
-											)
 										)
 									)
 								),
@@ -60991,6 +61012,20 @@ var LoginButtons = function (_React$Component) {
 											'span',
 											null,
 											'Search'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: '/' },
+										_react2.default.createElement('div', { className: 'icon' }),
+										_react2.default.createElement(
+											'span',
+											null,
+											'Patreon'
 										)
 									)
 								)

@@ -123,14 +123,11 @@ class LoginButtons extends React.Component{
 														{this.state.loggedIn?<li>
 															 <a href="/books/all?view=user-library">My Library</a>
 													 </li>:''}
-		                        <li>
-		                            <a href="/books/all?view=top">Top Rated</a>
-		                        </li>
-		                        <li>
-		                            <a href="/books/all?genres=Fantasy">Fantasy Books</a>
-		                        </li>
+													 <li>
+													 		<a href="/books/all?view=recommended">Recommended</a>
+													 </li>
 														<li>
-		                            <a href="/books/all?genres=Horror">Horror Books</a>
+		                            <a href="/books/all?view=top">Top Rated</a>
 		                        </li>
 		                    </ul>
 		                </li>
@@ -176,6 +173,9 @@ class LoginButtons extends React.Component{
 				                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 				                            <a href="/dashboard/following/1">Following</a>
 				                        </li>
+																<li>
+				                            <a href=".">Messages</a>
+				                        </li>
 				                        <li>
 				                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
 				                        </li>
@@ -196,11 +196,6 @@ class LoginButtons extends React.Component{
 			                        </div>
 			                        <span>Forum</span>
 			                    </a>
-			                    <ul>
-			                        <li>
-			                            <a href=".">Messages</a>
-			                        </li>
-			                    </ul>
                 			</li>
 			                <li onClick={this._signOut}>
 			                    <a href="javascript:void(0)">
@@ -223,6 +218,14 @@ class LoginButtons extends React.Component{
 		                        <span>Search</span>
 		                    </a>
 		                </li>
+									<li>
+	                    <a href="/">
+	                        <div className="icon">
+
+	                        </div>
+	                        <span>Patreon</span>
+	                    </a>
+	                </li>
 	                </div>
               	</div>
             </ul>
