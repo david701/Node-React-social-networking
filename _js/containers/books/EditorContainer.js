@@ -76,6 +76,17 @@ export default class EditorContainer extends React.Component {
 		this.setState({editChapter: true})
 	}
 
+	deleteChapter = e =>{
+		const { bookId, chapterId, chapterNumber } = this.props;
+		e.preventDefault;
+		$.ajax({
+        url: `${apiUrl}/books/${bookId}/chapters/${chapterNumber}`,
+        type: 'DELETE'
+    }).then(()=>{
+			location.reload();
+		});
+	}
+
   render() {
 		var cardContent;
 		if(this.state.editChapter){
@@ -83,6 +94,7 @@ export default class EditorContainer extends React.Component {
 	        content={this.state.content}
 	        handleChange={this.handleChange}
 	        handleSubmit={this.handleSubmit}
+					deleteChapter={this.deleteChapter}
 	        name={this.state.name}
 	      />
 		}else{
