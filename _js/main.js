@@ -117,12 +117,9 @@ class LoginButtons extends React.Component{
 		                        <span>Browse</span>
 		                    </a>
 		                    <ul>
-		                        <li>
-		                            <a href="/books/all">All</a>
-		                        </li>
 														{this.state.loggedIn?<li>
-															 <a href="/books/all?view=user-library">My Library</a>
-													 </li>:''}
+															<a href="/books/all?view=user-library">My Library</a>
+													 	</li>:''}
 													 <li>
 													 		<a href="/books/all?view=recommended">Recommended</a>
 													 </li>
@@ -219,7 +216,7 @@ class LoginButtons extends React.Component{
 		                    </a>
 		                </li>
 									<li>
-	                    <a href="/">
+	                    <a href="https://www.patreon.com/bookbrawl" target="_blank">
 	                        <div className="icon">
 
 	                        </div>

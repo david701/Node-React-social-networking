@@ -54229,7 +54229,11 @@ var DashboardCreate = function (_Component) {
       var newTag = e.target.value;
       if (!tags.includes(newTag)) {
         var newAry = [].concat(_toConsumableArray(tags), [newTag]);
-        _this.setState(_extends({}, _this.state, { tags: newAry }));
+        if (newAry.length > 3) {
+          alert('Please only select 3 themes');
+        } else {
+          _this.setState(_extends({}, _this.state, { tags: newAry }));
+        }
       } else if (tags.includes(newTag)) {
         var _newAry = tags.filter(function (tag) {
           return tag !== newTag;
@@ -54334,7 +54338,7 @@ var DashboardCreate = function (_Component) {
             ),
             ' How would you like users to find you?'
           ),
-          _react2.default.createElement(Genres, { genres: _genres2.default, handleCheckbox: this._handleGenre }),
+          _react2.default.createElement(Genres, { checked: this.state.genre, genres: _genres2.default, handleCheckbox: this._handleGenre }),
           _react2.default.createElement(Tags, { tags: _tags2.default, handleCheckbox: this._handleTags }),
           _react2.default.createElement(Warnings, { warnings: _warnings2.default, handleCheckbox: this._handleWarnings }),
           _react2.default.createElement('hr', null),
@@ -54414,7 +54418,8 @@ var Description = exports.Description = function Description(_ref2) {
 
 var Genres = exports.Genres = function Genres(_ref3) {
   var genres = _ref3.genres,
-      handleCheckbox = _ref3.handleCheckbox;
+      handleCheckbox = _ref3.handleCheckbox,
+      checked = _ref3.checked;
   return _react2.default.createElement(
     'div',
     null,
@@ -54438,7 +54443,7 @@ var Genres = exports.Genres = function Genres(_ref3) {
       'div',
       { className: 'new-create-books-row' },
       genres.map(function (genre, index) {
-        return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox });
+        return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox, checked: checked && checked == genre ? 'checked' : '' });
       })
     )
   );
@@ -54465,7 +54470,7 @@ var Tags = exports.Tags = function Tags(_ref4) {
         _react2.default.createElement(
           'strong',
           null,
-          'two'
+          'three'
         ),
         ' fiction themes that best describe your book.'
       ),
@@ -58069,7 +58074,7 @@ var Editor = function (_Component) {
             { className: 'buttons' },
             _react2.default.createElement(
               'button',
-              { className: 'button button-gray' },
+              { className: 'button button-gray', onClick: this.props.deleteChapter },
               'Delete'
             ),
             _react2.default.createElement(
@@ -59856,6 +59861,19 @@ var EditorContainer = function (_React$Component) {
     }, _this.editChapter = function (e) {
       e.preventDefault;
       _this.setState({ editChapter: true });
+    }, _this.deleteChapter = function (e) {
+      var _this$props3 = _this.props,
+          bookId = _this$props3.bookId,
+          chapterId = _this$props3.chapterId,
+          chapterNumber = _this$props3.chapterNumber;
+
+      e.preventDefault;
+      _jQuery2.default.ajax({
+        url: apiUrl + '/books/' + bookId + '/chapters/' + chapterNumber,
+        type: 'DELETE'
+      }).then(function () {
+        location.reload();
+      });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -59881,6 +59899,7 @@ var EditorContainer = function (_React$Component) {
           content: this.state.content,
           handleChange: this.handleChange,
           handleSubmit: this.handleSubmit,
+          deleteChapter: this.deleteChapter,
           name: this.state.name
         });
       } else {
@@ -60798,15 +60817,6 @@ var LoginButtons = function (_React$Component) {
 									_react2.default.createElement(
 										'ul',
 										null,
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '/books/all' },
-												'All'
-											)
-										),
 										this.state.loggedIn ? _react2.default.createElement(
 											'li',
 											null,
@@ -61020,7 +61030,7 @@ var LoginButtons = function (_React$Component) {
 									null,
 									_react2.default.createElement(
 										'a',
-										{ href: '/' },
+										{ href: 'https://www.patreon.com/bookbrawl', target: '_blank' },
 										_react2.default.createElement('div', { className: 'icon' }),
 										_react2.default.createElement(
 											'span',

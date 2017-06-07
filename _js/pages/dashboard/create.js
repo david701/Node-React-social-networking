@@ -84,7 +84,11 @@ class DashboardCreate extends Component {
     const newTag = e.target.value;
     if (!tags.includes(newTag)) {
       const newAry = [...tags, newTag];
-      this.setState({...this.state, tags: newAry });
+			if(newAry.length > 3){
+				alert('Please only select 3 themes')
+			}else{
+				this.setState({...this.state, tags: newAry });
+			}
     } else if (tags.includes(newTag)) {
       const newAry = tags.filter(tag => tag !== newTag);
       this.setState({ ...this.state, tags: newAry });
@@ -168,7 +172,7 @@ class DashboardCreate extends Component {
           <BookType types={types} handleChange={this._handleType}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
-          <Genres genres={genres} handleCheckbox={this._handleGenre} />
+          <Genres checked={this.state.genre} genres={genres} handleCheckbox={this._handleGenre} />
           <Tags tags={tags} handleCheckbox={this._handleTags} />
           <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
           <hr />
@@ -204,12 +208,12 @@ export const Description = ({description, handleChange}) => (
   </div>
 );
 
-export const Genres = ({genres, handleCheckbox}) => (
+export const Genres = ({genres, handleCheckbox, checked}) => (
   <div>
     <p><span>*</span>Select <strong>one</strong> genre for your book to be listed.</p>
     <div className="new-create-books-row">
       {genres.map((genre, index) => (
-        <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} />
+        <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} checked={checked && checked == genre?'checked':''}/>
       ))}
     </div>
   </div>
@@ -218,7 +222,7 @@ export const Genres = ({genres, handleCheckbox}) => (
 export const Tags = ({tags, handleCheckbox}) => (
   <div>
     <div className="title">
-      <p><span>*</span>Select up to <strong>two</strong> fiction themes that best describe your book.</p>
+      <p><span>*</span>Select up to <strong>three</strong> fiction themes that best describe your book.</p>
       <span className="help-text">Please select at least one tag.</span>
     </div>
     <div className="new-create-books-row">
