@@ -123,6 +123,9 @@ class LoginButtons extends React.Component{
 													 <li>
 													 		<a href="/books/all?view=recommended">Recommended</a>
 													 </li>
+													 <li>
+														 <a href="/books/all?view=top">Trending</a>
+													 </li>
 														<li>
 		                            <a href="/books/all?view=top">Top Rated</a>
 		                        </li>
