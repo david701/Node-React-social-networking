@@ -6,15 +6,15 @@ import { validate, formValid } from '../plugins/validation.js';
 //list all of the genre's so we can loop through them
 const genres = ["Fantasy","Science Fiction",
                 "Horror","Non-Fiction","Mystery",
-                "Romance","Poetry","LitRPG"];
+                "Romance","FanFiction","LitRPG"];
 //list all of the genre's so we can loop through them
 const themes = ["Contemporary", "Historical",
                 "Drama", "ChickLit", "Tragedy",
                 "Adventure", "Urban", "Epic",
                 "Romance", "Spiritual", "Humor",
                 "Paranormal", "Young Adult",
-                "Middle Grade","Children","Thriller",
-                "Mystery","Classic"];
+                "Middle Grade","Gaming","Thriller",
+                "Mystery","Anime"];
 
 const Profile = function(){
   		  this.avatar = '';

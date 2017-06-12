@@ -20,8 +20,8 @@ const oldTags = ["Contemporary", "Historical",
                 "Adventure", "Urban", "Epic",
                 "Romance", "Spiritual", "Humor",
                 "Paranormal", "Young Adult",
-                "Middle Grade","Children","Thriller",
-                "Mystery","Classic"];
+                "Middle Grade","Gaming","Thriller",
+                "Mystery","Anime"];
 const oldGenres = ["Fantasy","Science Fiction",
                 "Horror","Non-Fiction","Mystery",
                 "Romance","Poetry","LitRPG"]
