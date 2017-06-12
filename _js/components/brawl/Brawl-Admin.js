@@ -18,13 +18,15 @@ export default class BrawlAdmin extends React.Component {
 	      title: "Current Brawl",
 	      showBrawlers: false,
 	      selectedBrawler: 0,
-	      startBrawl: false
+	      startBrawl: false,
+	      brawlType: "Published"
 	    };
 	}
 
   	componentDidMount() {
+  		const {brawlType} = this.state;
     	this.getBrawls();
-    	this.getBrawlers();
+    	this.getBrawlers(brawlType);
   	}
 
 	vote = (e,brawlId,bookId) => {
@@ -112,6 +114,12 @@ export default class BrawlAdmin extends React.Component {
 		e.stopPropagation();
 	}
 
+	changeType = (e) => {
+		this.getBrawlers(e.target.value);
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
 	pickBrawler = (brawl,book,e) => {
 		const {oldBrawls, selectedBrawler, currentBrawl} = this.state;
 		const brawlerID = ["a","b"]
@@ -132,11 +140,17 @@ export default class BrawlAdmin extends React.Component {
 		e.stopPropagation();
 	}
 
-	getBrawlers = () => {
+	filterBy = (array,prop,value) => {
+		return array.filter(function(obj,index){
+			return obj[prop] === value;
+		})
+	}
+
+	getBrawlers = (brawlType) => {
 		//real url
-		///api/v1/books?brawlers=true
+		///api/v1/books?brawlers=true&type=brawlType
 		$.get('/api/v1/books').then((brawlers)=>{
-			this.setState({brawlers: brawlers.data});
+			this.setState({brawlers: this.filterBy(brawlers.data,"type",brawlType)});
 		})
 	}
 
@@ -148,7 +162,7 @@ export default class BrawlAdmin extends React.Component {
 
 	render() {
 		const $this = this;
-		const {oldBrawls, title, brawlers, showBrawlers, startBrawl, selectedBrawler, currentBrawl} = this.state;
+		const {oldBrawls, title, brawlers, showBrawlers, startBrawl, selectedBrawler, currentBrawl, brawlType} = this.state;
 		const isCurrentBrawl = currentBrawl.status < 2;
 		const isDeclared = currentBrawl.status > 1;
 
@@ -184,6 +198,12 @@ export default class BrawlAdmin extends React.Component {
 					</div>
 				</main>
 				<div className={"brawlers book-blocks book-blocks-small" + (showBrawlers ? " open" : "")}>
+					<div className="dropdown">
+					<select id="selection" onChange={(e)=>{$this.changeType(e)}}>
+						<option value="Published" selected={brawlType === "Published"}>Published</option>
+						<option value="Serial" selected={brawlType === "Serial"}>Serial</option>
+					</select>
+					</div>
 					<ul>
 						{
 							brawlers.map((book, i)=>{

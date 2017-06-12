@@ -126,7 +126,7 @@ export default class Brawlers extends React.Component {
 										{brawl.book_b &&
 											<div className="book">
 												<a href="." className="content-block content-block-book">
-													<BookType type={brawl.book_a.type}/>
+													<BookType type={brawl.book_b.type}/>
 													<figure>
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_b.cover+")"}}>
 															{title !== "Create Brawl" ? (

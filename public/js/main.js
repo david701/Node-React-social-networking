@@ -34625,7 +34625,7 @@ var Brawlers = function (_React$Component) {
 									_react2.default.createElement(
 										'a',
 										{ href: '.', className: 'content-block content-block-book' },
-										_react2.default.createElement(_BookType2.default, { type: brawl.book_a.type }),
+										_react2.default.createElement(_BookType2.default, { type: brawl.book_b.type }),
 										_react2.default.createElement(
 											'figure',
 											null,
@@ -58333,6 +58333,12 @@ var BrawlAdmin = function (_React$Component) {
 			e.stopPropagation();
 		};
 
+		_this.changeType = function (e) {
+			_this.getBrawlers(e.target.value);
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
 		_this.pickBrawler = function (brawl, book, e) {
 			var _this$state = _this.state,
 			    oldBrawls = _this$state.oldBrawls,
@@ -58357,11 +58363,17 @@ var BrawlAdmin = function (_React$Component) {
 			e.stopPropagation();
 		};
 
-		_this.getBrawlers = function () {
+		_this.filterBy = function (array, prop, value) {
+			return array.filter(function (obj, index) {
+				return obj[prop] === value;
+			});
+		};
+
+		_this.getBrawlers = function (brawlType) {
 			//real url
-			///api/v1/books?brawlers=true
+			///api/v1/books?brawlers=true&type=brawlType
 			_jQuery2.default.get('/api/v1/books').then(function (brawlers) {
-				_this.setState({ brawlers: brawlers.data });
+				_this.setState({ brawlers: _this.filterBy(brawlers.data, "type", brawlType) });
 			});
 		};
 
@@ -58378,7 +58390,8 @@ var BrawlAdmin = function (_React$Component) {
 			title: "Current Brawl",
 			showBrawlers: false,
 			selectedBrawler: 0,
-			startBrawl: false
+			startBrawl: false,
+			brawlType: "Published"
 		};
 		return _this;
 	}
@@ -58386,8 +58399,10 @@ var BrawlAdmin = function (_React$Component) {
 	_createClass(BrawlAdmin, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
+			var brawlType = this.state.brawlType;
+
 			this.getBrawls();
-			this.getBrawlers();
+			this.getBrawlers(brawlType);
 		}
 	}, {
 		key: 'render',
@@ -58402,7 +58417,8 @@ var BrawlAdmin = function (_React$Component) {
 			    showBrawlers = _state.showBrawlers,
 			    startBrawl = _state.startBrawl,
 			    selectedBrawler = _state.selectedBrawler,
-			    currentBrawl = _state.currentBrawl;
+			    currentBrawl = _state.currentBrawl,
+			    brawlType = _state.brawlType;
 
 			var isCurrentBrawl = currentBrawl.status < 2;
 			var isDeclared = currentBrawl.status > 1;
@@ -58469,6 +58485,26 @@ var BrawlAdmin = function (_React$Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: "brawlers book-blocks book-blocks-small" + (showBrawlers ? " open" : "") },
+					_react2.default.createElement(
+						'div',
+						{ className: 'dropdown' },
+						_react2.default.createElement(
+							'select',
+							{ id: 'selection', onChange: function onChange(e) {
+									$this.changeType(e);
+								} },
+							_react2.default.createElement(
+								'option',
+								{ value: 'Published', selected: brawlType === "Published" },
+								'Published'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 'Serial', selected: brawlType === "Serial" },
+								'Serial'
+							)
+						)
+					),
 					_react2.default.createElement(
 						'ul',
 						null,
