@@ -58654,8 +58654,8 @@ var Brawl = function (_React$Component) {
 							'div',
 							{ className: 'flex-row' },
 							_react2.default.createElement(
-								'div',
-								{ className: 'week-control-last' },
+								'a',
+								{ href: '#last-week', className: 'week-control-last' },
 								_react2.default.createElement(
 									'span',
 									{ className: 'label label-small' },

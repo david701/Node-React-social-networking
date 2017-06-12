@@ -47,10 +47,10 @@ export default class Brawl extends React.Component {
 					<header>
 						<div className="container">
 							<div className="flex-row">
-									<div className="week-control-last">
+									<a href="#last-week" className="week-control-last">
 										<span className="label label-small">Previous</span>
 										<span className="label label-large">Last Week’s Brawl</span>
-									</div>
+									</a>
 								<h2>
 									<span className="week-title week-title-this">{title}</span>
 									<span className="week-title week-title-last">Last Week’s Brawl</span>
