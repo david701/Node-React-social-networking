@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import {validate, formValid} from '../plugins/validation.js';
 import Library from './books/Library';
-import Brawl from '../components/brawl/Brawl';
+import BrawlAdmin from '../components/brawl/Brawl-Admin';
 import {Ads, AdElement} from '../components/ads/Ad';
 
 import Claims from './claims/ClaimDetailsModal';
@@ -444,7 +444,7 @@ class Parent extends React.Component {
 								<h4>Current Book Brawls</h4>
 							</div>
 							<div className="book-blocks book-blocks-small">
-								<Brawl me={this.state.user} page="admin"/>
+								<BrawlAdmin />
 							</div>
 							<hr />
 							<h4>Account Settings</h4>

@@ -22,9 +22,7 @@ class Home extends React.Component{
 	getUser = ()=>{
 		$.get(`${apiUrl}/user_session`).then((user)=>{
 			if(user.data._id){
-				$.get(`${apiUrl}/users/${user.data._id}?book_list=true`).then((user)=>{
-					this.setState({user:user.data});
-				})
+				this.setState({user:user.data});
 			}
 		})
 	}
@@ -89,7 +87,7 @@ class Home extends React.Component{
 	render(){
 		return(
 			<div>
-				<Brawl me={this.state.user} page="home"/>
+				<Brawl me={this.state.user}/>
 				<section className="standard-section">
 						<div className="container">
 								<AdElement page='home'/>

@@ -20,6 +20,9 @@
         display: none;
     }
 }
+.book-spacing {
+    padding: 20px !important;
+}
 #night-mode {
     .brawl-feature {
         position: relative;
@@ -729,12 +732,9 @@
         }
         h2 {
             float: right;
-            width: 65%;
+            width: 45%;
             text-align: left;
             text-indent: 10px;
-        }
-        .week-control-this {
-            width: 35%;
         }
         .week-control-this {
             width: 35%;

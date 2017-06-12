@@ -83,6 +83,29 @@ class Author extends React.Component{
 		});
 	}
 
+	enterBrawl = (book) => {
+		//let book_data = {
+		//	cover: book.cover,
+		//	description: book.description,
+		//	genre: book.genre,
+		//	tags: book.tags,
+		//	title: book.title,
+		//	type: book.type,
+		//	warnings: book.warnings
+		//}
+        //$.ajax({
+        //    url: '/api/v1/books/' + book._id,
+        //    type: 'put',
+        //    data: JSON.stringify(book_data),
+        //    brawl_submit: true,
+       //     dataType: 'json',
+        //    contentType: 'application/json; charset=UTF-8',
+        //    success: function(response){
+        //    	console.log(response.data)
+        //    }
+       // });
+	}
+
 	loadAuthorsBooks(userId){
 		let self = this;
 		$.get(`/api/v1/users/${userId}/books`)
@@ -97,7 +120,6 @@ class Author extends React.Component{
 		let myAccount = followers.filter(function(follower,index){
 			return follower._id === userId;
 		});
-
 		return myAccount.length > 0;
 	}
 
@@ -114,6 +136,7 @@ class Author extends React.Component{
 
 	render(){
 		let following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
+		self = this,
 		authors = this.state.user.following_authors;
 
 		if(authors){
@@ -267,7 +290,7 @@ class Author extends React.Component{
 					</ul>
 					*/}
 				</div>
-                {this.state.authorsBooks.length > 0 &&
+                {this.state.authorsBooks &&
                   <div>
                   	  <hr/>
 	    			  <div className="title-row">
@@ -285,6 +308,9 @@ class Author extends React.Component{
 		                              <div className="cover pending">
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
+		                                  {self.state.me.role > 0 &&
+		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}}>Brawl</a>
+		                                  }
 		                                </div>
 		                              </div>
 		                              <figcaption>
