@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
 import Brawlers from './Brawlers.js';
+import BookType from '../BookType.js';
 import moment from 'moment';
 
 let currentResult = "";
@@ -190,6 +191,7 @@ export default class BrawlAdmin extends React.Component {
 								return (
 									<li key={i}>
 										<div className="content-block content-block-book">
+											<BookType type={book.type}/>
 											<figure>
 												<div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 													<div className="overlay">

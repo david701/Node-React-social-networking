@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
+import BookType from '../BookType.js';
 
 export default class Brawlers extends React.Component {
 
@@ -95,6 +96,7 @@ export default class Brawlers extends React.Component {
 										{brawl.book_a &&
 											<div className="book">
 												<a href="." className="content-block content-block-book">
+													<BookType type={brawl.book_a.type}/>
 													<figure>
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_a.cover+")"}}>
 															{title !== "Create Brawl" ? (
@@ -124,6 +126,7 @@ export default class Brawlers extends React.Component {
 										{brawl.book_b &&
 											<div className="book">
 												<a href="." className="content-block content-block-book">
+													<BookType type={brawl.book_a.type}/>
 													<figure>
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_b.cover+")"}}>
 															{title !== "Create Brawl" ? (

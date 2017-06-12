@@ -5,7 +5,20 @@
 // ----------
 
 //Night Mode
-
+.type-of-book {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    position: absolute;
+    right: -11px;
+    top: -12px;
+    background: red;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+    border-radius: 100%;
+    font-weight: bold;
+}
 #night-mode {
 	.title-row {
 		display: flex;

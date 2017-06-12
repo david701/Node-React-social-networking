@@ -34405,6 +34405,10 @@ var _Rating = __webpack_require__(23);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
+var _BookType = __webpack_require__(529);
+
+var _BookType2 = _interopRequireDefault(_BookType);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34553,6 +34557,7 @@ var Brawlers = function (_React$Component) {
 									_react2.default.createElement(
 										'a',
 										{ href: '.', className: 'content-block content-block-book' },
+										_react2.default.createElement(_BookType2.default, { type: brawl.book_a.type }),
 										_react2.default.createElement(
 											'figure',
 											null,
@@ -34620,6 +34625,7 @@ var Brawlers = function (_React$Component) {
 									_react2.default.createElement(
 										'a',
 										{ href: '.', className: 'content-block content-block-book' },
+										_react2.default.createElement(_BookType2.default, { type: brawl.book_a.type }),
 										_react2.default.createElement(
 											'figure',
 											null,
@@ -58214,6 +58220,10 @@ var _Brawlers = __webpack_require__(87);
 
 var _Brawlers2 = _interopRequireDefault(_Brawlers);
 
+var _BookType = __webpack_require__(529);
+
+var _BookType2 = _interopRequireDefault(_BookType);
+
 var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
@@ -58470,6 +58480,7 @@ var BrawlAdmin = function (_React$Component) {
 								_react2.default.createElement(
 									'div',
 									{ className: 'content-block content-block-book' },
+									_react2.default.createElement(_BookType2.default, { type: book.type }),
 									_react2.default.createElement(
 										'figure',
 										null,
@@ -80822,6 +80833,82 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BookType = function (_React$Component) {
+	_inherits(BookType, _React$Component);
+
+	function BookType(props) {
+		_classCallCheck(this, BookType);
+
+		return _possibleConstructorReturn(this, (BookType.__proto__ || Object.getPrototypeOf(BookType)).call(this, props));
+	}
+
+	_createClass(BookType, [{
+		key: "render",
+		value: function render() {
+			var type = this.props.type;
+
+			var typeOfBook = void 0;
+
+			if (type === "Serial") {
+				typeOfBook = "S";
+			} else if (type === "Published") {
+				typeOfBook = "P";
+			}
+
+			return _react2.default.createElement(
+				"div",
+				{ className: "type-of-book" },
+				typeOfBook
+			);
+		}
+	}]);
+
+	return BookType;
+}(_react2.default.Component);
+
+exports.default = BookType;
 
 /***/ })
 /******/ ]);
