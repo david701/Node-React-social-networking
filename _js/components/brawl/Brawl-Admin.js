@@ -49,33 +49,33 @@ export default class BrawlAdmin extends React.Component {
 	}
 
 	handleChange = (e) => {
-		const newBrawl = {
-	      	book_a: {
-	            _id:"",
-	            author:{
-	               _id:"0",
-	               name:"Brawler Name",
-	               avatar:"/assets/images/blank-dog.png"
-	            },
-	            cover:"/assets/images/default-brawl-art.jpg",
-	            title:"Some Book",
-	            rating:0
-	    	},
-	    	book_a_vote: [],
-	        book_b: {
-	            _id:"",
-	            author:{
-	               _id:"1",
-	               name:"Brawler Name",
-	               avatar:"/assets/images/blank-cat.png"
-	            },
-	            cover:"/assets/images/default-brawl-art.jpg",
-	            title:"Some Book",
-	            rating:0
-	        },
-	        book_b_vote: [],
-	        _id: "0"
-	   	}
+		let newBrawl = {
+		  	book_a: {
+		        _id:"",
+		        author:{
+		           _id:"0",
+		           name:"Brawler Name",
+		           avatar:"/assets/images/blank-dog.png"
+		        },
+		        cover:"/assets/images/default-brawl-art.jpg",
+		        title:"Some Book",
+		        rating:0
+			},
+			book_a_vote: [],
+		    book_b: {
+		        _id:"",
+		        author:{
+		           _id:"1",
+		           name:"Brawler Name",
+		           avatar:"/assets/images/blank-cat.png"
+		        },
+		        cover:"/assets/images/default-brawl-art.jpg",
+		        title:"Some Book",
+		        rating:0
+		    },
+		    book_b_vote: [],
+		    _id: "0"
+		}
 		let createBrawlSelected = e.target.value === "Create Brawl"
 		let currentBrawl = createBrawlSelected ? newBrawl : this.findBrawlByProp('_id',e.target.value);
 		let title = createBrawlSelected ? "Create Brawl" : (e.target.selectedIndex === 1) ? "Current Brawl" : moment(currentBrawl.updated_at).format('MM-DD-YYYY') + " Brawl";
@@ -121,6 +121,35 @@ export default class BrawlAdmin extends React.Component {
 
 	changeType = (e) => {
 		this.getBrawlers(e.target.value);
+		let newBrawl = {
+		  	book_a: {
+		        _id:"",
+		        author:{
+		           _id:"0",
+		           name:"Brawler Name",
+		           avatar:"/assets/images/blank-dog.png"
+		        },
+		        cover:"/assets/images/default-brawl-art.jpg",
+		        title:"Some Book",
+		        rating:0
+			},
+			book_a_vote: [],
+		    book_b: {
+		        _id:"",
+		        author:{
+		           _id:"1",
+		           name:"Brawler Name",
+		           avatar:"/assets/images/blank-cat.png"
+		        },
+		        cover:"/assets/images/default-brawl-art.jpg",
+		        title:"Some Book",
+		        rating:0
+		    },
+		    book_b_vote: [],
+		    _id: "0"
+		}
+		$('.pick0,.pick1').removeClass('pick0 pick1');
+	   	this.setState({currentBrawl: newBrawl})
 		e.preventDefault();
 		e.stopPropagation();
 	}
@@ -225,6 +254,7 @@ export default class BrawlAdmin extends React.Component {
 											<figure>
 												<div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 													<div className="overlay">
+														<a target="_blank" href={"/books/" + book._id} className="button button-white">Preview</a>
 														<a href="javascript:void(0)" onClick={(e) => {$this.pickBrawler(title === "Create Brawl",book,e)}} className="button button-white" id={book._id}>Brawl</a>
 													</div>
 												</div>

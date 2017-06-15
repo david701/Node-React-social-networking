@@ -58424,6 +58424,35 @@ var BrawlAdmin = function (_React$Component) {
 
 		_this.changeType = function (e) {
 			_this.getBrawlers(e.target.value);
+			var newBrawl = {
+				book_a: {
+					_id: "",
+					author: {
+						_id: "0",
+						name: "Brawler Name",
+						avatar: "/assets/images/blank-dog.png"
+					},
+					cover: "/assets/images/default-brawl-art.jpg",
+					title: "Some Book",
+					rating: 0
+				},
+				book_a_vote: [],
+				book_b: {
+					_id: "",
+					author: {
+						_id: "1",
+						name: "Brawler Name",
+						avatar: "/assets/images/blank-cat.png"
+					},
+					cover: "/assets/images/default-brawl-art.jpg",
+					title: "Some Book",
+					rating: 0
+				},
+				book_b_vote: [],
+				_id: "0"
+			};
+			(0, _jQuery2.default)('.pick0,.pick1').removeClass('pick0 pick1');
+			_this.setState({ currentBrawl: newBrawl });
 			e.preventDefault();
 			e.stopPropagation();
 		};
@@ -58621,6 +58650,11 @@ var BrawlAdmin = function (_React$Component) {
 											_react2.default.createElement(
 												'div',
 												{ className: 'overlay' },
+												_react2.default.createElement(
+													'a',
+													{ target: '_blank', href: "/books/" + book._id, className: 'button button-white' },
+													'Preview'
+												),
 												_react2.default.createElement(
 													'a',
 													{ href: 'javascript:void(0)', onClick: function onClick(e) {

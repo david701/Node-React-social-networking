@@ -2711,6 +2711,10 @@ form .instructions {
     box-shadow: none;
     cursor: default; }
 
+.brawlers > ul > li {
+  width: 125px !important;
+  min-width: 125px; }
+
 .pick0, .pick1 {
   opacity: 0.1; }
   .pick0 .button, .pick1 .button {
