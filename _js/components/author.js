@@ -84,26 +84,18 @@ class Author extends React.Component{
 	}
 
 	enterBrawl = (book) => {
-		//let book_data = {
-		//	cover: book.cover,
-		//	description: book.description,
-		//	genre: book.genre,
-		//	tags: book.tags,
-		//	title: book.title,
-		//	type: book.type,
-		//	warnings: book.warnings
-		//}
-        //$.ajax({
-        //    url: '/api/v1/books/' + book._id,
-        //    type: 'put',
-        //    data: JSON.stringify(book_data),
-        //    brawl_submit: true,
-       //     dataType: 'json',
-        //    contentType: 'application/json; charset=UTF-8',
-        //    success: function(response){
-        //    	console.log(response.data)
-        //    }
-       // });
+        $.ajax({
+            url: '/api/v1/books/' + book._id,
+            type: 'PUT',
+       		data: {
+				brawl_submit: true,
+			},
+       		dataType: 'json',
+        	contentType: 'application/json; charset=UTF-8',
+        	success: function(response){
+        		console.log(response.data)
+          	}
+       	});
 	}
 
 	loadAuthorsBooks(userId){
@@ -308,7 +300,7 @@ class Author extends React.Component{
 		                              <div className="cover pending">
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
-		                                  {self.state.me.role > 0 &&
+		                                  {self.state.me.role > 0 && book.brawl &&
 		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}}>Brawl</a>
 		                                  }
 		                                </div>

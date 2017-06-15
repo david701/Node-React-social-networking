@@ -24,7 +24,7 @@ const oldTags = ["Contemporary", "Historical",
                 "Mystery","Anime"];
 const oldGenres = ["Fantasy","Science Fiction",
                 "Horror","Non-Fiction","Mystery",
-                "Romance","Poetry","LitRPG"]
+                "Romance","FanFiction","LitRPG"]
 
 export default class SearchContainer extends React.Component {
 		state = {

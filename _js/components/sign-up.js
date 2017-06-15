@@ -7,8 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { validate, formValid } from '../plugins/validation.js';
 
 //variables that will never change
-const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","Poetry","LitRPG"];
-const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Children","Thriller","Mystery","Classic"];
+const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","FanFiction","LitRPG"];
+const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Gaming","Thriller","Mystery","Anime"];
 const Profile = function(){
 		this.avatar = '/assets/images/avatars/Dog_1.png';
     	this.name = '';
