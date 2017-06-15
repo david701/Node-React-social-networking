@@ -101,7 +101,7 @@ export default class Brawlers extends React.Component {
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_a.cover+")"}}>
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
-																		<button className="button button-red" href={"/books/0"}>Preview</button>
+																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
 																		<button className="button button-white" href=".">Add to Library</button>
 																	</div>
 																) : (
@@ -131,7 +131,7 @@ export default class Brawlers extends React.Component {
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_b.cover+")"}}>
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
-																		<button className="button button-red" href={"/books/0"}>Preview</button>
+																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
 																		<button className="button button-white" href=".">Add to Library</button>
 																	</div>
 																) : (

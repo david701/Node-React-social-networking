@@ -34628,8 +34628,8 @@ var Brawlers = function (_React$Component) {
 													'div',
 													{ className: 'overlay' },
 													_react2.default.createElement(
-														'button',
-														{ className: 'button button-red', href: "/books/0" },
+														'a',
+														{ className: 'button button-red', href: "/books/" + brawl.book_a._id },
 														'Preview'
 													),
 													_react2.default.createElement(
@@ -34696,8 +34696,8 @@ var Brawlers = function (_React$Component) {
 													'div',
 													{ className: 'overlay' },
 													_react2.default.createElement(
-														'button',
-														{ className: 'button button-red', href: "/books/0" },
+														'a',
+														{ className: 'button button-red', href: "/books/" + brawl.book_b._id },
 														'Preview'
 													),
 													_react2.default.createElement(
