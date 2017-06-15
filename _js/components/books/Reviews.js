@@ -72,7 +72,7 @@ export default class Reviews extends React.Component{
 	}
 
 	toggleSubmit = (e)=>{
-		this.setState({disabled: !isValid('required',e.target)})
+		this.setState({disabled: !isValid('minLength',e.target)})
 	}
 
 	handleRating = (rating)=>{
@@ -117,10 +117,10 @@ export default class Reviews extends React.Component{
 				        value={this.state.rating}
 				        onStarClick={this.handleRating}
 				      />
-						<hr className="dividers"/>
 						<li className="review-area">
-							<div className="help-text"></div>
-							<textarea rows='4' name="content" id="text-box" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-validation="required" value={this.state.content}></textarea>
+							<hr className="dividers"/>
+							<div className="help-text">Reviews should be more than 50 characters</div>
+							<textarea rows='4' name="content" id="text-box" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-minLength="50" data-validation="minLength" value={this.state.content}></textarea>
 						</li>
 						<div style={{float:'right'}}>
 							<button className="button-white" onClick={this.cancelReview} style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginRight: '1rem', marginTop: '1rem', display:'inline-block'}}>Cancel</button>

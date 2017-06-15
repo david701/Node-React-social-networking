@@ -28086,6 +28086,12 @@ var isValid = function isValid(validate, input) {
         case "minChecks":
             valid = minCheckboxes(input);
             break;
+        case "minLength":
+            valid = value.length >= parseInt(input.dataset.minlength);
+            break;
+        case "maxlength":
+            valid = value.length <= parseInt(input.dataset.maxLength);
+            break;
     }
     return valid;
 };
@@ -57804,7 +57810,7 @@ var Reviews = function (_React$Component) {
 			_this.toggleSubmit(e);
 			_this.setState(state);
 		}, _this.toggleSubmit = function (e) {
-			_this.setState({ disabled: !(0, _validation.isValid)('required', e.target) });
+			_this.setState({ disabled: !(0, _validation.isValid)('minLength', e.target) });
 		}, _this.handleRating = function (rating) {
 			_this.setState({ rating: rating });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
@@ -57895,14 +57901,18 @@ var Reviews = function (_React$Component) {
 							value: this.state.rating,
 							onStarClick: this.handleRating
 						}),
-						_react2.default.createElement('hr', { className: 'dividers' }),
 						_react2.default.createElement(
 							'li',
 							{ className: 'review-area' },
-							_react2.default.createElement('div', { className: 'help-text' }),
+							_react2.default.createElement('hr', { className: 'dividers' }),
+							_react2.default.createElement(
+								'div',
+								{ className: 'help-text' },
+								'Reviews should be more than 50 characters'
+							),
 							_react2.default.createElement('textarea', { rows: '4', name: 'content', id: 'text-box', onChange: function onChange(e) {
 									_this2._onChange(e);(0, _validation.validate)(e);
-								}, onBlur: _validation.validate, 'data-validation': 'required', value: this.state.content })
+								}, onBlur: _validation.validate, 'data-minLength': '50', 'data-validation': 'minLength', value: this.state.content })
 						),
 						_react2.default.createElement(
 							'div',
