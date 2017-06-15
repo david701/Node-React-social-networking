@@ -275,6 +275,11 @@
               align-items: center;
               transition: visibility $timing-normal, opacity $timing-normal;
               opacity: 0;
+              .button-red.disabled {
+                background: #efefef;
+                color: #bdbdbd;
+                cursor: default;
+              }
               .button {
                 width: rem(170);
                 max-width: calc(100% - #{$gutter*2});

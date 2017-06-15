@@ -84,18 +84,20 @@ class Author extends React.Component{
 	}
 
 	enterBrawl = (book) => {
-        $.ajax({
-            url: '/api/v1/books/' + book._id,
-            type: 'PUT',
-       		data: {
-				brawl_submit: true,
-			},
-       		dataType: 'json',
-        	contentType: 'application/json; charset=UTF-8',
-        	success: function(response){
-        		console.log(response.data)
-          	}
-       	});
+		if(!book.brawl){
+	        $.ajax({
+	            url: '/api/v1/books/' + book._id,
+	            type: 'PUT',
+	       		data: {
+					brawl_submit: true,
+				},
+	       		dataType: 'json',
+	        	contentType: 'application/json; charset=UTF-8',
+	        	success: function(response){
+	        		this.loadAuthorsBooks(this.state.id);
+	          	}
+	       	});
+    	}
 	}
 
 	loadAuthorsBooks(userId){
@@ -293,6 +295,7 @@ class Author extends React.Component{
 		                  <ul>
 		                  {
 		                    this.state.authorsBooks.map(function(book, i){
+		                      let isBrawler = book.brawl ? true : false;
 		                      return (
 		                        <li key={i}>
 		                          <div className="content-block content-block-book">
@@ -300,8 +303,8 @@ class Author extends React.Component{
 		                              <div className="cover pending">
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
-		                                  {self.state.me.role > 0 && book.brawl &&
-		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}}>Brawl</a>
+		                                  {self.state.me.role > 0 &&
+		                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}} disabled={isBrawler}>Brawl</a>
 		                                  }
 		                                </div>
 		                              </div>

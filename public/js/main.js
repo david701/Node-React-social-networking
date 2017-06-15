@@ -50018,18 +50018,20 @@ var Author = function (_React$Component) {
 		};
 
 		_this.enterBrawl = function (book) {
-			_jquery2.default.ajax({
-				url: '/api/v1/books/' + book._id,
-				type: 'PUT',
-				data: {
-					brawl_submit: true
-				},
-				dataType: 'json',
-				contentType: 'application/json; charset=UTF-8',
-				success: function success(response) {
-					console.log(response.data);
-				}
-			});
+			if (!book.brawl) {
+				_jquery2.default.ajax({
+					url: '/api/v1/books/' + book._id,
+					type: 'PUT',
+					data: {
+						brawl_submit: true
+					},
+					dataType: 'json',
+					contentType: 'application/json; charset=UTF-8',
+					success: function success(response) {
+						this.loadAuthorsBooks(this.state.id);
+					}
+				});
+			}
 		};
 
 		_this.user = new Profile();
@@ -50393,6 +50395,7 @@ var Author = function (_React$Component) {
 							'ul',
 							null,
 							this.state.authorsBooks.map(function (book, i) {
+								var isBrawler = book.brawl ? true : false;
 								return _react2.default.createElement(
 									'li',
 									{ key: i },
@@ -50413,11 +50416,11 @@ var Author = function (_React$Component) {
 														{ className: 'button button-red', href: '/books/' + book._id },
 														'Preview'
 													),
-													self.state.me.role > 0 && book.brawl && _react2.default.createElement(
+													self.state.me.role > 0 && _react2.default.createElement(
 														'a',
-														{ className: 'button button-red', href: 'javascript:void(0)', onClick: function onClick(e) {
+														{ className: "button button-red" + (book.brawl ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
 																self.enterBrawl(book);
-															} },
+															}, disabled: isBrawler },
 														'Brawl'
 													)
 												)
@@ -58056,18 +58059,20 @@ var UserBooks = function (_React$Component) {
 				_this.props.loadUserInfo(_this.props.user._id);
 			});
 		}, _this.enterBrawl = function (book) {
-			_jQuery2.default.ajax({
-				url: '/api/v1/books/' + book._id,
-				type: 'PUT',
-				data: {
-					brawl_submit: true
-				},
-				dataType: 'json',
-				contentType: 'application/json; charset=UTF-8',
-				success: function success(response) {
-					console.log(response.data);
-				}
-			});
+			if (!book.brawl) {
+				_jQuery2.default.ajax({
+					url: '/api/v1/books/' + book._id,
+					type: 'PUT',
+					data: {
+						brawl_submit: true
+					},
+					dataType: 'json',
+					contentType: 'application/json; charset=UTF-8',
+					success: function success(response) {
+						this.props.loadBooks(this.props.user._id);
+					}
+				});
+			}
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -58117,9 +58122,9 @@ var UserBooks = function (_React$Component) {
 										{ className: 'button button-red', href: '/books/' + book._id },
 										'Edit'
 									),
-									book.brawl && _react2.default.createElement(
+									_react2.default.createElement(
 										'span',
-										{ className: 'button button-red', onClick: function onClick() {
+										{ className: "button button-red" + (book.brawl ? " disabled" : ""), onClick: function onClick() {
 												_this2.enterBrawl(book);
 											} },
 										'Brawl'

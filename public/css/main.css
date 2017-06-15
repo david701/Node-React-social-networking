@@ -3470,6 +3470,10 @@ form .instructions {
             align-items: center;
             transition: visibility 0.1875s ease-out, opacity 0.1875s ease-out;
             opacity: 0; }
+            .book-blocks > ul > li .content-block figure .cover .overlay .button-red.disabled {
+              background: #efefef;
+              color: #bdbdbd;
+              cursor: default; }
             .book-blocks > ul > li .content-block figure .cover .overlay .button {
               width: 10.625rem;
               max-width: calc(100% - 3em);
