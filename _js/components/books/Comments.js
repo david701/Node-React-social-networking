@@ -1,8 +1,9 @@
 import React from 'react';
 import $ from 'jQuery';
+import { validate, isValid } from '../../plugins/validation.js';
 
 export default class Comments extends React.Component{
-	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem',transition: 'right 0.25s'}, comments:[]}
+	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem',transition: 'right 0.25s'}, comments:[], disabled: true}
 
 	componentDidMount(){
 		if(this.props.chapterId){
@@ -17,7 +18,13 @@ export default class Comments extends React.Component{
 	_onChange = (e)=>{
 		var state = {};
 		state[e.target.name]=e.target.value;
+		validate(e);
+		this.toggleSubmit(e)
 		this.setState(state);
+	}
+
+	toggleSubmit = (e)=>{
+		this.setState({disabled: !isValid('required',e.target)})
 	}
 
 	toggleComments = ()=>{
@@ -34,7 +41,7 @@ export default class Comments extends React.Component{
 			$.get(`/api/v1/chapter/${chapter_id}/comments`)
 			.then((resp)=>{
 				var comments = resp.data;
-				this.setState({comments: comments, comment:''});
+				this.setState({comments: comments, comment:'', disabled: true});
 			})
 		}
 	}
@@ -97,9 +104,9 @@ export default class Comments extends React.Component{
 						{comments}
 					</ul>
 					<div className="comments_add" style={{position:'absolute', bottom:0, left:0, right:0, padding:'0.5rem', background:'#fff'}}>
-						<textarea name="comment" onChange={this._onChange} value={this.state.comment}></textarea>
+						<textarea name="comment" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-validation="required" value={this.state.comment}></textarea>
 						<button className='button-white' style={{display:'inline-block', marginTop:'0.5rem', marginRight:'0.5rem', width:'30%'}} onClick={this.toggleComments}>Close</button>
-						<button onClick={this.handleSubmit} style={{display:'inline-block', marginTop:'0.5rem', width:'30%'}}>Send</button>
+						<button onClick={this.handleSubmit} style={{display:'inline-block', marginTop:'0.5rem', width:'30%'}} disabled={this.state.disabled}>Send</button>
 					</div>
 				</div>
 			</div>

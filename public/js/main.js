@@ -57260,6 +57260,8 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
+var _validation = __webpack_require__(28);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57282,10 +57284,14 @@ var Comments = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' }, comments: [] }, _this._onChange = function (e) {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' }, comments: [], disabled: true }, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
+			(0, _validation.validate)(e);
+			_this.toggleSubmit(e);
 			_this.setState(state);
+		}, _this.toggleSubmit = function (e) {
+			_this.setState({ disabled: !(0, _validation.isValid)('required', e.target) });
 		}, _this.toggleComments = function () {
 			if (!_this.state.open) {
 				_this.setState({ open: true, commentClass: { position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
@@ -57297,7 +57303,7 @@ var Comments = function (_React$Component) {
 				var chapter_id = chapterId || _this.props.chapterId;
 				_jQuery2.default.get('/api/v1/chapter/' + chapter_id + '/comments').then(function (resp) {
 					var comments = resp.data;
-					_this.setState({ comments: comments, comment: '' });
+					_this.setState({ comments: comments, comment: '', disabled: true });
 				});
 			}
 		}, _this.handleSubmit = function (e) {
@@ -57408,7 +57414,9 @@ var Comments = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'comments_add', style: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0.5rem', background: '#fff' } },
-						_react2.default.createElement('textarea', { name: 'comment', onChange: this._onChange, value: this.state.comment }),
+						_react2.default.createElement('textarea', { name: 'comment', onChange: function onChange(e) {
+								_this2._onChange(e);(0, _validation.validate)(e);
+							}, onBlur: _validation.validate, 'data-validation': 'required', value: this.state.comment }),
 						_react2.default.createElement(
 							'button',
 							{ className: 'button-white', style: { display: 'inline-block', marginTop: '0.5rem', marginRight: '0.5rem', width: '30%' }, onClick: this.toggleComments },
@@ -57416,7 +57424,7 @@ var Comments = function (_React$Component) {
 						),
 						_react2.default.createElement(
 							'button',
-							{ onClick: this.handleSubmit, style: { display: 'inline-block', marginTop: '0.5rem', width: '30%' } },
+							{ onClick: this.handleSubmit, style: { display: 'inline-block', marginTop: '0.5rem', width: '30%' }, disabled: this.state.disabled },
 							'Send'
 						)
 					)
@@ -57787,7 +57795,7 @@ var Reviews = function (_React$Component) {
 				_jQuery2.default.post(apiUrl + '/books/' + bookId + '/reviews', postData).then(function (resp) {
 					_this.getReviews();
 					_this.props.getBook();
-					_this.setState({ content: '', rating: 0, addReview: false });
+					_this.setState({ content: '', rating: 0, addReview: false, disabled: true });
 				}).catch(function (err) {
 					console.log(err);
 				});

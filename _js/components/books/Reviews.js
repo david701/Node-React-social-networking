@@ -43,7 +43,7 @@ export default class Reviews extends React.Component{
 			$.post(`${apiUrl}/books/${bookId}/reviews`, postData).then((resp)=>{
 				this.getReviews();
 				this.props.getBook();
-				this.setState({content:'', rating:0, addReview: false})
+				this.setState({content:'', rating:0, addReview: false, disabled: true})
 			}).catch((err)=>{
 				console.log(err);
 			})
