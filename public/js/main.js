@@ -28003,7 +28003,7 @@ module.exports = reactProdInvariant;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.formValid = exports.validate = undefined;
+exports.isValid = exports.formValid = exports.validate = undefined;
 
 var _jquery = __webpack_require__(12);
 
@@ -28117,6 +28117,7 @@ var validate = function validate(event) {
 
 exports.validate = validate;
 exports.formValid = formValid;
+exports.isValid = isValid;
 
 /***/ }),
 /* 29 */
@@ -34519,7 +34520,8 @@ var Brawlers = function (_React$Component) {
 			    title = _props.title,
 			    showResultsBy = _props.showResultsBy,
 			    showBrawlers = _props.showBrawlers,
-			    isAdmin = _props.isAdmin;
+			    isAdmin = _props.isAdmin,
+			    onFollow = _props.onFollow;
 			//helps us to decide is we need to show results
 
 			var brawlDeclared = brawl.status > 1;
@@ -34634,7 +34636,9 @@ var Brawlers = function (_React$Component) {
 													),
 													_react2.default.createElement(
 														'button',
-														{ className: 'button button-white', href: '.' },
+														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
+																onFollow(e);
+															} },
 														'Add to Library'
 													)
 												) : _react2.default.createElement(
@@ -34702,7 +34706,9 @@ var Brawlers = function (_React$Component) {
 													),
 													_react2.default.createElement(
 														'button',
-														{ className: 'button button-white', href: '.' },
+														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
+																onFollow(e);
+															} },
 														'Add to Library'
 													)
 												) : _react2.default.createElement(
@@ -54558,6 +54564,8 @@ var Home = function (_React$Component) {
 			_jQuery2.default.post(apiUrl + '/books/' + e.target.id + '/follow').then(function (res) {
 				_this.getUser();
 			});
+			e.preventDefault();
+			e.stopPropagation();
 		}, _this.unfollowBook = function (e) {
 			_jQuery2.default.ajax({
 				url: apiUrl + '/books/' + e.target.id + '/follow',
@@ -54580,7 +54588,7 @@ var Home = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Brawl2.default, { me: this.state.user }),
+				_react2.default.createElement(_Brawl2.default, { me: this.state.user, onFollow: this.followBook }),
 				_react2.default.createElement(
 					'section',
 					{ className: 'standard-section' },
@@ -57728,6 +57736,8 @@ var _Rating = __webpack_require__(23);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
+var _validation = __webpack_require__(28);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -57752,7 +57762,7 @@ var Reviews = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '', rating: 0, authorized: false }, _this.getReviews = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '', rating: 0, authorized: false, disabled: true }, _this.getReviews = function () {
 			var bookId = _this.props.bookId;
 			_jQuery2.default.get(apiUrl + '/books/' + bookId + '/reviews').then(function (reviews) {
 				_this.setState({ reviews: reviews.data });
@@ -57765,15 +57775,17 @@ var Reviews = function (_React$Component) {
 			_this.setState({ addReview: false });
 		}, _this.submitReview = function (e) {
 			e.preventDefault();
-			var bookId = _this.props.bookId;
-			var postData = { content: _this.state.content, rating: _this.state.rating };
-			_jQuery2.default.post(apiUrl + '/books/' + bookId + '/reviews', postData).then(function (resp) {
-				_this.getReviews();
-				_this.props.getBook();
-				_this.setState({ content: '', rating: 0, addReview: false });
-			}).catch(function (err) {
-				console.log(err);
-			});
+			if (!_this.state.disabled) {
+				var bookId = _this.props.bookId;
+				var postData = { content: _this.state.content, rating: _this.state.rating };
+				_jQuery2.default.post(apiUrl + '/books/' + bookId + '/reviews', postData).then(function (resp) {
+					_this.getReviews();
+					_this.props.getBook();
+					_this.setState({ content: '', rating: 0, addReview: false });
+				}).catch(function (err) {
+					console.log(err);
+				});
+			}
 		}, _this.deleteReview = function (e) {
 			e.preventDefault();
 			_jQuery2.default.ajax({
@@ -57788,7 +57800,11 @@ var Reviews = function (_React$Component) {
 		}, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
+			(0, _validation.validate)(e);
+			_this.toggleSubmit(e);
 			_this.setState(state);
+		}, _this.toggleSubmit = function (e) {
+			_this.setState({ disabled: !(0, _validation.isValid)('required', e.target) });
 		}, _this.handleRating = function (rating) {
 			_this.setState({ rating: rating });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
@@ -57879,8 +57895,15 @@ var Reviews = function (_React$Component) {
 							value: this.state.rating,
 							onStarClick: this.handleRating
 						}),
-						_react2.default.createElement('hr', { style: { marginTop: 0 } }),
-						_react2.default.createElement('textarea', { rows: '4', name: 'content', onChange: this._onChange, value: this.state.content }),
+						_react2.default.createElement('hr', { className: 'dividers' }),
+						_react2.default.createElement(
+							'li',
+							{ className: 'review-area' },
+							_react2.default.createElement('div', { className: 'help-text' }),
+							_react2.default.createElement('textarea', { rows: '4', name: 'content', id: 'text-box', onChange: function onChange(e) {
+									_this2._onChange(e);(0, _validation.validate)(e);
+								}, onBlur: _validation.validate, 'data-validation': 'required', value: this.state.content })
+						),
 						_react2.default.createElement(
 							'div',
 							{ style: { float: 'right' } },
@@ -57891,7 +57914,7 @@ var Reviews = function (_React$Component) {
 							),
 							_react2.default.createElement(
 								'button',
-								{ className: 'button-red', onClick: this.submitReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' } },
+								{ className: 'button-red', onClick: this.submitReview, style: { width: 'auto', paddingRight: '2rem', paddingLeft: '2rem', marginTop: '1rem', display: 'inline-block' }, disabled: this.state.disabled },
 								'Submit'
 							)
 						)
@@ -58799,7 +58822,9 @@ var Brawl = function (_React$Component) {
 			var _state = this.state,
 			    currentBrawl = _state.currentBrawl,
 			    title = _state.title;
-			var me = this.props.me;
+			var _props = this.props,
+			    me = _props.me,
+			    onFollow = _props.onFollow;
 
 			var brawlDeclared = void 0,
 			    isLatestBrawl = void 0;
@@ -58884,7 +58909,7 @@ var Brawl = function (_React$Component) {
 						return _react2.default.createElement(
 							'div',
 							{ key: i, className: latestBrawl ? "week week-this" : "week week-last" },
-							_react2.default.createElement(_Brawlers2.default, { isAdmin: false, showAvatar: 'true', brawl: brawl, vote: $this.vote, user: me, title: title, showResultsBy: 'percentage' })
+							_react2.default.createElement(_Brawlers2.default, { isAdmin: false, showAvatar: 'true', brawl: brawl, vote: $this.vote, user: me, title: title, showResultsBy: 'percentage', onFollow: onFollow })
 						);
 					})
 				),

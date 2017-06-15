@@ -1122,3 +1122,14 @@ form .instructions {
         color: #0FAFFF;
     }
 }
+.help-text {
+    color: red;
+    font-size: 0.875em;
+    display: none;
+}
+.review-area .help-text {
+    margin: 0 0 2px 0;
+}
+hr.dividers {
+    margin-top: 0;
+}

@@ -454,7 +454,9 @@ a:hover .avatar {
 		opacity: 0.625;
 	}
 }
-
+.review-area {
+	list-style: none;
+}
 .radio-list {
 	li {
 		display: flex;
@@ -479,4 +481,10 @@ a:hover .avatar {
 .button.reset-password {
 	width: 200px;
     margin: 0 30px 0 0;
+}
+button:disabled {
+    background: #f5f5f5 !important;
+    box-shadow: none !important;
+    color: #ccc !important;
+    cursor: default !important;
 }

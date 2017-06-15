@@ -73,6 +73,8 @@ class Home extends React.Component{
 		.then(res => {
 			this.getUser();
 		})
+		e.preventDefault();
+		e.stopPropagation();
 	}
 
 	unfollowBook = (e)=>{
@@ -87,7 +89,7 @@ class Home extends React.Component{
 	render(){
 		return(
 			<div>
-				<Brawl me={this.state.user}/>
+				<Brawl me={this.state.user} onFollow={this.followBook}/>
 				<section className="standard-section">
 						<div className="container">
 								<AdElement page='home'/>

@@ -37,7 +37,7 @@ export default class Brawl extends React.Component {
 	render() {
 		const $this = this;
 		const {currentBrawl, title} = this.state;
-		const {me} = this.props;
+		const {me, onFollow} = this.props;
 		let brawlDeclared, isLatestBrawl;
 		let currentResult = "Please Vote";
 		let lastResult = "Please Vote";
@@ -81,7 +81,7 @@ export default class Brawl extends React.Component {
 
 								return (
 									<div key={i} className={latestBrawl ? "week week-this" : "week week-last"}>
-										<Brawlers isAdmin={false} showAvatar="true" brawl={brawl} vote={$this.vote} user={me} title={title} showResultsBy="percentage"/>
+										<Brawlers isAdmin={false} showAvatar="true" brawl={brawl} vote={$this.vote} user={me} title={title} showResultsBy="percentage" onFollow={onFollow}/>
 									</div>
 								)
 							})

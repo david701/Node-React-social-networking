@@ -99,4 +99,4 @@ const validate = (event) => {
     }
 }
 
-export { validate, formValid };
+export { validate, formValid, isValid };

@@ -3,11 +3,12 @@ import $ from 'jQuery';
 
 import StarRatingComponent from 'react-star-rating-component';
 import Rating from '../dashboard/Rating';
+import { validate, isValid } from '../../plugins/validation.js';
 
 const apiUrl = '/api/v1';
 
 export default class Reviews extends React.Component{
-	state = {reviews:[], addReview: false, content: '', rating: 0, authorized: false}
+	state = {reviews:[], addReview: false, content: '', rating: 0, authorized: false, disabled: true}
 	componentDidMount(){
 		this.getReviews();
 	}
@@ -36,15 +37,17 @@ export default class Reviews extends React.Component{
 
 	submitReview = (e)=>{
 		e.preventDefault();
-		var bookId = this.props.bookId;
-		var postData = {content: this.state.content, rating: this.state.rating}
-		$.post(`${apiUrl}/books/${bookId}/reviews`, postData).then((resp)=>{
-			this.getReviews();
-			this.props.getBook();
-			this.setState({content:'', rating:0, addReview: false})
-		}).catch((err)=>{
-			console.log(err);
-		})
+		if(!this.state.disabled){
+			var bookId = this.props.bookId;
+			var postData = {content: this.state.content, rating: this.state.rating}
+			$.post(`${apiUrl}/books/${bookId}/reviews`, postData).then((resp)=>{
+				this.getReviews();
+				this.props.getBook();
+				this.setState({content:'', rating:0, addReview: false})
+			}).catch((err)=>{
+				console.log(err);
+			})
+		}
 	}
 
 	deleteReview = (e)=>{
@@ -63,7 +66,13 @@ export default class Reviews extends React.Component{
 	_onChange = (e)=>{
 		var state = {};
 		state[e.target.name]=e.target.value;
+		validate(e);
+		this.toggleSubmit(e)
 		this.setState(state)
+	}
+
+	toggleSubmit = (e)=>{
+		this.setState({disabled: !isValid('required',e.target)})
 	}
 
 	handleRating = (rating)=>{
@@ -108,11 +117,14 @@ export default class Reviews extends React.Component{
 				        value={this.state.rating}
 				        onStarClick={this.handleRating}
 				      />
-						<hr style={{marginTop:0}}/>
-						<textarea rows='4' name="content" onChange={this._onChange} value={this.state.content}></textarea>
+						<hr className="dividers"/>
+						<li className="review-area">
+							<div className="help-text"></div>
+							<textarea rows='4' name="content" id="text-box" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-validation="required" value={this.state.content}></textarea>
+						</li>
 						<div style={{float:'right'}}>
 							<button className="button-white" onClick={this.cancelReview} style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginRight: '1rem', marginTop: '1rem', display:'inline-block'}}>Cancel</button>
-							<button className="button-red" onClick={this.submitReview} style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginTop: '1rem', display:'inline-block'}}>Submit</button>
+							<button className="button-red" onClick={this.submitReview} style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginTop: '1rem', display:'inline-block'}} disabled={this.state.disabled}>Submit</button>
 						</div>
 					</div>
 				</div>:''}

@@ -30,7 +30,7 @@ export default class Brawlers extends React.Component {
 
 	render(){
 		const $this = this;
-		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin} = this.props;
+		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin, onFollow} = this.props;
 		//helps us to decide is we need to show results
 		const brawlDeclared = brawl.status > 1;
 		let votedForA, votedForB, totalVotes, hideVoteButton,
@@ -102,7 +102,7 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
-																		<button className="button button-white" href=".">Add to Library</button>
+																		<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
 																	</div>
 																) : (
 																	<div className="overlay">
@@ -132,7 +132,7 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
-																		<button className="button button-white" href=".">Add to Library</button>
+																		<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
 																	</div>
 																) : (
 																	<div className="overlay">
