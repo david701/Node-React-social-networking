@@ -19,7 +19,8 @@ export default class BrawlAdmin extends React.Component {
 	      showBrawlers: false,
 	      selectedBrawler: 0,
 	      startBrawl: false,
-	      brawlType: "Published"
+	      brawlType: "Published",
+	      undeclaredBrawls: false
 	    };
 	}
 
@@ -78,6 +79,10 @@ export default class BrawlAdmin extends React.Component {
 		let createBrawlSelected = e.target.value === "Create Brawl"
 		let currentBrawl = createBrawlSelected ? newBrawl : this.findBrawlByProp('_id',e.target.value);
 		let title = createBrawlSelected ? "Create Brawl" : (e.target.selectedIndex === 1) ? "Current Brawl" : moment(currentBrawl.updated_at).format('MM-DD-YYYY') + " Brawl";
+		if(createBrawlSelected && this.state.undeclaredBrawls){
+			alert('Please declare brawl, before you start a new one')
+			return false;
+		}
 		$('.pick0,.pick1').removeClass('pick0 pick1');
 		this.setState({currentBrawl: currentBrawl, title: title, startBrawl: false})
 	}
@@ -147,14 +152,21 @@ export default class BrawlAdmin extends React.Component {
 	}
 
 	getBrawlers = (brawlType) => {
-		$.get('/api/v1/books?brawlers=true&type=brawlType').then((brawlers)=>{
+		//brawlers=true&type=brawlType
+		$.get('/api/v1/books').then((brawlers)=>{
 			this.setState({brawlers: this.filterBy(brawlers.data,"type",brawlType)});
 		})
+	}
+
+	getCurrentBrawls = () => {
+		let currentBrawl = this.filterBy(this.state.oldBrawls, 'status', 1).length > 0;
+		this.setState({undeclaredBrawls: currentBrawl});
 	}
 
 	getBrawls = () => {
 		$.get('/api/v1/brawls').then((brawls)=>{
 			this.setState({currentBrawl: brawls.data[0], oldBrawls: brawls.data, title: "Current Brawl", startBrawl: false});
+			this.getCurrentBrawls();
 		})
 	}
 
@@ -179,7 +191,7 @@ export default class BrawlAdmin extends React.Component {
 									{
 										oldBrawls.map(function(brawl, i){
 											return (
-												<option key={i} selected={i===0} value={brawl._id}>{i === 0 ? "Current Brawl" : moment(brawl.updated_at).format('MM-DD-YYYY')}</option>
+												<option key={i} selected={i===0} value={brawl._id}>{brawl.status === 1 ? "Current Brawl" : moment(brawl.updated_at).format('MM-DD-YYYY')}</option>
 											)
 										})
 									}

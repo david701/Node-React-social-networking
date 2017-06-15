@@ -58381,6 +58381,10 @@ var BrawlAdmin = function (_React$Component) {
 			var createBrawlSelected = e.target.value === "Create Brawl";
 			var currentBrawl = createBrawlSelected ? newBrawl : _this.findBrawlByProp('_id', e.target.value);
 			var title = createBrawlSelected ? "Create Brawl" : e.target.selectedIndex === 1 ? "Current Brawl" : (0, _moment2.default)(currentBrawl.updated_at).format('MM-DD-YYYY') + " Brawl";
+			if (createBrawlSelected && _this.state.undeclaredBrawls) {
+				alert('Please declare brawl, before you start a new one');
+				return false;
+			}
 			(0, _jQuery2.default)('.pick0,.pick1').removeClass('pick0 pick1');
 			_this.setState({ currentBrawl: currentBrawl, title: title, startBrawl: false });
 		};
@@ -58455,14 +58459,21 @@ var BrawlAdmin = function (_React$Component) {
 		};
 
 		_this.getBrawlers = function (brawlType) {
-			_jQuery2.default.get('/api/v1/books?brawlers=true&type=brawlType').then(function (brawlers) {
+			//brawlers=true&type=brawlType
+			_jQuery2.default.get('/api/v1/books').then(function (brawlers) {
 				_this.setState({ brawlers: _this.filterBy(brawlers.data, "type", brawlType) });
 			});
+		};
+
+		_this.getCurrentBrawls = function () {
+			var currentBrawl = _this.filterBy(_this.state.oldBrawls, 'status', 1).length > 0;
+			_this.setState({ undeclaredBrawls: currentBrawl });
 		};
 
 		_this.getBrawls = function () {
 			_jQuery2.default.get('/api/v1/brawls').then(function (brawls) {
 				_this.setState({ currentBrawl: brawls.data[0], oldBrawls: brawls.data, title: "Current Brawl", startBrawl: false });
+				_this.getCurrentBrawls();
 			});
 		};
 
@@ -58474,7 +58485,8 @@ var BrawlAdmin = function (_React$Component) {
 			showBrawlers: false,
 			selectedBrawler: 0,
 			startBrawl: false,
-			brawlType: "Published"
+			brawlType: "Published",
+			undeclaredBrawls: false
 		};
 		return _this;
 	}
@@ -58548,7 +58560,7 @@ var BrawlAdmin = function (_React$Component) {
 										return _react2.default.createElement(
 											'option',
 											{ key: i, selected: i === 0, value: brawl._id },
-											i === 0 ? "Current Brawl" : (0, _moment2.default)(brawl.updated_at).format('MM-DD-YYYY')
+											brawl.status === 1 ? "Current Brawl" : (0, _moment2.default)(brawl.updated_at).format('MM-DD-YYYY')
 										);
 									})
 								)
