@@ -693,14 +693,15 @@ body {
   height: 25px;
   line-height: 25px;
   position: absolute;
-  right: -11px;
-  top: -12px;
-  background: red;
+  right: 9px;
+  top: 9px;
+  background: #fff;
   z-index: 1;
   text-align: center;
-  color: #fff;
+  color: #0FAFFF;
   border-radius: 100%;
-  font-weight: bold; }
+  font-weight: bold;
+  font-size: 15px; }
 
 .dropdown {
   display: inline-block;

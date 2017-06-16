@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import BookType from './BookType.js';
 
 const Profile = function(){
 		this.id = id;
@@ -34,7 +35,8 @@ class Author extends React.Component{
     		me: this.user, //my id
     		user: this.user, //whose looking at the profile
     		following: false,
-    		authorsBooks: []
+    		authorsBooks: [],
+    		followingBooks: []
     	};
     	this.handleFollow = this.handleFollow.bind(this);
     	this.isFollowing = this.isFollowing.bind(this);
@@ -118,7 +120,8 @@ class Author extends React.Component{
 			//in the meantime setup user data
 			this.setState({
 				user: response.data,
-				following: $this.isFollowing(userId,response.data.followers)
+				following: $this.isFollowing(userId,response.data.followers),
+				followingBooks: response.data.following_books
 			});
 		});
 	}
@@ -250,35 +253,50 @@ class Author extends React.Component{
 					<h4><span id="author-name">{this.state.user.name + "'s"}</span> Library</h4>
 					{/*<a className="control" href=".">See All</a>*/}
 				</div>
-				<div className="book-blocks book-blocks-small">
-					{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
-					{/*
-					<ul>
-						<li>
-							<a href="." className="content-block content-block-book">
-								<figure>
-									<div className="cover" style="background-image: url('/assets/images/samples/covers/1.jpg');">
-										<div className="overlay">
-											<button className="button button-red" href=".">View Book</button>
-										</div>
-									</div>
-									<figcaption>
-										<h4>Title Area</h4>
-										<p>By [Author Name]</p>
-										<ul className="rating-display">
-											<li className="filled"></li>
-											<li className="filled"></li>
-											<li className="filled"></li>
-											<li className="filled"></li>
-											<li></li>
-										</ul>
-									</figcaption>
-								</figure>
-							</a>
-						</li>
-					</ul>
-					*/}
-				</div>
+				{this.state.followingBooks.length ? (
+						<div className="book-blocks book-blocks-small">
+							<ul>
+			                  {
+			                    this.state.followingBooks.map(function(book, i){
+			                   		let isBrawler = book.brawl ? true : false;
+									return (
+				                        <li key={i}>
+				                          <div className="content-block content-block-book">
+				                           <BookType type={book.type}/>
+				                            <figure>
+				                              <div className="cover pending">
+				                                <div className="overlay">
+				                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
+				                                  {self.state.me.role > 0 &&
+				                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}} disabled={isBrawler}>Brawl</a>
+				                                  }
+				                                </div>
+				                              </div>
+				                              <figcaption>
+				                                <h4>{book.title}</h4>
+				                                <p>Author Name Here</p>
+				                                <ul className="rating-display">
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                  <li className="filled"></li>
+				                                </ul>
+				                              </figcaption>
+				                            </figure>
+				                          </div>
+				                        </li>
+			                      )
+			                    })
+			                 }
+			                </ul>
+		                 </div>
+					) : (
+						<div className="book-blocks book-blocks-small">
+							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
+						</div>
+					)
+				}
                 {this.state.authorsBooks &&
                   <div>
                   	  <hr/>
@@ -294,6 +312,7 @@ class Author extends React.Component{
 		                      return (
 		                        <li key={i}>
 		                          <div className="content-block content-block-book">
+		                           <BookType type={book.type}/>
 		                            <figure>
 		                              <div className="cover pending">
 		                                <div className="overlay">

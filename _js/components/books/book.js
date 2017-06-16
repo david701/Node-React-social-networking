@@ -1,9 +1,11 @@
 import React from 'react';
 import Rating from '../dashboard/Rating';
+import BookType from '../BookType.js';
 
 const Book = props => (
 	<li>
 			<div className="content-block content-block-book">
+					<BookType type={props.book.type}/>
 					<figure>
 							<div className="cover" style={{backgroundImage: 'url('+props.book.cover+')'}}>
 									<div className="overlay">

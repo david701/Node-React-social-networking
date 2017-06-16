@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
+import BookType from '../BookType.js';
 
 const apiUrl = '/api/v1';
 
@@ -29,6 +30,7 @@ export default class UserBooks extends React.Component {
 		var bookList = this.props.books.map((book, key) => (
 			<li key={key}>
 				<div className="content-block content-block-book">
+					<BookType type={book.type}/>
 					<figure>
 						<div
 							className="cover"

@@ -49977,6 +49977,10 @@ var _jquery = __webpack_require__(12);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _BookType = __webpack_require__(86);
+
+var _BookType2 = _interopRequireDefault(_BookType);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50047,7 +50051,8 @@ var Author = function (_React$Component) {
 			me: _this.user, //my id
 			user: _this.user, //whose looking at the profile
 			following: false,
-			authorsBooks: []
+			authorsBooks: [],
+			followingBooks: []
 		};
 		_this.handleFollow = _this.handleFollow.bind(_this);
 		_this.isFollowing = _this.isFollowing.bind(_this);
@@ -50116,7 +50121,8 @@ var Author = function (_React$Component) {
 				//in the meantime setup user data
 				_this4.setState({
 					user: response.data,
-					following: $this.isFollowing(userId, response.data.followers)
+					following: $this.isFollowing(userId, response.data.followers),
+					followingBooks: response.data.following_books
 				});
 			});
 		}
@@ -50367,7 +50373,73 @@ var Author = function (_React$Component) {
 						' Library'
 					)
 				),
-				_react2.default.createElement(
+				this.state.followingBooks.length ? _react2.default.createElement(
+					'div',
+					{ className: 'book-blocks book-blocks-small' },
+					_react2.default.createElement(
+						'ul',
+						null,
+						this.state.followingBooks.map(function (book, i) {
+							var isBrawler = book.brawl ? true : false;
+							return _react2.default.createElement(
+								'li',
+								{ key: i },
+								_react2.default.createElement(
+									'div',
+									{ className: 'content-block content-block-book' },
+									_react2.default.createElement(_BookType2.default, { type: book.type }),
+									_react2.default.createElement(
+										'figure',
+										null,
+										_react2.default.createElement(
+											'div',
+											{ className: 'cover pending' },
+											_react2.default.createElement(
+												'div',
+												{ className: 'overlay' },
+												_react2.default.createElement(
+													'a',
+													{ className: 'button button-red', href: '/books/' + book._id },
+													'Preview'
+												),
+												self.state.me.role > 0 && _react2.default.createElement(
+													'a',
+													{ className: "button button-red" + (book.brawl ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
+															self.enterBrawl(book);
+														}, disabled: isBrawler },
+													'Brawl'
+												)
+											)
+										),
+										_react2.default.createElement(
+											'figcaption',
+											null,
+											_react2.default.createElement(
+												'h4',
+												null,
+												book.title
+											),
+											_react2.default.createElement(
+												'p',
+												null,
+												'Author Name Here'
+											),
+											_react2.default.createElement(
+												'ul',
+												{ className: 'rating-display' },
+												_react2.default.createElement('li', { className: 'filled' }),
+												_react2.default.createElement('li', { className: 'filled' }),
+												_react2.default.createElement('li', { className: 'filled' }),
+												_react2.default.createElement('li', { className: 'filled' }),
+												_react2.default.createElement('li', { className: 'filled' })
+											)
+										)
+									)
+								)
+							);
+						})
+					)
+				) : _react2.default.createElement(
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
@@ -50409,6 +50481,7 @@ var Author = function (_React$Component) {
 									_react2.default.createElement(
 										'div',
 										{ className: 'content-block content-block-book' },
+										_react2.default.createElement(_BookType2.default, { type: book.type }),
 										_react2.default.createElement(
 											'figure',
 											null,
@@ -51991,6 +52064,10 @@ var _BrawlAdmin2 = _interopRequireDefault(_BrawlAdmin);
 
 var _Ad = __webpack_require__(42);
 
+var _BookType = __webpack_require__(86);
+
+var _BookType2 = _interopRequireDefault(_BookType);
+
 var _ClaimDetailsModal = __webpack_require__(89);
 
 var _ClaimDetailsModal2 = _interopRequireDefault(_ClaimDetailsModal);
@@ -52520,6 +52597,7 @@ var Parent = function (_React$Component) {
 										_react2.default.createElement(
 											'div',
 											{ className: 'content-block content-block-book' },
+											_react2.default.createElement(_BookType2.default, { type: book.type }),
 											_react2.default.createElement(
 												'figure',
 												null,
@@ -52554,16 +52632,16 @@ var Parent = function (_React$Component) {
 													_react2.default.createElement(
 														'p',
 														null,
-														'Author Name Here'
+														book.author.name
 													),
 													_react2.default.createElement(
 														'ul',
 														{ className: 'rating-display' },
-														_react2.default.createElement('li', { className: 'filled' }),
-														_react2.default.createElement('li', { className: 'filled' }),
-														_react2.default.createElement('li', { className: 'filled' }),
-														_react2.default.createElement('li', { className: 'filled' }),
-														_react2.default.createElement('li', { className: 'filled' })
+														_react2.default.createElement('li', null),
+														_react2.default.createElement('li', null),
+														_react2.default.createElement('li', null),
+														_react2.default.createElement('li', null),
+														_react2.default.createElement('li', null)
 													)
 												)
 											)
@@ -52595,6 +52673,7 @@ var Parent = function (_React$Component) {
 										_react2.default.createElement(
 											'div',
 											{ className: 'content-block content-block-book' },
+											_react2.default.createElement(_BookType2.default, { type: claim.book.type }),
 											_react2.default.createElement(
 												'figure',
 												null,
@@ -58063,6 +58142,10 @@ var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
+var _BookType = __webpack_require__(86);
+
+var _BookType2 = _interopRequireDefault(_BookType);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58118,6 +58201,7 @@ var UserBooks = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'content-block content-block-book' },
+						_react2.default.createElement(_BookType2.default, { type: book.type }),
 						_react2.default.createElement(
 							'figure',
 							null,
@@ -58248,6 +58332,10 @@ var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
+var _BookType = __webpack_require__(86);
+
+var _BookType2 = _interopRequireDefault(_BookType);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Book = function Book(props) {
@@ -58257,6 +58345,7 @@ var Book = function Book(props) {
 				_react2.default.createElement(
 						'div',
 						{ className: 'content-block content-block-book' },
+						_react2.default.createElement(_BookType2.default, { type: props.book.type }),
 						_react2.default.createElement(
 								'figure',
 								null,

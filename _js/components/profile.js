@@ -5,6 +5,7 @@ import {validate, formValid} from '../plugins/validation.js';
 import Library from './books/Library';
 import BrawlAdmin from '../components/brawl/Brawl-Admin';
 import {Ads, AdElement} from '../components/ads/Ad';
+import BookType from './BookType.js';
 
 import Claims from './claims/ClaimDetailsModal';
 
@@ -366,6 +367,7 @@ class Parent extends React.Component {
 				                      return (
 				                        <li key={i}>
 				                          <div className="content-block content-block-book">
+				                          	<BookType type={book.type}/>
 				                            <figure>
 				                              <div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 				                                <div className="overlay">
@@ -375,13 +377,13 @@ class Parent extends React.Component {
 				                              </div>
 				                              <figcaption>
 				                                <h4>{book.title}</h4>
-				                                <p>Author Name Here</p>
+				                                <p>{book.author.name}</p>
 				                                <ul className="rating-display">
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
+				                                  <li></li>
+				                                  <li></li>
+				                                  <li></li>
+				                                  <li></li>
+				                                  <li></li>
 				                                </ul>
 				                              </figcaption>
 				                            </figure>
@@ -404,6 +406,7 @@ class Parent extends React.Component {
 											return (
 												<li key={i}>
 													<div className="content-block content-block-book">
+														<BookType type={claim.book.type}/>
 														<figure>
 															<div className="cover" style={{backgroundImage: 'url('+claim.book.cover+')'}}>
 																<div className="overlay">
