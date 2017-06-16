@@ -323,7 +323,13 @@ class Parent extends React.Component {
 									{following}
 								</ul>
 								<hr />
-								{this.state.library.length? <Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" />: ''}
+								{this.state.library.length ? (<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" />)
+								: (<div>
+										<div className="title-row">
+											<h4>My Library</h4>
+									   	</div>
+									   	<span>No books have been added to your library</span>
+								   	</div>)}
 								<hr />
 								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo}/>}
 							</div>

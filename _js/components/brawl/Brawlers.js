@@ -11,11 +11,12 @@ export default class Brawlers extends React.Component {
 
 	chooseAvi = (imgUrl) => {
 		let image;
-		switch (imgUrl) {
-		    case "Dog_1.png":
+		let imgAbbr = imgUrl.split("_")[0].toLowerCase();
+		switch (imgAbbr) {
+		    case "dog":
 		        image = "/assets/images/dog.gif";
 		        break;
-		    case "Cat_1.png":
+		    case "cat":
 		        image = "/assets/images/cat.gif";
 		        break;
 		    case "blank-cat.png":
@@ -30,11 +31,12 @@ export default class Brawlers extends React.Component {
 
 	render(){
 		const $this = this;
-		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin, onFollow} = this.props;
+		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin, onFollow, unFollow} = this.props;
 		//helps us to decide is we need to show results
 		const brawlDeclared = brawl.status > 1;
 		let votedForA, votedForB, totalVotes, hideVoteButton,
-		iVoted, votePercentageA, votePercentageB, voteUnit,
+		iVoted, votePercentageA, votePercentageB, voteUnit, followingA,
+		followingB,
 		//TO DO: erase all of these values
 		small_avatarA, small_avatarB, avatarA, avatarB;
 
@@ -66,12 +68,17 @@ export default class Brawlers extends React.Component {
 		}
 
 		//TO DO: need to have big avatar come from database
-		if(showAvatar && brawl.book_a){
+		if(showAvatar && brawl.book_a && brawl.book_b){
 			small_avatarA = brawl.book_a.author.avatar.split("/").pop();
 			small_avatarB = brawl.book_b.author.avatar.split("/").pop();
 
 			avatarA = this.chooseAvi(small_avatarA);
 			avatarB = this.chooseAvi(small_avatarB);
+		}
+
+		if((brawl.book_a.followers || brawl.book_b.followers) && user){
+			followingA = brawl.book_a.followers.includes(user._id)
+			followingB = brawl.book_b.followers.includes(user._id)
 		}
 
 		return (
@@ -102,13 +109,12 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
-																		{/* (user.following_books.indexOf(brawl.book_a._id) < 0) */}
-																		{(!isAdmin || user !== "") &&
+																		{(!isAdmin || user !== "") && !followingA &&
 																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
 																		}
-																		{/* {((!isAdmin || user !== "") && user.following_books.indexOf(brawl.book_a._id) > -1) &&
-																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Unfollow</button>
-																		} */}
+																		{(!isAdmin || user !== "") && followingA &&
+																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
+																		}
 																	</div>
 																) : (
 																	<div className="overlay">
@@ -138,13 +144,12 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
-																		{/* user.following_books.indexOf(brawl.book_b._id) < 0 */}
-																		{(!isAdmin || user !== "") &&
+																		{(!isAdmin || user !== "") && !followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
 																		}
-																		{/* {((!isAdmin || user !== "") && user.following_books.indexOf(brawl.book_b._id) > -1) &&
-																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Unfollow</button>
-																		} */}
+																		{(!isAdmin || user !== "") && followingB &&
+																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
+																		}
 																	</div>
 																) : (
 																	<div className="overlay">
