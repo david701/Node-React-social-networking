@@ -18,7 +18,7 @@ exports.getBrawls = (req, res)=>{
 	mongoBrawl.find({}).sort( [['_id', -1]] ).limit(limit)
 	.populate({
 		path: 'book_a',
-		select:'title cover rating author',
+		select:'title cover rating author type followers',
 		populate: {
 			path: 'author',
 			model: 'Users',
@@ -27,7 +27,7 @@ exports.getBrawls = (req, res)=>{
 	})
 	.populate({
 		path: 'book_b',
-		select:'title cover rating author',
+		select:'title cover rating author type followers',
 		populate: {
 			path: 'author',
 			model: 'Users',

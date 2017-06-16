@@ -57,7 +57,7 @@ const levelCheck = (points, cb)=>{
 	if(points >= 729){ level = 47 } else
 	if(points >= 768){ level = 48 } else
 	if(points >= 808){ level = 49; title='Gold Master'} else
-	if(points > 850){ level = 50 } else
+	if(points > 850){ level = 50 }
 	cb(level, title);
 }
 
@@ -68,7 +68,6 @@ const addPoints = (userId, points, cb)=>{
 		}
 		user.points = user.points + points;
 		levelCheck(user.points, (level, title)=>{
-			console.log(title);
 			user.level = level;
 			user.level_title = title
 			user.save().then((user)=>{
