@@ -102,7 +102,13 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
-																		<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
+																		{/* (user.following_books.indexOf(brawl.book_a._id) < 0) */}
+																		{(!isAdmin || user !== "") &&
+																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
+																		}
+																		{/* {((!isAdmin || user !== "") && user.following_books.indexOf(brawl.book_a._id) > -1) &&
+																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Unfollow</button>
+																		} */}
 																	</div>
 																) : (
 																	<div className="overlay">
@@ -132,7 +138,13 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
-																		<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
+																		{/* user.following_books.indexOf(brawl.book_b._id) < 0 */}
+																		{(!isAdmin || user !== "") &&
+																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
+																		}
+																		{/* {((!isAdmin || user !== "") && user.following_books.indexOf(brawl.book_b._id) > -1) &&
+																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Unfollow</button>
+																		} */}
 																	</div>
 																) : (
 																	<div className="overlay">

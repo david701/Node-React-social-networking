@@ -34640,7 +34640,7 @@ var Brawlers = function (_React$Component) {
 														{ className: 'button button-red', href: "/books/" + brawl.book_a._id },
 														'Preview'
 													),
-													_react2.default.createElement(
+													(!isAdmin || user !== "") && _react2.default.createElement(
 														'button',
 														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);
@@ -34710,9 +34710,9 @@ var Brawlers = function (_React$Component) {
 														{ className: 'button button-red', href: "/books/" + brawl.book_b._id },
 														'Preview'
 													),
-													_react2.default.createElement(
+													(!isAdmin || user !== "") && _react2.default.createElement(
 														'button',
-														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
+														{ id: brawl.book_b._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);
 															} },
 														'Add to Library'
