@@ -50050,6 +50050,13 @@ var Author = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (Author.__proto__ || Object.getPrototypeOf(Author)).call(this, props));
 
+		_this.getLibrary = function () {
+			var query = '/api/v1/books/library/' + _this.state.id;
+			_jquery2.default.get(query).then(function (books) {
+				_this.setState({ library: books.data });
+			});
+		};
+
 		_this.handleUnfollow = function (event) {
 			var data = {
 				authorId: _this.state.user._id
@@ -50084,7 +50091,8 @@ var Author = function (_React$Component) {
 			user: _this.user, //whose looking at the profile
 			following: false,
 			authorsBooks: [],
-			followingBooks: []
+			followingBooks: [],
+			library: []
 		};
 		_this.handleFollow = _this.handleFollow.bind(_this);
 		_this.isFollowing = _this.isFollowing.bind(_this);
@@ -50157,6 +50165,7 @@ var Author = function (_React$Component) {
 					followingBooks: response.data.following_books
 				});
 			});
+			this.getLibrary();
 		}
 	}, {
 		key: 'render',
@@ -50409,73 +50418,7 @@ var Author = function (_React$Component) {
 						' Library'
 					)
 				),
-				this.state.followingBooks.length ? _react2.default.createElement(
-					'div',
-					{ className: 'book-blocks book-blocks-small' },
-					_react2.default.createElement(
-						'ul',
-						null,
-						this.state.followingBooks.map(function (book, i) {
-							var isBrawler = book.brawl ? true : false;
-							return _react2.default.createElement(
-								'li',
-								{ key: i },
-								_react2.default.createElement(
-									'div',
-									{ className: 'content-block content-block-book' },
-									_react2.default.createElement(_BookType2.default, { type: book.type }),
-									_react2.default.createElement(
-										'figure',
-										null,
-										_react2.default.createElement(
-											'div',
-											{ className: 'cover pending' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'overlay' },
-												_react2.default.createElement(
-													'a',
-													{ className: 'button button-red', href: '/books/' + book._id },
-													'Preview'
-												),
-												self.state.me.role > 0 && _react2.default.createElement(
-													'a',
-													{ className: "button button-red" + (book.brawl ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
-															self.enterBrawl(book);
-														}, disabled: isBrawler },
-													'Brawl'
-												)
-											)
-										),
-										_react2.default.createElement(
-											'figcaption',
-											null,
-											_react2.default.createElement(
-												'h4',
-												null,
-												book.title
-											),
-											_react2.default.createElement(
-												'p',
-												null,
-												'Author Name Here'
-											),
-											_react2.default.createElement(
-												'ul',
-												{ className: 'rating-display' },
-												_react2.default.createElement('li', { className: 'filled' }),
-												_react2.default.createElement('li', { className: 'filled' }),
-												_react2.default.createElement('li', { className: 'filled' }),
-												_react2.default.createElement('li', { className: 'filled' }),
-												_react2.default.createElement('li', { className: 'filled' })
-											)
-										)
-									)
-								)
-							);
-						})
-					)
-				) : _react2.default.createElement(
+				this.state.library.length ? _react2.default.createElement(Library, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."

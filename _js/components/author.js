@@ -36,11 +36,19 @@ class Author extends React.Component{
     		user: this.user, //whose looking at the profile
     		following: false,
     		authorsBooks: [],
-    		followingBooks: []
+    		followingBooks: [],
+    		library: []
     	};
     	this.handleFollow = this.handleFollow.bind(this);
     	this.isFollowing = this.isFollowing.bind(this);
   	}
+
+  	getLibrary = () => {
+        var query = '/api/v1/books/library/' + this.state.id;
+        $.get(query).then((books)=>{
+            this.setState({library: books.data});
+        })
+    }
 
 	handleFollow(){
 		var data = {
@@ -124,6 +132,7 @@ class Author extends React.Component{
 				followingBooks: response.data.following_books
 			});
 		});
+		this.getLibrary();
 	}
 
 	render(){
@@ -254,44 +263,8 @@ class Author extends React.Component{
 					<h4><span id="author-name">{this.state.user.name + "'s"}</span> Library</h4>
 					{/*<a className="control" href=".">See All</a>*/}
 				</div>
-				{this.state.followingBooks.length ? (
-						<div className="book-blocks book-blocks-small">
-							<ul>
-			                  {
-			                    this.state.followingBooks.map(function(book, i){
-			                   		let isBrawler = book.brawl ? true : false;
-									return (
-				                        <li key={i}>
-				                          <div className="content-block content-block-book">
-				                           <BookType type={book.type}/>
-				                            <figure>
-				                              <div className="cover pending">
-				                                <div className="overlay">
-				                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
-				                                  {self.state.me.role > 0 &&
-				                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}} disabled={isBrawler}>Brawl</a>
-				                                  }
-				                                </div>
-				                              </div>
-				                              <figcaption>
-				                                <h4>{book.title}</h4>
-				                                <p>Author Name Here</p>
-				                                <ul className="rating-display">
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                  <li className="filled"></li>
-				                                </ul>
-				                              </figcaption>
-				                            </figure>
-				                          </div>
-				                        </li>
-			                      )
-			                    })
-			                 }
-			                </ul>
-		                 </div>
+				{this.state.library.length ? (
+						<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} library="true" />
 					) : (
 						<div className="book-blocks book-blocks-small">
 							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
