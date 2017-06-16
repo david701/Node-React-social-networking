@@ -95,7 +95,7 @@ export default class Brawlers extends React.Component {
 										}
 										{brawl.book_a &&
 											<div className="book">
-												<a href="." className="content-block content-block-book">
+												<div className="content-block content-block-book">
 													<BookType type={brawl.book_a.type}/>
 													<figure>
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_a.cover+")"}}>
@@ -123,7 +123,7 @@ export default class Brawlers extends React.Component {
 															<Rating stars={brawl.book_a.rating} />
 														</figcaption>
 													</figure>
-												</a>
+												</div>
 												<a href="javascript:void(0)" className={"button" + (hideVoteButton || !vote ? " button-hidden" : "")} onClick={(e) => { vote(e, brawl._id, brawl.book_a._id)} }>Vote</a>
 											</div>
 										}
@@ -131,7 +131,7 @@ export default class Brawlers extends React.Component {
 									<li>
 										{brawl.book_b &&
 											<div className="book">
-												<a href="." className="content-block content-block-book">
+												<div className="content-block content-block-book">
 													<BookType type={brawl.book_b.type}/>
 													<figure>
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_b.cover+")"}}>
@@ -159,7 +159,7 @@ export default class Brawlers extends React.Component {
 															<Rating stars={brawl.book_b.rating} />
 														</figcaption>
 													</figure>
-												</a>
+												</div>
 												<a href="javascript:void(0)" className={"button" + (hideVoteButton || !vote ? " button-hidden" : "")} onClick={(e) => { vote(e, brawl._id, brawl.book_b._id)} }>Vote</a>
 											</div>
 										}

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const ClaimDetailsModal = props => (
 	<div className="modal" style={{visibility:'visible', opacity:1}}>
-		<div className="overlay">
+		<div className="overlay" onClick={props.cancelClaim}>
 			<div className="content-block content-block-standard" style={{marginTop:'-20%'}}>
 				<form>
 					<div className="title-row" style={{ marginBottom: 0 }}>
@@ -38,7 +38,7 @@ const ClaimDetailsModal = props => (
 							</div>)
 						:''}
 					<div className="submit-row submit-row-claim">
-							{props.view?(<div className="buttons"><button className="button button-red" onClick={props.cancelClaim}>Close</button></div>):(<div className="buttons"><button className="button button-white" onClick={props.cancelClaim}>Cancel</button>
+							{props.view?(<div className="buttons"><button className="button button-red close" onClick={props.cancelClaim}>Close</button></div>):(<div className="buttons"><button className="button button-white" onClick={props.cancelClaim}>Cancel</button>
 						<button className="button button-red" onClick={props.submitClaim}>Submit</button></div>)}
 					</div>
 				</form>

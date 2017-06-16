@@ -36,7 +36,7 @@ class DashboardCreate extends Component {
   componentDidMount = () => {
     $.get('/api/v1/user_session/')
       .then(resp => {
-				this.setState({user: resp.data, typeSelected: "Serial", formDisabled: true})
+				this.setState({user: resp.data, type: "Serial", formDisabled: true})
 		});
 
     if(bookId){
@@ -53,9 +53,9 @@ class DashboardCreate extends Component {
 					title: book.data.title,
 					description: book.data.description,
 					type: book.data.type,
-					genres: [],
-					tags: [],
-					warnings: []
+					genres: book.data.genre,
+					tags: book.data.tags,
+					warnings: book.data.warnings
 				})
 			})
 		}
@@ -81,7 +81,14 @@ class DashboardCreate extends Component {
   }
 
   _handleGenre = e => {
-    this.setState({genre: e.target.value});
+    let temp_genres = this.state.genres;
+
+    if(e.target.checked){
+      temp_genres.push(e.target.value);
+    }else{
+      temp_genres = temp_genres.filter(genre => genre !== e.target.value)
+    }
+    this.setState({genres: temp_genres});
     //toggle submit
     formValid(e);
   }
@@ -162,15 +169,14 @@ class DashboardCreate extends Component {
       socialMedia: {
         ...this.state.socialMedia,
         [e.target.id]: e.target.value,
-      },
-      formDisabled: false
+      }
     });
     //toggle submit
     formValid(e);
   }
 
   render() {
-    const {coverFile, description, socialMedia, title, type, formDisabled, typeSelected} = this.state;
+    const {coverFile, description, socialMedia, title, type, formDisabled} = this.state;
     const author = this.state.user.name;
     return (
       <div className="content-block content-block-standard account-block">
@@ -181,12 +187,12 @@ class DashboardCreate extends Component {
         <form onSubmit={this._handleSubmit}>
           <UploadCover title={title} author={author} handleChange={this._handleChange} coverAdd={this._handleCover} coverFile={coverFile} validate={validate}/>
           <Description description={description} handleChange={this._handleChange} validate={validate} />
-          <BookType types={types} handleChange={this._handleType} validate={validate} typeSelected={typeSelected}/>
+          <BookType types={types} handleChange={this._handleType} validate={validate} currentType={type}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
-          <Genres checked={this.state.genre} genres={genres} handleCheckbox={this._handleGenre} validate={validate}/>
-          <Tags tags={tags} handleCheckbox={this._handleTags} validate={validate}/>
-          <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} validate={validate}/>
+          <Genres checked={this.state.genres} genres={genres} handleCheckbox={this._handleGenre} validate={validate}/>
+          <Tags tags={tags} checked={this.state.tags} handleCheckbox={this._handleTags} validate={validate}/>
+          <Warnings checked={this.state.warnings} warnings={warnings} handleCheckbox={this._handleWarnings} validate={validate}/>
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
           <div className="submit-row submit-row-single">
@@ -208,7 +214,7 @@ export const Description = ({description, handleChange, validate}) => (
       <li>
         <div className="title">
           <label htmlFor="description"><span>*</span>Description</label>
-          <span className="help-text">Description must be at least 250 words.</span>
+          <span className="help-text">Description must be at least 250 characters.</span>
         </div>
         <textarea
           id="description"
@@ -230,18 +236,18 @@ export const Genres = ({genres, handleCheckbox, checked, validate}) => (
     <li>
       <div className="title">
           <label htmlFor="checkbox"><span>*</span>Select <strong>one</strong> genre for your book to be listed.</label>
-          <span className="help-text">Please select at least one tag.</span>
+          <span className="help-text">Please select one tag.</span>
       </div>
       <div className="new-create-books-row">
         {genres.map((genre, index) => (
-          <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} validation="minChecks,maxChecks,required" validate={validate} minCheck={1} maxCheck={1} checked={checked && checked == genre?'checked':''}/>
+          <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} validation="minChecks,maxChecks,required" validate={validate} minCheck={1} maxCheck={1} checked={checked.includes(genre)}/>
         ))}
       </div>
     </li>
   </ul>
 );
 
-export const Tags = ({tags, handleCheckbox, validate}) => (
+export const Tags = ({tags, handleCheckbox, validate, checked}) => (
   <ul className="inner-fields">
     <li>
       <div className="title">
@@ -250,25 +256,25 @@ export const Tags = ({tags, handleCheckbox, validate}) => (
       </div>
       <div className="new-create-books-row">
         {tags.map((tag, index) => (
-          <Checkbox name="tags" label={tag} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks,minChecks,required" validate={validate}  minCheck={1}  maxCheck={3} />
+          <Checkbox name="tags" checked={checked.includes(tag)} label={tag} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks,minChecks,required" validate={validate}  minCheck={1} maxCheck={3} />
         ))}
       </div>
     </li>
   </ul>
 );
 
-export const Warnings = ({warnings, handleCheckbox, validate}) => (
+export const Warnings = ({warnings, handleCheckbox, validate, checked}) => (
   <div>
     <p>Content warning</p>
     <div className="new-create-books-row">
       {warnings.map((warning, index) => (
-        <Checkbox name="warnings" label={warning} key={index} handleCheckboxChange={handleCheckbox} />
+        <Checkbox name="warnings" checked={checked.includes(warning)} label={warning} key={index} handleCheckboxChange={handleCheckbox} />
       ))}
     </div>
   </div>
 );
 
-export const BookType = ({types, handleChange, typeSelected}) => (
+export const BookType = ({types, handleChange, currentType}) => (
   <div>
     <div className="title">
       <label htmlFor="description"><span>*</span>What kind of book is it?</label>
@@ -277,7 +283,7 @@ export const BookType = ({types, handleChange, typeSelected}) => (
     <ul className="radio-list radio-list-inline">
       {types.map((type, index) => (
         <li key={index}>
-          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={type === typeSelected} value={type} onChange={handleChange} />
+          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} onChange={handleChange} />
           <label htmlFor={"avatar-"+ (index + 1)}>
             {type}
           </label>
