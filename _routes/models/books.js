@@ -402,7 +402,22 @@ exports.addChapter = (req, res)=>{
 exports.getChapters = (req, res)=>{
   var book_id = req.params.id;
   mongoChapter.find({book_id: book_id}).where('status').gt(0).sort('number').then((chapters)=>{
-    res.json({status: 'ok', data: chapters})
+		if(req.session && req.session._id){
+			mongoBook.findOne({_id: book_id}).then((book)=>{
+				if(book.last_viewed){
+					book.last_viewed[req.session._id] = new Date();
+				}else{
+					var last_viewed = {};
+					last_viewed[req.session._id] = new Date();
+					book.last_viewed = last_viewed;
+				}
+				book.save().then((book)=>{
+					res.json({status: 'ok', data: chapters})
+				});
+			})
+		}else{
+			res.json({status: 'ok', data: chapters})
+		}
   }).catch(function(err){
     res.json({status: 'ok', message: err})
   })
@@ -412,8 +427,21 @@ exports.getChapterByNumber = (req, res)=>{
   var book_id = req.params.id,
       number = parseInt(req.params.number);
 
-  mongoChapter.findOne({book_id: book_id}).where('status').gt(0).where('number').equals(number).then((chapter)=>{
-    res.json({status: 'ok', data: chapter})
+  mongoChapter.findOne({book_id: book_id}).gt(0).where('number').equals(number).lean().then((chapter)=>{
+		if(req.session && req.session._id){
+			if(chapter.viewed_by){
+				chapter.viewed_by[req.session._id] = new Date();
+			}else{
+				var viewed_by = {};
+				viewed_by[req.session._id] = new Date();
+				chapter.viewed_by = viewed_by;
+			}
+			chapter.save().then((chapter)=>{
+				res.json({status: 'ok', data: chapter})
+			})
+		}else{
+			res.json({status: 'ok', data: chapter})
+		}
   }).catch(function(err){
     res.json({status: 'ok', message: err})
   })
@@ -432,8 +460,19 @@ exports.editChapter = (req, res)=>{
       if(req.body.content) chapter.content = req.body.content;
       if(req.body.status) chapter.status = req.body.status;
 
+			chapter.updated_at = new Date();
+
       chapter.save().then(function(chapter){
-        res.json({status: 'ok', data: chapter})
+				if(chapter.status > 0){
+					mongoBook.findOne({_id: book_id}).then((book)=>{
+						book.updated_at = new Date();
+						book.save().then((book)=>{
+							res.json({status: 'ok', data: chapter})
+						});
+					})
+				}else{
+					res.json({status: 'ok', data: chapter})
+				}
       }).catch(function(err){
         res.json({status: 'ok', message: err})
       })

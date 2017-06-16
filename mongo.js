@@ -45,6 +45,7 @@ const bookSchema = new Schema({
 	status: Number,
 	followers: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
 	viewed_by: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+	last_viewed:{},
 	featured: Boolean,
 	in_library: Boolean,
 	links: {},
@@ -59,7 +60,9 @@ const chapterSchema = new Schema({
 	number: Number,
 	name: String,
 	content: String,
-	status: Number
+	status: Number,
+	updated_at: { type: Date, default: Date.now },
+	viewed_by: {}
 });
 
 const commentSchema = new Schema({
