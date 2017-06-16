@@ -14,6 +14,7 @@ const mongoUser = mongo.schema.user,
 
 const handle = require('../helpers/handle.js');
 const mailchimp = require('../helpers/mailchimp.js');
+const xp = require('../helpers/achievements.js');
 
 const makeToken = ()=>{
 		var text = "";
@@ -145,8 +146,10 @@ exports.getUserById = (req, res)=>{
 		query.lean()
 		.then((user)=>{
 			if(user.status > 0){
-				delete user.password;
-				handle.res(res, user)
+				xp.avatars(user._id, (err, resp)=>{
+					delete user.password;
+					handle.res(res, user)
+				})
 			}else{
 				handle.err(res, 'User has been removed');
 			}

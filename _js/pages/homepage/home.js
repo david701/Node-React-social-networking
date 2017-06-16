@@ -68,28 +68,10 @@ class Home extends React.Component{
 		this.getAllBooks(e.target.value);
 	}
 
-	followBook = (e)=>{
-		$.post(`${apiUrl}/books/${e.target.id}/follow`)
-		.then(res => {
-			this.getUser();
-		})
-		e.preventDefault();
-		e.stopPropagation();
-	}
-
-	unfollowBook = (e)=>{
-		$.ajax({
-			url: `${apiUrl}/books/${e.target.id}/follow`,
-			type: 'DELETE',
-		}).then(res => {
-			this.getUser();
-		})
-	}
-
 	render(){
 		return(
 			<div>
-				<Brawl me={this.state.user} onFollow={this.followBook}/>
+				<Brawl me={this.state.user}/>
 				<section className="standard-section">
 						<div className="container">
 								<AdElement page='home'/>
