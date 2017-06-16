@@ -111,11 +111,10 @@ class Parent extends React.Component {
 
 	approveBooks = (book) => {
 		let self = this;
-
-        $.ajax({url:
-		  `${apiUrl}/books/${book._id}`,
+        $.ajax({
+        	url: '/api/v1/books/' + book._id,
 		    method: 'PUT',
-		     data: {status: 2}
+		    data: {status: 2}
 		 }).then((response)=>{
               self.pendingBooks()
 		 })

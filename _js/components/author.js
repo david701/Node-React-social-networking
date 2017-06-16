@@ -85,18 +85,13 @@ class Author extends React.Component{
 
 	enterBrawl = (book) => {
 		if(!book.brawl){
-	        $.ajax({
-	            url: '/api/v1/books/' + book._id,
-	            type: 'PUT',
-	       		data: {
-					brawl_submit: true,
-				},
-	       		dataType: 'json',
-	        	contentType: 'application/json; charset=UTF-8',
-	        	success: function(response){
-	        		this.loadAuthorsBooks(this.state.id);
-	          	}
-	       	});
+			$.ajax({
+                url: '/api/v1/books/' + book._id,
+                type: 'PUT',
+                data: {brawl_submit: true}
+            }).then((response)=>{
+            	this.loadAuthorsBooks(this.state.id);
+            });
     	}
 	}
 

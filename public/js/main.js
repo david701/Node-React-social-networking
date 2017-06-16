@@ -5055,7 +5055,7 @@ module.exports = __webpack_require__(351);
 
 var _prodInvariant = __webpack_require__(7);
 
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var ReactDOMComponentFlags = __webpack_require__(214);
 
 var invariant = __webpack_require__(5);
@@ -25816,7 +25816,7 @@ return jQuery;
 
 
 
-var _prodInvariant = __webpack_require__(27);
+var _prodInvariant = __webpack_require__(28);
 
 var ReactCurrentOwner = __webpack_require__(17);
 
@@ -26233,7 +26233,7 @@ var _prodInvariant = __webpack_require__(7),
     _assign = __webpack_require__(6);
 
 var CallbackQueue = __webpack_require__(212);
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 var ReactFeatureFlags = __webpack_require__(217);
 var ReactReconciler = __webpack_require__(30);
 var Transaction = __webpack_require__(46);
@@ -26550,7 +26550,7 @@ module.exports = emptyObject;
 
 var _assign = __webpack_require__(6);
 
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 
 var emptyFunction = __webpack_require__(14);
 var warning = __webpack_require__(4);
@@ -26810,6 +26810,138 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.isValid = exports.formValid = exports.validate = undefined;
+
+var _jquery = __webpack_require__(12);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _validator = __webpack_require__(464);
+
+var _validator2 = _interopRequireDefault(_validator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//validates overall form to toggle submit
+var formValid = function formValid(event) {
+    //hacks for the date plugin
+    var requiredValuesExist = true,
+        checkboxesAreSelected = true,
+
+    //the horrible date plugin hack
+    input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
+        validations = input.dataset.validation.split(','),
+
+    //doing more hacks for this damn date plugin
+    form = input.name === "bday" ? (0, _jquery2.default)('#bday').closest('form') : (0, _jquery2.default)(input).closest('form');
+
+    //Validate the input field you're typing in. This gives us real time status.
+    validate(event);
+
+    //lastly check if there are values in required fields
+    (0, _jquery2.default)(form).find('label span').closest('li').each(function () {
+        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select').val().length > 0;
+    });
+
+    (0, _jquery2.default)(form).find('label span').closest('ul').each(function () {
+        var input = (0, _jquery2.default)(this).find('input')[0];
+        if ((0, _jquery2.default)(input).attr('type') === "checkbox") {
+            checkboxesAreSelected = checkboxesAreSelected && minCheckboxes(input);
+        }
+    });
+
+    //Check to see if any errors are showing.
+    var formErrors = (0, _jquery2.default)(form).find('.field-error').length > 0;
+
+    //is the current input invalid or any other errors showing?
+    if (formErrors || !requiredValuesExist || !checkboxesAreSelected) {
+        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', 'disabled');
+    } else {
+        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', null);
+    }
+};
+
+var minCheckboxes = function minCheckboxes(input) {
+    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length >= input.dataset.min;
+};
+
+var isValid = function isValid(validate, input) {
+    var valid = true,
+        value = input.value;
+    switch (validate) {
+        case "name":
+            valid = /^([^0-9]*)$/.test(value);
+            break;
+        case "email":
+            valid = _validator2.default.isEmail(value);
+            break;
+        case "url":
+            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true }) || value === "http://" || value === "http:/";
+            break;
+        case "required":
+            valid = !_validator2.default.isEmpty(value);
+            break;
+        case "password":
+            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value);
+            break;
+        case "confirmPassword":
+            valid = _validator2.default.equals(value, input.dataset.password);
+            break;
+        case "date":
+            valid = _validator2.default.isBefore(value);
+            break;
+        case "minChecks":
+            valid = minCheckboxes(input);
+            break;
+        case "minLength":
+            valid = value.length >= parseInt(input.dataset.minlength);
+            break;
+        case "maxlength":
+            valid = value.length <= parseInt(input.dataset.maxLength);
+            break;
+    }
+    return valid;
+};
+
+//validates one value at a time
+var validate = function validate(event) {
+    var input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
+        validations = input.dataset.validation.split(','),
+        parent = input.name === "genres" || input.name === "themes" ? "ul" : "li",
+        all_valid = true;
+
+    //run all validations on input field
+    validations.map(function (validation, index) {
+        //only validate if there is a value or required
+        if (input.value.length || validation === "required") {
+            all_valid = all_valid && isValid(validation, input);
+        }
+    });
+
+    //if its valid, toggle error
+    if (all_valid) {
+        (0, _jquery2.default)(input).closest(parent).removeClass('field-error');
+        (0, _jquery2.default)(input).closest(parent).find('.help-text').hide();
+    } else {
+        (0, _jquery2.default)(input).closest(parent).addClass('field-error');
+        (0, _jquery2.default)(input).closest(parent).find('.help-text').show();
+    }
+};
+
+exports.validate = validate;
+exports.formValid = formValid;
+exports.isValid = isValid;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27022,7 +27154,7 @@ module.exports = DOMProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27369,7 +27501,7 @@ module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27413,7 +27545,7 @@ function reactProdInvariant(code) {
 module.exports = reactProdInvariant;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27451,7 +27583,7 @@ var Rating = function Rating(_ref) {
 exports.default = Rating;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27569,7 +27701,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 /**
@@ -27603,7 +27735,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27950,7 +28082,7 @@ module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27992,138 +28124,6 @@ function reactProdInvariant(code) {
 }
 
 module.exports = reactProdInvariant;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.isValid = exports.formValid = exports.validate = undefined;
-
-var _jquery = __webpack_require__(12);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _validator = __webpack_require__(464);
-
-var _validator2 = _interopRequireDefault(_validator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//validates overall form to toggle submit
-var formValid = function formValid(event) {
-    //hacks for the date plugin
-    var requiredValuesExist = true,
-        checkboxesAreSelected = true,
-
-    //the horrible date plugin hack
-    input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
-        validations = input.dataset.validation.split(','),
-
-    //doing more hacks for this damn date plugin
-    form = input.name === "bday" ? (0, _jquery2.default)('#bday').closest('form') : (0, _jquery2.default)(input).closest('form');
-
-    //Validate the input field you're typing in. This gives us real time status.
-    validate(event);
-
-    //lastly check if there are values in required fields
-    (0, _jquery2.default)(form).find('label span').closest('li').each(function () {
-        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select').val().length > 0;
-    });
-
-    (0, _jquery2.default)(form).find('label span').closest('ul').each(function () {
-        var input = (0, _jquery2.default)(this).find('input')[0];
-        if ((0, _jquery2.default)(input).attr('type') === "checkbox") {
-            checkboxesAreSelected = checkboxesAreSelected && minCheckboxes(input);
-        }
-    });
-
-    //Check to see if any errors are showing.
-    var formErrors = (0, _jquery2.default)(form).find('.field-error').length > 0;
-
-    //is the current input invalid or any other errors showing?
-    if (formErrors || !requiredValuesExist || !checkboxesAreSelected) {
-        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', 'disabled');
-    } else {
-        (0, _jquery2.default)(form).find('input[type="submit"]').attr('disabled', null);
-    }
-};
-
-var minCheckboxes = function minCheckboxes(input) {
-    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length >= input.dataset.min;
-};
-
-var isValid = function isValid(validate, input) {
-    var valid = true,
-        value = input.value;
-    switch (validate) {
-        case "name":
-            valid = /^([^0-9]*)$/.test(value);
-            break;
-        case "email":
-            valid = _validator2.default.isEmail(value);
-            break;
-        case "url":
-            valid = _validator2.default.isURL(value, { protocols: ['http', 'https'], require_protocol: true }) || value === "http://" || value === "http:/";
-            break;
-        case "required":
-            valid = !_validator2.default.isEmpty(value);
-            break;
-        case "password":
-            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value);
-            break;
-        case "confirmPassword":
-            valid = _validator2.default.equals(value, input.dataset.password);
-            break;
-        case "date":
-            valid = _validator2.default.isBefore(value);
-            break;
-        case "minChecks":
-            valid = minCheckboxes(input);
-            break;
-        case "minLength":
-            valid = value.length >= parseInt(input.dataset.minlength);
-            break;
-        case "maxlength":
-            valid = value.length <= parseInt(input.dataset.maxLength);
-            break;
-    }
-    return valid;
-};
-
-//validates one value at a time
-var validate = function validate(event) {
-    var input = event._isAMomentObject || !('validation' in event.target.dataset) ? { name: "bday", value: (0, _jquery2.default)('#bday').val(), dataset: { validation: "date,required" } } : event.target,
-        validations = input.dataset.validation.split(','),
-        parent = input.name === "genres" || input.name === "themes" ? "ul" : "li",
-        all_valid = true;
-
-    //run all validations on input field
-    validations.map(function (validation, index) {
-        //only validate if there is a value or required
-        if (input.value.length || validation === "required") {
-            all_valid = all_valid && isValid(validation, input);
-        }
-    });
-
-    //if its valid, toggle error
-    if (all_valid) {
-        (0, _jquery2.default)(input).closest(parent).removeClass('field-error');
-        (0, _jquery2.default)(input).closest(parent).find('.help-text').hide();
-    } else {
-        (0, _jquery2.default)(input).closest(parent).addClass('field-error');
-        (0, _jquery2.default)(input).closest(parent).find('.help-text').show();
-    }
-};
-
-exports.validate = validate;
-exports.formValid = formValid;
-exports.isValid = isValid;
 
 /***/ }),
 /* 29 */
@@ -28446,7 +28446,7 @@ var ReactComponent = __webpack_require__(76);
 var ReactPureComponent = __webpack_require__(457);
 var ReactClass = __webpack_require__(453);
 var ReactDOMFactories = __webpack_require__(454);
-var ReactElement = __webpack_require__(26);
+var ReactElement = __webpack_require__(27);
 var ReactPropTypes = __webpack_require__(455);
 var ReactVersion = __webpack_require__(458);
 
@@ -30682,7 +30682,7 @@ module.exports = canDefineProperty;
 
 
 
-var _prodInvariant = __webpack_require__(22);
+var _prodInvariant = __webpack_require__(23);
 
 var ReactNoopUpdateQueue = __webpack_require__(53);
 
@@ -30807,7 +30807,7 @@ module.exports = ReactComponent;
 
 
 
-var _prodInvariant = __webpack_require__(22);
+var _prodInvariant = __webpack_require__(23);
 
 var ReactCurrentOwner = __webpack_require__(40);
 
@@ -33565,7 +33565,7 @@ module.exports = isIndex;
 
 var getNative = __webpack_require__(237),
     isArrayLike = __webpack_require__(73),
-    isObject = __webpack_require__(25),
+    isObject = __webpack_require__(26),
     shimKeys = __webpack_require__(441);
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -33627,7 +33627,7 @@ module.exports = keys;
 
 
 
-var _prodInvariant = __webpack_require__(27);
+var _prodInvariant = __webpack_require__(28);
 
 var ReactNoopUpdateQueue = __webpack_require__(77);
 
@@ -34014,7 +34014,7 @@ module.exports = REACT_ELEMENT_TYPE;
 
 var ReactCurrentOwner = __webpack_require__(40);
 var ReactComponentTreeHook = __webpack_require__(52);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 var checkReactTypeSpec = __webpack_require__(282);
 
@@ -34468,7 +34468,7 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -46491,7 +46491,7 @@ var _prodInvariant = __webpack_require__(7);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 
 var invariant = __webpack_require__(5);
 
@@ -46611,7 +46611,7 @@ module.exports = PooledClass.addPoolingTo(CallbackQueue);
 
 
 
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactInstrumentation = __webpack_require__(15);
 
@@ -47351,7 +47351,7 @@ module.exports = ReactInputSelection;
 var _prodInvariant = __webpack_require__(7);
 
 var DOMLazyTree = __webpack_require__(29);
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var React = __webpack_require__(31);
 var ReactBrowserEventEmitter = __webpack_require__(44);
 var ReactCurrentOwner = __webpack_require__(17);
@@ -49175,7 +49175,7 @@ module.exports = REACT_ELEMENT_TYPE;
 
 var ReactCurrentOwner = __webpack_require__(17);
 var ReactComponentTreeHook = __webpack_require__(13);
-var ReactElement = __webpack_require__(26);
+var ReactElement = __webpack_require__(27);
 
 var checkReactTypeSpec = __webpack_require__(459);
 
@@ -50034,14 +50034,9 @@ var Author = function (_React$Component) {
 				_jquery2.default.ajax({
 					url: '/api/v1/books/' + book._id,
 					type: 'PUT',
-					data: {
-						brawl_submit: true
-					},
-					dataType: 'json',
-					contentType: 'application/json; charset=UTF-8',
-					success: function success(response) {
-						this.loadAuthorsBooks(this.state.id);
-					}
+					data: { brawl_submit: true }
+				}).then(function (response) {
+					_this.loadAuthorsBooks(_this.state.id);
 				});
 			}
 		};
@@ -50563,7 +50558,7 @@ var _jquery = __webpack_require__(12);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51630,7 +51625,7 @@ var _jquery = __webpack_require__(12);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51984,7 +51979,7 @@ var _jquery = __webpack_require__(12);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 var _Library = __webpack_require__(291);
 
@@ -52084,8 +52079,8 @@ var Parent = function (_React$Component) {
 
 		_this.approveBooks = function (book) {
 			var self = _this;
-
-			_jquery2.default.ajax({ url: apiUrl + '/books/' + book._id,
+			_jquery2.default.ajax({
+				url: '/api/v1/books/' + book._id,
 				method: 'PUT',
 				data: { status: 2 }
 			}).then(function (response) {
@@ -52855,7 +52850,7 @@ var _jquery = __webpack_require__(12);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53263,7 +53258,7 @@ var _moment2 = _interopRequireDefault(_moment);
 
 __webpack_require__(318);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54044,7 +54039,7 @@ var _SocialMedia = __webpack_require__(300);
 
 var _SocialMedia2 = _interopRequireDefault(_SocialMedia);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 var _jquery = __webpack_require__(12);
 
@@ -55132,7 +55127,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var _prodInvariant = __webpack_require__(22);
+var _prodInvariant = __webpack_require__(23);
 
 var invariant = __webpack_require__(5);
 
@@ -55256,7 +55251,7 @@ var ReactComponent = __webpack_require__(51);
 var ReactPureComponent = __webpack_require__(280);
 var ReactClass = __webpack_require__(276);
 var ReactDOMFactories = __webpack_require__(277);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 var ReactPropTypes = __webpack_require__(278);
 var ReactVersion = __webpack_require__(281);
 
@@ -55360,7 +55355,7 @@ module.exports = React;
 
 
 var PooledClass = __webpack_require__(273);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 var emptyFunction = __webpack_require__(14);
 var traverseAllChildren = __webpack_require__(284);
@@ -55555,11 +55550,11 @@ module.exports = ReactChildren;
 
 
 
-var _prodInvariant = __webpack_require__(22),
+var _prodInvariant = __webpack_require__(23),
     _assign = __webpack_require__(6);
 
 var ReactComponent = __webpack_require__(51);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 var ReactPropTypeLocationNames = __webpack_require__(84);
 var ReactNoopUpdateQueue = __webpack_require__(53);
 
@@ -56284,7 +56279,7 @@ module.exports = ReactClass;
 
 
 
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -56460,7 +56455,7 @@ module.exports = ReactDOMFactories;
 
 
 
-var _require = __webpack_require__(21),
+var _require = __webpack_require__(22),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(56);
@@ -56572,7 +56567,7 @@ module.exports = '15.5.4';
 
 
 
-var _prodInvariant = __webpack_require__(22);
+var _prodInvariant = __webpack_require__(23);
 
 var ReactPropTypeLocationNames = __webpack_require__(84);
 var ReactPropTypesSecret = __webpack_require__(279);
@@ -56664,9 +56659,9 @@ module.exports = checkReactTypeSpec;
  */
 
 
-var _prodInvariant = __webpack_require__(22);
+var _prodInvariant = __webpack_require__(23);
 
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(22);
 
 var invariant = __webpack_require__(5);
 
@@ -56709,7 +56704,7 @@ module.exports = onlyChild;
 
 
 
-var _prodInvariant = __webpack_require__(22);
+var _prodInvariant = __webpack_require__(23);
 
 var ReactCurrentOwner = __webpack_require__(40);
 var REACT_ELEMENT_TYPE = __webpack_require__(82);
@@ -56986,7 +56981,7 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -57260,7 +57255,7 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57746,11 +57741,11 @@ var _reactStarRatingComponent = __webpack_require__(235);
 
 var _reactStarRatingComponent2 = _interopRequireDefault(_reactStarRatingComponent);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
-var _validation = __webpack_require__(28);
+var _validation = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -58064,7 +58059,7 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -58100,20 +58095,14 @@ var UserBooks = function (_React$Component) {
 				_this.props.loadUserInfo(_this.props.user._id);
 			});
 		}, _this.enterBrawl = function (book) {
-			if (!book.brawl) {
-				_jQuery2.default.ajax({
-					url: '/api/v1/books/' + book._id,
-					type: 'PUT',
-					data: {
-						brawl_submit: true
-					},
-					dataType: 'json',
-					contentType: 'application/json; charset=UTF-8',
-					success: function success(response) {
-						this.props.loadBooks(this.props.user._id);
-					}
-				});
-			}
+			_jQuery2.default.ajax({
+				url: '/api/v1/books/' + book._id,
+				type: 'PUT',
+				data: { brawl_submit: true }
+			}).then(function (response) {
+				console.log(response);
+				_this.props.loadBooks(_this.props.user._id);
+			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -58164,10 +58153,10 @@ var UserBooks = function (_React$Component) {
 										'Edit'
 									),
 									_react2.default.createElement(
-										'span',
-										{ className: "button button-red" + (book.brawl ? " disabled" : ""), onClick: function onClick() {
+										'button',
+										{ className: 'button button-red', onClick: function onClick() {
 												_this2.enterBrawl(book);
-											} },
+											}, disabled: book.brawl_submit },
 										'Brawl'
 									)
 								)
@@ -58255,7 +58244,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -58338,7 +58327,7 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -58427,7 +58416,7 @@ var BrawlAdmin = function (_React$Component) {
 				return false;
 			}
 			(0, _jQuery2.default)('.pick0,.pick1').removeClass('pick0 pick1');
-			_this.setState({ currentBrawl: currentBrawl, title: title, startBrawl: false });
+			_this.setState({ currentBrawl: currentBrawl, title: title, startBrawl: false, showBrawlers: false });
 		};
 
 		_this.declareWinner = function (currentBrawl) {
@@ -58493,7 +58482,7 @@ var BrawlAdmin = function (_React$Component) {
 				_id: "0"
 			};
 			(0, _jQuery2.default)('.pick0,.pick1').removeClass('pick0 pick1');
-			_this.setState({ currentBrawl: newBrawl });
+			_this.setState({ currentBrawl: newBrawl, brawlType: e.target.value });
 			e.preventDefault();
 			e.stopPropagation();
 		};
@@ -58530,8 +58519,10 @@ var BrawlAdmin = function (_React$Component) {
 
 		_this.getBrawlers = function (brawlType) {
 			//brawlers=true&type=brawlType
-			_jQuery2.default.get('/api/v1/books').then(function (brawlers) {
-				_this.setState({ brawlers: _this.filterBy(brawlers.data, "type", brawlType) });
+			_jQuery2.default.get('/api/v1/books?brawl_submit=true').then(function (brawlers) {
+				var brawl_type = _this.filterBy(brawlers.data, "type", brawlType);
+				var brawl = _this.filterBy(brawl_type, "brawl", undefined);
+				_this.setState({ brawlers: brawl });
 			});
 		};
 
@@ -58670,7 +58661,7 @@ var BrawlAdmin = function (_React$Component) {
 							)
 						)
 					),
-					_react2.default.createElement(
+					brawlers.length ? _react2.default.createElement(
 						'ul',
 						null,
 						brawlers.map(function (book, i) {
@@ -58725,6 +58716,12 @@ var BrawlAdmin = function (_React$Component) {
 							);
 						}),
 						_react2.default.createElement('li', { className: 'book-spacing' })
+					) : _react2.default.createElement(
+						'div',
+						{ className: 'no-brawlers' },
+						'No ',
+						brawlType.toLowerCase(),
+						' authors have signed up for Book Brawl'
 					)
 				),
 				_react2.default.createElement(
@@ -58779,7 +58776,7 @@ var _jQuery = __webpack_require__(11);
 
 var _jQuery2 = _interopRequireDefault(_jQuery);
 
-var _Rating = __webpack_require__(23);
+var _Rating = __webpack_require__(24);
 
 var _Rating2 = _interopRequireDefault(_Rating);
 
@@ -65813,7 +65810,7 @@ module.exports = EnterLeaveEventPlugin;
 
 var _assign = __webpack_require__(6);
 
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 
 var getTextContentAccessor = __webpack_require__(227);
 
@@ -65911,7 +65908,7 @@ module.exports = FallbackCompositionState;
 
 
 
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 
 var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
 var HAS_BOOLEAN_VALUE = DOMProperty.injection.HAS_BOOLEAN_VALUE;
@@ -67381,7 +67378,7 @@ var AutoFocusUtils = __webpack_require__(339);
 var CSSPropertyOperations = __webpack_require__(341);
 var DOMLazyTree = __webpack_require__(29);
 var DOMNamespaces = __webpack_require__(58);
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var DOMPropertyOperations = __webpack_require__(213);
 var EventPluginHub = __webpack_require__(33);
 var EventPluginRegistry = __webpack_require__(43);
@@ -68837,7 +68834,7 @@ module.exports = ReactDOMInput;
 
 
 
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var ReactComponentTreeHook = __webpack_require__(13);
 
 var warning = __webpack_require__(4);
@@ -69809,7 +69806,7 @@ module.exports = {
 
 
 
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var EventPluginRegistry = __webpack_require__(43);
 var ReactComponentTreeHook = __webpack_require__(13);
 
@@ -70523,7 +70520,7 @@ var _assign = __webpack_require__(6);
 
 var EventListener = __webpack_require__(92);
 var ExecutionEnvironment = __webpack_require__(10);
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactUpdates = __webpack_require__(16);
 
@@ -70718,7 +70715,7 @@ module.exports = ReactHostOperationHistoryHook;
 
 
 
-var DOMProperty = __webpack_require__(20);
+var DOMProperty = __webpack_require__(21);
 var EventPluginHub = __webpack_require__(33);
 var EventPluginUtils = __webpack_require__(59);
 var ReactComponentEnvironment = __webpack_require__(62);
@@ -71445,7 +71442,7 @@ module.exports = ReactPropTypeLocationNames;
 var _assign = __webpack_require__(6);
 
 var CallbackQueue = __webpack_require__(212);
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 var ReactBrowserEventEmitter = __webpack_require__(44);
 var ReactInputSelection = __webpack_require__(219);
 var ReactInstrumentation = __webpack_require__(15);
@@ -71722,7 +71719,7 @@ module.exports = ReactRef;
 
 var _assign = __webpack_require__(6);
 
-var PooledClass = __webpack_require__(24);
+var PooledClass = __webpack_require__(25);
 var Transaction = __webpack_require__(46);
 var ReactInstrumentation = __webpack_require__(15);
 var ReactServerUpdateQueue = __webpack_require__(382);
@@ -75852,7 +75849,7 @@ var arrayCopy = __webpack_require__(420),
     initCloneByTag = __webpack_require__(438),
     initCloneObject = __webpack_require__(439),
     isArray = __webpack_require__(49),
-    isObject = __webpack_require__(25);
+    isObject = __webpack_require__(26);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -76054,7 +76051,7 @@ module.exports = baseForOwn;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(429),
-    isObject = __webpack_require__(25),
+    isObject = __webpack_require__(26),
     isObjectLike = __webpack_require__(38);
 
 /**
@@ -76605,7 +76602,7 @@ module.exports = initCloneObject;
 
 var isArrayLike = __webpack_require__(73),
     isIndex = __webpack_require__(74),
-    isObject = __webpack_require__(25);
+    isObject = __webpack_require__(26);
 
 /**
  * Checks if the provided arguments are from an iteratee call.
@@ -76684,7 +76681,7 @@ module.exports = shimKeys;
 /* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(25);
+var isObject = __webpack_require__(26);
 
 /**
  * Converts `value` to an object if it's not one.
@@ -76840,7 +76837,7 @@ module.exports = isEqual;
 /* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(25);
+var isObject = __webpack_require__(26);
 
 /** `Object#toString` result references. */
 var funcTag = '[object Function]';
@@ -77022,7 +77019,7 @@ var isArguments = __webpack_require__(238),
     isArray = __webpack_require__(49),
     isIndex = __webpack_require__(74),
     isLength = __webpack_require__(37),
-    isObject = __webpack_require__(25);
+    isObject = __webpack_require__(26);
 
 /** Used for native method references. */
 var objectProto = Object.prototype;
@@ -77192,7 +77189,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var _prodInvariant = __webpack_require__(27);
+var _prodInvariant = __webpack_require__(28);
 
 var invariant = __webpack_require__(5);
 
@@ -77310,7 +77307,7 @@ module.exports = PooledClass;
 
 
 var PooledClass = __webpack_require__(451);
-var ReactElement = __webpack_require__(26);
+var ReactElement = __webpack_require__(27);
 
 var emptyFunction = __webpack_require__(14);
 var traverseAllChildren = __webpack_require__(462);
@@ -77505,11 +77502,11 @@ module.exports = ReactChildren;
 
 
 
-var _prodInvariant = __webpack_require__(27),
+var _prodInvariant = __webpack_require__(28),
     _assign = __webpack_require__(6);
 
 var ReactComponent = __webpack_require__(76);
-var ReactElement = __webpack_require__(26);
+var ReactElement = __webpack_require__(27);
 var ReactPropTypeLocationNames = __webpack_require__(241);
 var ReactNoopUpdateQueue = __webpack_require__(77);
 
@@ -78234,7 +78231,7 @@ module.exports = ReactClass;
 
 
 
-var ReactElement = __webpack_require__(26);
+var ReactElement = __webpack_require__(27);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -78410,7 +78407,7 @@ module.exports = ReactDOMFactories;
 
 
 
-var _require = __webpack_require__(26),
+var _require = __webpack_require__(27),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(56);
@@ -78522,7 +78519,7 @@ module.exports = '15.5.4';
 
 
 
-var _prodInvariant = __webpack_require__(27);
+var _prodInvariant = __webpack_require__(28);
 
 var ReactPropTypeLocationNames = __webpack_require__(241);
 var ReactPropTypesSecret = __webpack_require__(456);
@@ -78640,9 +78637,9 @@ module.exports = getNextDebugID;
  */
 
 
-var _prodInvariant = __webpack_require__(27);
+var _prodInvariant = __webpack_require__(28);
 
-var ReactElement = __webpack_require__(26);
+var ReactElement = __webpack_require__(27);
 
 var invariant = __webpack_require__(5);
 
@@ -78685,7 +78682,7 @@ module.exports = onlyChild;
 
 
 
-var _prodInvariant = __webpack_require__(27);
+var _prodInvariant = __webpack_require__(28);
 
 var ReactCurrentOwner = __webpack_require__(17);
 var REACT_ELEMENT_TYPE = __webpack_require__(239);

@@ -84,7 +84,7 @@ export default class BrawlAdmin extends React.Component {
 			return false;
 		}
 		$('.pick0,.pick1').removeClass('pick0 pick1');
-		this.setState({currentBrawl: currentBrawl, title: title, startBrawl: false})
+		this.setState({currentBrawl: currentBrawl, title: title, startBrawl: false, showBrawlers: false})
 	}
 
 	declareWinner = (currentBrawl) => {
@@ -149,7 +149,7 @@ export default class BrawlAdmin extends React.Component {
 		    _id: "0"
 		}
 		$('.pick0,.pick1').removeClass('pick0 pick1');
-	   	this.setState({currentBrawl: newBrawl})
+	   	this.setState({currentBrawl: newBrawl, brawlType: e.target.value})
 		e.preventDefault();
 		e.stopPropagation();
 	}
@@ -182,8 +182,10 @@ export default class BrawlAdmin extends React.Component {
 
 	getBrawlers = (brawlType) => {
 		//brawlers=true&type=brawlType
-		$.get('/api/v1/books').then((brawlers)=>{
-			this.setState({brawlers: this.filterBy(brawlers.data,"type",brawlType)});
+		$.get('/api/v1/books?brawl_submit=true').then((brawlers)=>{
+			let brawl_type = this.filterBy(brawlers.data, "type", brawlType);
+			let brawl = this.filterBy(brawl_type, "brawl", undefined);
+			this.setState({brawlers: brawl});
 		})
 	}
 
@@ -243,35 +245,42 @@ export default class BrawlAdmin extends React.Component {
 						<option value="Serial" selected={brawlType === "Serial"}>Serial</option>
 					</select>
 					</div>
-					<ul>
-						{
-							brawlers.map((book, i)=>{
-								//Need to change
-								return (
-									<li key={i}>
-										<div className="content-block content-block-book">
-											<BookType type={book.type}/>
-											<figure>
-												<div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
-													<div className="overlay">
-														<a target="_blank" href={"/books/" + book._id} className="button button-white">Preview</a>
-														<a href="javascript:void(0)" onClick={(e) => {$this.pickBrawler(title === "Create Brawl",book,e)}} className="button button-white" id={book._id}>Brawl</a>
+					{brawlers.length ? (
+						<ul>
+							{
+								brawlers.map((book, i)=>{
+									//Need to change
+									return (
+										<li key={i}>
+											<div className="content-block content-block-book">
+												<BookType type={book.type}/>
+												<figure>
+													<div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
+														<div className="overlay">
+															<a target="_blank" href={"/books/" + book._id} className="button button-white">Preview</a>
+															<a href="javascript:void(0)" onClick={(e) => {$this.pickBrawler(title === "Create Brawl",book,e)}} className="button button-white" id={book._id}>Brawl</a>
+														</div>
 													</div>
-												</div>
-												<figcaption>
-													<h4>{book.title}</h4>
-													<p>{book.author.name}</p>
-													<Rating stars={book.rating} />
-												</figcaption>
-											</figure>
-										</div>
-									</li>
-								)
-							})
-						}
-						<li className="book-spacing">
-						</li>
-					</ul>
+													<figcaption>
+														<h4>{book.title}</h4>
+														<p>{book.author.name}</p>
+														<Rating stars={book.rating} />
+													</figcaption>
+												</figure>
+											</div>
+										</li>
+									)
+								})
+							}
+							<li className="book-spacing">
+							</li>
+						</ul>
+						) : (
+						<div className="no-brawlers">
+							No {brawlType.toLowerCase()} authors have signed up for Book Brawl
+						</div>
+						)
+					}
 				</div>
 				<footer>
 					<div className="container all-buttons">

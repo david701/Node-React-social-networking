@@ -1071,6 +1071,11 @@ button:disabled {
 .review-area.field-error .dividers {
   margin: 0 0 3px 0; }
 
+.no-brawlers {
+  padding: 40px 0;
+  text-align: center;
+  color: #fff; }
+
 #hide {
   display: none; }
 

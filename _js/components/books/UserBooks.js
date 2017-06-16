@@ -15,20 +15,14 @@ export default class UserBooks extends React.Component {
 	}
 
 	enterBrawl = (book) => {
-		if(!book.brawl){
-	        $.ajax({
-	            url: '/api/v1/books/' + book._id,
-	            type: 'PUT',
-	       		data: {
-					brawl_submit: true,
-				},
-	       		dataType: 'json',
-	        	contentType: 'application/json; charset=UTF-8',
-	        	success: function(response){
-	        		this.props.loadBooks(this.props.user._id)
-	          	}
-	       	});
-    	}
+	   	$.ajax({
+	        url: '/api/v1/books/' + book._id,
+	        type: 'PUT',
+	        data: {brawl_submit: true}
+	    }).then((response)=>{
+	    	console.log(response)
+	    	this.props.loadBooks(this.props.user._id)
+	    });
 	}
 
 	render(){
@@ -50,7 +44,7 @@ export default class UserBooks extends React.Component {
 								) : (
 									<div className="overlay">
 										<a className="button button-red" href={`/books/${book._id}`}>Edit</a>
-										<span className={"button button-red" + (book.brawl ? " disabled" : "")} onClick={()=>{this.enterBrawl(book)}}>Brawl</span>
+										<button className="button button-red" onClick={()=>{this.enterBrawl(book)}} disabled={book.brawl_submit}>Brawl</button>
 									</div>
 								) }
 						</div>
