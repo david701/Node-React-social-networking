@@ -188,8 +188,8 @@ class LoginButtons extends React.Component{
 			                    	}
 			                    </ul>
 			                </li>
-			                <li className={this.state.title === "Forum" || this.state.title === "Create" ? 'selected' : ''}>
-			                    <a href="/forum/">
+			                <li className={this.state.title === "Forum"? 'selected' : ''}>
+			                    <a href="http://forum.readyjump.in" target="_blank">
 			                        <div className="icon">
 			                            <img className="day" src="/assets/images/icons/nav/forum.svg" alt="Browse"/>
                                         <img className="night" src="/assets/images/icons/nav/forum-night.svg" alt="Browse"/>

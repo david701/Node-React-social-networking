@@ -61719,10 +61719,10 @@ var LoginButtons = function (_React$Component) {
 								),
 								_react2.default.createElement(
 									'li',
-									{ className: this.state.title === "Forum" || this.state.title === "Create" ? 'selected' : '' },
+									{ className: this.state.title === "Forum" ? 'selected' : '' },
 									_react2.default.createElement(
 										'a',
-										{ href: '/forum/' },
+										{ href: 'http://forum.readyjump.in', target: '_blank' },
 										_react2.default.createElement(
 											'div',
 											{ className: 'icon' },
