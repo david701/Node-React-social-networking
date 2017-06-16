@@ -50170,10 +50170,14 @@ var Author = function (_React$Component) {
 								null,
 								this.state.user.name
 							),
-							this.state.user.achievement && _react2.default.createElement(
+							this.state.user.level_title ? _react2.default.createElement(
 								'p',
 								null,
-								'Achievement-Placeholder'
+								this.state.user.level_title
+							) : _react2.default.createElement(
+								'p',
+								null,
+								'Apprentice'
 							),
 							_react2.default.createElement(
 								'div',
@@ -52326,10 +52330,14 @@ var Parent = function (_React$Component) {
 											null,
 											this.state.user.name
 										),
-										this.state.user.level_title && _react2.default.createElement(
+										this.state.user.level_title ? _react2.default.createElement(
 											'p',
 											null,
 											this.state.user.level_title
+										) : _react2.default.createElement(
+											'p',
+											null,
+											'Apprentice'
 										),
 										this.state.user.social_media && _react2.default.createElement(
 											'div',

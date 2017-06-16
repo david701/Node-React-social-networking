@@ -163,9 +163,10 @@ class Author extends React.Component{
 					</figure>
 					<div className="details">
 						<h5>{this.state.user.name}</h5>
-						{this.state.user.achievement &&
-							<p>Achievement-Placeholder</p>
-						}
+							{this.state.user.level_title?
+								(<p>{this.state.user.level_title}</p>):
+								<p>Apprentice</p>
+							}
 						<div className="basic-profile">
 							{this.state.user.social_media &&
 								<div>

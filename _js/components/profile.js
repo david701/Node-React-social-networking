@@ -246,8 +246,9 @@ class Parent extends React.Component {
 										</figure>
 										<div className="details">
 											<h5>{this.state.user.name}</h5>
-											{this.state.user.level_title &&
-												<p>{this.state.user.level_title}</p>
+											{this.state.user.level_title?
+												(<p>{this.state.user.level_title}</p>):
+												<p>Apprentice</p>
 											}
 											{this.state.user.social_media &&
 												<div className="basic-profile">
