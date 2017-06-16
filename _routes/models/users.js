@@ -66,7 +66,7 @@ exports.getUsers = (req, res) => {
 		query.name = { "$regex": req.query.author, "$options": "i" };
 	}
 
-	mongoUser.find(query, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches').where('status').gt(0).limit(limit).skip(skip).sort(sort)
+	mongoUser.find(query, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches level_title').where('status').gt(0).limit(limit).skip(skip).sort(sort)
 	.populate({
 		path:'following_authors',
 		select:'name avatar',
@@ -119,7 +119,7 @@ exports.createUser = (req, res)=>{
 
 /// GET SINGLE USER BY ID
 exports.getUserById = (req, res)=>{
-	var query = mongoUser.findOne({_id: req.params.id}, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches');
+	var query = mongoUser.findOne({_id: req.params.id}, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches level_title');
 	if(!req.query.following_list){
 		query = query.populate({
 			path:'following_authors',
@@ -157,7 +157,7 @@ exports.getUserById = (req, res)=>{
 }
 /// GET SINGLE USER BY EMAIL
 exports.getUserByEmail = (req, res)=>{
-	mongoUser.findOne({email: req.query.email}, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches', (err, user)=>{
+	mongoUser.findOne({email: req.query.email}, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches level_title', (err, user)=>{
 		if(err){
 			handle.err(res, err);
 		}else{

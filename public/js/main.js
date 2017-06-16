@@ -52322,10 +52322,10 @@ var Parent = function (_React$Component) {
 											null,
 											this.state.user.name
 										),
-										this.state.user.achievement && _react2.default.createElement(
+										this.state.user.level_title && _react2.default.createElement(
 											'p',
 											null,
-											'Achievement-Placeholder'
+											this.state.user.level_title
 										),
 										this.state.user.social_media && _react2.default.createElement(
 											'div',
@@ -58082,7 +58082,7 @@ var Library = function (_Component) {
             'See All'
           )
         ),
-        _react2.default.createElement(_UserBooks2.default, { books: books, author: author, library: this.props.library, user: this.props.user, loadUserInfo: this.props.loadUserInfo, loadBooks: this.props.loadBooks })
+        _react2.default.createElement(_UserBooks2.default, { books: books, author: author, library: this.props.library, user: this.props.user, loadUserInfo: this.props.loadUserInfo, loadBooks: this.props.loadBooks, title: title })
       );
     }
   }]);
@@ -58460,6 +58460,26 @@ var UserBooks = function (_React$Component) {
 			var _this2 = this;
 
 			var bookList = this.props.books.map(function (book, key) {
+				var newChapter = '';
+				if (_this2.props.title == 'My Library') {
+					if (book.last_viewed && book.last_viewed[_this2.props.user._id]) {
+						if (book.last_viewed[_this2.props.user._id] < book.updated_at) {
+							newChapter = _react2.default.createElement(
+								'span',
+								{ className: 'new-chapter-badge', title: 'New Chapters', style: { display: 'block', position: 'absolute', top: '0.25rem', left: '0.25rem', backgroundColor: 'red', height: '1.25rem', width: '1.25rem', padding: '0.15rem 0', borderRadius: '1rem', color: 'white', lineHeight: '1em', textAlign: 'center', fontSize: '1em', cursor: 'pointer' } },
+								'!'
+							);
+						}
+					} else {
+						if (!book.last_viewed || !book.last_viewed[_this2.props.user._id]) {
+							newChapter = _react2.default.createElement(
+								'span',
+								{ className: 'new-chapter-badge', title: 'New Chapters', style: { display: 'block', position: 'absolute', top: '0.25rem', left: '0.25rem', backgroundColor: 'red', height: '1.25rem', width: '1.25rem', padding: '0.15rem 0', borderRadius: '1rem', color: 'white', lineHeight: '1em', textAlign: 'center', fontSize: '1em', cursor: 'pointer' } },
+								'!'
+							);
+						}
+					}
+				}
 				return _react2.default.createElement(
 					'li',
 					{ key: key },
@@ -58509,7 +58529,8 @@ var UserBooks = function (_React$Component) {
 									book.author.name
 								),
 								_react2.default.createElement(_Rating2.default, { stars: book.rating })
-							)
+							),
+							newChapter
 						)
 					)
 				);

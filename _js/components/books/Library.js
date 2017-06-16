@@ -11,7 +11,7 @@ class Library extends Component {
           <h1>{title}</h1>
           <a className="control" href=".">See All</a>
         </div>
-        <UserBooks books={books} author={author} library={this.props.library} user={this.props.user} loadUserInfo={this.props.loadUserInfo} loadBooks={this.props.loadBooks}/>
+        <UserBooks books={books} author={author} library={this.props.library} user={this.props.user} loadUserInfo={this.props.loadUserInfo} loadBooks={this.props.loadBooks} title={title}/>
       </div>
     );
   }
