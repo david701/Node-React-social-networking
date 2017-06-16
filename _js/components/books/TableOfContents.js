@@ -1,4 +1,8 @@
 import React from 'react';
+import moment from 'moment';
+
+const oneDay = 24*60*60*1000;
+var today = new Date();
 
 const TableOfContents = props => (
   <div className="content-block content-block-standard-slide">

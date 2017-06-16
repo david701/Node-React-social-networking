@@ -23,7 +23,7 @@ export default class Brawl extends React.Component {
 			url: '/api/v1/brawls/'+brawlId,
 			method: 'PUT',
 			data: {vote: bookId}
-		}).then(()=>{
+		}).then((response)=>{
 			this.getBrawls();
 		})
 		e.preventDefault();
