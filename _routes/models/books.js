@@ -440,7 +440,8 @@ exports.getChapters = (req, res)=>{
 					last_viewed[req.session._id] = new Date();
 					book.last_viewed = last_viewed;
 				}
-				book.save().then((book)=>{
+				var last = book.last_viewed;
+				book.update({last_viewed: last}).then((book)=>{
 					res.json({status: 'ok', data: chapters})
 				});
 			})
@@ -456,7 +457,7 @@ exports.getChapterByNumber = (req, res)=>{
   var book_id = req.params.id,
       number = parseInt(req.params.number);
 
-  mongoChapter.findOne({book_id: book_id}).gt(0).where('number').equals(number).lean().then((chapter)=>{
+  mongoChapter.findOne({book_id: book_id}).where('status').gt(0).where('number').equals(number).lean().then((chapter)=>{
 		if(req.session && req.session._id){
 			if(chapter.viewed_by){
 				chapter.viewed_by[req.session._id] = new Date();
