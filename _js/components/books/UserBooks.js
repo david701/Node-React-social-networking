@@ -27,7 +27,20 @@ export default class UserBooks extends React.Component {
 	}
 
 	render(){
-		var bookList = this.props.books.map((book, key) => (
+		var bookList = this.props.books.map((book, key) => {
+			var newChapter = '';
+			if(this.props.title == 'My Library'){
+				if(book.last_viewed && book.last_viewed[this.props.user._id]){
+					if(book.last_viewed[this.props.user._id] < book.updated_at){
+						newChapter = <span className="new-chapter-badge" title='New Chapters' style={{display:'block', position:'absolute', top:'0.25rem', left:'0.25rem', backgroundColor: 'red', height: '1.25rem', width: '1.25rem', padding: '0.15rem 0', borderRadius: '1rem', color: 'white', lineHeight: '1em', textAlign: 'center', fontSize:'1em', cursor: 'pointer'}}>!</span>
+					}
+				}else{
+					if(!book.last_viewed || !book.last_viewed[this.props.user._id]){
+						newChapter = <span className="new-chapter-badge" title='New Chapters' style={{display:'block', position:'absolute', top:'0.25rem', left:'0.25rem', backgroundColor: 'red', height: '1.25rem', width: '1.25rem', padding: '0.15rem 0', borderRadius: '1rem', color: 'white', lineHeight: '1em', textAlign: 'center', fontSize:'1em', cursor: 'pointer'}}>!</span>
+					}
+				}	
+			}
+			return (
 			<li key={key}>
 				<div className="content-block content-block-book">
 					<BookType type={book.type}/>
@@ -55,10 +68,11 @@ export default class UserBooks extends React.Component {
 							<p>By {book.author.name}</p>
 								<Rating stars={book.rating} />
 							</figcaption>
+							{newChapter}
 						</figure>
 					</div>
 				</li>
-			))
+			)})
 
 		return(
 			<ul>
