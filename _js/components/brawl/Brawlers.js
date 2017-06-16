@@ -75,7 +75,7 @@ export default class Brawlers extends React.Component {
 			avatarB = this.chooseAvi(small_avatarB);
 		}
 
-		if(brawl.book_a.followers || brawl.book_b.followers){
+		if((brawl.book_a.followers || brawl.book_b.followers) && user){
 			followingA = brawl.book_a.followers.includes(user._id)
 			followingB = brawl.book_b.followers.includes(user._id)
 		}

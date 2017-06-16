@@ -34593,7 +34593,7 @@ var Brawlers = function (_React$Component) {
 				avatarB = this.chooseAvi(small_avatarB);
 			}
 
-			if (brawl.book_a.followers || brawl.book_b.followers) {
+			if ((brawl.book_a.followers || brawl.book_b.followers) && user) {
 				followingA = brawl.book_a.followers.includes(user._id);
 				followingB = brawl.book_b.followers.includes(user._id);
 			}
@@ -52538,7 +52538,24 @@ var Parent = function (_React$Component) {
 								following
 							),
 							_react2.default.createElement('hr', null),
-							this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : '',
+							this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
+								'div',
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'title-row' },
+									_react2.default.createElement(
+										'h4',
+										null,
+										'My Library'
+									)
+								),
+								_react2.default.createElement(
+									'span',
+									null,
+									'No books have been added to your library'
+								)
+							),
 							_react2.default.createElement('hr', null),
 							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, loadUserInfo: this.loadUserInfo })
 						),
