@@ -61,6 +61,52 @@ const levelCheck = (points, cb)=>{
 	cb(level, title);
 }
 
+const levelAvatar = (level)=>{
+	var avatar = {kitty: '', puppy:''}
+
+	if(!level || level == 0){
+		avatar.kitty = '/assets/images/avatars/Cat_1.png';
+		avatar.puppy = '/assets/images/avatars/Dog_1.png';
+	} else if (level >= 1) {
+		avatar.kitty = '/assets/images/avatars/Cat_2.png';
+		avatar.puppy = '/assets/images/avatars/Dog_2.png';
+	} else if (level >= 11) {
+		avatar.kitty = '/assets/images/avatars/Cat_3.png';
+		avatar.puppy = '/assets/images/avatars/Dog_3.png';
+	} else if (level >= 21) {
+		avatar.kitty = '/assets/images/avatars/Cat_4.png';
+		avatar.puppy = '/assets/images/avatars/Dog_4.png';
+	} else if (level >= 31) {
+		avatar.kitty = '/assets/images/avatars/Cat_5.png';
+		avatar.puppy = '/assets/images/avatars/Dog_5.png';
+	} else if (level >= 41) {
+		avatar.kitty = '/assets/images/avatars/Cat_6.png';
+		avatar.puppy = '/assets/images/avatars/Dog_6.png';
+	}
+
+	return avatar;
+}
+
+const avatarCheck = (avatar)=>{
+	if(avatar === '/assets/images/avatars/Cat_1.png' || avatar === '/assets/images/avatars/Cat_2.png' || avatar === '/assets/images/avatars/Cat_3.png' || avatar === '/assets/images/avatars/Cat_4.png' || avatar === '/assets/images/avatars/Cat_5.png' || avatar === '/assets/images/avatars/Cat_6.png' || avatar === '/assets/images/avatars/cat_1.png'){
+		return 'cat';
+	}else{
+		return 'dog';
+	}
+}
+
+const selectAvatar = (level, avatar)=>{
+	var animal = avatarCheck(avatar);
+
+	if(animal === 'dog'){
+		var selected = levelAvatar(level).puppy;
+	}else{
+		var selected = levelAvatar(level).kitty;
+	}
+
+	return selected;
+}
+
 const addPoints = (userId, points, cb)=>{
 	mongoUser.findOne({_id: userId}).then((user)=>{
 		if(!user.points){
@@ -70,6 +116,7 @@ const addPoints = (userId, points, cb)=>{
 		levelCheck(user.points, (level, title)=>{
 			user.level = level;
 			user.level_title = title
+			user.avatar = selectAvatar(user.level, user.avatar);
 			user.save().then((user)=>{
 				cb(null, user);
 			}).catch(err=>{
@@ -143,7 +190,11 @@ module.exports = {
 			cb(err, user)
 		});
 	},
-	avatars: ()=>{
+	avatars: (userId, cb)=>{
 		// return array of correct avatars
+		var points = 0;
+		addPoints(userId, points, (err, user)=>{
+			cb(err, user)
+		});
 	}
 }

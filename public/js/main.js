@@ -50651,6 +50651,54 @@ var SignUp = function (_React$Component) {
       }
     };
 
+    _this.selectAvatar = function (level, avatar) {
+      var animal = _this.avatarCheck(avatar);
+
+      if (animal === 'dog') {
+        var selected = _this.levelAvatar(level).puppy;
+      } else {
+        var selected = _this.levelAvatar(level).kitty;
+      }
+
+      var profile = _this.state.profile;
+      profile.avatar = selected;
+      _this.setState({ profile: profile });
+    };
+
+    _this.levelAvatar = function (level) {
+      var avatar = { kitty: '', puppy: '' };
+
+      if (!level || level == 0) {
+        avatar.kitty = '/assets/images/avatars/Cat_1.png';
+        avatar.puppy = '/assets/images/avatars/Dog_1.png';
+      } else if (level >= 1) {
+        avatar.kitty = '/assets/images/avatars/Cat_2.png';
+        avatar.puppy = '/assets/images/avatars/Dog_2.png';
+      } else if (level >= 11) {
+        avatar.kitty = '/assets/images/avatars/Cat_3.png';
+        avatar.puppy = '/assets/images/avatars/Dog_3.png';
+      } else if (level >= 21) {
+        avatar.kitty = '/assets/images/avatars/Cat_4.png';
+        avatar.puppy = '/assets/images/avatars/Dog_4.png';
+      } else if (level >= 31) {
+        avatar.kitty = '/assets/images/avatars/Cat_5.png';
+        avatar.puppy = '/assets/images/avatars/Dog_5.png';
+      } else if (level >= 41) {
+        avatar.kitty = '/assets/images/avatars/Cat_6.png';
+        avatar.puppy = '/assets/images/avatars/Dog_6.png';
+      }
+
+      return avatar;
+    };
+
+    _this.avatarCheck = function (avatar) {
+      if (avatar === '/assets/images/avatars/Cat_1.png' || avatar === '/assets/images/avatars/Cat_2.png' || avatar === '/assets/images/avatars/Cat_3.png' || avatar === '/assets/images/avatars/Cat_4.png' || avatar === '/assets/images/avatars/Cat_5.png' || avatar === '/assets/images/avatars/Cat_6.png' || avatar === '/assets/images/avatars/cat_1.png') {
+        return 'cat';
+      } else {
+        return 'dog';
+      }
+    };
+
     _this.new_profile = new Profile();
     _this.new_profile.id = profile_id;
     _this.state = {
@@ -50713,6 +50761,7 @@ var SignUp = function (_React$Component) {
         var date = new Date(response.data.bday);
         response.data.bday = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
         response.data.social_media = _this3.populateUrls(response.data.social_media);
+        _this3.selectAvatar(response.data.level, response.data.avatar);
         self.setState({
           profile: _jquery2.default.extend(_this3.state.profile, response.data)
         });
@@ -50829,6 +50878,10 @@ var SignUp = function (_React$Component) {
     key: 'render',
     value: function render() {
       var profile = this.state.profile;
+
+      var kitty = this.levelAvatar(profile.level).kitty;
+      var puppy = this.levelAvatar(profile.level).puppy;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -50845,7 +50898,7 @@ var SignUp = function (_React$Component) {
             null,
             'Edit ',
             profile.name,
-            '\'s Profile'
+            's Profile'
           )
         ),
         _react2.default.createElement(
@@ -50867,7 +50920,7 @@ var SignUp = function (_React$Component) {
             _react2.default.createElement(
               'figure',
               { className: 'avatar' },
-              _react2.default.createElement('img', { src: profile.avatar })
+              _react2.default.createElement('img', { src: this.state.profile.avatar })
             ),
             _react2.default.createElement(
               'ul',
@@ -50875,21 +50928,39 @@ var SignUp = function (_React$Component) {
               _react2.default.createElement(
                 'li',
                 null,
-                _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: '/assets/images/avatars/Dog_1.png', onChange: this.handleChange, checked: profile.avatar === '/assets/images/avatars/Dog_1.png' }),
+                _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-1', value: puppy, onChange: this.handleChange, checked: this.avatarCheck(profile.avatar) === 'dog' }),
                 _react2.default.createElement(
                   'label',
                   { htmlFor: 'avatar-1' },
-                  'Apprentice Puppy'
+                  profile.level_title ? _react2.default.createElement(
+                    'span',
+                    null,
+                    profile.level_title
+                  ) : _react2.default.createElement(
+                    'span',
+                    null,
+                    'Apprentice'
+                  ),
+                  ' Puppy'
                 )
               ),
               _react2.default.createElement(
                 'li',
                 null,
-                _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: '/assets/images/avatars/Cat_1.png', onChange: this.handleChange, checked: profile.avatar === '/assets/images/avatars/Cat_1.png' || profile.avatar === '/assets/images/avatars/cat-1.png' }),
+                _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: 'avatar-2', value: kitty, onChange: this.handleChange, checked: this.avatarCheck(profile.avatar) === 'cat' }),
                 _react2.default.createElement(
                   'label',
                   { htmlFor: 'avatar-2' },
-                  'Apprentice Kitty'
+                  profile.level_title ? _react2.default.createElement(
+                    'span',
+                    null,
+                    profile.level_title
+                  ) : _react2.default.createElement(
+                    'span',
+                    null,
+                    'Apprentice'
+                  ),
+                  ' Kitty'
                 )
               )
             )
