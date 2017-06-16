@@ -54203,7 +54203,7 @@ var DashboardCreate = function (_Component) {
       }
     }, _this.componentDidMount = function () {
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
-        _this.setState({ user: resp.data, typeSelected: "Serial", formDisabled: true });
+        _this.setState({ user: resp.data, type: "Serial", formDisabled: true });
       });
 
       if (bookId) {
@@ -54218,9 +54218,9 @@ var DashboardCreate = function (_Component) {
             title: book.data.title,
             description: book.data.description,
             type: book.data.type,
-            genres: [],
-            tags: [],
-            warnings: []
+            genres: book.data.genre,
+            tags: book.data.tags,
+            warnings: book.data.warnings
           });
         });
       }
@@ -54240,7 +54240,16 @@ var DashboardCreate = function (_Component) {
       (0, _validation.formValid)(e);
       reader.readAsDataURL(file);
     }, _this._handleGenre = function (e) {
-      _this.setState({ genre: e.target.value });
+      var temp_genres = _this.state.genres;
+
+      if (e.target.checked) {
+        temp_genres.push(e.target.value);
+      } else {
+        temp_genres = temp_genres.filter(function (genre) {
+          return genre !== e.target.value;
+        });
+      }
+      _this.setState({ genres: temp_genres });
       //toggle submit
       (0, _validation.formValid)(e);
     }, _this._handleTags = function (e) {
@@ -54314,8 +54323,7 @@ var DashboardCreate = function (_Component) {
       }
     }, _this._onUrlChange = function (e) {
       _this.setState({
-        socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value)),
-        formDisabled: false
+        socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value))
       });
       //toggle submit
       (0, _validation.formValid)(e);
@@ -54331,8 +54339,7 @@ var DashboardCreate = function (_Component) {
           socialMedia = _state.socialMedia,
           title = _state.title,
           type = _state.type,
-          formDisabled = _state.formDisabled,
-          typeSelected = _state.typeSelected;
+          formDisabled = _state.formDisabled;
 
       var author = this.state.user.name;
       return _react2.default.createElement(
@@ -54353,7 +54360,7 @@ var DashboardCreate = function (_Component) {
           { onSubmit: this._handleSubmit },
           _react2.default.createElement(_UploadCover2.default, { title: title, author: author, handleChange: this._handleChange, coverAdd: this._handleCover, coverFile: coverFile, validate: _validation.validate }),
           _react2.default.createElement(Description, { description: description, handleChange: this._handleChange, validate: _validation.validate }),
-          _react2.default.createElement(BookType, { types: types, handleChange: this._handleType, validate: _validation.validate, typeSelected: typeSelected }),
+          _react2.default.createElement(BookType, { types: types, handleChange: this._handleType, validate: _validation.validate, currentType: type }),
           _react2.default.createElement('hr', null),
           _react2.default.createElement(
             'h4',
@@ -54365,9 +54372,9 @@ var DashboardCreate = function (_Component) {
             ),
             ' How would you like users to find you?'
           ),
-          _react2.default.createElement(Genres, { checked: this.state.genre, genres: _genres2.default, handleCheckbox: this._handleGenre, validate: _validation.validate }),
-          _react2.default.createElement(Tags, { tags: _tags2.default, handleCheckbox: this._handleTags, validate: _validation.validate }),
-          _react2.default.createElement(Warnings, { warnings: _warnings2.default, handleCheckbox: this._handleWarnings, validate: _validation.validate }),
+          _react2.default.createElement(Genres, { checked: this.state.genres, genres: _genres2.default, handleCheckbox: this._handleGenre, validate: _validation.validate }),
+          _react2.default.createElement(Tags, { tags: _tags2.default, checked: this.state.tags, handleCheckbox: this._handleTags, validate: _validation.validate }),
+          _react2.default.createElement(Warnings, { checked: this.state.warnings, warnings: _warnings2.default, handleCheckbox: this._handleWarnings, validate: _validation.validate }),
           _react2.default.createElement('hr', null),
           type === "Published" ? _react2.default.createElement(_SocialMedia2.default, { sources: socialMedia, onUrlChange: this._onUrlChange }) : "",
           _react2.default.createElement(
@@ -54431,7 +54438,7 @@ var Description = exports.Description = function Description(_ref2) {
           _react2.default.createElement(
             'span',
             { className: 'help-text' },
-            'Description must be at least 250 words.'
+            'Description must be at least 250 characters.'
           )
         ),
         _react2.default.createElement('textarea', {
@@ -54482,14 +54489,14 @@ var Genres = exports.Genres = function Genres(_ref3) {
         _react2.default.createElement(
           'span',
           { className: 'help-text' },
-          'Please select at least one tag.'
+          'Please select one tag.'
         )
       ),
       _react2.default.createElement(
         'div',
         { className: 'new-create-books-row' },
         genres.map(function (genre, index) {
-          return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox, validation: 'minChecks,maxChecks,required', validate: validate, minCheck: 1, maxCheck: 1, checked: checked && checked == genre ? 'checked' : '' });
+          return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox, validation: 'minChecks,maxChecks,required', validate: validate, minCheck: 1, maxCheck: 1, checked: checked.includes(genre) });
         })
       )
     )
@@ -54499,7 +54506,8 @@ var Genres = exports.Genres = function Genres(_ref3) {
 var Tags = exports.Tags = function Tags(_ref4) {
   var tags = _ref4.tags,
       handleCheckbox = _ref4.handleCheckbox,
-      validate = _ref4.validate;
+      validate = _ref4.validate,
+      checked = _ref4.checked;
   return _react2.default.createElement(
     'ul',
     { className: 'inner-fields' },
@@ -54535,7 +54543,7 @@ var Tags = exports.Tags = function Tags(_ref4) {
         'div',
         { className: 'new-create-books-row' },
         tags.map(function (tag, index) {
-          return _react2.default.createElement(_Checkbox2.default, { name: 'tags', label: tag, key: index, handleCheckboxChange: handleCheckbox, validation: 'maxChecks,minChecks,required', validate: validate, minCheck: 1, maxCheck: 3 });
+          return _react2.default.createElement(_Checkbox2.default, { name: 'tags', checked: checked.includes(tag), label: tag, key: index, handleCheckboxChange: handleCheckbox, validation: 'maxChecks,minChecks,required', validate: validate, minCheck: 1, maxCheck: 3 });
         })
       )
     )
@@ -54545,7 +54553,8 @@ var Tags = exports.Tags = function Tags(_ref4) {
 var Warnings = exports.Warnings = function Warnings(_ref5) {
   var warnings = _ref5.warnings,
       handleCheckbox = _ref5.handleCheckbox,
-      validate = _ref5.validate;
+      validate = _ref5.validate,
+      checked = _ref5.checked;
   return _react2.default.createElement(
     'div',
     null,
@@ -54558,7 +54567,7 @@ var Warnings = exports.Warnings = function Warnings(_ref5) {
       'div',
       { className: 'new-create-books-row' },
       warnings.map(function (warning, index) {
-        return _react2.default.createElement(_Checkbox2.default, { name: 'warnings', label: warning, key: index, handleCheckboxChange: handleCheckbox });
+        return _react2.default.createElement(_Checkbox2.default, { name: 'warnings', checked: checked.includes(warning), label: warning, key: index, handleCheckboxChange: handleCheckbox });
       })
     )
   );
@@ -54567,7 +54576,7 @@ var Warnings = exports.Warnings = function Warnings(_ref5) {
 var BookType = exports.BookType = function BookType(_ref6) {
   var types = _ref6.types,
       handleChange = _ref6.handleChange,
-      typeSelected = _ref6.typeSelected;
+      currentType = _ref6.currentType;
   return _react2.default.createElement(
     'div',
     null,
@@ -54597,7 +54606,7 @@ var BookType = exports.BookType = function BookType(_ref6) {
         return _react2.default.createElement(
           'li',
           { key: index },
-          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), checked: type === typeSelected, value: type, onChange: handleChange }),
+          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), checked: currentType === type, value: type, onChange: handleChange }),
           _react2.default.createElement(
             'label',
             { htmlFor: "avatar-" + (index + 1) },
@@ -59167,31 +59176,9 @@ var Checkbox = function (_Component) {
   _inherits(Checkbox, _Component);
 
   function Checkbox() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
     _classCallCheck(this, Checkbox);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isChecked: false
-    }, _this.toggleCheckboxChange = function (e) {
-      var _this$props = _this.props,
-          handleCheckboxChange = _this$props.handleCheckboxChange,
-          label = _this$props.label;
-
-      _this.setState(function (_ref2) {
-        var isChecked = _ref2.isChecked;
-        return {
-          isChecked: !isChecked
-        };
-      });
-      handleCheckboxChange(e);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).apply(this, arguments));
   }
 
   _createClass(Checkbox, [{
@@ -59203,8 +59190,9 @@ var Checkbox = function (_Component) {
           validate = _props.validate,
           minCheck = _props.minCheck,
           maxCheck = _props.maxCheck,
-          validation = _props.validation;
-      var isChecked = this.state.isChecked;
+          validation = _props.validation,
+          checked = _props.checked,
+          handleCheckboxChange = _props.handleCheckboxChange;
 
       return _react2.default.createElement(
         "div",
@@ -59217,9 +59205,9 @@ var Checkbox = function (_Component) {
           type: "checkbox",
           value: label,
           id: label,
-          checked: isChecked,
-          onChange: this.toggleCheckboxChange,
-          name: name
+          checked: checked,
+          name: name,
+          onChange: handleCheckboxChange
         }),
         _react2.default.createElement(
           "label",

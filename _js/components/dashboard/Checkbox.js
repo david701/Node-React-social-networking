@@ -1,23 +1,9 @@
 import React, { Component } from 'react';
 
 class Checkbox extends Component {
-  state = {
-    isChecked: false,
-  }
-
-  toggleCheckboxChange = e => {
-    const { handleCheckboxChange, label } = this.props;
-    this.setState(({ isChecked }) => (
-      {
-        isChecked: !isChecked,
-      }
-    ));
-    handleCheckboxChange(e);
-  }
 
   render() {
-    const { label, name, validate, minCheck, maxCheck, validation } = this.props;
-    const { isChecked } = this.state;
+    const { label, name, validate, minCheck, maxCheck, validation, checked, handleCheckboxChange } = this.props;
     return (
       <div className="new-field">
         <input
@@ -28,9 +14,9 @@ class Checkbox extends Component {
           type="checkbox"
           value={label}
           id={label}
-          checked={isChecked}
-          onChange={this.toggleCheckboxChange}
+          checked={checked}
           name={name}
+          onChange={handleCheckboxChange}
         />
         <label htmlFor={label}>
           {label}
