@@ -83,6 +83,7 @@ $(document).ready(function() {
     $('#deleteButton').click(function(e){
         $('.delete-modal').css({visibility: 'visible', opacity: 1});
         e.preventDefault();
-    })
+    });
+
 
 });
