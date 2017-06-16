@@ -85,12 +85,5 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $(document).on('click','.overlay',function(e){
-        e.preventDefault();
-        if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
-            $('.modal').css({visibility: 'hidden', opacity: 0})
-        }
-    });
-
 
 });

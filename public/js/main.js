@@ -34632,8 +34632,8 @@ var Brawlers = function (_React$Component) {
 									'div',
 									{ className: 'book' },
 									_react2.default.createElement(
-										'a',
-										{ href: '.', className: 'content-block content-block-book' },
+										'div',
+										{ className: 'content-block content-block-book' },
 										_react2.default.createElement(_BookType2.default, { type: brawl.book_a.type }),
 										_react2.default.createElement(
 											'figure',
@@ -34702,8 +34702,8 @@ var Brawlers = function (_React$Component) {
 									'div',
 									{ className: 'book' },
 									_react2.default.createElement(
-										'a',
-										{ href: '.', className: 'content-block content-block-book' },
+										'div',
+										{ className: 'content-block content-block-book' },
 										_react2.default.createElement(_BookType2.default, { type: brawl.book_b.type }),
 										_react2.default.createElement(
 											'figure',
@@ -53322,13 +53322,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     (0, _jquery2.default)('#deleteButton').click(function (e) {
         (0, _jquery2.default)('.delete-modal').css({ visibility: 'visible', opacity: 1 });
         e.preventDefault();
-    });
-
-    (0, _jquery2.default)(document).on('click', '.overlay', function (e) {
-        e.preventDefault();
-        if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
-            (0, _jquery2.default)('.modal').css({ visibility: 'hidden', opacity: 0 });
-        }
     });
 });
 
