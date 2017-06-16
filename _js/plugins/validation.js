@@ -17,13 +17,15 @@ const formValid = (event) => {
 
     //lastly check if there are values in required fields
     $(form).find('label span').closest('li').each(function(){
-        requiredValuesExist = requiredValuesExist && ($(this).find('input,select').val().length > 0);
+        requiredValuesExist = requiredValuesExist && ($(this).find('input,select,textarea').val().length > 0);
     });
 
     $(form).find('label span').closest('ul').each(function(){
         let input = $(this).find('input')[0];
         if($(input).attr('type') === "checkbox"){
-            checkboxesAreSelected = checkboxesAreSelected && minCheckboxes(input);
+            let minChecks = input.dataset.min ? minCheckboxes(input) : true;
+            let maxChecks = input.dataset.max ? maxCheckboxes(input) : true;
+            checkboxesAreSelected = checkboxesAreSelected && minChecks && maxChecks;
         }
     });
 
@@ -40,6 +42,10 @@ const formValid = (event) => {
 
 const minCheckboxes = (input) => {
     return $('input[name="'+ input.name +'"]:checked').length >= input.dataset.min
+}
+
+const maxCheckboxes = (input) => {
+    return $('input[name="'+ input.name +'"]:checked').length <= input.dataset.max
 }
 
 const isValid = (validate,input) => {
@@ -69,6 +75,9 @@ const isValid = (validate,input) => {
             break;
         case "minChecks":
             valid = minCheckboxes(input);
+            break;
+        case "maxChecks":
+            valid = maxCheckboxes(input);
             break;
         case "minLength":
             valid = value.length >= parseInt(input.dataset.minlength)

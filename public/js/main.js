@@ -26845,13 +26845,15 @@ var formValid = function formValid(event) {
 
     //lastly check if there are values in required fields
     (0, _jquery2.default)(form).find('label span').closest('li').each(function () {
-        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select').val().length > 0;
+        requiredValuesExist = requiredValuesExist && (0, _jquery2.default)(this).find('input,select,textarea').val().length > 0;
     });
 
     (0, _jquery2.default)(form).find('label span').closest('ul').each(function () {
         var input = (0, _jquery2.default)(this).find('input')[0];
         if ((0, _jquery2.default)(input).attr('type') === "checkbox") {
-            checkboxesAreSelected = checkboxesAreSelected && minCheckboxes(input);
+            var minChecks = input.dataset.min ? minCheckboxes(input) : true;
+            var maxChecks = input.dataset.max ? maxCheckboxes(input) : true;
+            checkboxesAreSelected = checkboxesAreSelected && minChecks && maxChecks;
         }
     });
 
@@ -26868,6 +26870,10 @@ var formValid = function formValid(event) {
 
 var minCheckboxes = function minCheckboxes(input) {
     return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length >= input.dataset.min;
+};
+
+var maxCheckboxes = function maxCheckboxes(input) {
+    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length <= input.dataset.max;
 };
 
 var isValid = function isValid(validate, input) {
@@ -26897,6 +26903,9 @@ var isValid = function isValid(validate, input) {
             break;
         case "minChecks":
             valid = minCheckboxes(input);
+            break;
+        case "maxChecks":
+            valid = maxCheckboxes(input);
             break;
         case "minLength":
             valid = value.length >= parseInt(input.dataset.minlength);
@@ -54184,7 +54193,7 @@ var DashboardCreate = function (_Component) {
       }
     }, _this.componentDidMount = function () {
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
-        _this.setState({ user: resp.data });
+        _this.setState({ user: resp.data, typeSelected: "Serial", formDisabled: true });
       });
 
       if (bookId) {
@@ -54207,33 +54216,38 @@ var DashboardCreate = function (_Component) {
       }
     }, _this._handleChange = function (e) {
       _this.setState(_defineProperty({}, e.target.id, e.target.value));
+      (0, _validation.formValid)(e);
     }, _this._handleCover = function (e) {
       var reader = new FileReader();
       var file = e.target.files[0];
       reader.onload = function (upload) {
         // const coverFile = upload.target.result;
         _this.setState({ coverFile: upload.target.result });
+        //toggle submit
+        (0, _validation.formValid)(event);
       };
+      //toggle submit
+      (0, _validation.formValid)(e);
       reader.readAsDataURL(file);
     }, _this._handleGenre = function (e) {
       _this.setState({ genre: e.target.value });
+      //toggle submit
+      (0, _validation.formValid)(e);
     }, _this._handleTags = function (e) {
       var tags = _this.state.tags;
 
       var newTag = e.target.value;
       if (!tags.includes(newTag)) {
         var newAry = [].concat(_toConsumableArray(tags), [newTag]);
-        if (newAry.length > 3) {
-          alert('Please only select 3 themes');
-        } else {
-          _this.setState(_extends({}, _this.state, { tags: newAry }));
-        }
+        _this.setState(_extends({}, _this.state, { tags: newAry }));
       } else if (tags.includes(newTag)) {
         var _newAry = tags.filter(function (tag) {
           return tag !== newTag;
         });
         _this.setState(_extends({}, _this.state, { tags: _newAry }));
       }
+      //toggle submit
+      (0, _validation.formValid)(e);
     }, _this._handleWarnings = function (e) {
       var warnings = _this.state.warnings;
 
@@ -54247,8 +54261,12 @@ var DashboardCreate = function (_Component) {
         });
         _this.setState(_extends({}, _this.state, { warnings: _newAry2 }));
       }
+      //toggle submit
+      (0, _validation.formValid)(e);
     }, _this._handleType = function (e) {
       _this.setState({ type: e.target.value });
+      //toggle submit
+      (0, _validation.formValid)(e);
     }, _this._handleSubmit = function (e) {
       e.preventDefault();
       var data = {
@@ -54286,8 +54304,11 @@ var DashboardCreate = function (_Component) {
       }
     }, _this._onUrlChange = function (e) {
       _this.setState({
-        socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value))
+        socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value)),
+        formDisabled: false
       });
+      //toggle submit
+      (0, _validation.formValid)(e);
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -54299,7 +54320,9 @@ var DashboardCreate = function (_Component) {
           description = _state.description,
           socialMedia = _state.socialMedia,
           title = _state.title,
-          type = _state.type;
+          type = _state.type,
+          formDisabled = _state.formDisabled,
+          typeSelected = _state.typeSelected;
 
       var author = this.state.user.name;
       return _react2.default.createElement(
@@ -54318,9 +54341,9 @@ var DashboardCreate = function (_Component) {
         _react2.default.createElement(
           'form',
           { onSubmit: this._handleSubmit },
-          _react2.default.createElement(_UploadCover2.default, { title: title, author: author, handleChange: this._handleChange, coverAdd: this._handleCover, coverFile: coverFile }),
-          _react2.default.createElement(Description, { description: description, handleChange: this._handleChange }),
-          _react2.default.createElement(BookType, { types: types, handleChange: this._handleType }),
+          _react2.default.createElement(_UploadCover2.default, { title: title, author: author, handleChange: this._handleChange, coverAdd: this._handleCover, coverFile: coverFile, validate: _validation.validate }),
+          _react2.default.createElement(Description, { description: description, handleChange: this._handleChange, validate: _validation.validate }),
+          _react2.default.createElement(BookType, { types: types, handleChange: this._handleType, validate: _validation.validate, typeSelected: typeSelected }),
           _react2.default.createElement('hr', null),
           _react2.default.createElement(
             'h4',
@@ -54332,9 +54355,9 @@ var DashboardCreate = function (_Component) {
             ),
             ' How would you like users to find you?'
           ),
-          _react2.default.createElement(Genres, { checked: this.state.genre, genres: _genres2.default, handleCheckbox: this._handleGenre }),
-          _react2.default.createElement(Tags, { tags: _tags2.default, handleCheckbox: this._handleTags }),
-          _react2.default.createElement(Warnings, { warnings: _warnings2.default, handleCheckbox: this._handleWarnings }),
+          _react2.default.createElement(Genres, { checked: this.state.genre, genres: _genres2.default, handleCheckbox: this._handleGenre, validate: _validation.validate }),
+          _react2.default.createElement(Tags, { tags: _tags2.default, handleCheckbox: this._handleTags, validate: _validation.validate }),
+          _react2.default.createElement(Warnings, { warnings: _warnings2.default, handleCheckbox: this._handleWarnings, validate: _validation.validate }),
           _react2.default.createElement('hr', null),
           type === "Published" ? _react2.default.createElement(_SocialMedia2.default, { sources: socialMedia, onUrlChange: this._onUrlChange }) : "",
           _react2.default.createElement(
@@ -54348,11 +54371,7 @@ var DashboardCreate = function (_Component) {
                 { href: this.state.bookId ? '/books/' + bookId : '/dashboard/', className: 'button button-white' },
                 'Cancel'
               ),
-              _react2.default.createElement(
-                'a',
-                { id: 'bookSubmit', href: '#', className: 'button button-red' },
-                this.state.bookId ? 'Update' : 'Create'
-              )
+              _react2.default.createElement('input', { id: 'bookSubmit', type: 'submit', className: 'button button-red', disabled: formDisabled, value: this.state.bookId ? 'Update' : 'Create' })
             )
           )
         )
@@ -54365,7 +54384,8 @@ var DashboardCreate = function (_Component) {
 
 var Description = exports.Description = function Description(_ref2) {
   var description = _ref2.description,
-      handleChange = _ref2.handleChange;
+      handleChange = _ref2.handleChange,
+      validate = _ref2.validate;
   return _react2.default.createElement(
     'div',
     null,
@@ -54380,113 +54400,142 @@ var Description = exports.Description = function Description(_ref2) {
       ' Tell us about your book'
     ),
     _react2.default.createElement(
-      'div',
-      { className: 'title' },
+      'ul',
+      { className: 'inner-fields' },
       _react2.default.createElement(
-        'label',
-        { htmlFor: 'description' },
+        'li',
+        null,
         _react2.default.createElement(
-          'span',
-          null,
-          '*'
+          'div',
+          { className: 'title' },
+          _react2.default.createElement(
+            'label',
+            { htmlFor: 'description' },
+            _react2.default.createElement(
+              'span',
+              null,
+              '*'
+            ),
+            'Description'
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'help-text' },
+            'Description must be at least 250 words.'
+          )
         ),
-        'Description'
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'help-text' },
-        'Please enter a description.'
+        _react2.default.createElement('textarea', {
+          id: 'description',
+          rows: '5',
+          placeholder: 'Add a 250 character description here.',
+          'data-minLength': '250',
+          'data-validation': 'required,minLength',
+          onBlur: validate,
+          onChange: handleChange,
+          value: description
+        })
       )
-    ),
-    _react2.default.createElement('textarea', {
-      id: 'description',
-      rows: '5',
-      placeholder: 'Add a 250 character description here.',
-      'data-validation': 'required',
-      onBlur: _validation.validate,
-      onChange: handleChange,
-      value: description
-    })
+    )
   );
 };
 
 var Genres = exports.Genres = function Genres(_ref3) {
   var genres = _ref3.genres,
       handleCheckbox = _ref3.handleCheckbox,
-      checked = _ref3.checked;
+      checked = _ref3.checked,
+      validate = _ref3.validate;
   return _react2.default.createElement(
-    'div',
-    null,
+    'ul',
+    { className: 'inner-fields' },
     _react2.default.createElement(
-      'p',
+      'li',
       null,
       _react2.default.createElement(
-        'span',
-        null,
-        '*'
+        'div',
+        { className: 'title' },
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'checkbox' },
+          _react2.default.createElement(
+            'span',
+            null,
+            '*'
+          ),
+          'Select ',
+          _react2.default.createElement(
+            'strong',
+            null,
+            'one'
+          ),
+          ' genre for your book to be listed.'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'help-text' },
+          'Please select at least one tag.'
+        )
       ),
-      'Select ',
       _react2.default.createElement(
-        'strong',
-        null,
-        'one'
-      ),
-      ' genre for your book to be listed.'
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'new-create-books-row' },
-      genres.map(function (genre, index) {
-        return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox, checked: checked && checked == genre ? 'checked' : '' });
-      })
+        'div',
+        { className: 'new-create-books-row' },
+        genres.map(function (genre, index) {
+          return _react2.default.createElement(_Checkbox2.default, { name: 'genres', label: genre, key: index, handleCheckboxChange: handleCheckbox, validation: 'minChecks,maxChecks,required', validate: validate, minCheck: 1, maxCheck: 1, checked: checked && checked == genre ? 'checked' : '' });
+        })
+      )
     )
   );
 };
 
 var Tags = exports.Tags = function Tags(_ref4) {
   var tags = _ref4.tags,
-      handleCheckbox = _ref4.handleCheckbox;
+      handleCheckbox = _ref4.handleCheckbox,
+      validate = _ref4.validate;
   return _react2.default.createElement(
-    'div',
-    null,
+    'ul',
+    { className: 'inner-fields' },
     _react2.default.createElement(
-      'div',
-      { className: 'title' },
+      'li',
+      null,
       _react2.default.createElement(
-        'p',
-        null,
+        'div',
+        { className: 'title' },
+        _react2.default.createElement(
+          'label',
+          { htmlFor: 'checkbox1' },
+          _react2.default.createElement(
+            'span',
+            null,
+            '*'
+          ),
+          'Select up to ',
+          _react2.default.createElement(
+            'strong',
+            null,
+            'three'
+          ),
+          ' fiction themes that best describe your book.'
+        ),
         _react2.default.createElement(
           'span',
-          null,
-          '*'
-        ),
-        'Select up to ',
-        _react2.default.createElement(
-          'strong',
-          null,
-          'three'
-        ),
-        ' fiction themes that best describe your book.'
+          { className: 'help-text' },
+          'Select up to 3 tags.'
+        )
       ),
       _react2.default.createElement(
-        'span',
-        { className: 'help-text' },
-        'Please select at least one tag.'
+        'div',
+        { className: 'new-create-books-row' },
+        tags.map(function (tag, index) {
+          return _react2.default.createElement(_Checkbox2.default, { name: 'tags', label: tag, key: index, handleCheckboxChange: handleCheckbox, validation: 'maxChecks,minChecks,required', validate: validate, minCheck: 1, maxCheck: 3 });
+        })
       )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'new-create-books-row' },
-      tags.map(function (tag, index) {
-        return _react2.default.createElement(_Checkbox2.default, { name: 'tags', label: tag, key: index, handleCheckboxChange: handleCheckbox });
-      })
     )
   );
 };
 
 var Warnings = exports.Warnings = function Warnings(_ref5) {
   var warnings = _ref5.warnings,
-      handleCheckbox = _ref5.handleCheckbox;
+      handleCheckbox = _ref5.handleCheckbox,
+      validate = _ref5.validate;
   return _react2.default.createElement(
     'div',
     null,
@@ -54507,19 +54556,29 @@ var Warnings = exports.Warnings = function Warnings(_ref5) {
 
 var BookType = exports.BookType = function BookType(_ref6) {
   var types = _ref6.types,
-      handleChange = _ref6.handleChange;
+      handleChange = _ref6.handleChange,
+      typeSelected = _ref6.typeSelected;
   return _react2.default.createElement(
     'div',
     null,
     _react2.default.createElement(
-      'p',
-      null,
+      'div',
+      { className: 'title' },
+      _react2.default.createElement(
+        'label',
+        { htmlFor: 'description' },
+        _react2.default.createElement(
+          'span',
+          null,
+          '*'
+        ),
+        'What kind of book is it?'
+      ),
       _react2.default.createElement(
         'span',
-        null,
-        '*'
-      ),
-      'What kind of book is it?'
+        { className: 'help-text' },
+        'Pick Book Type'
+      )
     ),
     _react2.default.createElement(
       'ul',
@@ -54528,7 +54587,7 @@ var BookType = exports.BookType = function BookType(_ref6) {
         return _react2.default.createElement(
           'li',
           { key: index },
-          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), value: type, onChange: handleChange }),
+          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), checked: type === typeSelected, value: type, onChange: handleChange }),
           _react2.default.createElement(
             'label',
             { htmlFor: "avatar-" + (index + 1) },
@@ -59109,13 +59168,21 @@ var Checkbox = function (_Component) {
     value: function render() {
       var _props = this.props,
           label = _props.label,
-          name = _props.name;
+          name = _props.name,
+          validate = _props.validate,
+          minCheck = _props.minCheck,
+          maxCheck = _props.maxCheck,
+          validation = _props.validation;
       var isChecked = this.state.isChecked;
 
       return _react2.default.createElement(
         "div",
         { className: "new-field" },
         _react2.default.createElement("input", {
+          "data-min": minCheck,
+          "data-max": maxCheck,
+          onBlur: validate,
+          "data-validation": validation,
           type: "checkbox",
           value: label,
           id: label,
@@ -59344,7 +59411,8 @@ var UploadCover = function UploadCover(props) {
       title = props.title,
       coverFile = props.coverFile,
       handleChange = props.handleChange,
-      coverAdd = props.coverAdd;
+      coverAdd = props.coverAdd,
+      validate = props.validate;
 
 
   return _react2.default.createElement(
@@ -59404,7 +59472,8 @@ var UploadCover = function UploadCover(props) {
         _react2.default.createElement(Information, {
           title: title,
           handleChange: handleChange,
-          coverAdd: coverAdd
+          coverAdd: coverAdd,
+          validate: validate
         })
       )
     )
@@ -59494,18 +59563,27 @@ var Information = function Information(_ref6) {
           "li",
           null,
           _react2.default.createElement(
-            "label",
-            { htmlFor: "title" },
+            "div",
+            { className: "title password" },
+            _react2.default.createElement(
+              "label",
+              { htmlFor: "title" },
+              _react2.default.createElement(
+                "span",
+                null,
+                "*"
+              ),
+              "Book Title"
+            ),
             _react2.default.createElement(
               "span",
-              null,
-              "*"
-            ),
-            "Book Title"
+              { className: "help-text" },
+              "Please add book title"
+            )
           ),
           _react2.default.createElement("input", {
             id: "title", name: "title", type: "text", onBlur: validate,
-            onChange: handleChange, value: title, "data-validation": "name, required"
+            onChange: handleChange, value: title, "data-validation": "name,required"
           })
         ),
         _react2.default.createElement(
@@ -59514,11 +59592,6 @@ var Information = function Information(_ref6) {
           _react2.default.createElement(
             "label",
             { htmlFor: "cover" },
-            _react2.default.createElement(
-              "span",
-              null,
-              "*"
-            ),
             "Upload Cover Art"
           ),
           _react2.default.createElement("input", { id: "cover", type: "file", onChange: coverAdd }),

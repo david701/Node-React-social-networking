@@ -16,11 +16,15 @@ class Checkbox extends Component {
   }
 
   render() {
-    const { label, name } = this.props;
+    const { label, name, validate, minCheck, maxCheck, validation } = this.props;
     const { isChecked } = this.state;
     return (
       <div className="new-field">
         <input
+          data-min={minCheck}
+          data-max={maxCheck}
+          onBlur={validate}
+          data-validation={validation}
           type="checkbox"
           value={label}
           id={label}

@@ -2,7 +2,7 @@ import React from 'react';
 // import { validate, formValid } from '../../plugins/validation';
 
 const UploadCover = props => {
-  const { author, title, coverFile, handleChange, coverAdd } = props;
+  const { author, title, coverFile, handleChange, coverAdd, validate } = props;
 
   return (
     <div>
@@ -30,6 +30,7 @@ const UploadCover = props => {
             title={title}
             handleChange={handleChange}
             coverAdd={coverAdd}
+            validate={validate}
           />
         </li>
       </ul>
@@ -74,14 +75,17 @@ const Information = ({ title, handleChange, coverAdd, validate }) => (
     <div id="coverForm">
       <ul className="inner-fields">
         <li>
-          <label htmlFor="title"><span>*</span>Book Title</label>
+          <div className="title password">
+              <label htmlFor="title"><span>*</span>Book Title</label>
+              <span className="help-text">Please add book title</span>
+          </div>
           <input
             id="title" name="title" type="text" onBlur={validate}
-            onChange={handleChange} value={title} data-validation="name, required"
+            onChange={handleChange} value={title} data-validation="name,required"
           />
         </li>
         <li>
-          <label htmlFor="cover"><span>*</span>Upload Cover Art</label>
+          <label htmlFor="cover">Upload Cover Art</label>
           <input id="cover" type="file" onChange={coverAdd} />
           <small>
             Max size of 15 MB<br />

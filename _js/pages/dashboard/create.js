@@ -36,7 +36,7 @@ class DashboardCreate extends Component {
   componentDidMount = () => {
     $.get('/api/v1/user_session/')
       .then(resp => {
-				this.setState({user: resp.data})
+				this.setState({user: resp.data, typeSelected: "Serial", formDisabled: true})
 		});
 
     if(bookId){
@@ -63,6 +63,7 @@ class DashboardCreate extends Component {
 
   _handleChange = e => {
     this.setState({[e.target.id]: e.target.value});
+    formValid(e);
   }
 
   _handleCover = e => {
@@ -71,12 +72,18 @@ class DashboardCreate extends Component {
     reader.onload = upload => {
       // const coverFile = upload.target.result;
       this.setState({coverFile: upload.target.result});
+      //toggle submit
+      formValid(event);
     };
+    //toggle submit
+    formValid(e);
     reader.readAsDataURL(file);
   }
 
   _handleGenre = e => {
     this.setState({genre: e.target.value});
+    //toggle submit
+    formValid(e);
   }
 
   _handleTags = e => {
@@ -84,15 +91,13 @@ class DashboardCreate extends Component {
     const newTag = e.target.value;
     if (!tags.includes(newTag)) {
       const newAry = [...tags, newTag];
-			if(newAry.length > 3){
-				alert('Please only select 3 themes')
-			}else{
-				this.setState({...this.state, tags: newAry });
-			}
+			this.setState({...this.state, tags: newAry });
     } else if (tags.includes(newTag)) {
       const newAry = tags.filter(tag => tag !== newTag);
       this.setState({ ...this.state, tags: newAry });
     }
+    //toggle submit
+    formValid(e);
   }
 
   _handleWarnings = e => {
@@ -105,10 +110,14 @@ class DashboardCreate extends Component {
       const newAry = warnings.filter(warning => warning !== newWarning);
       this.setState({ ...this.state, warnings: newAry});
     }
+    //toggle submit
+    formValid(e);
   }
 
   _handleType = e => {
     this.setState({type: e.target.value});
+    //toggle submit
+    formValid(e);
   }
 
   _handleSubmit = e => {
@@ -153,12 +162,15 @@ class DashboardCreate extends Component {
       socialMedia: {
         ...this.state.socialMedia,
         [e.target.id]: e.target.value,
-      }
+      },
+      formDisabled: false
     });
+    //toggle submit
+    formValid(e);
   }
 
   render() {
-    const {coverFile, description, socialMedia, title, type} = this.state;
+    const {coverFile, description, socialMedia, title, type, formDisabled, typeSelected} = this.state;
     const author = this.state.user.name;
     return (
       <div className="content-block content-block-standard account-block">
@@ -167,20 +179,20 @@ class DashboardCreate extends Component {
         </header>
         <hr />
         <form onSubmit={this._handleSubmit}>
-          <UploadCover title={title} author={author} handleChange={this._handleChange} coverAdd={this._handleCover} coverFile={coverFile} />
-          <Description description={description} handleChange={this._handleChange} />
-          <BookType types={types} handleChange={this._handleType}/>
+          <UploadCover title={title} author={author} handleChange={this._handleChange} coverAdd={this._handleCover} coverFile={coverFile} validate={validate}/>
+          <Description description={description} handleChange={this._handleChange} validate={validate} />
+          <BookType types={types} handleChange={this._handleType} validate={validate} typeSelected={typeSelected}/>
           <hr />
           <h4><span>Step 3.</span> How would you like users to find you?</h4>
-          <Genres checked={this.state.genre} genres={genres} handleCheckbox={this._handleGenre} />
-          <Tags tags={tags} handleCheckbox={this._handleTags} />
-          <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} />
+          <Genres checked={this.state.genre} genres={genres} handleCheckbox={this._handleGenre} validate={validate}/>
+          <Tags tags={tags} handleCheckbox={this._handleTags} validate={validate}/>
+          <Warnings warnings={warnings} handleCheckbox={this._handleWarnings} validate={validate}/>
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
           <div className="submit-row submit-row-single">
             <div className="buttons">
               <a href={this.state.bookId ? '/books/' + bookId : '/dashboard/'} className="button button-white">Cancel</a>
-              <a id="bookSubmit" href="#" className="button button-red">{this.state.bookId ? 'Update' : 'Create'}</a>
+              <input id="bookSubmit" type="submit" className="button button-red" disabled={formDisabled} value={this.state.bookId ? 'Update' : 'Create'}/>
             </div>
           </div>
         </form>
@@ -189,51 +201,63 @@ class DashboardCreate extends Component {
   }
 }
 
-export const Description = ({description, handleChange}) => (
+export const Description = ({description, handleChange, validate}) => (
   <div>
     <h4><span>Step 2.</span> Tell us about your book</h4>
-    <div className="title">
-      <label htmlFor="description"><span>*</span>Description</label>
-      <span className="help-text">Please enter a description.</span>
-    </div>
-    <textarea
-      id="description"
-      rows="5"
-      placeholder="Add a 250 character description here."
-      data-validation="required"
-      onBlur={validate}
-      onChange={handleChange}
-      value={description}
-    />
+    <ul className="inner-fields">
+      <li>
+        <div className="title">
+          <label htmlFor="description"><span>*</span>Description</label>
+          <span className="help-text">Description must be at least 250 words.</span>
+        </div>
+        <textarea
+          id="description"
+          rows="5"
+          placeholder="Add a 250 character description here."
+          data-minLength="250"
+          data-validation="required,minLength"
+          onBlur={validate}
+          onChange={handleChange}
+          value={description}
+        />
+      </li>
+    </ul>
   </div>
 );
 
-export const Genres = ({genres, handleCheckbox, checked}) => (
-  <div>
-    <p><span>*</span>Select <strong>one</strong> genre for your book to be listed.</p>
-    <div className="new-create-books-row">
-      {genres.map((genre, index) => (
-        <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} checked={checked && checked == genre?'checked':''}/>
-      ))}
-    </div>
-  </div>
+export const Genres = ({genres, handleCheckbox, checked, validate}) => (
+  <ul className="inner-fields">
+    <li>
+      <div className="title">
+          <label htmlFor="checkbox"><span>*</span>Select <strong>one</strong> genre for your book to be listed.</label>
+          <span className="help-text">Please select at least one tag.</span>
+      </div>
+      <div className="new-create-books-row">
+        {genres.map((genre, index) => (
+          <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} validation="minChecks,maxChecks,required" validate={validate} minCheck={1} maxCheck={1} checked={checked && checked == genre?'checked':''}/>
+        ))}
+      </div>
+    </li>
+  </ul>
 );
 
-export const Tags = ({tags, handleCheckbox}) => (
-  <div>
-    <div className="title">
-      <p><span>*</span>Select up to <strong>three</strong> fiction themes that best describe your book.</p>
-      <span className="help-text">Please select at least one tag.</span>
-    </div>
-    <div className="new-create-books-row">
-      {tags.map((tag, index) => (
-        <Checkbox name="tags" label={tag} key={index} handleCheckboxChange={handleCheckbox} />
-      ))}
-    </div>
-  </div>
+export const Tags = ({tags, handleCheckbox, validate}) => (
+  <ul className="inner-fields">
+    <li>
+      <div className="title">
+        <label htmlFor="checkbox1"><span>*</span>Select up to <strong>three</strong> fiction themes that best describe your book.</label>
+        <span className="help-text">Select up to 3 tags.</span>
+      </div>
+      <div className="new-create-books-row">
+        {tags.map((tag, index) => (
+          <Checkbox name="tags" label={tag} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks,minChecks,required" validate={validate}  minCheck={1}  maxCheck={3} />
+        ))}
+      </div>
+    </li>
+  </ul>
 );
 
-export const Warnings = ({warnings, handleCheckbox}) => (
+export const Warnings = ({warnings, handleCheckbox, validate}) => (
   <div>
     <p>Content warning</p>
     <div className="new-create-books-row">
@@ -244,13 +268,16 @@ export const Warnings = ({warnings, handleCheckbox}) => (
   </div>
 );
 
-export const BookType = ({types, handleChange}) => (
+export const BookType = ({types, handleChange, typeSelected}) => (
   <div>
-    <p><span>*</span>What kind of book is it?</p>
+    <div className="title">
+      <label htmlFor="description"><span>*</span>What kind of book is it?</label>
+      <span className="help-text">Pick Book Type</span>
+    </div>
     <ul className="radio-list radio-list-inline">
       {types.map((type, index) => (
         <li key={index}>
-          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} value={type} onChange={handleChange} />
+          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={type === typeSelected} value={type} onChange={handleChange} />
           <label htmlFor={"avatar-"+ (index + 1)}>
             {type}
           </label>
