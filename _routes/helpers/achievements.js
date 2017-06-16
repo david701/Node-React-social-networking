@@ -7,57 +7,58 @@ const mongoUser = mongo.schema.user,
 
 const levelCheck = (points, cb)=>{
 	var level = 0, title = 'Apprentice';
-	if(points > 0){ level = 1; title = 'Bronze Acolyte' } else
-	if(points >= 2){ level = 1 } else
-	if(points >= 4){ level = 2 } else
-	if(points >= 7){ level = 3 } else
-	if(points >= 9){ level = 4 } else
-	if(points >= 12){ level = 5; title='Silver Acolyte'} else
-	if(points >= 15){ level = 6 } else
-	if(points >= 19){ level = 7 } else
-	if(points >= 23){ level = 8 } else
-	if(points >= 27){ level = 9; title='Gold Acolyte'} else
-	if(points >= 32){ level = 10 } else
-	if(points >= 37){ level = 11; title='Bronze Aspirant'} else
-	if(points >= 43){ level = 12 } else
-	if(points >= 49){ level = 13 } else
-	if(points >= 56){ level = 14 } else
-	if(points >= 54){ level = 15; title='Silver Aspirant'} else
-	if(points >= 72){ level = 16 } else
-	if(points >= 81){ level = 17 } else
-	if(points >= 91){ level = 18 } else
-	if(points >= 102){ level = 19; title='Gold Aspirant'} else
-	if(points >= 115){ level = 20 } else
-	if(points >= 128){ level = 21; title='Bronze Adventurer'} else
-	if(points >= 143){ level = 22 } else
-	if(points >= 159){ level = 23 } else
-	if(points >= 177){ level = 24 } else
-	if(points >= 193){ level = 25; title='Silver Adventurer'} else
-	if(points >= 211){ level = 26 } else
-	if(points >= 229){ level = 27 } else
-	if(points >= 250){ level = 28 } else
-	if(points >= 272){ level = 29; title='Gold Adventurer'} else
-	if(points >= 296){ level = 30 } else
-	if(points >= 312){ level = 31; title='Bronze Veteran'} else
-	if(points >= 330){ level = 32 } else
-	if(points >= 348){ level = 33 } else
-	if(points >= 368){ level = 34 } else
-	if(points >= 388){ level = 35; title='Silver Veteran'} else
-	if(points >= 410){ level = 36 } else
-	if(points >= 432){ level = 37 } else
-	if(points >= 456){ level = 38 } else
-	if(points >= 481){ level = 39; title='Gold Veteran'} else
-	if(points >= 507){ level = 40 } else
-	if(points >= 534){ level = 41; title='Bronze Master'} else
-	if(points >= 563){ level = 42 } else
-	if(points >= 593){ level = 43 } else
-	if(points >= 624){ level = 44 } else
-	if(points >= 658){ level = 45; title='Silver Master'} else
-	if(points >= 692){ level = 46 } else
-	if(points >= 729){ level = 47 } else
-	if(points >= 768){ level = 48 } else
-	if(points >= 808){ level = 49; title='Gold Master'} else
+	if(points > 0){ level = 1; title = 'Bronze Acolyte' }
+	if(points >= 2){ level = 1 }
+	if(points >= 4){ level = 2 }
+	if(points >= 7){ level = 3 }
+	if(points >= 9){ level = 4 }
+	if(points >= 12){ level = 5; title='Silver Acolyte'}
+	if(points >= 15){ level = 6 }
+	if(points >= 19){ level = 7 }
+	if(points >= 23){ level = 8 }
+	if(points >= 27){ level = 9; title='Gold Acolyte'}
+	if(points >= 32){ level = 10 }
+	if(points >= 37){ level = 11; title='Bronze Aspirant'}
+	if(points >= 43){ level = 12 }
+	if(points >= 49){ level = 13 }
+	if(points >= 56){ level = 14 }
+	if(points >= 54){ level = 15; title='Silver Aspirant'}
+	if(points >= 72){ level = 16 }
+	if(points >= 81){ level = 17 }
+	if(points >= 91){ level = 18 }
+	if(points >= 102){ level = 19; title='Gold Aspirant'}
+	if(points >= 115){ level = 20 }
+	if(points >= 128){ level = 21; title='Bronze Adventurer'}
+	if(points >= 143){ level = 22 }
+	if(points >= 159){ level = 23 }
+	if(points >= 177){ level = 24 }
+	if(points >= 193){ level = 25; title='Silver Adventurer'}
+	if(points >= 211){ level = 26 }
+	if(points >= 229){ level = 27 }
+	if(points >= 250){ level = 28 }
+	if(points >= 272){ level = 29; title='Gold Adventurer'}
+	if(points >= 296){ level = 30 }
+	if(points >= 312){ level = 31; title='Bronze Veteran'}
+	if(points >= 330){ level = 32 }
+	if(points >= 348){ level = 33 }
+	if(points >= 368){ level = 34 }
+	if(points >= 388){ level = 35; title='Silver Veteran'}
+	if(points >= 410){ level = 36 }
+	if(points >= 432){ level = 37 }
+	if(points >= 456){ level = 38 }
+	if(points >= 481){ level = 39; title='Gold Veteran'}
+	if(points >= 507){ level = 40 }
+	if(points >= 534){ level = 41; title='Bronze Master'}
+	if(points >= 563){ level = 42 }
+	if(points >= 593){ level = 43 }
+	if(points >= 624){ level = 44 }
+	if(points >= 658){ level = 45; title='Silver Master'}
+	if(points >= 692){ level = 46 }
+	if(points >= 729){ level = 47 }
+	if(points >= 768){ level = 48 }
+	if(points >= 808){ level = 49; title='Gold Master'}
 	if(points > 850){ level = 50 }
+
 	cb(level, title);
 }
 
@@ -67,19 +68,24 @@ const levelAvatar = (level)=>{
 	if(!level || level == 0){
 		avatar.kitty = '/assets/images/avatars/Cat_1.png';
 		avatar.puppy = '/assets/images/avatars/Dog_1.png';
-	} else if (level >= 1) {
+	}
+	if (level >= 1) {
 		avatar.kitty = '/assets/images/avatars/Cat_2.png';
 		avatar.puppy = '/assets/images/avatars/Dog_2.png';
-	} else if (level >= 11) {
+	}
+	if (level >= 11) {
 		avatar.kitty = '/assets/images/avatars/Cat_3.png';
 		avatar.puppy = '/assets/images/avatars/Dog_3.png';
-	} else if (level >= 21) {
+	}
+	if (level >= 21) {
 		avatar.kitty = '/assets/images/avatars/Cat_4.png';
 		avatar.puppy = '/assets/images/avatars/Dog_4.png';
-	} else if (level >= 31) {
+	}
+	if (level >= 31) {
 		avatar.kitty = '/assets/images/avatars/Cat_5.png';
 		avatar.puppy = '/assets/images/avatars/Dog_5.png';
-	} else if (level >= 41) {
+	}
+	if (level >= 41) {
 		avatar.kitty = '/assets/images/avatars/Cat_6.png';
 		avatar.puppy = '/assets/images/avatars/Dog_6.png';
 	}
