@@ -94,6 +94,7 @@ class SignUp extends React.Component{
             let date = new Date(response.data.bday);
             response.data.bday = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
             response.data.social_media = this.populateUrls(response.data.social_media);
+						this.selectAvatar(response.data.level, response.data.avatar)
             self.setState({
                 profile: $.extend(this.state.profile,response.data)
             });
@@ -230,8 +231,60 @@ class SignUp extends React.Component{
 		})
 	}
 
+	selectAvatar = (level, avatar)=>{
+		var animal = this.avatarCheck(avatar);
+
+		if(animal === 'dog'){
+			var selected = this.levelAvatar(level).puppy;
+		}else{
+			var selected = this.levelAvatar(level).kitty;
+		}
+
+		var profile = this.state.profile;
+		profile.avatar = selected;
+		this.setState({profile: profile});
+	}
+
+	levelAvatar = (level)=>{
+		var avatar = {kitty: '', puppy:''}
+
+		if(!level || level == 0){
+			avatar.kitty = '/assets/images/avatars/Cat_1.png';
+			avatar.puppy = '/assets/images/avatars/Dog_1.png';
+		} else if (level >= 1) {
+			avatar.kitty = '/assets/images/avatars/Cat_2.png';
+			avatar.puppy = '/assets/images/avatars/Dog_2.png';
+		} else if (level >= 11) {
+			avatar.kitty = '/assets/images/avatars/Cat_3.png';
+			avatar.puppy = '/assets/images/avatars/Dog_3.png';
+		} else if (level >= 21) {
+			avatar.kitty = '/assets/images/avatars/Cat_4.png';
+			avatar.puppy = '/assets/images/avatars/Dog_4.png';
+		} else if (level >= 31) {
+			avatar.kitty = '/assets/images/avatars/Cat_5.png';
+			avatar.puppy = '/assets/images/avatars/Dog_5.png';
+		} else if (level >= 41) {
+			avatar.kitty = '/assets/images/avatars/Cat_6.png';
+			avatar.puppy = '/assets/images/avatars/Dog_6.png';
+		}
+
+		return avatar;
+	}
+
+	avatarCheck = (avatar)=>{
+		if(avatar === '/assets/images/avatars/Cat_1.png' || avatar === '/assets/images/avatars/Cat_2.png' || avatar === '/assets/images/avatars/Cat_3.png' || avatar === '/assets/images/avatars/Cat_4.png' || avatar === '/assets/images/avatars/Cat_5.png' || avatar === '/assets/images/avatars/Cat_6.png' || avatar === '/assets/images/avatars/cat_1.png'){
+			return 'cat';
+		}else{
+			return 'dog';
+		}
+	}
+
 	render(){
     let profile = this.state.profile;
+
+		var kitty = this.levelAvatar(profile.level).kitty;
+		var puppy = this.levelAvatar(profile.level).puppy;
+
 		return(
       <div>
       <header>
@@ -239,22 +292,22 @@ class SignUp extends React.Component{
           <h3>Edit your Profile</h3>
       }
       {this.state.me.role > 0 &&
-          <h3>Edit {profile.name}'s Profile</h3>
+          <h3>Edit {profile.name}s Profile</h3>
       }
       </header>
 			<form onSubmit={this.handleSubmit}>
 				<h4>Tell us about yourself</h4>
 				<p>Edit your photo:</p>
 				<div className="avatar-selection">
-					<figure className="avatar"><img src={profile.avatar} /></figure>
+					<figure className="avatar"><img src={this.state.profile.avatar} /></figure>
           <ul className="radio-list">
             <li>
-              <input type="radio" name="avatar" id="avatar-1" value="/assets/images/avatars/Dog_1.png" onChange={this.handleChange} checked={profile.avatar === '/assets/images/avatars/Dog_1.png'}/>
-              <label htmlFor="avatar-1">Apprentice Puppy</label>
+              <input type="radio" name="avatar" id="avatar-1" value={puppy} onChange={this.handleChange} checked={this.avatarCheck(profile.avatar) === 'dog'}/>
+              <label htmlFor="avatar-1">{profile.level_title? (<span>{profile.level_title}</span>) : <span>Apprentice</span>} Puppy</label>
             </li>
             <li>
-              <input type="radio" name="avatar" id="avatar-2" value="/assets/images/avatars/Cat_1.png" onChange={this.handleChange} checked={profile.avatar === '/assets/images/avatars/Cat_1.png' || profile.avatar === '/assets/images/avatars/cat-1.png'}/>
-              <label htmlFor="avatar-2">Apprentice Kitty</label>
+              <input type="radio" name="avatar" id="avatar-2" value={kitty} onChange={this.handleChange} checked={this.avatarCheck(profile.avatar) === 'cat'}/>
+              <label htmlFor="avatar-2">{profile.level_title? (<span>{profile.level_title}</span>) : <span>Apprentice</span>} Kitty</label>
             </li>
           </ul>
 				</div>
@@ -381,6 +434,3 @@ class SignUp extends React.Component{
 
 if(document.getElementById('edit-page'))
 	ReactDOM.render(<SignUp />, document.getElementById('edit-page'))
-
-
-

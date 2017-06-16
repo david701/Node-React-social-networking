@@ -150,6 +150,35 @@ exports.getUserLibrary = (req, res)=>{
 	})
 }
 
+exports.getAuthorLibrary = (req, res)=>{
+
+	var limit = parseInt(req.query.limit) || 0,
+			page = parseInt(req.query.page) || 1,
+			skip = (page - 1) * limit;
+
+
+	mongoUser.findOne({_id: req.params.id}).populate({
+			path: 'following_books',
+			model: 'Books',
+			populate: {
+	      path: 'author',
+	      model: 'Users',
+				select: 'name email'
+     }}).lean().then((user)=>{
+			var count = user.following_books.length;
+			if(limit > 0){
+				var bookList = user.following_books.filter((user,index)=>{
+					return index > (skip - 1) && index < (skip + limit)
+				});
+			}else{
+				var bookList = user.following_books;
+			}
+			handle.res(res, bookList, count)
+	}).catch(err=>{
+		handle.err(res, err);
+	})
+}
+
 exports.getRecommendedBooks = (req, res)=>{
 	var user = req.session;
 	var status = parseInt(req.query.status) || 2;
