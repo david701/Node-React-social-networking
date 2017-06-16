@@ -56,6 +56,20 @@ export default class UserBooks extends React.Component {
 
 		return(
 			<ul>
+				{this.props.title == 'My Books'?(<li>
+						<a href="/dashboard/create/">
+							<div className="content-block content-block-book">
+								<figure>
+									<div className="cover" style={{position: 'relative'}}>
+										<div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5'}}>+</div>
+									</div>
+									<figcaption>
+										<h4>Add Book</h4>
+									</figcaption>
+								</figure>
+							</div>
+						</a>
+					</li>):''}
 				{bookList}
 			</ul>
 			)

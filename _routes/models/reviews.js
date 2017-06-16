@@ -11,6 +11,7 @@ const mongoUser = mongo.schema.user,
 			mongoReview = mongo.schema.review;
 
 const handle = require('../helpers/handle.js');
+const xp = require('../helpers/achievements.js');
 
 exports.getReviews = (req,res)=>{
 	var status = req.query.status || 1;
@@ -31,6 +32,10 @@ exports.getReviewById = (req,res)=>{
 
 exports.addReview = (req,res)=>{
 	var user = req.session;
+	if(!user || !user._id){
+		handle.err(res, 'Not Logged In')
+		return;
+	}
 	var review = {
 			author: user._id,
 			book_id: req.params.id,
@@ -50,7 +55,11 @@ exports.addReview = (req,res)=>{
 				rating = rating/reviews.length;
 				book.rating = rating;
 				book.save().then((book)=>{
-					handle.res(res, review);
+					xp.rateBook(user._id, (err, user)=>{
+						xp.reviews(book.author, (err, user)=>{
+							handle.res(res, review);
+						})
+					})
 				}).catch((err)=>{
 					handle.err(res, err);
 				})

@@ -38,6 +38,7 @@ import './components/author.js';
 import './components/login.js';
 import './components/edit.js';
 import './components/friends.js';
+import './components/forum.js';
 import './components/reset-password.js';
 import './pages/dashboard/create';
 import './pages/books/edit';
@@ -116,20 +117,14 @@ class LoginButtons extends React.Component{
 		                        <span>Browse</span>
 		                    </a>
 		                    <ul>
-		                        <li>
-		                            <a href="/books/all">All</a>
-		                        </li>
 														{this.state.loggedIn?<li>
-															 <a href="/books/all?view=user-library">My Library</a>
-													 </li>:''}
-		                        <li>
-		                            <a href="/books/all?view=top">Top Rated</a>
-		                        </li>
-		                        <li>
-		                            <a href="/books/all?genres=Fantasy">Fantasy Books</a>
-		                        </li>
+															<a href="/books/all?view=user-library">My Library</a>
+													 	</li>:''}
+													 <li>
+													 		<a href="/books/all?view=recommended">Recommended</a>
+													 </li>
 														<li>
-		                            <a href="/books/all?genres=Horror">Horror Books</a>
+		                            <a href="/books/all?view=top">Top Rated</a>
 		                        </li>
 		                    </ul>
 		                </li>
@@ -175,6 +170,9 @@ class LoginButtons extends React.Component{
 				                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 				                            <a href="/dashboard/following/1">Following</a>
 				                        </li>
+																<li>
+				                            <a href=".">Messages</a>
+				                        </li>
 				                        <li>
 				                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
 				                        </li>
@@ -195,11 +193,6 @@ class LoginButtons extends React.Component{
 			                        </div>
 			                        <span>Forum</span>
 			                    </a>
-			                    <ul>
-			                        <li>
-			                            <a href=".">Messages</a>
-			                        </li>
-			                    </ul>
                 			</li>
 			                <li onClick={this._signOut}>
 			                    <a href="javascript:void(0)">
@@ -222,6 +215,14 @@ class LoginButtons extends React.Component{
 		                        <span>Search</span>
 		                    </a>
 		                </li>
+									<li>
+	                    <a href="https://www.patreon.com/bookbrawl" target="_blank">
+	                        <div className="icon">
+
+	                        </div>
+	                        <span>Patreon</span>
+	                    </a>
+	                </li>
 	                </div>
               	</div>
             </ul>
@@ -483,18 +484,35 @@ class MyBooks extends React.Component{
 if(document.getElementById('myBooks'))
   {ReactDOM.render(<MyBooks />, document.getElementById('myBooks'));}
 
-class NewComponent extends React.Component{
-  state = {}
+class NewsLetterForm extends React.Component{
+  state = {email:'', thanks: false}
 
-  componentDidMount(){
-		/// API call
-		/// SET STATE
-    this.setState({users: apiUsers});
-  }
+	onChange = (e)=>{
+		var state = {};
+		state[e.target.name] = e.target.value;
+		this.setState(state)
+	}
+
+	submitForm = (e)=>{
+		e.preventDefault();
+		$.post('/api/v1/users/newsletter', {email: this.state.email}).then((resp)=>{
+			this.setState({thanks: true});
+		})
+	}
 
   render(){
     return(
-			<div></div>
+			<form onSubmit={this.submitForm}>
+				{this.state.thanks?<h4>Thanks for signing up.</h4>:
+					<div>
+					<input type="text" name="email" placeholder="Enter Email Address" value={this.state.email} onChange={this.onChange}/>
+					<button type="submit">Submit</button>
+					</div>
+				}
+			</form>
     );
   }
 }
+
+if(document.getElementById('newsletter_form'))
+  {ReactDOM.render(<NewsLetterForm />, document.getElementById('newsletter_form'));}

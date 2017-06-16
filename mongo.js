@@ -17,6 +17,7 @@ const userSchema = new Schema({
 	role: Number,
 	genres: [],
 	themes: [],
+	level_title: String,
 	level: Number,
 	points: Number,
 	avatar: String,
