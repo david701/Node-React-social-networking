@@ -10,7 +10,7 @@ const ClaimDetailsModal = props => (
 						<h4>Claim Details</h4>
 					</div>
 					<div className="flex-row">
-						<p><strong>Reporter's Name: </strong> {props.user.name}</p>
+						<p><strong>Reporter's Name: </strong> {props.user ? props.user.name : ""}</p>
 						<p><strong>Book Reference: </strong>{props.book? props.book.author.name:''} of {props.book? props.book.title : ''}</p>
 						<p><strong>Posted on: </strong> {props.book? props.book.genre : ''}</p>
 					</div>
@@ -27,12 +27,14 @@ const ClaimDetailsModal = props => (
 
 						{props.view?
 							(<div className="submit-row submit-row-claim">
+								{props.user && props.book &&
 								<div className="claim-details">
-									<a href={'mailto:'+props.user.email}><p>Email {props.user.name}</p></a>
+									<a href={'mailto:'+props.user.email}><p>Email {props.user ? props.user.email : ""}</p></a>
 									<a href={'mailto:'+props.book.author.email}><p>Email {props.book.author.name}</p></a>
 									<a onClick={props.deleteBook}><p>Delete Book Immediately</p></a>
 									<a onClick={props.resolveClaim}><p>Mark as Resolved</p></a>
 								</div>
+								}
 							</div>)
 						:''}
 					<div className="submit-row submit-row-claim">

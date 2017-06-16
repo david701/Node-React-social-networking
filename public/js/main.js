@@ -34855,7 +34855,7 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 								'Reporter\'s Name: '
 							),
 							' ',
-							props.user.name
+							props.user ? props.user.name : ""
 						),
 						_react2.default.createElement(
 							'p',
@@ -34897,7 +34897,7 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 					props.view ? _react2.default.createElement(
 						'div',
 						{ className: 'submit-row submit-row-claim' },
-						_react2.default.createElement(
+						props.user && props.book && _react2.default.createElement(
 							'div',
 							{ className: 'claim-details' },
 							_react2.default.createElement(
@@ -34907,7 +34907,7 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 									'p',
 									null,
 									'Email ',
-									props.user.name
+									props.user ? props.user.email : ""
 								)
 							),
 							_react2.default.createElement(
@@ -52520,7 +52520,7 @@ var Parent = function (_React$Component) {
 					this.state.user.role > 0 && _react2.default.createElement(
 						'div',
 						{ className: 'content-block content-block-standard account-block' },
-						this.state.claim ? _react2.default.createElement(_ClaimDetailsModal2.default, { claim: this.state.claim, user: this.state.selectedClaim.reporter, book: this.state.selectedClaim.book, content: this.state.selectedClaim.content, cancelClaim: this.cancelClaim, deleteBook: this.deleteBook, resolveClaim: this.resolveClaim, view: 'true' }) : '',
+						this.state.claim ? _react2.default.createElement(_ClaimDetailsModal2.default, { claim: this.state.claim, user: this.state.selectedClaim ? this.state.selectedClaim.reporter : {}, book: this.state.selectedClaim ? this.state.selectedClaim.book : {}, content: this.state.selectedClaim ? this.state.selectedClaim.content : {}, cancelClaim: this.cancelClaim, deleteBook: this.deleteBook, resolveClaim: this.resolveClaim, view: 'true' }) : '',
 						_react2.default.createElement(
 							'header',
 							null,

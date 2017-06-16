@@ -332,7 +332,7 @@ class Parent extends React.Component {
 					}
 					{this.state.user.role > 0 &&
 						<div className="content-block content-block-standard account-block">
-							{this.state.claim?(<Claims claim={this.state.claim} user={this.state.selectedClaim.reporter} book={this.state.selectedClaim.book} content={this.state.selectedClaim.content} cancelClaim={this.cancelClaim} deleteBook={this.deleteBook} resolveClaim={this.resolveClaim} view='true'/>):''}
+							{this.state.claim ? (<Claims claim={this.state.claim} user={this.state.selectedClaim ? this.state.selectedClaim.reporter : {}} book={this.state.selectedClaim ? this.state.selectedClaim.book : {}} content={this.state.selectedClaim ? this.state.selectedClaim.content : {}} cancelClaim={this.cancelClaim} deleteBook={this.deleteBook} resolveClaim={this.resolveClaim} view='true'/>) : ('')}
 							<header>
 								<h3>Admin Account</h3>
 							</header>
