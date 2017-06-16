@@ -34503,11 +34503,12 @@ var Brawlers = function (_React$Component) {
 
 		_this.chooseAvi = function (imgUrl) {
 			var image = void 0;
-			switch (imgUrl) {
-				case "Dog_1.png":
+			var imgAbbr = imgUrl.split("_")[0].toLowerCase();
+			switch (imgAbbr) {
+				case "dog":
 					image = "/assets/images/dog.gif";
 					break;
-				case "Cat_1.png":
+				case "cat":
 					image = "/assets/images/cat.gif";
 					break;
 				case "blank-cat.png":
@@ -34585,7 +34586,7 @@ var Brawlers = function (_React$Component) {
 			}
 
 			//TO DO: need to have big avatar come from database
-			if (showAvatar && brawl.book_a) {
+			if (showAvatar && brawl.book_a && brawl.book_b) {
 				small_avatarA = brawl.book_a.author.avatar.split("/").pop();
 				small_avatarB = brawl.book_b.author.avatar.split("/").pop();
 

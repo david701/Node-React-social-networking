@@ -11,11 +11,12 @@ export default class Brawlers extends React.Component {
 
 	chooseAvi = (imgUrl) => {
 		let image;
-		switch (imgUrl) {
-		    case "Dog_1.png":
+		let imgAbbr = imgUrl.split("_")[0].toLowerCase();
+		switch (imgAbbr) {
+		    case "dog":
 		        image = "/assets/images/dog.gif";
 		        break;
-		    case "Cat_1.png":
+		    case "cat":
 		        image = "/assets/images/cat.gif";
 		        break;
 		    case "blank-cat.png":
@@ -67,7 +68,7 @@ export default class Brawlers extends React.Component {
 		}
 
 		//TO DO: need to have big avatar come from database
-		if(showAvatar && brawl.book_a){
+		if(showAvatar && brawl.book_a && brawl.book_b){
 			small_avatarA = brawl.book_a.author.avatar.split("/").pop();
 			small_avatarB = brawl.book_b.author.avatar.split("/").pop();
 
