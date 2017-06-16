@@ -145,7 +145,9 @@ class Parent extends React.Component {
 
 	cancelClaim = (e)=>{
 		e.preventDefault();
-		this.setState({claim: false});
+		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+			this.setState({claim: false});
+		}
 	}
 
 	acceptClaim = ()=>{
@@ -532,7 +534,7 @@ class Report extends React.Component {
 						</ul>
 						<div className="submit-row submit-row-small">
 							<div className="buttons">
-								<a className="button button-white" href="/dashboard/">Close</a>
+								<a className="button button-white close" href="/dashboard/">Close</a>
 								<input className="button button-red" type="submit" value="Report Issue" disabled />
 							</div>
 						</div>
