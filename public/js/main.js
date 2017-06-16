@@ -54898,7 +54898,7 @@ var ViewAll = function (_React$Component) {
 				query = query + '&sort=-rating';title = 'Viewing Top Rated';
 			}
 			if (_this.state.view == 'recommended') {
-				query = '/recommended' + query;title = 'Viewing Recommended';
+				query + '/recommended' + query;title = 'Viewing Recommended';
 			}
 			if (_this.state.bookTitle) {
 				query = query + '&title=' + _this.state.bookTitle;
@@ -58755,12 +58755,12 @@ var Book = function Book(props) {
 														{ className: 'button button-red', href: '/books/' + props.book._id },
 														'Preview'
 												),
-												props.user && !props.userBooks && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
+												props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.followBook },
 														'Add to Library'
 												) : '',
-												props.user && !props.userBooks && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
+												props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.unfollowBook },
 														'Unfollow Book'
