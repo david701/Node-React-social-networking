@@ -34536,7 +34536,8 @@ var Brawlers = function (_React$Component) {
 			    showResultsBy = _props.showResultsBy,
 			    showBrawlers = _props.showBrawlers,
 			    isAdmin = _props.isAdmin,
-			    onFollow = _props.onFollow;
+			    onFollow = _props.onFollow,
+			    unFollow = _props.unFollow;
 			//helps us to decide is we need to show results
 
 			var brawlDeclared = brawl.status > 1;
@@ -34548,6 +34549,8 @@ var Brawlers = function (_React$Component) {
 			    votePercentageA = void 0,
 			    votePercentageB = void 0,
 			    voteUnit = void 0,
+			    followingA = void 0,
+			    followingB = void 0,
 
 			//TO DO: erase all of these values
 			small_avatarA = void 0,
@@ -34588,6 +34591,11 @@ var Brawlers = function (_React$Component) {
 
 				avatarA = this.chooseAvi(small_avatarA);
 				avatarB = this.chooseAvi(small_avatarB);
+			}
+
+			if (brawl.book_a.followers || brawl.book_b.followers) {
+				followingA = brawl.book_a.followers.includes(user._id);
+				followingB = brawl.book_b.followers.includes(user._id);
 			}
 
 			return _react2.default.createElement(
@@ -34649,12 +34657,19 @@ var Brawlers = function (_React$Component) {
 														{ className: 'button button-red', href: "/books/" + brawl.book_a._id },
 														'Preview'
 													),
-													(!isAdmin || user !== "") && _react2.default.createElement(
+													(!isAdmin || user !== "") && !followingA && _react2.default.createElement(
 														'button',
 														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);
 															} },
 														'Add to Library'
+													),
+													(!isAdmin || user !== "") && followingA && _react2.default.createElement(
+														'button',
+														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
+																unFollow(e);
+															} },
+														'Unfollow'
 													)
 												) : _react2.default.createElement(
 													'div',
@@ -34719,12 +34734,19 @@ var Brawlers = function (_React$Component) {
 														{ className: 'button button-red', href: "/books/" + brawl.book_b._id },
 														'Preview'
 													),
-													(!isAdmin || user !== "") && _react2.default.createElement(
+													(!isAdmin || user !== "") && !followingB && _react2.default.createElement(
 														'button',
 														{ id: brawl.book_b._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);
 															} },
 														'Add to Library'
+													),
+													(!isAdmin || user !== "") && followingB && _react2.default.createElement(
+														'button',
+														{ id: brawl.book_b._id, className: 'button button-white', onClick: function onClick(e) {
+																unFollow(e);
+															} },
+														'Unfollow'
 													)
 												) : _react2.default.createElement(
 													'div',
@@ -54718,19 +54740,6 @@ var Home = function (_React$Component) {
 		}, _this.changeGenre = function (e) {
 			_this.setState({ genre: e.target.value });
 			_this.getAllBooks(e.target.value);
-		}, _this.followBook = function (e) {
-			_jQuery2.default.post(apiUrl + '/books/' + e.target.id + '/follow').then(function (res) {
-				_this.getUser();
-			});
-			e.preventDefault();
-			e.stopPropagation();
-		}, _this.unfollowBook = function (e) {
-			_jQuery2.default.ajax({
-				url: apiUrl + '/books/' + e.target.id + '/follow',
-				type: 'DELETE'
-			}).then(function (res) {
-				_this.getUser();
-			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -54746,7 +54755,7 @@ var Home = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_Brawl2.default, { me: this.state.user, onFollow: this.followBook }),
+				_react2.default.createElement(_Brawl2.default, { me: this.state.user }),
 				_react2.default.createElement(
 					'section',
 					{ className: 'standard-section' },
@@ -58980,6 +58989,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var apiUrl = '/api/v1';
+
 var Brawl = function (_React$Component) {
 	_inherits(Brawl, _React$Component);
 
@@ -59006,6 +59017,23 @@ var Brawl = function (_React$Component) {
 			});
 		};
 
+		_this.followBook = function (e) {
+			_jQuery2.default.post(apiUrl + '/books/' + e.target.id + '/follow').then(function (res) {
+				_this.getBrawls();
+			});
+			e.preventDefault();
+			e.stopPropagation();
+		};
+
+		_this.unfollowBook = function (e) {
+			_jQuery2.default.ajax({
+				url: apiUrl + '/books/' + e.target.id + '/follow',
+				type: 'DELETE'
+			}).then(function (res) {
+				_this.getBrawls();
+			});
+		};
+
 		_this.state = {
 			currentBrawl: [],
 			title: "Current Brawl"
@@ -59025,9 +59053,7 @@ var Brawl = function (_React$Component) {
 			var _state = this.state,
 			    currentBrawl = _state.currentBrawl,
 			    title = _state.title;
-			var _props = this.props,
-			    me = _props.me,
-			    onFollow = _props.onFollow;
+			var me = this.props.me;
 
 			var brawlDeclared = void 0,
 			    isLatestBrawl = void 0;
@@ -59112,7 +59138,7 @@ var Brawl = function (_React$Component) {
 						return _react2.default.createElement(
 							'div',
 							{ key: i, className: latestBrawl ? "week week-this" : "week week-last" },
-							_react2.default.createElement(_Brawlers2.default, { isAdmin: false, showAvatar: 'true', brawl: brawl, vote: $this.vote, user: me, title: title, showResultsBy: 'percentage', onFollow: onFollow })
+							_react2.default.createElement(_Brawlers2.default, { isAdmin: false, showAvatar: 'true', brawl: brawl, vote: $this.vote, user: me, title: title, showResultsBy: 'percentage', onFollow: $this.followBook, unFollow: $this.unfollowBook })
 						);
 					})
 				),

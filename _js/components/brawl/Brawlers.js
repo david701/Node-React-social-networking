@@ -30,11 +30,12 @@ export default class Brawlers extends React.Component {
 
 	render(){
 		const $this = this;
-		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin, onFollow} = this.props;
+		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin, onFollow, unFollow} = this.props;
 		//helps us to decide is we need to show results
 		const brawlDeclared = brawl.status > 1;
 		let votedForA, votedForB, totalVotes, hideVoteButton,
-		iVoted, votePercentageA, votePercentageB, voteUnit,
+		iVoted, votePercentageA, votePercentageB, voteUnit, followingA,
+		followingB,
 		//TO DO: erase all of these values
 		small_avatarA, small_avatarB, avatarA, avatarB;
 
@@ -74,6 +75,11 @@ export default class Brawlers extends React.Component {
 			avatarB = this.chooseAvi(small_avatarB);
 		}
 
+		if(brawl.book_a.followers || brawl.book_b.followers){
+			followingA = brawl.book_a.followers.includes(user._id)
+			followingB = brawl.book_b.followers.includes(user._id)
+		}
+
 		return (
 				<div className="container">
 					<div className="flex-row">
@@ -102,13 +108,12 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
-																		{/* (user.following_books.indexOf(brawl.book_a._id) < 0) */}
-																		{(!isAdmin || user !== "") &&
+																		{(!isAdmin || user !== "") && !followingA &&
 																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
 																		}
-																		{/* {((!isAdmin || user !== "") && user.following_books.indexOf(brawl.book_a._id) > -1) &&
-																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Unfollow</button>
-																		} */}
+																		{(!isAdmin || user !== "") && followingA &&
+																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
+																		}
 																	</div>
 																) : (
 																	<div className="overlay">
@@ -138,13 +143,12 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
-																		{/* user.following_books.indexOf(brawl.book_b._id) < 0 */}
-																		{(!isAdmin || user !== "") &&
+																		{(!isAdmin || user !== "") && !followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
 																		}
-																		{/* {((!isAdmin || user !== "") && user.following_books.indexOf(brawl.book_b._id) > -1) &&
-																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Unfollow</button>
-																		} */}
+																		{(!isAdmin || user !== "") && followingB &&
+																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
+																		}
 																	</div>
 																) : (
 																	<div className="overlay">

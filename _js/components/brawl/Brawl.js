@@ -3,6 +3,8 @@ import $ from 'jQuery';
 import Rating from '../dashboard/Rating';
 import Brawlers from './Brawlers.js';
 
+const apiUrl = '/api/v1';
+
 export default class Brawl extends React.Component {
 	constructor(props) {
 	    super(props);
@@ -34,10 +36,29 @@ export default class Brawl extends React.Component {
 		})
 	}
 
+
+	followBook = (e)=>{
+		$.post(`${apiUrl}/books/${e.target.id}/follow`)
+		.then(res => {
+			this.getBrawls();
+		})
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	unfollowBook = (e)=>{
+		$.ajax({
+			url: `${apiUrl}/books/${e.target.id}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.getBrawls();
+		})
+	}
+
 	render() {
 		const $this = this;
 		const {currentBrawl, title} = this.state;
-		const {me, onFollow} = this.props;
+		const {me} = this.props;
 		let brawlDeclared, isLatestBrawl;
 		let currentResult = "Please Vote";
 		let lastResult = "Please Vote";
@@ -81,7 +102,7 @@ export default class Brawl extends React.Component {
 
 								return (
 									<div key={i} className={latestBrawl ? "week week-this" : "week week-last"}>
-										<Brawlers isAdmin={false} showAvatar="true" brawl={brawl} vote={$this.vote} user={me} title={title} showResultsBy="percentage" onFollow={onFollow}/>
+										<Brawlers isAdmin={false} showAvatar="true" brawl={brawl} vote={$this.vote} user={me} title={title} showResultsBy="percentage" onFollow={$this.followBook} unFollow={$this.unfollowBook}/>
 									</div>
 								)
 							})
