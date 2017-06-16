@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import BookType from './BookType.js';
+import Library from './books/Library';
 
 const Profile = function(){
 		this.id = id;

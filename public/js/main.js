@@ -50013,6 +50013,10 @@ var _BookType = __webpack_require__(29);
 
 var _BookType2 = _interopRequireDefault(_BookType);
 
+var _Library = __webpack_require__(291);
+
+var _Library2 = _interopRequireDefault(_Library);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50418,7 +50422,7 @@ var Author = function (_React$Component) {
 						' Library'
 					)
 				),
-				this.state.library.length ? _react2.default.createElement(Library, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
+				this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
