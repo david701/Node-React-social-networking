@@ -60,8 +60,8 @@ export default class Brawlers extends React.Component {
 		//only define these variables if voting is defined
 		if(vote){
 			//Check to see if I voted for a or b
-			votedForA = $.inArray(user._id,brawl.book_a_vote) === 0;
-			votedForB = $.inArray(user._id,brawl.book_b_vote) === 0;
+			votedForA = brawl.book_a_vote.includes(user._id);
+			votedForB = brawl.book_b_vote.includes(user._id);;
 			iVoted = votedForA || votedForB;
 			//hide vote button only if I voted, brawl is declared, or a user isn't logged in
 			hideVoteButton = brawlDeclared || iVoted || user === "";
