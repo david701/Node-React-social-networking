@@ -109,9 +109,7 @@ class SignUp extends React.Component{
           links[key] = ""
         }
     }
-
     return links;
-
   }
 
   handleSubmit = (event) => {

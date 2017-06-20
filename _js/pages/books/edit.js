@@ -41,7 +41,7 @@ class EditBookPage extends React.Component {
 
 	toggleScreen = ()=>{
 		let preview = this.state.screen === 'preview' ? 'full-screen' : 'preview';
-		let status = this.state.screen === 'preview' ? 'Show Preview' : 'Read Book';
+		let status = this.state.screen === 'preview' ? 'Show Details' : 'Read Book';
 		this.setState({screen: preview, status: status})
 	}
 

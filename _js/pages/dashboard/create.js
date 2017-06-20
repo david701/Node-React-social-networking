@@ -24,12 +24,12 @@ class DashboardCreate extends Component {
 		tags: [],
 		warnings: [],
 		socialMedia: {
-			amazon: 'https://',
-			kobo: 'https://',
-			smashword: 'https://',
-			itunes: 'https://',
-			barnesandnoble: 'https://',
-			twitter: 'https://'
+			amazon: 'http://',
+			kobo: 'http://',
+			smashword: 'http://',
+			itunes: 'http://',
+			barnesandnoble: 'http://',
+			twitter: 'http://'
 		}
 	};
 
@@ -93,6 +93,19 @@ class DashboardCreate extends Component {
     formValid(e);
   }
 
+  cleanUrls = links => {
+    for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if(links[key] === "http://"){
+          links[key] = ""
+        }
+    }
+
+    return links;
+  }
+
   _handleTags = e => {
     const {tags} = this.state;
     const newTag = e.target.value;
@@ -127,6 +140,18 @@ class DashboardCreate extends Component {
     formValid(e);
   }
 
+  cleanUrls = (links) => {
+    for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if(links[key] === "http://"){
+          links[key] = ""
+        }
+    }
+    return links;
+  }
+
   _handleSubmit = e => {
     e.preventDefault();
     const data = {
@@ -136,7 +161,8 @@ class DashboardCreate extends Component {
       tags: this.state.tags,
       warnings: this.state.warnings,
 			cover: this.state.coverFile,
-			type: this.state.type
+			type: this.state.type,
+      social_media: this.cleanUrls(this.state.socialMedia)
     };
     if(!bookId){
 			$.ajax({
@@ -165,12 +191,26 @@ class DashboardCreate extends Component {
   }
 
   _onUrlChange = e => {
-    this.setState({
-      socialMedia: {
-        ...this.state.socialMedia,
-        [e.target.id]: e.target.value,
+    let props = e.target.name.split('.');
+    let social_links = this.state.socialMedia;
+
+
+    if(props.length > 1){
+      // add sub properties here
+      let http = 'http://',
+      urlMinusHttp = e.target.value.replace(http,"");
+
+      if(props[0] === "social_media"){
+        if(urlMinusHttp !== "http:/"){
+          social_links[props[1]] = http + urlMinusHttp;
+        }
       }
+    }
+
+    this.setState({
+      socialMedia: social_links
     });
+
     //toggle submit
     formValid(e);
   }

@@ -53643,7 +53643,6 @@ var SignUp = function (_React$Component) {
                     links[key] = "";
                 }
             }
-
             return links;
         }
     }, {
@@ -54190,7 +54189,7 @@ var EditBookPage = function (_React$Component) {
 			});
 		}, _this.toggleScreen = function () {
 			var preview = _this.state.screen === 'preview' ? 'full-screen' : 'preview';
-			var status = _this.state.screen === 'preview' ? 'Show Preview' : 'Read Book';
+			var status = _this.state.screen === 'preview' ? 'Show Details' : 'Read Book';
 			_this.setState({ screen: preview, status: status });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
@@ -54329,12 +54328,12 @@ var DashboardCreate = function (_Component) {
       tags: [],
       warnings: [],
       socialMedia: {
-        amazon: 'https://',
-        kobo: 'https://',
-        smashword: 'https://',
-        itunes: 'https://',
-        barnesandnoble: 'https://',
-        twitter: 'https://'
+        amazon: 'http://',
+        kobo: 'http://',
+        smashword: 'http://',
+        itunes: 'http://',
+        barnesandnoble: 'http://',
+        twitter: 'http://'
       }
     }, _this.componentDidMount = function () {
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
@@ -54387,6 +54386,17 @@ var DashboardCreate = function (_Component) {
       _this.setState({ genres: temp_genres });
       //toggle submit
       (0, _validation.formValid)(e);
+    }, _this.cleanUrls = function (links) {
+      for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if (links[key] === "http://") {
+          links[key] = "";
+        }
+      }
+
+      return links;
     }, _this._handleTags = function (e) {
       var tags = _this.state.tags;
 
@@ -54421,6 +54431,16 @@ var DashboardCreate = function (_Component) {
       _this.setState({ type: e.target.value });
       //toggle submit
       (0, _validation.formValid)(e);
+    }, _this.cleanUrls = function (links) {
+      for (var key in links) {
+        // skip loop if the property is from prototype
+        if (!links.hasOwnProperty(key)) continue;
+        //clear out empty urls
+        if (links[key] === "http://") {
+          links[key] = "";
+        }
+      }
+      return links;
     }, _this._handleSubmit = function (e) {
       e.preventDefault();
       var data = {
@@ -54430,7 +54450,8 @@ var DashboardCreate = function (_Component) {
         tags: _this.state.tags,
         warnings: _this.state.warnings,
         cover: _this.state.coverFile,
-        type: _this.state.type
+        type: _this.state.type,
+        social_media: _this.cleanUrls(_this.state.socialMedia)
       };
       if (!bookId) {
         _jquery2.default.ajax({
@@ -54457,9 +54478,25 @@ var DashboardCreate = function (_Component) {
         });
       }
     }, _this._onUrlChange = function (e) {
+      var props = e.target.name.split('.');
+      var social_links = _this.state.socialMedia;
+
+      if (props.length > 1) {
+        // add sub properties here
+        var http = 'http://',
+            urlMinusHttp = e.target.value.replace(http, "");
+
+        if (props[0] === "social_media") {
+          if (urlMinusHttp !== "http:/") {
+            social_links[props[1]] = http + urlMinusHttp;
+          }
+        }
+      }
+
       _this.setState({
-        socialMedia: _extends({}, _this.state.socialMedia, _defineProperty({}, e.target.id, e.target.value))
+        socialMedia: social_links
       });
+
       //toggle submit
       (0, _validation.formValid)(e);
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -57786,6 +57823,7 @@ var Description = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			console.log(JSON.stringify(this.props.book));
 			var followBtn;
 			if (!this.props.authorized) {
 				if (this.state.following) {
@@ -57810,6 +57848,26 @@ var Description = function (_React$Component) {
 					'div',
 					{ style: { overflow: 'scroll', height: '100%', width: '120%', paddingRight: '5rem' } },
 					followBtn,
+					!this.props.authorized && this.props.socialMedia ? _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'button',
+							{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' } },
+							'Buy'
+						),
+						_react2.default.createElement(
+							'ul',
+							{ className: 'menu' },
+							this.props.socialMedia.map(function (link, index) {
+								_react2.default.createElement(
+									'li',
+									{ key: 'index' },
+									'link'
+								);
+							})
+						)
+					) : '',
 					!this.props.authorized ? _react2.default.createElement(
 						'button',
 						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
@@ -59464,6 +59522,7 @@ var SocialMedia = function SocialMedia(props) {
           _React2.default.createElement('input', {
             id: source,
             name: 'social_media.' + source,
+            'data-validation': 'url',
             onChange: function onChange(e) {
               return handleChange(e);
             },
@@ -59933,7 +59992,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook, claim: this.props.claim });
+      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, book: this.props.book, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook, claim: this.props.claim });
     }
   }]);
 
@@ -60230,7 +60289,7 @@ var EditBookContainer = function (_React$Component) {
         slidesToShow: 2,
         slidesToScroll: 1
       };
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,

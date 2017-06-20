@@ -31,6 +31,7 @@ export default class Description extends React.Component{
 	}
 
 	render(){
+		console.log(JSON.stringify(this.props.book))
 		var followBtn;
 		if(!this.props.authorized){
 			if(this.state.following){
@@ -44,6 +45,19 @@ export default class Description extends React.Component{
 			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
 				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
 				{followBtn}
+				{!this.props.authorized && this.props.socialMedia ?
+					(
+						<div>
+							<button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}}>Buy</button>
+							<ul className="menu">
+								{this.props.socialMedia.map(function(link,index){
+									<li key="index">link</li>
+								})}
+							</ul>
+						</div>
+					)
+					:''
+				}
 				{!this.props.authorized?(<button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.props.claim}>Claim</button>):''}
 					<p>{this.props.description}</p>
 					<Reviews bookId={this.props.bookId} authorized={this.props.authorized} admin={this.props.admin} getBook={this.props.getBook}/>
