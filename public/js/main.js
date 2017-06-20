@@ -51100,10 +51100,10 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Please enter your full name'
+                  'Please enter your full name. It must be under 30 characters'
                 )
               ),
-              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'name,required' })
+              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-maxlength': '30', 'data-validation': 'name,required,maxlength' })
             ),
             _react2.default.createElement(
               'li',
@@ -53750,10 +53750,10 @@ var SignUp = function (_React$Component) {
                             _react2.default.createElement(
                                 'span',
                                 { className: 'help-text' },
-                                'Please enter your full name'
+                                'Please enter your full name. It must be under 30 characters'
                             )
                         ),
-                        _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'name,required' })
+                        _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: this.state.profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-maxlength': '30', 'data-validation': 'name,required,maxlength' })
                     ),
                     _react2.default.createElement(
                         'li',

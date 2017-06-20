@@ -1116,10 +1116,14 @@ form .instructions {
 hr.dividers {
     margin-top: 0;
 }
-#coverForm .title .help-text {
+.title .help-text {
     color: red;
     font-size: 0.875em;
     display: none;
     line-height: 19px;
     margin: 0 0 10px 0;
+}
+.title label {
+    white-space: nowrap;
+    margin: 0 10px 0 0;
 }
