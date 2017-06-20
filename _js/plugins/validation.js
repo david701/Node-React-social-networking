@@ -83,7 +83,7 @@ const isValid = (validate,input) => {
             valid = value.length >= parseInt(input.dataset.minlength)
             break;
         case "maxlength":
-            valid = value.length <= parseInt(input.dataset.maxLength)
+            valid = value.length <= parseInt(input.dataset.maxlength)
             break;
     }
     return valid;

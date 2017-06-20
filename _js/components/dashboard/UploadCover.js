@@ -77,11 +77,11 @@ const Information = ({ title, handleChange, coverAdd, validate }) => (
         <li>
           <div className="title password">
               <label htmlFor="title"><span>*</span>Book Title</label>
-              <span className="help-text">Please add book title</span>
+              <span className="help-text">Title is required and must be under 30 characters</span>
           </div>
           <input
             id="title" name="title" type="text" onBlur={validate}
-            onChange={handleChange} value={title} data-validation="name,required"
+            onChange={handleChange} value={title} data-maxlength="30" data-validation="name,maxlength,required"
           />
         </li>
         <li>

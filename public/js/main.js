@@ -26911,7 +26911,7 @@ var isValid = function isValid(validate, input) {
             valid = value.length >= parseInt(input.dataset.minlength);
             break;
         case "maxlength":
-            valid = value.length <= parseInt(input.dataset.maxLength);
+            valid = value.length <= parseInt(input.dataset.maxlength);
             break;
     }
     return valid;
@@ -59666,12 +59666,12 @@ var Information = function Information(_ref6) {
             _react2.default.createElement(
               "span",
               { className: "help-text" },
-              "Please add book title"
+              "Title is required and must be under 30 characters"
             )
           ),
           _react2.default.createElement("input", {
             id: "title", name: "title", type: "text", onBlur: validate,
-            onChange: handleChange, value: title, "data-validation": "name,required"
+            onChange: handleChange, value: title, "data-maxlength": "30", "data-validation": "name,maxlength,required"
           })
         ),
         _react2.default.createElement(

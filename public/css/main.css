@@ -1908,6 +1908,13 @@ form .instructions {
 hr.dividers {
   margin-top: 0; }
 
+#coverForm .title .help-text {
+  color: red;
+  font-size: 0.875em;
+  display: none;
+  line-height: 19px;
+  margin: 0 0 10px 0; }
+
 #night-mode h1,
 #night-mode h2,
 #night-mode h3,
@@ -2079,7 +2086,9 @@ hr.dividers {
           margin-right: 1.5em; } }
   #night-mode .content-block .field-list .inner-fields li label {
     font-size: 0.75em;
-    margin-bottom: 0.5rem; }
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    margin-right: 5px; }
   #night-mode .content-block .field-list .inner-fields li input {
     margin-bottom: 1em;
     padding: 0.25em 0.5em; }
@@ -2457,7 +2466,9 @@ hr.dividers {
           margin-right: 1.5em; } }
   .content-block .field-list .inner-fields li label {
     font-size: 0.75em;
-    margin-bottom: 0.5rem; }
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    margin-right: 5px; }
   .content-block .field-list .inner-fields li input {
     margin-bottom: 1em;
     padding: 0.25em 0.5em; }
