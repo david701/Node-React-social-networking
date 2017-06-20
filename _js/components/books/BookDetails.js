@@ -76,7 +76,7 @@ export default class BookDetails extends React.Component {
 		return(
 		  <div className="content-block content-block-standard-new" style={{overflow: 'hidden'}}>
 		    <div className="title-row">
-		      <h2>{this.props.book? this.props.book.type:''}</h2>
+		      <h4>{this.props.book? this.props.book.type:''}</h4>
 		      <span className="control">{sanitizeLength(this.props.length)}</span>
 		    </div>
 		    <div className="profile-info">

@@ -57372,7 +57372,7 @@ var BookDetails = function (_React$Component) {
 					'div',
 					{ className: 'title-row' },
 					_react2.default.createElement(
-						'h2',
+						'h4',
 						null,
 						this.props.book ? this.props.book.type : ''
 					),
