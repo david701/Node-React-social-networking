@@ -1377,63 +1377,46 @@ button:disabled {
     @media screen and (min-width: 62.5em) {
       #night-mode .standard-section-with-sidebar > .container > .flex-row > div:last-child {
         width: calc( 26.66667vw  - 1.5em); } }
-  #night-mode form .instructions {
-    background-color: #222324;
+  #night-mode form .instructions h4 {
     color: #FFFFFF;
-    padding: 2.8125em 0; }
-    #night-mode form .instructions h4 {
-      color: #FFFFFF;
-      font-size: 1.125em;
-      margin-bottom: 0.875em; }
-    #night-mode form .instructions .footer-spread {
-      margin-bottom: 2em; }
-      #night-mode form .instructions .footer-spread .flex-row {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap; }
-        #night-mode form .instructions .footer-spread .flex-row > div {
-          flex-shrink: 0;
-          margin-bottom: 2em;
-          width: calc( 100vw - 1.5em); }
-          @media screen and (min-width: 40em) {
-            #night-mode form .instructions .footer-spread .flex-row > div {
-              width: calc( 50vw  - 1.5em); } }
-          @media screen and (min-width: 62.5em) {
-            #night-mode form .instructions .footer-spread .flex-row > div {
-              width: calc( 20vw  - 1.5em); } }
-          #night-mode form .instructions .footer-spread .flex-row > div form input {
-            color: #222324;
-            margin-bottom: 0.5em; }
-    #night-mode form .instructions p {
-      font-size: 0.75em;
-      font-family: "clarendon-urw", -apple-system, Georgia, serif;
-      text-align: center; }
-  #night-mode .modal {
-    visibility: hidden;
-    position: fixed;
+    font-size: 1.125em;
+    margin-bottom: 0.875em; }
+  #night-mode form .instructions .footer-spread {
+    margin-bottom: 2em; }
+    #night-mode form .instructions .footer-spread .flex-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap; }
+      #night-mode form .instructions .footer-spread .flex-row > div {
+        flex-shrink: 0;
+        margin-bottom: 2em;
+        width: calc( 100vw - 1.5em); }
+        @media screen and (min-width: 40em) {
+          #night-mode form .instructions .footer-spread .flex-row > div {
+            width: calc( 50vw  - 1.5em); } }
+        @media screen and (min-width: 62.5em) {
+          #night-mode form .instructions .footer-spread .flex-row > div {
+            width: calc( 20vw  - 1.5em); } }
+        #night-mode form .instructions .footer-spread .flex-row > div form input {
+          color: #222324;
+          margin-bottom: 0.5em; }
+  #night-mode form .instructions p {
+    font-size: 0.75em;
+    font-family: "clarendon-urw", -apple-system, Georgia, serif;
+    text-align: center; }
+  #night-mode .modal .overlay {
+    position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
-    width: 100vw;
-    z-index: 100;
-    opacity: 0;
-    transition: opacity 0.25s ease-out, visibility 0.25s ease-out; }
-    #night-mode .modal .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(0, 0, 0, 0.5625); }
-      #night-mode .modal .overlay.is-hidden {
-        opacity: 0;
-        visibility: hidden; }
-      #night-mode .modal .overlay .content-block {
-        transition: transform 0.25s ease-out, opacity 0.25s ease-out;
-        transform: translateY(7em); }
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5625); }
+    #night-mode .modal .overlay.is-hidden {
+      opacity: 0;
+      visibility: hidden; }
   #night-mode body.modal-showing .modal {
     visibility: visible;
     opacity: 1; }
@@ -1934,6 +1917,9 @@ hr.dividers {
 
 #night-mode input, #night-mode select {
   background: #17181A; }
+
+#night-mode input.button-red {
+  background-color: red; }
 
 #night-mode hr {
   border-color: #17181a; }
