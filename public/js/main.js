@@ -58054,7 +58054,7 @@ var Reviews = function (_React$Component) {
 								'p',
 								null,
 								'By ',
-								review.author.name
+								review.author ? review.author.name : ""
 							),
 							_react2.default.createElement(
 								'p',
@@ -58117,11 +58117,11 @@ var Reviews = function (_React$Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'help-text' },
-								'Reviews should be more than 50 characters'
+								'Reviews should be more than 30 characters'
 							),
 							_react2.default.createElement('textarea', { rows: '4', name: 'content', id: 'text-box', onChange: function onChange(e) {
 									_this2._onChange(e);(0, _validation.validate)(e);
-								}, onBlur: _validation.validate, 'data-minLength': '50', 'data-validation': 'minLength', value: this.state.content })
+								}, onBlur: _validation.validate, 'data-minLength': '30', 'data-validation': 'minLength', value: this.state.content })
 						),
 						_react2.default.createElement(
 							'div',

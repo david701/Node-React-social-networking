@@ -87,7 +87,7 @@ export default class Reviews extends React.Component{
 					return(
 						<li key={key} style={{marginBottom: '0.5rem'}}>
 							<Rating stars={review.rating} />
-							<p>By {review.author.name}</p>
+							<p>By {review.author ? review.author.name : ""}</p>
 							<p>
 								{review.content}
 							</p>
@@ -119,8 +119,8 @@ export default class Reviews extends React.Component{
 				      />
 						<li className="review-area">
 							<hr className="dividers"/>
-							<div className="help-text">Reviews should be more than 50 characters</div>
-							<textarea rows='4' name="content" id="text-box" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-minLength="50" data-validation="minLength" value={this.state.content}></textarea>
+							<div className="help-text">Reviews should be more than 30 characters</div>
+							<textarea rows='4' name="content" id="text-box" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-minLength="30" data-validation="minLength" value={this.state.content}></textarea>
 						</li>
 						<div style={{float:'right'}}>
 							<button className="button-white" onClick={this.cancelReview} style={{width:'auto', paddingRight: '2rem', paddingLeft:'2rem', marginRight: '1rem', marginTop: '1rem', display:'inline-block'}}>Cancel</button>
