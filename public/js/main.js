@@ -54573,15 +54573,16 @@ var Description = exports.Description = function Description(_ref2) {
           _react2.default.createElement(
             'span',
             { className: 'help-text' },
-            'Description must be at least 250 characters.'
+            'Description must be between 30 and 250 characters'
           )
         ),
         _react2.default.createElement('textarea', {
           id: 'description',
           rows: '5',
-          placeholder: 'Add a 250 character description here.',
-          'data-minLength': '250',
-          'data-validation': 'required,minLength',
+          placeholder: 'Description must be between 30 and 250 characters',
+          'data-minLength': '30',
+          'data-maxlength': '250',
+          'data-validation': 'required,minLength,maxlength',
           onBlur: validate,
           onChange: handleChange,
           value: description

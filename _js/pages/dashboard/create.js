@@ -214,14 +214,15 @@ export const Description = ({description, handleChange, validate}) => (
       <li>
         <div className="title">
           <label htmlFor="description"><span>*</span>Description</label>
-          <span className="help-text">Description must be at least 250 characters.</span>
+          <span className="help-text">Description must be between 30 and 250 characters</span>
         </div>
         <textarea
           id="description"
           rows="5"
-          placeholder="Add a 250 character description here."
-          data-minLength="250"
-          data-validation="required,minLength"
+          placeholder="Description must be between 30 and 250 characters"
+          data-minLength="30"
+          data-maxlength="250"
+          data-validation="required,minLength,maxlength"
           onBlur={validate}
           onChange={handleChange}
           value={description}
