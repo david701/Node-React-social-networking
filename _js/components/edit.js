@@ -247,23 +247,27 @@ class SignUp extends React.Component{
 
 	levelAvatar = (level)=>{
 		var avatar = {kitty: '', puppy:''}
-
 		if(!level || level == 0){
 			avatar.kitty = '/assets/images/avatars/Cat_1.png';
 			avatar.puppy = '/assets/images/avatars/Dog_1.png';
-		} else if (level >= 1) {
+		}
+		if (level >= 1) {
 			avatar.kitty = '/assets/images/avatars/Cat_2.png';
 			avatar.puppy = '/assets/images/avatars/Dog_2.png';
-		} else if (level >= 11) {
+		}
+		if (level >= 11) {
 			avatar.kitty = '/assets/images/avatars/Cat_3.png';
 			avatar.puppy = '/assets/images/avatars/Dog_3.png';
-		} else if (level >= 21) {
+		}
+		if (level >= 21) {
 			avatar.kitty = '/assets/images/avatars/Cat_4.png';
 			avatar.puppy = '/assets/images/avatars/Dog_4.png';
-		} else if (level >= 31) {
+		}
+		if (level >= 31) {
 			avatar.kitty = '/assets/images/avatars/Cat_5.png';
 			avatar.puppy = '/assets/images/avatars/Dog_5.png';
-		} else if (level >= 41) {
+		}
+		if (level >= 41) {
 			avatar.kitty = '/assets/images/avatars/Cat_6.png';
 			avatar.puppy = '/assets/images/avatars/Dog_6.png';
 		}
