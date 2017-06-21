@@ -153,8 +153,14 @@ class AllUsers extends React.Component{
         let $this = this;
         return users.filter(function(user,index){
             //filter followers
-            return index >= skip && index < (skip + usersPerPage) && user.role > 0
+            return index >= skip && index < (skip + usersPerPage)
         });
+    }
+
+    filterOutAdmins = (users) => {
+        return users.filter(function(user,index){
+            return user.role === 0;
+        })
     }
 
     getUsers = (id) => {
@@ -163,10 +169,11 @@ class AllUsers extends React.Component{
             if(response.status === "error"){
                 console.log(response.message);
             }else{
+                let users = this.filterOutAdmins(response.data);
                 this.setState({
-                    users: self.paginate(response.data,skip),
-                    allUsers: response.data,
-                    numOfPages: Math.ceil(response.data.length / usersPerPage)
+                    users: self.paginate(users,skip),
+                    allUsers: users,
+                    numOfPages: Math.ceil(users.length / usersPerPage)
                 });
             }
         });

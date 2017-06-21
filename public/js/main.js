@@ -51679,7 +51679,13 @@ var AllUsers = function (_React$Component2) {
             var $this = _this3;
             return users.filter(function (user, index) {
                 //filter followers
-                return index >= skip && index < skip + usersPerPage && user.role > 0;
+                return index >= skip && index < skip + usersPerPage;
+            });
+        };
+
+        _this3.filterOutAdmins = function (users) {
+            return users.filter(function (user, index) {
+                return user.role === 0;
             });
         };
 
@@ -51689,10 +51695,11 @@ var AllUsers = function (_React$Component2) {
                 if (response.status === "error") {
                     console.log(response.message);
                 } else {
+                    var users = _this3.filterOutAdmins(response.data);
                     _this3.setState({
-                        users: self.paginate(response.data, skip),
-                        allUsers: response.data,
-                        numOfPages: Math.ceil(response.data.length / usersPerPage)
+                        users: self.paginate(users, skip),
+                        allUsers: users,
+                        numOfPages: Math.ceil(users.length / usersPerPage)
                     });
                 }
             });
