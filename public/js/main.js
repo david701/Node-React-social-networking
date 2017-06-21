@@ -51679,7 +51679,7 @@ var AllUsers = function (_React$Component2) {
             var $this = _this3;
             return users.filter(function (user, index) {
                 //filter followers
-                return index >= skip && index < skip + usersPerPage;
+                return index >= skip && index < skip + usersPerPage && user.role > 0;
             });
         };
 
@@ -53806,6 +53806,11 @@ var SignUp = function (_React$Component) {
                             _react2.default.createElement(
                                 'label',
                                 { htmlFor: 'gender' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '*'
+                                ),
                                 'Your gender:'
                             ),
                             _react2.default.createElement(
@@ -53816,7 +53821,7 @@ var SignUp = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'select',
-                            { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange },
+                            { id: 'gender', name: 'gender', type: 'text', value: this.state.profile.gender, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'required' },
                             _react2.default.createElement(
                                 'option',
                                 { value: '' },

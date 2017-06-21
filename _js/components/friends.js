@@ -153,7 +153,7 @@ class AllUsers extends React.Component{
         let $this = this;
         return users.filter(function(user,index){
             //filter followers
-            return index >= skip && index < (skip + usersPerPage)
+            return index >= skip && index < (skip + usersPerPage) && user.role > 0
         });
     }
 

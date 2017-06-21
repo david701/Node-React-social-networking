@@ -205,10 +205,10 @@ class SignUp extends React.Component{
 					</li>
 					<li>
                         <div className="title">
-                            <label htmlFor="gender">Your gender:</label>
+                            <label htmlFor="gender"><span>*</span>Your gender:</label>
                             <span className="help-text">Please select your gender</span>
                         </div>
-						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
+						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange} onBlur={validate} data-validation="required">
                           <option value="">Select One</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
