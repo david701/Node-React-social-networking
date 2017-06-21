@@ -17,6 +17,7 @@ class ViewAll extends React.Component{
 		genres: query.genres || '',
 		tags: query.tags || '',
 		author: query.author || '',
+		author_id: query.author_id || '',
 		rating: query.rating || '',
 		bookTitle: query.title || '',
 		page: parseInt(query.page) || 1,
@@ -60,12 +61,22 @@ class ViewAll extends React.Component{
 				case 'search':
 					if(this.state.author){
 						this.getAuthors(page);
+					}else if(this.state.author_id){
+						console.log('here');
+						this.getAuthorBooks(page);
 					}else{
+						console.log('not here');
 						this.getBooks(page)
 					}
 					break;
-			default: this.getBooks(page);
-
+			default:
+				if(this.state.author){
+					this.getAuthors(page);
+				}else if(this.state.author_id){
+					this.getAuthorBooks(page);
+				}else{
+					this.getBooks(page)
+				}
 		}
 	}
 
@@ -101,6 +112,14 @@ class ViewAll extends React.Component{
 		})
 	}
 
+	getAuthorBooks = (page)=>{
+		var page = page || this.state.page;
+		var query = apiUrl+'/users/'+this.state.author_id+'/books?limit='+this.state.limit+'&page='+page;
+		$.get(query).then((books)=>{
+			this.setState({books: books.data, count: books.count, title: 'Books By '});
+		})
+	}
+
 	getUserLibrary = (page)=>{
 		var query = apiUrl+'/books/library?limit='+this.state.limit;
 		var page = page || this.state.page;
@@ -115,7 +134,7 @@ class ViewAll extends React.Component{
 		if(this.state.view == 'recommended'){ query + '/recommended' + query; title = 'Viewing Recommended' }
 		if(this.state.bookTitle){ query = query + '&title='+this.state.bookTitle }
 		if(this.state.rating){ query = query + '&rating='+this.state.rating }
-		if(this.state.author){ query = query + '&author='+this.state.author }
+		if(this.state.author_id){ query = query + '&author_id='+this.state.author_id }
 		if(this.state.genres){ query = query + '&genres='+this.state.genres; title = title + ' : ' + this.state.genres }
 
 		if(this.state.view == 'search') title = 'Search Results';

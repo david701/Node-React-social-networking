@@ -55005,6 +55005,7 @@ var ViewAll = function (_React$Component) {
 			genres: query.genres || '',
 			tags: query.tags || '',
 			author: query.author || '',
+			author_id: query.author_id || '',
 			rating: query.rating || '',
 			bookTitle: query.title || '',
 			page: parseInt(query.page) || 1,
@@ -55040,13 +55041,22 @@ var ViewAll = function (_React$Component) {
 				case 'search':
 					if (_this.state.author) {
 						_this.getAuthors(page);
+					} else if (_this.state.author_id) {
+						console.log('here');
+						_this.getAuthorBooks(page);
 					} else {
+						console.log('not here');
 						_this.getBooks(page);
 					}
 					break;
 				default:
-					_this.getBooks(page);
-
+					if (_this.state.author) {
+						_this.getAuthors(page);
+					} else if (_this.state.author_id) {
+						_this.getAuthorBooks(page);
+					} else {
+						_this.getBooks(page);
+					}
 			}
 		}, _this.getAuthors = function (page) {
 			var page = page || _this.state.page,
@@ -55077,6 +55087,12 @@ var ViewAll = function (_React$Component) {
 			_jQuery2.default.get(query).then(function (books) {
 				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Books' });
 			});
+		}, _this.getAuthorBooks = function (page) {
+			var page = page || _this.state.page;
+			var query = apiUrl + '/users/' + _this.state.author_id + '/books?limit=' + _this.state.limit + '&page=' + page;
+			_jQuery2.default.get(query).then(function (books) {
+				_this.setState({ books: books.data, count: books.count, title: 'Books By ' });
+			});
 		}, _this.getUserLibrary = function (page) {
 			var query = apiUrl + '/books/library?limit=' + _this.state.limit;
 			var page = page || _this.state.page;
@@ -55098,8 +55114,8 @@ var ViewAll = function (_React$Component) {
 			if (_this.state.rating) {
 				query = query + '&rating=' + _this.state.rating;
 			}
-			if (_this.state.author) {
-				query = query + '&author=' + _this.state.author;
+			if (_this.state.author_id) {
+				query = query + '&author_id=' + _this.state.author_id;
 			}
 			if (_this.state.genres) {
 				query = query + '&genres=' + _this.state.genres;title = title + ' : ' + _this.state.genres;
