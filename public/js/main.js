@@ -58152,7 +58152,7 @@ var Reviews = function (_React$Component) {
 
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ id: 'reviews' },
 				_react2.default.createElement(
 					'h4',
 					{ style: { marginBottom: '0.25em', marginTop: '0.5rem' } },

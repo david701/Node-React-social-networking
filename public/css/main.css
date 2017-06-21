@@ -1909,10 +1909,10 @@ hr.dividers {
   white-space: nowrap;
   margin: 0 10px 0 0; }
 
-#preview .rating-display {
+#reviews .rating-display {
   display: flex;
   justify-content: center; }
-  #preview .rating-display li {
+  #reviews .rating-display li {
     width: 23px;
     height: 23px;
     background-size: 100%; }

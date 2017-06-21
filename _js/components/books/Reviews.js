@@ -106,7 +106,7 @@ export default class Reviews extends React.Component{
 		}
 
 		return(
-			<div>
+			<div id="reviews">
 				<h4 style={{marginBottom: '0.25em', marginTop:'0.5rem'}}>Reviews</h4>
 				<ul style={{paddingBottom: '2rem'}}>
 					{reviews}
