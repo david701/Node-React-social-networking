@@ -552,11 +552,13 @@
     }
     h4 {
       font-size: em(20);
-      margin-bottom: 1em;
+      line-height: 22px;
     }
     h4.book-title {
       color: $light-blue;
       margin-bottom: 0;
+      font-size: 27px;
+      line-height: 27px;
     }
     p, label {
       font-size: em(14);
@@ -1014,6 +1016,11 @@
   }
 }
 
+.author-name {
+    text-decoration: underline;
+    display: inline;
+    color: #0FAFFF;
+}
 
 .slick-next:before,
 .slick-prev:before, {
@@ -1026,4 +1033,17 @@
 	margin-left: 1em;
 	cursor: pointer;
   float: right;
+}
+
+.content-block-standard-new .title-row h4 {
+  font-size: 17px;
+  line-height: 17px;
+}
+.table-of-contents {
+  position: absolute;
+  bottom: 1rem;
+}
+.comment_details {
+    text-decoration: underline;
+    color: #0FAFFF;
 }

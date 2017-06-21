@@ -41,6 +41,9 @@ export default class Reviews extends React.Component{
 			var bookId = this.props.bookId;
 			var postData = {content: this.state.content, rating: this.state.rating}
 			$.post(`${apiUrl}/books/${bookId}/reviews`, postData).then((resp)=>{
+				if(resp.status === "error"){
+					alert(resp.message);
+				}
 				this.getReviews();
 				this.props.getBook();
 				this.setState({content:'', rating:0, addReview: false, disabled: true})
@@ -87,7 +90,11 @@ export default class Reviews extends React.Component{
 					return(
 						<li key={key} style={{marginBottom: '0.5rem'}}>
 							<Rating stars={review.rating} />
-							<p>By {review.author ? review.author.name : ""}</p>
+							<p>
+							By {review.author ?
+									(<a className="author-name" href={"/author/" + review.author._id}>{review.author.name}</a>)
+								: ""}
+							</p>
 							<p>
 								{review.content}
 							</p>

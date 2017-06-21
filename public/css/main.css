@@ -1004,7 +1004,7 @@ button, .button {
     background-position: right center;
     padding-right: 1.0625em;
     line-height: 14px;
-    margin: -10px 0 0 0; }
+    margin: 0; }
     .title-row .control:hover {
       opacity: 0.625; }
     .title-row .control-expand {
@@ -1738,6 +1738,13 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
     .standard-section-with-sidebar > .container > .flex-row > div:last-child {
       width: calc( 26.66667vw  - 1.5em); } }
 
+#full-screen .profile-info {
+  display: inline-block;
+  width: 50%; }
+
+#full-screen .table-of-contents {
+  bottom: 5px; }
+
 #full-screen .book-top-half .go-to-chapter {
   display: none; }
 
@@ -1759,7 +1766,7 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
   display: none; }
 
 #full-screen .book-top-half .profile-info .book-title {
-  width: 50%;
+  width: 100%;
   float: left;
   font-size: 28px; }
 
@@ -2364,10 +2371,12 @@ hr.dividers {
       text-align: center; }
     .content-block-standard-new h4 {
       font-size: 1.25em;
-      margin-bottom: 1em; }
+      line-height: 22px; }
     .content-block-standard-new h4.book-title {
       color: #0FAFFF;
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      font-size: 27px;
+      line-height: 27px; }
     .content-block-standard-new p, .content-block-standard-new label {
       font-size: 0.875em;
       display: block; }
@@ -2718,6 +2727,11 @@ hr.dividers {
       .content-block-spread .content-block {
         width: calc( 40vw  - 1.5em); } }
 
+.author-name {
+  text-decoration: underline;
+  display: inline;
+  color: #0FAFFF; }
+
 .slick-next:before,
 .slick-prev:before {
   color: black !important; }
@@ -2728,6 +2742,18 @@ hr.dividers {
   margin-left: 1em;
   cursor: pointer;
   float: right; }
+
+.content-block-standard-new .title-row h4 {
+  font-size: 17px;
+  line-height: 17px; }
+
+.table-of-contents {
+  position: absolute;
+  bottom: 1rem; }
+
+.comment_details {
+  text-decoration: underline;
+  color: #0FAFFF; }
 
 .all-buttons {
   display: flex;

@@ -57429,10 +57429,11 @@ var BookDetails = function (_React$Component) {
 						{ className: 'book-title' },
 						this.props.title
 					),
+					'By ',
 					_react2.default.createElement(
-						'p',
-						null,
-						this.props.author
+						'a',
+						{ className: 'author-name', href: "/author/" + (this.props.book ? this.props.book.author._id : "") },
+						this.props.book ? this.props.book.author.name : ""
 					),
 					_react2.default.createElement(_Rating2.default, { stars: rating }),
 					_react2.default.createElement(
@@ -57497,7 +57498,7 @@ var BookDetails = function (_React$Component) {
 				) : '',
 				_react2.default.createElement(
 					'div',
-					{ style: { position: 'absolute', bottom: '1rem' } },
+					{ className: 'table-of-contents' },
 					_react2.default.createElement(
 						'p',
 						{ className: 'buttons' },
@@ -57684,8 +57685,8 @@ var Comments = function (_React$Component) {
 						' ',
 						comment.content,
 						_react2.default.createElement(
-							'div',
-							{ className: 'comment_details', style: { fontWeight: 'bold' } },
+							'a',
+							{ className: 'comment_details', href: "/author/" + comment.author._id, style: { fontWeight: 'bold' } },
 							comment.author.name
 						)
 					)
@@ -58053,6 +58054,9 @@ var Reviews = function (_React$Component) {
 				var bookId = _this.props.bookId;
 				var postData = { content: _this.state.content, rating: _this.state.rating };
 				_jQuery2.default.post(apiUrl + '/books/' + bookId + '/reviews', postData).then(function (resp) {
+					if (resp.status === "error") {
+						alert(resp.message);
+					}
 					_this.getReviews();
 					_this.props.getBook();
 					_this.setState({ content: '', rating: 0, addReview: false, disabled: true });
@@ -58113,7 +58117,11 @@ var Reviews = function (_React$Component) {
 								'p',
 								null,
 								'By ',
-								review.author ? review.author.name : ""
+								review.author ? _react2.default.createElement(
+									'a',
+									{ className: 'author-name', href: "/author/" + review.author._id },
+									review.author.name
+								) : ""
 							),
 							_react2.default.createElement(
 								'p',

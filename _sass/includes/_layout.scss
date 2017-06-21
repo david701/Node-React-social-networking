@@ -929,6 +929,13 @@ body.search-open {
 // ------
 
 #full-screen {
+    .profile-info {
+        display: inline-block;
+        width: 50%;
+    }
+    .table-of-contents {
+        bottom: 5px;
+    }
     .book-top-half {
         .go-to-chapter {
             display: none;
@@ -953,7 +960,7 @@ body.search-open {
         }
         .profile-info {
             .book-title {
-                width: 50%;
+                width: 100%;
                 float: left;
                 font-size: 28px;
             }
