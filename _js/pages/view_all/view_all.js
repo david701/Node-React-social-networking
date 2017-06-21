@@ -78,10 +78,19 @@ class ViewAll extends React.Component{
 
 		var title = 'Viewing Authors';
 		if(this.state.view == 'search') title = 'Search Results';
-
-		$.get(query).then((authors)=>{
-			this.setState({authors: authors.data, count: authors.count, title: title});
-		})
+		if(this.state.view == 'following'){
+			title = 'Followed Authors';
+			var state = {title: title};
+			if(this.state.user && this.state.user.following_authors){
+				state.authors = this.state.user.following_authors;
+				state.count = this.state.user.following_authors.length;
+			}
+			this.setState(state);
+		}else{
+			$.get(query).then((authors)=>{
+				this.setState({authors: authors.data, count: authors.count, title: title});
+			})
+		}
 	}
 
 	getUserBooks = (page)=>{
