@@ -1134,3 +1134,14 @@ hr.dividers {
     white-space: nowrap;
     margin: 0 10px 0 0;
 }
+
+
+#preview .rating-display {
+    display: flex;
+    justify-content: center;
+    li {
+        width: 23px;
+        height: 23px;
+        background-size: 100%;
+    }
+}
