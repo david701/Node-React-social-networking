@@ -54204,10 +54204,10 @@ var EditBookPage = function (_React$Component) {
 					var authorized = false,
 					    following = false,
 					    admin = false;
-					if (resp.data.role > 1) {
+					if (resp.data.role > 0) {
 						admin = true;
 					}
-					if (resp.data.role > 1 || book.data.author._id == resp.data._id) {
+					if (resp.data.role > 0 || book.data.author._id == resp.data._id) {
 						authorized = true;
 					}
 					if (book.data.followers.indexOf(resp.data._id) > -1) {
