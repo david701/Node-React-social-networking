@@ -438,9 +438,6 @@
     // Footer
     // ------
     form .instructions {
-        background-color: $content-gray;
-        color: $white;
-        padding: em(45) 0;
         h4 {
             color: $white;
             font-size: em(18);
@@ -482,15 +479,6 @@
     // Modal
     // -----
     .modal {
-        visibility: hidden;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100vw;
-        z-index: 100;
-        opacity: 0;
-        transition: opacity $timing-slower, visibility $timing-slower;
         .overlay {
             position: absolute;
             top: 0;
@@ -504,11 +492,6 @@
             &.is-hidden {
                 opacity: 0;
                 visibility: hidden;
-            }
-            .content-block {
-                transition: transform $timing-slower, opacity $timing-slower;
-
-                transform: translateY(7em);
             }
         }
     }
@@ -946,6 +929,13 @@ body.search-open {
 // ------
 
 #full-screen {
+    .profile-info {
+        display: inline-block;
+        width: 50%;
+    }
+    .table-of-contents {
+        bottom: 5px;
+    }
     .book-top-half {
         .go-to-chapter {
             display: none;
@@ -961,7 +951,7 @@ body.search-open {
         }
         .title-row {
             float: left;
-            h2 {
+            h4 {
                 display: none;
             }
         }
@@ -970,7 +960,7 @@ body.search-open {
         }
         .profile-info {
             .book-title {
-                width: 50%;
+                width: 100%;
                 float: left;
                 font-size: 28px;
             }
@@ -1132,4 +1122,26 @@ form .instructions {
 }
 hr.dividers {
     margin-top: 0;
+}
+.title .help-text {
+    color: red;
+    font-size: 0.875em;
+    display: none;
+    line-height: 19px;
+    margin: 0 0 10px 0;
+}
+.title label {
+    white-space: nowrap;
+    margin: 0 10px 0 0;
+}
+
+
+#reviews .rating-display {
+    display: flex;
+    justify-content: center;
+    li {
+        width: 23px;
+        height: 23px;
+        background-size: 100%;
+    }
 }

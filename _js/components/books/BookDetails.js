@@ -76,14 +76,14 @@ export default class BookDetails extends React.Component {
 		return(
 		  <div className="content-block content-block-standard-new" style={{overflow: 'hidden'}}>
 		    <div className="title-row">
-		      <h2>{this.props.book? this.props.book.type:''}</h2>
+		      <h4>{this.props.book? this.props.book.type:''}</h4>
 		      <span className="control">{sanitizeLength(this.props.length)}</span>
 		    </div>
 		    <div className="profile-info">
 		      <img src="/assets/images/day-read.gif" className="day" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <img src="/assets/images/night-read.gif" className="night" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <h4 className="book-title">{this.props.title}</h4>
-		      <p>{this.props.author}</p>
+			  By <a className="author-name" href={"/author/" + (this.props.book ? this.props.book.author._id : "")}>{this.props.book ? this.props.book.author.name : ""}</a>
 		      <Rating stars={rating} />
 					<p><strong>{this.props.book && this.props.book.viewed_by.length ? this.props.book.viewed_by.length : '0'}</strong> Views | <strong>{this.props.book && this.props.book.followers.length ? this.props.book.followers.length : '0'}</strong> Followers</p>
 		      <p><strong>Content Warnings</strong>: {this.props.book && this.props.book.warnings.length ? this.props.book.warnings.join(", ") : 'N/A'}</p>
@@ -92,7 +92,7 @@ export default class BookDetails extends React.Component {
 		    </div>
 		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
 		    {this.props.authorized? (<a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>):''}
-		    <div style={{ position: 'absolute', bottom: '1rem'}}>
+		    <div className="table-of-contents">
 		    	<p className="buttons">
 		    		<span onClick={(e) => this.moveSlide('details',e)}>Details</span> |
 		    		<span onClick={(e) => this.moveSlide('toc',e)}> Table of Contents</span>

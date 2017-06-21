@@ -28,7 +28,7 @@ export default class DescriptionContainer extends React.Component {
 
   render() {
     return (
-      <Description bookId={this.props.bookId} description={this.state.description} toggleStatus={this.props.toggleStatus} following={this.props.following} authorized={this.props.authorized} admin={this.props.admin} getBook={this.props.getBook} claim={this.props.claim}/>
+      <Description bookId={this.props.bookId} book={this.props.book} description={this.state.description} toggleStatus={this.props.toggleStatus} following={this.props.following} authorized={this.props.authorized} admin={this.props.admin} getBook={this.props.getBook} claim={this.props.claim}/>
     );
   }
 }

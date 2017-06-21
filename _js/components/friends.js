@@ -157,16 +157,23 @@ class AllUsers extends React.Component{
         });
     }
 
+    filterOutAdmins = (users) => {
+        return users.filter(function(user,index){
+            return user.role === 0;
+        })
+    }
+
     getUsers = (id) => {
         let self = this;
         $.get('/api/v1/users').then((response)=>{
             if(response.status === "error"){
                 console.log(response.message);
             }else{
+                let users = this.filterOutAdmins(response.data);
                 this.setState({
-                    users: self.paginate(response.data,skip),
-                    allUsers: response.data,
-                    numOfPages: Math.ceil(response.data.length / usersPerPage)
+                    users: self.paginate(users,skip),
+                    allUsers: users,
+                    numOfPages: Math.ceil(users.length / usersPerPage)
                 });
             }
         });

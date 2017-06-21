@@ -31,6 +31,7 @@ const SocialMedia = props => {
             <input
               id={source}
               name={`social_media.${source}`}
+              data-validation="url"
               onChange={(e) => handleChange(e)}
               type="text"
               value={sources[source]}

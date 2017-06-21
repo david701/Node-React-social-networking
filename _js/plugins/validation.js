@@ -41,11 +41,11 @@ const formValid = (event) => {
 }
 
 const minCheckboxes = (input) => {
-    return $('input[name="'+ input.name +'"]:checked').length >= input.dataset.min
+    return $('input[name="'+ input.name +'"]:checked').length >= input.dataset.min;
 }
 
 const maxCheckboxes = (input) => {
-    return $('input[name="'+ input.name +'"]:checked').length <= input.dataset.max
+    return $('input[name="'+ input.name +'"]:checked').length <= input.dataset.max;
 }
 
 const isValid = (validate,input) => {
@@ -83,7 +83,7 @@ const isValid = (validate,input) => {
             valid = value.length >= parseInt(input.dataset.minlength)
             break;
         case "maxlength":
-            valid = value.length <= parseInt(input.dataset.maxLength)
+            valid = value.length <= parseInt(input.dataset.maxlength)
             break;
     }
     return valid;

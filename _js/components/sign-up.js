@@ -109,9 +109,7 @@ class SignUp extends React.Component{
           links[key] = ""
         }
     }
-
     return links;
-
   }
 
   handleSubmit = (event) => {
@@ -187,9 +185,9 @@ class SignUp extends React.Component{
 					<li>
                         <div className="title">
                             <label htmlFor="name"><span>*</span>What is your name?</label>
-                            <span className="help-text">Please enter your full name</span>
+                            <span className="help-text">Please enter your full name. It must be under 30 characters</span>
                         </div>
-						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} onBlur={validate} data-validation="name,required"/>
+						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} onBlur={validate} data-maxlength="30" data-validation="name,required,maxlength"/>
 					</li>
 					<li>
                         <div className="title">
@@ -207,10 +205,10 @@ class SignUp extends React.Component{
 					</li>
 					<li>
                         <div className="title">
-                            <label htmlFor="gender">Your gender:</label>
+                            <label htmlFor="gender"><span>*</span>Your gender:</label>
                             <span className="help-text">Please select your gender</span>
                         </div>
-						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange}>
+						<select id="gender" name="gender" type="text" value={this.state.profile.gender} onChange={this.handleChange} onBlur={validate} data-validation="required">
                           <option value="">Select One</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>

@@ -83,7 +83,7 @@ export default class Comments extends React.Component{
 					{canDelete?<div className='comment_delete' style={{position:'absolute', bottom:0, right:0, textTransform: 'uppercase', fontSize:'0.5em', color:'red', cursor:'pointer'}} onClick={()=>this.deleteComment(comment._id)}>Delete Comment</div>:''}
 					<div className="comment_image" style={{width:'25%', padding:'0.25rem', marginRight:'2%', display:'inline-block'}}><img src={comment.author.avatar}/></div>
 					<div className="comment_text" style={{width:'68%', display:'inline-block', fontSize:'0.8125em', lineHeight:'1.25em'}}> {comment.content}
-						<div className="comment_details" style={{fontWeight:'bold'}}>{comment.author.name}</div>
+						<a className="comment_details" href={"/author/" + comment.author._id} style={{fontWeight:'bold'}}>{comment.author.name}</a>
 					</div>
 				</li>
 			)
