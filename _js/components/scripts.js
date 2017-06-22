@@ -85,5 +85,13 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
+    $('.overlay').on('click',function(e){
+        if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+            $('body').removeClass('modal-showing');
+            $('.overlay').removeClass('is-hidden');
+            $('.login-modal').removeAttr('style');
+        }
+    })
+
 
 });

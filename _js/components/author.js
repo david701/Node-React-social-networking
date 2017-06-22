@@ -38,7 +38,8 @@ class Author extends React.Component{
     		following: false,
     		authorsBooks: [],
     		followingBooks: [],
-    		library: []
+    		library: [],
+    		showBrawl: false
     	};
     	this.handleFollow = this.handleFollow.bind(this);
     	this.isFollowing = this.isFollowing.bind(this);
@@ -94,16 +95,27 @@ class Author extends React.Component{
 		});
 	}
 
-	enterBrawl = (book) => {
-		if(!book.brawl){
-			$.ajax({
-                url: '/api/v1/books/' + book._id,
-                type: 'PUT',
-                data: {brawl_submit: true}
-            }).then((response)=>{
-            	this.loadAuthorsBooks(this.state.id);
-            });
-    	}
+	enterBrawl = () => {
+		$.ajax({
+            url: '/api/v1/books/' + this.state.brawlBook._id,
+            type: 'PUT',
+            data: {brawl_submit: true}
+        }).then((response)=>{
+        	this.setState({showBrawl: false})
+        	this.loadAuthorsBooks(this.state.id);
+        });
+	}
+
+	hideBrawl = (e) => {
+		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+			this.setState({showBrawl: false})
+		}
+	}
+
+	showBrawl = (book) => {
+		if(!book.hasOwnProperty("brawl")){
+			this.setState({showBrawl: true, brawlBook: book})
+		}
 	}
 
 	loadAuthorsBooks(userId){
@@ -168,6 +180,20 @@ class Author extends React.Component{
 			</div>
 			<div className="user-info">
 				<div className="main">
+					<div className={this.state.showBrawl ? "modal author-page show-modal" : "modal author-page"} onClick={(e) => {this.hideBrawl(e)}}>
+						<div className="overlay overlay-create-brawl">
+							<div className="content-block-small content-block">
+								<h3>Are you ready to brawl?</h3>
+								<p className="quote">This is where your type would go for the book brawl. We need to determine this.</p>
+								<div className="submit-row submit-row-small">
+									<div className="buttons">
+										<a className="button button-white close" onClick={(e) => {this.hideBrawl(e)}}>Close</a>
+										<a className="button button-red" onClick={(e) => {this.enterBrawl()}}>Yes</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<figure className="avatar">
 						<img src={this.state.user.avatar} alt="" />
 					</figure>
@@ -283,7 +309,7 @@ class Author extends React.Component{
 		                  <ul>
 		                  {
 		                    this.state.authorsBooks.map(function(book, i){
-		                      let isBrawler = book.brawl ? true : false;
+		                      let isBrawler = book.hasOwnProperty("brawl");
 		                      return (
 		                        <li key={i}>
 		                          <div className="content-block content-block-book">
@@ -293,7 +319,7 @@ class Author extends React.Component{
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
 		                                  {self.state.me.role > 0 &&
-		                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.enterBrawl(book)}} disabled={isBrawler}>Brawl</a>
+		                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}} disabled={isBrawler}>Brawl</a>
 		                                  }
 		                                </div>
 		                              </div>
