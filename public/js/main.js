@@ -51970,7 +51970,7 @@ var Login = function (_React$Component) {
                     { className: this.state.isFlipped ? 'card effect__click flipped' : 'card effect__click' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'card__front' },
+                        { className: 'card__front overlay' },
                         _react2.default.createElement(
                             'div',
                             { className: 'content-block-small content-block', onClick: this.handleClick },
@@ -52077,7 +52077,7 @@ var Login = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: 'card__back' },
+                        { className: 'card__back overlay' },
                         _react2.default.createElement(
                             'div',
                             { className: 'content-block-small content-block', id: 'reset' },
@@ -53464,6 +53464,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     (0, _jquery2.default)('#deleteButton').click(function (e) {
         (0, _jquery2.default)('.delete-modal').css({ visibility: 'visible', opacity: 1 });
         e.preventDefault();
+    });
+
+    (0, _jquery2.default)('.overlay').on('click', function (e) {
+        if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
+            (0, _jquery2.default)('body').removeClass('modal-showing');
+            (0, _jquery2.default)('.overlay').removeClass('is-hidden');
+            (0, _jquery2.default)('.login-modal').removeAttr('style');
+        }
     });
 });
 

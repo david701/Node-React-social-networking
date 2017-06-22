@@ -12,6 +12,11 @@
     }
 }
 
+.modal #log-in .card > .overlay {
+    display: block;
+    background: none;
+}
+
 .content-block-standard-slide.chapter-begin {
     text-align: center;
     display: flex;

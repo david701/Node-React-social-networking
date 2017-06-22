@@ -104,7 +104,7 @@ class Login extends React.Component{
 		return(
                 <div className="overlay">
                     <div className={this.state.isFlipped ? 'card effect__click flipped' : 'card effect__click'}>
-                        <div className="card__front">
+                        <div className="card__front overlay">
                             <div className="content-block-small content-block" onClick={this.handleClick}>
                                 <h3>Book Brawl Log In</h3>
                                 <p className="quote">“Some type of quote.”</p>
@@ -141,7 +141,7 @@ class Login extends React.Component{
                             </div>
                         </div>
 
-                        <div className="card__back">
+                        <div className="card__back overlay">
                             <div className="content-block-small content-block" id="reset">
                                 <h3>Password Reset</h3>
                                 <p className="instructions">Instructions here.</p>
