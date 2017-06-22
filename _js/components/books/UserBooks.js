@@ -15,17 +15,6 @@ export default class UserBooks extends React.Component {
 		})
 	}
 
-	enterBrawl = (book) => {
-	   	$.ajax({
-	        url: '/api/v1/books/' + book._id,
-	        type: 'PUT',
-	        data: {brawl_submit: true}
-	    }).then((response)=>{
-	    	console.log(response)
-	    	this.props.loadBooks(this.props.user._id)
-	    });
-	}
-
 	render(){
 		var bookList = this.props.books.map((book, key) => {
 			var newChapter = '';
@@ -38,7 +27,7 @@ export default class UserBooks extends React.Component {
 					if(!book.last_viewed || !book.last_viewed[this.props.user._id]){
 						newChapter = <span className="new-chapter-badge" title='New Chapters' style={{display:'block', position:'absolute', top:'0.25rem', left:'0.25rem', backgroundColor: 'red', height: '1.25rem', width: '1.25rem', padding: '0.15rem 0', borderRadius: '1rem', color: 'white', lineHeight: '1em', textAlign: 'center', fontSize:'1em', cursor: 'pointer'}}>!</span>
 					}
-				}	
+				}
 			}
 			return (
 			<li key={key}>
@@ -59,7 +48,7 @@ export default class UserBooks extends React.Component {
 								) : (
 									<div className="overlay">
 										<a className="button button-red" href={`/books/${book._id}`}>Edit</a>
-										<button className="button button-red" onClick={()=>{this.enterBrawl(book)}} disabled={book.brawl_submit}>Brawl</button>
+										<button className="button button-red" onClick={(e) => {this.props.showBrawl(book)}} disabled={book.hasOwnProperty("brawl")}>Brawl</button>
 									</div>
 								) }
 						</div>
