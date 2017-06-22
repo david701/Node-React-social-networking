@@ -309,7 +309,7 @@ class Author extends React.Component{
 		                  <ul>
 		                  {
 		                    this.state.authorsBooks.map(function(book, i){
-		                      let isBrawler = book.brawl ? true : false;
+		                      let isBrawler = book.hasOwnProperty("brawl");
 		                      return (
 		                        <li key={i}>
 		                          <div className="content-block content-block-book">

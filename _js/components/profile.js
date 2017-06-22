@@ -44,8 +44,32 @@ class Parent extends React.Component {
 			pendingBooks: [],
 			bookClaims: [],
 			claim: false,
-			library: []
+			library: [],
+			showBrawl: false
 		};
+	}
+
+	enterBrawl = () => {
+		$.ajax({
+            url: '/api/v1/books/' + this.state.brawlBook._id,
+            type: 'PUT',
+            data: {brawl_submit: true}
+        }).then((response)=>{
+        	this.setState({showBrawl: false})
+        	this.loadBooks(this.state.user._id);
+        });
+	}
+
+	hideBrawl = (e) => {
+		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+			this.setState({showBrawl: false})
+		}
+	}
+
+	showBrawl = (book) => {
+		if(!book.hasOwnProperty("brawl")){
+			this.setState({showBrawl: true, brawlBook: book})
+		}
 	}
 
 	removeMyProfile = (id, users) => {
@@ -243,6 +267,20 @@ class Parent extends React.Component {
 								</div>
 								<div className="user-info">
 									<div className="main">
+										<div className={this.state.showBrawl ? "modal author-page show-modal" : "modal author-page"} onClick={(e) => {this.hideBrawl(e)}}>
+											<div className="overlay overlay-create-brawl">
+												<div className="content-block-small content-block">
+													<h3>Are you ready to brawl?</h3>
+													<p className="quote">This is where your type would go for the book brawl. We need to determine this.</p>
+													<div className="submit-row submit-row-small">
+														<div className="buttons">
+															<a className="button button-white close" onClick={(e) => {this.hideBrawl(e)}}>Close</a>
+															<a className="button button-red" onClick={(e) => {this.enterBrawl()}}>Yes</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 										<figure className="avatar">
 											<img src={this.state.user.avatar} alt="" />
 										</figure>
@@ -323,7 +361,7 @@ class Parent extends React.Component {
 									{following}
 								</ul>
 								<hr />
-								{this.state.library.length ? (<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" />)
+								{this.state.library.length ? (<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" onClick={(e) => {self.showBrawl(book)}}/>)
 								: (<div>
 										<div className="title-row">
 											<h4>My Library</h4>
@@ -331,7 +369,7 @@ class Parent extends React.Component {
 									   	<span>No books have been added to your library</span>
 								   	</div>)}
 								<hr />
-								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo}/>}
+								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo} showBrawl={this.showBrawl}/>}
 							</div>
 							<div>
 								<AdElement page='dashboard'/>
