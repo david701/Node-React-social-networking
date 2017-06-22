@@ -50149,15 +50149,26 @@ var Author = function (_React$Component) {
 			});
 		};
 
-		_this.enterBrawl = function (book) {
-			if (!book.brawl) {
-				_jquery2.default.ajax({
-					url: '/api/v1/books/' + book._id,
-					type: 'PUT',
-					data: { brawl_submit: true }
-				}).then(function (response) {
-					_this.loadAuthorsBooks(_this.state.id);
-				});
+		_this.enterBrawl = function () {
+			_jquery2.default.ajax({
+				url: '/api/v1/books/' + _this.state.brawlBook._id,
+				type: 'PUT',
+				data: { brawl_submit: true }
+			}).then(function (response) {
+				_this.setState({ showBrawl: false });
+				_this.loadAuthorsBooks(_this.state.id);
+			});
+		};
+
+		_this.hideBrawl = function (e) {
+			if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
+				_this.setState({ showBrawl: false });
+			}
+		};
+
+		_this.showBrawl = function (book) {
+			if (!book.hasOwnProperty("brawl")) {
+				_this.setState({ showBrawl: true, brawlBook: book });
 			}
 		};
 
@@ -50169,7 +50180,8 @@ var Author = function (_React$Component) {
 			following: false,
 			authorsBooks: [],
 			followingBooks: [],
-			library: []
+			library: [],
+			showBrawl: false
 		};
 		_this.handleFollow = _this.handleFollow.bind(_this);
 		_this.isFollowing = _this.isFollowing.bind(_this);
@@ -50247,6 +50259,8 @@ var Author = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this5 = this;
+
 			var following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
 			    self = this,
 			    authors = this.state.user.following_authors;
@@ -50332,6 +50346,52 @@ var Author = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'main' },
+						_react2.default.createElement(
+							'div',
+							{ className: this.state.showBrawl ? "modal author-page show-modal" : "modal author-page", onClick: function onClick(e) {
+									_this5.hideBrawl(e);
+								} },
+							_react2.default.createElement(
+								'div',
+								{ className: 'overlay overlay-create-brawl' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'content-block-small content-block' },
+									_react2.default.createElement(
+										'h3',
+										null,
+										'Are you ready to brawl?'
+									),
+									_react2.default.createElement(
+										'p',
+										{ className: 'quote' },
+										'This is where your type would go for the book brawl. We need to determine this.'
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'submit-row submit-row-small' },
+										_react2.default.createElement(
+											'div',
+											{ className: 'buttons' },
+											_react2.default.createElement(
+												'a',
+												{ className: 'button button-white close', onClick: function onClick(e) {
+														_this5.hideBrawl(e);
+													} },
+												'Close'
+											),
+											_react2.default.createElement(
+												'a',
+												{ className: 'button button-red', onClick: function onClick(e) {
+														_this5.enterBrawl();
+													} },
+												'Yes'
+											)
+										)
+									)
+								)
+							)
+						),
 						_react2.default.createElement(
 							'figure',
 							{ className: 'avatar' },
@@ -50555,7 +50615,7 @@ var Author = function (_React$Component) {
 													self.state.me.role > 0 && _react2.default.createElement(
 														'a',
 														{ className: "button button-red" + (book.brawl ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
-																self.enterBrawl(book);
+																self.showBrawl(book);
 															}, disabled: isBrawler },
 														'Brawl'
 													)
@@ -50606,12 +50666,12 @@ var Book = function (_React$Component2) {
 	function Book(props) {
 		_classCallCheck(this, Book);
 
-		var _this5 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
+		var _this6 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
 
-		_this5.state = {
+		_this6.state = {
 			name: ''
 		};
-		return _this5;
+		return _this6;
 	}
 
 	_createClass(Book, [{
@@ -50626,12 +50686,12 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var _this6 = this;
+			var _this7 = this;
 
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				if (!self._objectEmpty(response.data)) {
-					self.loadUserInfo(_this6.state.id);
+					self.loadUserInfo(_this7.state.id);
 				} else {
 					window.location.href = "/";
 				}
@@ -50640,11 +50700,11 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'loadUserInfo',
 		value: function loadUserInfo(id) {
-			var _this7 = this;
+			var _this8 = this;
 
 			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
 				if (response.data) {
-					_this7.setState({
+					_this8.setState({
 						name: response.data.name + "'s"
 					});
 				}
@@ -58399,14 +58459,15 @@ var UserBooks = function (_React$Component) {
 				_this.props.loadUserInfo(_this.props.user._id);
 			});
 		}, _this.enterBrawl = function (book) {
-			_jQuery2.default.ajax({
-				url: '/api/v1/books/' + book._id,
-				type: 'PUT',
-				data: { brawl_submit: true }
-			}).then(function (response) {
-				console.log(response);
-				_this.props.loadBooks(_this.props.user._id);
-			});
+			//$.ajax({
+			//    url: '/api/v1/books/' + book._id,
+			//    type: 'PUT',
+			//    data: {brawl_submit: true}
+			//}).then((response)=>{
+			//	console.log(response)
+			//	this.props.loadBooks(this.props.user._id)
+			//});
+			alert('user books');
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 

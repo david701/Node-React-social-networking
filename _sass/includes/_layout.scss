@@ -11,7 +11,17 @@
         color: #005876;
     }
 }
-
+.modal.author-page.show-modal {
+    visibility: visible;
+    opacity: 1;
+}
+.modal .overlay.overlay-create-brawl .content-block {
+    transform: translateY(0px);
+    p {
+        font-size: 16px;
+        margin: 20px 0 40px 0;
+    }
+}
 .modal #log-in .card > .overlay {
     display: block;
     background: none;
