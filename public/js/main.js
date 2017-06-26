@@ -61774,6 +61774,19 @@ var LoginButtons = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (LoginButtons.__proto__ || Object.getPrototypeOf(LoginButtons)).call(this, props));
 
+		_this._onChange = function (e) {
+			var state = {};
+			state[e.target.name] = e.target.value;
+			_this.setState(state);
+		};
+
+		_this.searchSubmit = function (e) {
+			e.preventDefault();
+			var url = '/books/all?view=search';
+			if (_this.state.search) url = url + '&title=' + _this.state.search;
+			window.location.href = url;
+		};
+
 		_this.state = {
 			loggedIn: false,
 			title: '',
@@ -62099,6 +62112,11 @@ var LoginButtons = function (_React$Component) {
 				_react2.default.createElement(
 					'footer',
 					null,
+					_react2.default.createElement(
+						'form',
+						{ className: 'search-form', onSubmit: this.searchSubmit },
+						_react2.default.createElement('input', { type: 'search', name: 'search', onChange: this._onChange, placeholder: 'Search' })
+					),
 					_react2.default.createElement(
 						'a',
 						{ href: 'javascript:void(0)', onClick: _nightMode.toggleNightMode, className: 'button button-red button-night-mode day' },
