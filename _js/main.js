@@ -101,6 +101,19 @@ class LoginButtons extends React.Component{
     });
   }
 
+	_onChange = (e)=>{
+		var state = {}
+		state[e.target.name] = e.target.value;
+		this.setState(state);
+	}
+
+	searchSubmit = (e)=>{
+		e.preventDefault();
+		var url = '/books/all?view=search';
+		if(this.state.search)url = url + '&title='+this.state.search;
+		window.location.href = url;
+	}
+
   render(){
     return(
     <div>
@@ -231,6 +244,9 @@ class LoginButtons extends React.Component{
             </ul>
         </nav>
         <footer>
+					<form className="search-form" onSubmit={this.searchSubmit} >
+							 <input type="search" name="search" onChange={this._onChange} placeholder="Search" />
+					 </form>
             <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode day">Night Mode</a>
             <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode night">Day Mode</a>
         </footer>
