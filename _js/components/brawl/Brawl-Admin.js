@@ -7,6 +7,7 @@ import moment from 'moment';
 
 let currentResult = "";
 let lastResult = "";
+const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","FanFiction","LitRPG"]
 
 export default class BrawlAdmin extends React.Component {
 	constructor(props) {
@@ -19,7 +20,7 @@ export default class BrawlAdmin extends React.Component {
 	      showBrawlers: false,
 	      selectedBrawler: 0,
 	      startBrawl: false,
-	      brawlType: "Published",
+	      brawlType: "Fantasy",
 	      undeclaredBrawls: false
 	    };
 	}
@@ -83,7 +84,6 @@ export default class BrawlAdmin extends React.Component {
 			alert('Please declare brawl, before you start a new one')
 			return false;
 		}
-		$('.pick0,.pick1').removeClass('pick0 pick1');
 		this.setState({currentBrawl: currentBrawl, title: title, startBrawl: false, showBrawlers: false})
 	}
 
@@ -121,53 +121,23 @@ export default class BrawlAdmin extends React.Component {
 
 	changeType = (e) => {
 		this.getBrawlers(e.target.value);
-		let newBrawl = {
-		  	book_a: {
-		        _id:"",
-		        author:{
-		           _id:"0",
-		           name:"Brawler Name",
-		           avatar:"/assets/images/blank-dog.png"
-		        },
-		        cover:"/assets/images/default-brawl-art.jpg",
-		        title:"Some Book",
-		        rating:0
-			},
-			book_a_vote: [],
-		    book_b: {
-		        _id:"",
-		        author:{
-		           _id:"1",
-		           name:"Brawler Name",
-		           avatar:"/assets/images/blank-cat.png"
-		        },
-		        cover:"/assets/images/default-brawl-art.jpg",
-		        title:"Some Book",
-		        rating:0
-		    },
-		    book_b_vote: [],
-		    _id: "0"
-		}
-		$('.pick0,.pick1').removeClass('pick0 pick1');
-	   	this.setState({currentBrawl: newBrawl, brawlType: e.target.value})
+	   	this.setState({brawlType: e.target.value})
 		e.preventDefault();
 		e.stopPropagation();
 	}
 
 	pickBrawler = (brawl,book,e) => {
 		const {oldBrawls, selectedBrawler, currentBrawl} = this.state;
-		const brawlerID = ["a","b"]
-		let newBrawl = currentBrawl;
-		//To Do :Change
-		$(e.target).closest('li').addClass('pick' + selectedBrawler).siblings('li').removeClass('pick' + selectedBrawler)
+		const brawlerID = ["a","b"] //two types of books
 
-		newBrawl['book_' + brawlerID[selectedBrawler]] = book;
+		//add new book to current book brawl
+		currentBrawl['book_' + brawlerID[selectedBrawler]] = book;
 
 		if(brawl){
-			if($('.pick0').length && $('.pick1').length){
-				this.setState({currentBrawl: newBrawl, showBrawlers: false, startBrawl: true});
+			if(currentBrawl.book_a._id !== "" && currentBrawl.book_b._id !== ""){
+				this.setState({currentBrawl: currentBrawl, showBrawlers: false, startBrawl: true});
 			}else{
-				this.setState({currentBrawl: newBrawl, showBrawlers: false, startBrawl: false});
+				this.setState({currentBrawl: currentBrawl, showBrawlers: false, startBrawl: false});
 			}
 		}
 		e.preventDefault();
@@ -183,7 +153,7 @@ export default class BrawlAdmin extends React.Component {
 	getBrawlers = (brawlType) => {
 		//brawlers=true&type=brawlType
 		$.get('/api/v1/books?brawl_submit=true').then((brawlers)=>{
-			let brawl_type = this.filterBy(brawlers.data, "type", brawlType);
+			let brawl_type = this.filterBy(brawlers.data, "genre", brawlType);
 			let brawl = this.filterBy(brawl_type, "brawl", undefined);
 			this.setState({brawlers: brawl});
 		})
@@ -241,8 +211,13 @@ export default class BrawlAdmin extends React.Component {
 				<div className={"brawlers book-blocks book-blocks-small" + (showBrawlers ? " open" : "")}>
 					<div className="dropdown">
 					<select id="selection" onChange={(e)=>{$this.changeType(e)}}>
-						<option value="Published" selected={brawlType === "Published"}>Published</option>
-						<option value="Serial" selected={brawlType === "Serial"}>Serial</option>
+						{
+							genres.map((genre,index) => {
+								return (
+									<option value={genre} selected={brawlType === genre}>{genre}</option>
+								)
+							})
+						}
 					</select>
 					</div>
 					{brawlers.length ? (
@@ -251,7 +226,7 @@ export default class BrawlAdmin extends React.Component {
 								brawlers.map((book, i)=>{
 									//Need to change
 									return (
-										<li key={i}>
+										<li key={i} className={(currentBrawl.book_a._id === book._id || currentBrawl.book_b._id === book._id) ? "active" : ""}>
 											<div className="content-block content-block-book">
 												<BookType type={book.type}/>
 												<figure>
@@ -277,7 +252,7 @@ export default class BrawlAdmin extends React.Component {
 						</ul>
 						) : (
 						<div className="no-brawlers">
-							No {brawlType.toLowerCase()} authors have signed up for Book Brawl
+							No {brawlType.toLowerCase()} books have signed up for Book Brawl
 						</div>
 						)
 					}
