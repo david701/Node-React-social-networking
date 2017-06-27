@@ -53,7 +53,7 @@ class DashboardCreate extends Component {
 					title: book.data.title,
 					description: book.data.description,
 					type: book.data.type,
-					genres: book.data.genre,
+					genres: [book.data.genre],
 					tags: book.data.tags,
 					warnings: book.data.warnings
 				})
@@ -157,7 +157,7 @@ class DashboardCreate extends Component {
     const data = {
       title: this.state.title,
       description: this.state.description,
-      genre: this.state.genre,
+      genre: this.state.genres,
       tags: this.state.tags,
       warnings: this.state.warnings,
 			cover: this.state.coverFile,
@@ -309,7 +309,7 @@ export const Warnings = ({warnings, handleCheckbox, validate, checked}) => (
     <p>Content warning</p>
     <div className="new-create-books-row">
       {warnings.map((warning, index) => (
-        <Checkbox name="warnings" checked={checked.includes(warning)} label={warning} key={index} handleCheckboxChange={handleCheckbox} />
+        <Checkbox name="warnings" checked={checked.includes(warning)} label={warning} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks" minCheck={1} validate={validate} />
       ))}
     </div>
   </div>

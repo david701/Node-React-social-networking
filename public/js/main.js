@@ -26869,11 +26869,12 @@ var formValid = function formValid(event) {
 };
 
 var minCheckboxes = function minCheckboxes(input) {
-    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length >= input.dataset.min;
+    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length >= parseInt(input.dataset.min);
 };
 
 var maxCheckboxes = function maxCheckboxes(input) {
-    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length <= input.dataset.max;
+    console.log((0, _jquery2.default)('input[name="' + input.name + '"]:checked').length <= input.dataset.max);
+    return (0, _jquery2.default)('input[name="' + input.name + '"]:checked').length <= parseInt(input.dataset.max);
 };
 
 var isValid = function isValid(validate, input) {
@@ -54505,7 +54506,7 @@ var DashboardCreate = function (_Component) {
             title: book.data.title,
             description: book.data.description,
             type: book.data.type,
-            genres: book.data.genre,
+            genres: [book.data.genre],
             tags: book.data.tags,
             warnings: book.data.warnings
           });
@@ -54599,7 +54600,7 @@ var DashboardCreate = function (_Component) {
       var data = {
         title: _this.state.title,
         description: _this.state.description,
-        genre: _this.state.genre,
+        genre: _this.state.genres,
         tags: _this.state.tags,
         warnings: _this.state.warnings,
         cover: _this.state.coverFile,
@@ -54893,7 +54894,7 @@ var Warnings = exports.Warnings = function Warnings(_ref5) {
       'div',
       { className: 'new-create-books-row' },
       warnings.map(function (warning, index) {
-        return _react2.default.createElement(_Checkbox2.default, { name: 'warnings', checked: checked.includes(warning), label: warning, key: index, handleCheckboxChange: handleCheckbox });
+        return _react2.default.createElement(_Checkbox2.default, { name: 'warnings', checked: checked.includes(warning), label: warning, key: index, handleCheckboxChange: handleCheckbox, validation: 'maxChecks', minCheck: 1, validate: validate });
       })
     )
   );
