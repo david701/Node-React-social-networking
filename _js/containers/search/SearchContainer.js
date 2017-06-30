@@ -202,7 +202,7 @@ export default class SearchContainer extends React.Component {
 						<div className="content-block content-block-standard-search">
 							<form onSubmit={this.handleSubmit}>
 								<header>
-									<h3>Select a category to search from</h3>
+									<h3>Advanced Search</h3>
 								</header>
 								<SearchCategories
 									handleChange={this.handleChange}
@@ -243,7 +243,7 @@ export default class SearchContainer extends React.Component {
 
 const SearchCategories = props => (
 	<div id="search-categories">
-		<h4>Advanced Search</h4>
+		<h4>Search by Book or Author</h4>
 		<div>
 			<form style={{ display: 'flex', position: 'relative' }}>
 				<input
