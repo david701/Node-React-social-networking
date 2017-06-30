@@ -7,6 +7,8 @@ import BrawlAdmin from '../components/brawl/Brawl-Admin';
 import {Ads, AdElement} from '../components/ads/Ad';
 import BookType from './BookType.js';
 
+import LevelUp from './achievement/levelup';
+
 import Claims from './claims/ClaimDetailsModal';
 
 const Profile = function () {
@@ -290,6 +292,7 @@ class Parent extends React.Component {
 												(<p>{this.state.user.level_title}</p>):
 												<p>Apprentice</p>
 											}
+											<LevelUp user={this.state.user}/>
 											{this.state.user.social_media &&
 												<div className="basic-profile">
 													{this.state.user.social_media.website &&
