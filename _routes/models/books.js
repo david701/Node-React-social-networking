@@ -39,6 +39,8 @@ exports.getBooks = (req, res)=>{
 		query.genre = {$in: genres}
 	}
 
+	console.log(req.query);
+
 	if(req.query.tags){
 		var tags = req.query.tags.split(',');
 		query.tags = {$in: tags}
