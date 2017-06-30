@@ -67,7 +67,13 @@ exports.getUsers = (req, res) => {
 		query.name = { "$regex": req.query.author, "$options": "i" };
 	}
 
-	mongoUser.find(query, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches level_title').where('status').gt(0).limit(limit).skip(skip).sort(sort)
+	if(req.query.status){
+		query.status = req.query.status;
+	}else{
+		query.status = {"$gt": 0};
+	}
+
+	mongoUser.find(query, 'email name bday gender role genres themes level points avatar social_media followers following_authors following_books status newsletter searches level_title').limit(limit).skip(skip).sort(sort)
 	.populate({
 		path:'following_authors',
 		select:'name avatar',
@@ -78,7 +84,7 @@ exports.getUsers = (req, res) => {
 		select: 'name avatar',
 		match: {'status':1}
 	}).then((users)=>{
-		mongoUser.find(query).where('status').gt(0).count().then((count)=>{
+		mongoUser.find(query).count().then((count)=>{
 			handle.res(res, users, count);
 		})
 	})

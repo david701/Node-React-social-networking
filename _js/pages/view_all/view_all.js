@@ -85,7 +85,7 @@ class ViewAll extends React.Component{
 
 		if(this.state.author) author = '&author='+this.state.author;
 
-		var query = apiUrl+'/users?limit='+this.state.limit+'&page='+page + author;
+		var query = apiUrl+'/users?status=1&limit='+this.state.limit+'&page='+page + author;
 
 		var title = 'Viewing Authors';
 		if(this.state.view == 'search') title = 'Search Results';
