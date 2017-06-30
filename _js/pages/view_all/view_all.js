@@ -220,6 +220,7 @@ class ViewAll extends React.Component{
 				}
 				{bookRow}
 				{paginate}
+				{!this.state.books.length && !this.state.authors.length? <h4>No search results...</h4>:''}
 			</div>
 		)
 	}
