@@ -55187,7 +55187,6 @@ var ViewAll = function (_React$Component) {
 						console.log('here');
 						_this.getAuthorBooks(page);
 					} else {
-						console.log('not here');
 						_this.getBooks(page);
 					}
 					break;
@@ -55258,6 +55257,9 @@ var ViewAll = function (_React$Component) {
 			}
 			if (_this.state.author_id) {
 				query = query + '&author_id=' + _this.state.author_id;
+			}
+			if (_this.state.tags) {
+				query = query + '&tags=' + _this.state.tags;
 			}
 			if (_this.state.genres) {
 				query = query + '&genres=' + _this.state.genres;title = title + ' : ' + _this.state.genres;

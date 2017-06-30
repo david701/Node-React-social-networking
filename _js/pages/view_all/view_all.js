@@ -65,7 +65,6 @@ class ViewAll extends React.Component{
 						console.log('here');
 						this.getAuthorBooks(page);
 					}else{
-						console.log('not here');
 						this.getBooks(page)
 					}
 					break;
@@ -135,6 +134,7 @@ class ViewAll extends React.Component{
 		if(this.state.bookTitle){ query = query + '&title='+this.state.bookTitle }
 		if(this.state.rating){ query = query + '&rating='+this.state.rating }
 		if(this.state.author_id){ query = query + '&author_id='+this.state.author_id }
+		if(this.state.tags){query = query + '&tags=' + this.state.tags}
 		if(this.state.genres){ query = query + '&genres='+this.state.genres; title = title + ' : ' + this.state.genres }
 
 		if(this.state.view == 'search') title = 'Search Results';
