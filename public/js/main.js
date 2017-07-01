@@ -52596,11 +52596,13 @@ var Parent = function (_React$Component) {
 										this.state.user.level_title ? _react2.default.createElement(
 											'p',
 											null,
-											this.state.user.level_title
+											this.state.user.level_title,
+											' - Level ',
+											this.state.user.level
 										) : _react2.default.createElement(
 											'p',
 											null,
-											'Apprentice'
+											'Apprentice - Level 0'
 										),
 										_react2.default.createElement(_levelup2.default, { user: this.state.user }),
 										this.state.user.social_media && _react2.default.createElement(
@@ -57734,6 +57736,7 @@ var LevelUp = function (_React$Component) {
 		}
 
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = LevelUp.__proto__ || Object.getPrototypeOf(LevelUp)).call.apply(_ref, [this].concat(args))), _this), _this.state = { percent: '', nextLevel: '' }, _this.getNextLevelPoints = function (user) {
+			var pointsNeeded = 0;
 			if (user.level == 0) pointsNeeded = 0;
 			if (user.level == 1) pointsNeeded = 4;
 			if (user.level == 2) pointsNeeded = 7;
@@ -57812,7 +57815,7 @@ var LevelUp = function (_React$Component) {
 				_react2.default.createElement(
 					'p',
 					null,
-					'Progress to ',
+					'Progress to Level ',
 					this.state.nextLevel
 				)
 			);

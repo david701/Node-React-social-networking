@@ -289,8 +289,8 @@ class Parent extends React.Component {
 										<div className="details">
 											<h5>{this.state.user.name}</h5>
 											{this.state.user.level_title?
-												(<p>{this.state.user.level_title}</p>):
-												<p>Apprentice</p>
+												(<p>{this.state.user.level_title} - Level {this.state.user.level}</p>):
+												<p>Apprentice - Level 0</p>
 											}
 											<LevelUp user={this.state.user}/>
 											{this.state.user.social_media &&
