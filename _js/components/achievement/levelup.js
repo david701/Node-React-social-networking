@@ -7,6 +7,7 @@ export default class LevelUp extends React.Component{
 	}
 
 	getNextLevelPoints = (user)=>{
+		var pointsNeeded = 0;
 		if(user.level == 0) pointsNeeded = 0;
 		if(user.level == 1) pointsNeeded = 4;
 		if(user.level == 2) pointsNeeded = 7;
@@ -73,7 +74,7 @@ export default class LevelUp extends React.Component{
 		return(
 			<div className="bar_container" style={{height:"14px", width:'150px', border:'1px solid #e1e1e1', marginTop:'0.25rem'}}>
 				<div className="level_bar" style={{height:"12px", width:this.state.percent+'%', backgroundColor:'#0FAFFF'}}></div>
-				<p>Progress to {this.state.nextLevel}</p>
+				<p>Progress to Level {this.state.nextLevel}</p>
 			</div>
 		)
 	}
