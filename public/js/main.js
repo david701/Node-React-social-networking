@@ -34738,7 +34738,7 @@ var Brawlers = function (_React$Component) {
 														{ id: brawl.book_a._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);
 															} },
-														'Add to Library'
+														'Follow'
 													),
 													(!isAdmin || user !== "") && followingA && _react2.default.createElement(
 														'button',
@@ -34815,7 +34815,7 @@ var Brawlers = function (_React$Component) {
 														{ id: brawl.book_b._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);
 															} },
-														'Add to Library'
+														'Follow'
 													),
 													(!isAdmin || user !== "") && followingB && _react2.default.createElement(
 														'button',
@@ -58769,7 +58769,7 @@ var Book = function Book(props) {
 												props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.followBook },
-														'Add to Library'
+														'Follow'
 												) : '',
 												props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
 														'button',
