@@ -58156,7 +58156,7 @@ var Editor = function (_Component) {
             { className: 'buttons' },
             _react2.default.createElement(
               'button',
-              { className: 'button button-gray', onClick: this.props.deleteChapter },
+              { className: 'button button-red', onClick: this.props.deleteChapter },
               'Delete'
             ),
             _react2.default.createElement(

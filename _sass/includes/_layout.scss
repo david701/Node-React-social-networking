@@ -1157,3 +1157,7 @@ hr.dividers {
         font-size: 21px;
     }
 }
+.slick-track p {
+    word-wrap: break-word;
+    hyphens: auto;
+}

@@ -26,7 +26,7 @@ class Editor extends Component{
         />
         <div className="submit-row submit-row-editor">
           <div className="buttons">
-            <button className="button button-gray" onClick={this.props.deleteChapter}>Delete</button>
+            <button className="button button-red" onClick={this.props.deleteChapter}>Delete</button>
             <button className="button" onClick={this.props.handleSubmit}>Save</button>
           </div>
         </div>

@@ -1929,6 +1929,10 @@ hr.dividers {
     margin: 0 auto;
     font-size: 21px; }
 
+.slick-track p {
+  word-wrap: break-word;
+  hyphens: auto; }
+
 #night-mode h1,
 #night-mode h2,
 #night-mode h3,
