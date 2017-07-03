@@ -1150,13 +1150,11 @@ hr.dividers {
     margin: 0 10px 0 0;
 }
 
-
-#reviews .rating-display {
-    display: flex;
-    justify-content: center;
-    li {
-        width: 23px;
-        height: 23px;
-        background-size: 100%;
+.add_review {
+    text-align: center;
+    .dv-star-rating {
+        margin: 0 auto;
+        font-size: 21px;
+        padding: 0 0 10px 0;
     }
 }
