@@ -52132,6 +52132,16 @@ var Login = function (_React$Component) {
                                         _react2.default.createElement(
                                             'p',
                                             null,
+                                            'New user?  Please click ',
+                                            _react2.default.createElement(
+                                                'a',
+                                                { href: '/signup/', className: 'modal-trigger-password' },
+                                                'here to sign up.'
+                                            )
+                                        ),
+                                        _react2.default.createElement(
+                                            'p',
+                                            null,
                                             'Forgot your Password? ',
                                             _react2.default.createElement(
                                                 'a',
