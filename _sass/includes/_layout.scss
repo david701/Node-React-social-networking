@@ -1164,11 +1164,14 @@ hr.dividers {
 .slick-track .reader p {
     font-size: 18px;
     line-height:32.4px;
-
+    color: #0a0a0a;
 }
 .slick-dots li:last-child {
     display: none;
 }
 #full-screen .slick-dots li:last-child {
     display: block;
+}
+.slick-dots {
+    bottom: -45px;
 }

@@ -60752,7 +60752,9 @@ var TocContainer = function (_React$Component) {
           return _this.props.loadChapters();
         }).then(function () {
           _this.toggleVisibility();
-          _this.props.selectChapter(_this.props.chapters.length + 1);
+          setTimeout(function () {
+            _this.props.selectChapter(_this.props.chapters.length + 1);
+          }, 500);
         }).catch(function (err) {
           return console.log(err);
         });
