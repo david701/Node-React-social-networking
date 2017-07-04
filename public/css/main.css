@@ -1966,6 +1966,10 @@ hr.dividers {
   word-wrap: break-word;
   hyphens: auto; }
 
+.slick-track .reader p {
+  font-size: 18px;
+  line-height: 32.4px; }
+
 #night-mode h1,
 #night-mode h2,
 #night-mode h3,

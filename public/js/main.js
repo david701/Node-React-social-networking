@@ -34516,7 +34516,7 @@ var Reader = function (_React$Component) {
 					'div',
 					null,
 					_react2.default.createElement(_Comments2.default, { bookId: this.props.bookId, chapterId: this.props.chapterId, user: this.props.user, admin: this.props.admin, authorized: this.props.authorized }),
-					_react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.props.content } })
+					_react2.default.createElement('div', { className: 'reader', dangerouslySetInnerHTML: { __html: this.props.content } })
 				) : _react2.default.createElement(
 					'div',
 					null,
