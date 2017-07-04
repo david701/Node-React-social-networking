@@ -302,7 +302,7 @@ class Author extends React.Component{
                   	  <hr/>
 	    			  <div className="title-row">
 						<h4><span id="author-name">{this.state.user.name + "'s"}</span> Books</h4>
-						<a className="control" href=".">See All</a>
+						<a className="control" href={"/books/all?author_id=" + this.state.user._id}>See All</a>
 					  </div>
 	                  <div className="book-blocks book-blocks-small">
 		                  <ul>

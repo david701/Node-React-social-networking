@@ -292,7 +292,7 @@ export const Tags = ({tags, handleCheckbox, validate, checked}) => (
   <ul className="inner-fields">
     <li>
       <div className="title">
-        <label htmlFor="checkbox1"><span>*</span>Select up to <strong>three</strong> fiction themes that best describe your book.</label>
+        <label htmlFor="checkbox1"><span>*</span>Select up to <strong>three</strong> tags that best describe your book.</label>
         <span className="help-text">Select up to 3 tags.</span>
       </div>
       <div className="new-create-books-row">

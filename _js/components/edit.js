@@ -413,7 +413,7 @@ class SignUp extends React.Component{
 				</ul>
 				<ul className="toggle-list">
         <div className="title password">
-          <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
+          <label htmlFor="password2"><span>*</span>What type of Tags? Add at least one.</label>
           <span className="help-text">Please add at least one theme</span>
         </div>
 					{ this.createCheckboxes(themes, 'themes') }

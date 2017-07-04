@@ -50584,7 +50584,7 @@ var Author = function (_React$Component) {
 						),
 						_react2.default.createElement(
 							'a',
-							{ className: 'control', href: '.' },
+							{ className: 'control', href: "/books/all?author_id=" + this.state.user._id },
 							'See All'
 						)
 					),
@@ -51431,7 +51431,7 @@ var SignUp = function (_React$Component) {
                   null,
                   '*'
                 ),
-                'What type of Fiction Themes? Add at least one.'
+                'What type of Tags? Add at least one.'
               ),
               _react2.default.createElement(
                 'span',
@@ -54258,7 +54258,7 @@ var SignUp = function (_React$Component) {
                                 null,
                                 '*'
                             ),
-                            'What type of Fiction Themes? Add at least one.'
+                            'What type of Tags? Add at least one.'
                         ),
                         _react2.default.createElement(
                             'span',
@@ -54874,7 +54874,7 @@ var Tags = exports.Tags = function Tags(_ref4) {
             null,
             'three'
           ),
-          ' fiction themes that best describe your book.'
+          ' tags that best describe your book.'
         ),
         _react2.default.createElement(
           'span',
