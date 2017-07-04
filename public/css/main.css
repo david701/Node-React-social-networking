@@ -3639,7 +3639,8 @@ hr.dividers {
           .book-blocks > ul > li .content-block figure figcaption h4 {
             line-height: 1.125;
             font-size: 1.125em;
-            margin-bottom: 0.09375em; }
+            margin-bottom: 0.09375em;
+            word-break: break-word; }
           .book-blocks > ul > li .content-block figure figcaption p {
             margin-bottom: 0.6875em; }
           .book-blocks > ul > li .content-block figure figcaption .rating-display {

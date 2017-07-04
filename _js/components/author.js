@@ -324,7 +324,7 @@ class Author extends React.Component{
 		                              </div>
 		                              <figcaption>
 		                                <h4>{book.title}</h4>
-		                                <p>Author Name Here</p>
+		                                <p>{book.author.name}</p>
 		                                <ul className="rating-display">
 		                                  <li className="filled"></li>
 		                                  <li className="filled"></li>

@@ -5,7 +5,7 @@ import { validate, formValid } from '../plugins/validation.js';
 
 //list all of the genre's so we can loop through them
 const genres = ["Fantasy","Science Fiction",
-                "Horror","Non-Fiction","Mystery",
+                "Horror","Xianxia","Mystery",
                 "Romance","FanFiction","LitRPG"];
 //list all of the genre's so we can loop through them
 const themes = ["Contemporary", "Historical",

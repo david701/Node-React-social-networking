@@ -34030,7 +34030,7 @@ module.exports = [
 	"Fantasy",
 	"Science Fiction",
 	"Horror",
-	"Non-Fiction",
+	"Xianxia",
 	"Mystery",
 	"Romance",
 	"FanFiction",
@@ -50641,7 +50641,7 @@ var Author = function (_React$Component) {
 												_react2.default.createElement(
 													'p',
 													null,
-													'Author Name Here'
+													book.author.name
 												),
 												_react2.default.createElement(
 													'ul',
@@ -50767,7 +50767,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 //list all of the genre's so we can loop through them
-var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "FanFiction", "LitRPG"];
+var genres = ["Fantasy", "Science Fiction", "Horror", "Xianxia", "Mystery", "Romance", "FanFiction", "LitRPG"];
 //list all of the genre's so we can loop through them
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Gaming", "Thriller", "Mystery", "Anime"];
 
@@ -53671,7 +53671,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 //variables that will never change
-var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "FanFiction", "LitRPG"];
+var genres = ["Fantasy", "Science Fiction", "Horror", "Xianxia", "Mystery", "Romance", "FanFiction", "LitRPG"];
 var themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Gaming", "Thriller", "Mystery", "Anime"];
 var Profile = function Profile() {
     this.avatar = '/assets/images/avatars/Dog_1.png';
@@ -58887,7 +58887,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var currentResult = "";
 var lastResult = "";
-var genres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "FanFiction", "LitRPG"];
+var genres = ["Fantasy", "Science Fiction", "Horror", "Xianxia", "Mystery", "Romance", "FanFiction", "LitRPG"];
 
 var BrawlAdmin = function (_React$Component) {
 	_inherits(BrawlAdmin, _React$Component);
@@ -60984,7 +60984,7 @@ var apiUrl = '/api/v1';
 
 var oldCategories = ["Book", "Author"];
 var oldTags = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult", "Middle Grade", "Gaming", "Thriller", "Mystery", "Anime"];
-var oldGenres = ["Fantasy", "Science Fiction", "Horror", "Non-Fiction", "Mystery", "Romance", "FanFiction", "LitRPG"];
+var oldGenres = ["Fantasy", "Science Fiction", "Horror", "Xianxia", "Mystery", "Romance", "FanFiction", "LitRPG"];
 
 var SearchContainer = function (_React$Component) {
 	_inherits(SearchContainer, _React$Component);
@@ -61012,7 +61012,7 @@ var SearchContainer = function (_React$Component) {
 				link: "#",
 				searchBy: "Book",
 				search: "",
-				genres: ["Non-Fiction"],
+				genres: ["Xianxia"],
 				tags: ["Spiritual", "Humor", "Mystery"]
 			}, {
 				link: "#",

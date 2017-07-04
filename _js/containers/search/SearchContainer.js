@@ -23,7 +23,7 @@ const oldTags = ["Contemporary", "Historical",
 								"Middle Grade","Gaming","Thriller",
 								"Mystery","Anime"];
 const oldGenres = ["Fantasy","Science Fiction",
-								"Horror","Non-Fiction","Mystery",
+								"Horror","Xianxia","Mystery",
 								"Romance","FanFiction","LitRPG"]
 
 export default class SearchContainer extends React.Component {
@@ -39,7 +39,7 @@ export default class SearchContainer extends React.Component {
 				link: "#",
 				searchBy: "Book",
 				search: "",
-				genres: ["Non-Fiction"],
+				genres: ["Xianxia"],
 				tags: ["Spiritual", "Humor","Mystery"]
 			},{
 				link: "#",
