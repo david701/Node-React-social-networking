@@ -6,7 +6,7 @@ import Reviews from './Reviews';
 const apiUrl = `/api/v1`;
 
 export default class Description extends React.Component{
-	state = {following: this.props.following};
+	state = {following: this.props.following, showMenu: ""};
 
 	componentWillReceiveProps(nextProps){
 		this.setState({following: nextProps.following})
@@ -30,9 +30,36 @@ export default class Description extends React.Component{
 		})
 	}
 
+	navigateToPage = (e,url) => {
+		alert(url);
+		this.setState({showMenu: ""});
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	toggleBuy = (e) => {
+		let newState = (this.state.showMenu) === "" ? "show" : "";
+		this.setState({showMenu: newState});
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	closePopUps = () => {
+		this.setState({showMenu: ""});
+	}
+
 	render(){
-		console.log(JSON.stringify(this.props.book))
-		var followBtn;
+		let followBtn;
+		let $this = this;
+		let socialMedia = {
+				amazon: 'Amazon',
+				kobo: 'Kobo',
+				smashword: 'Smashword',
+				itunes: 'Itunes',
+				barnesandnoble: 'Barnes and Nobles',
+				twitter: 'Twitter'
+		}
+
 		if(!this.props.authorized){
 			if(this.state.following){
 				followBtn = <a onClick={this.unfollow} className="button button-red" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Unfollow</a>;
@@ -45,18 +72,20 @@ export default class Description extends React.Component{
 			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
 				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
 				{followBtn}
-				{!this.props.authorized && this.props.socialMedia ?
+				{this.props.authorized && this.props.socialMedia ?
 					(
-						<div>
-							<button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}}>Buy</button>
-							<ul className="menu">
-								{this.props.socialMedia.map(function(link,index){
-									<li key="index">link</li>
+						<div className="buy-section">
+							<button className='button-white menu-button' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem'}} onClick={(e)=> {$this.toggleBuy(e)}}>Buy</button>
+							<ul className={"menu " + this.state.showMenu}>
+								{Object.keys(this.props.socialMedia).map(function(link,index){
+									return (
+										<li onClick={(e) => {$this.navigateToPage(e,this.props.socialMedia[link])}} key={index}>{socialMedia[link]}</li>
+									)
 								})}
 							</ul>
 						</div>
 					)
-					:''
+					: ''
 				}
 				{!this.props.authorized?(<button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.props.claim}>Claim</button>):''}
 					<p>{this.props.description}</p>

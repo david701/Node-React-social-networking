@@ -57993,7 +57993,7 @@ var Description = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Description.__proto__ || Object.getPrototypeOf(Description)).call.apply(_ref, [this].concat(args))), _this), _this.state = { following: _this.props.following }, _this.follow = function (e) {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Description.__proto__ || Object.getPrototypeOf(Description)).call.apply(_ref, [this].concat(args))), _this), _this.state = { following: _this.props.following, showMenu: "" }, _this.follow = function (e) {
 			e.preventDefault();
 			_jQuery2.default.post(apiUrl + '/books/' + _this.props.bookId + '/follow').then(function (res) {
 				_this.setState({ following: true });
@@ -58006,6 +58006,18 @@ var Description = function (_React$Component) {
 			}).then(function (res) {
 				_this.setState({ following: false });
 			});
+		}, _this.navigateToPage = function (e, url) {
+			alert(url);
+			_this.setState({ showMenu: "" });
+			e.preventDefault();
+			e.stopPropagation();
+		}, _this.toggleBuy = function (e) {
+			var newState = _this.state.showMenu === "" ? "show" : "";
+			_this.setState({ showMenu: newState });
+			e.preventDefault();
+			e.stopPropagation();
+		}, _this.closePopUps = function () {
+			_this.setState({ showMenu: "" });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -58017,8 +58029,17 @@ var Description = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			console.log(JSON.stringify(this.props.book));
-			var followBtn;
+			var followBtn = void 0;
+			var $this = this;
+			var socialMedia = {
+				amazon: 'Amazon',
+				kobo: 'Kobo',
+				smashword: 'Smashword',
+				itunes: 'Itunes',
+				barnesandnoble: 'Barnes and Nobles',
+				twitter: 'Twitter'
+			};
+
 			if (!this.props.authorized) {
 				if (this.state.following) {
 					followBtn = _react2.default.createElement(
@@ -58042,22 +58063,28 @@ var Description = function (_React$Component) {
 					'div',
 					{ style: { overflow: 'scroll', height: '100%', width: '120%', paddingRight: '5rem' } },
 					followBtn,
-					!this.props.authorized && this.props.socialMedia ? _react2.default.createElement(
+					this.props.authorized && this.props.socialMedia ? _react2.default.createElement(
 						'div',
-						null,
+						{ className: 'buy-section' },
 						_react2.default.createElement(
 							'button',
-							{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' } },
+							{ className: 'button-white menu-button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem' }, onClick: function onClick(e) {
+									$this.toggleBuy(e);
+								} },
 							'Buy'
 						),
 						_react2.default.createElement(
 							'ul',
-							{ className: 'menu' },
-							this.props.socialMedia.map(function (link, index) {
-								_react2.default.createElement(
+							{ className: "menu " + this.state.showMenu },
+							Object.keys(this.props.socialMedia).map(function (link, index) {
+								var _this2 = this;
+
+								return _react2.default.createElement(
 									'li',
-									{ key: 'index' },
-									'link'
+									{ onClick: function onClick(e) {
+											$this.navigateToPage(e, _this2.props.socialMedia[link]);
+										}, key: index },
+									socialMedia[link]
 								);
 							})
 						)
