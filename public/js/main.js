@@ -34454,7 +34454,7 @@ var Library = function (_Component) {
           ),
           _react2.default.createElement(
             'a',
-            { className: 'control', href: '.' },
+            { className: 'control', href: title === "My Library" ? "/books/all?view=user-library" : "#" },
             'See All'
           )
         ),
@@ -50551,21 +50551,8 @@ var Author = function (_React$Component) {
 					following
 				),
 				_react2.default.createElement('hr', null),
-				_react2.default.createElement(
-					'div',
-					{ className: 'title-row' },
-					_react2.default.createElement(
-						'h4',
-						null,
-						_react2.default.createElement(
-							'span',
-							{ id: 'author-name' },
-							this.state.user.name + "'s"
-						),
-						' Library'
-					)
-				),
-				this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
+				_react2.default.createElement('div', { className: 'title-row' }),
+				this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: this.state.user.name + "'s Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."

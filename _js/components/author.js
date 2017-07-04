@@ -287,11 +287,10 @@ class Author extends React.Component{
 				</ul>
 			<hr/>
 				<div className="title-row">
-					<h4><span id="author-name">{this.state.user.name + "'s"}</span> Library</h4>
 					{/*<a className="control" href=".">See All</a>*/}
 				</div>
 				{this.state.library.length ? (
-						<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} library="true" />
+						<Library books={this.state.library} author={this.state.user.name} title={this.state.user.name + "'s Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} library="true" />
 					) : (
 						<div className="book-blocks book-blocks-small">
 							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
