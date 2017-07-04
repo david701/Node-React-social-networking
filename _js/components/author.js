@@ -46,7 +46,7 @@ class Author extends React.Component{
   	}
 
   	getLibrary = () => {
-        var query = '/api/v1/books/library/' + this.state.id;
+        var query = '/api/v1/books/library/' + this.state.id + '?limit=8';
         $.get(query).then((books)=>{
             this.setState({library: books.data});
         })
@@ -120,7 +120,7 @@ class Author extends React.Component{
 
 	loadAuthorsBooks(userId){
 		let self = this;
-		$.get(`/api/v1/users/${userId}/books`)
+		$.get(`/api/v1/users/${userId}/books?limit=8`)
 		.then(function(res){
 		 	self.setState({
 				authorsBooks: res.data
@@ -135,7 +135,7 @@ class Author extends React.Component{
 		return myAccount.length > 0;
 	}
 
-	loadUserInfo(userId,profileId){
+	loadUserInfo = (userId,profileId) => {
 		let $this = this;
 		$.get('/api/v1/users/' + profileId).then((response)=>{
 			//in the meantime setup user data
@@ -290,7 +290,7 @@ class Author extends React.Component{
 					{/*<a className="control" href=".">See All</a>*/}
 				</div>
 				{this.state.library.length ? (
-						<Library books={this.state.library} author={this.state.user.name} title={this.state.user.name + "'s Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} library="true" />
+						<Library books={this.state.library} author={this.state.user.name} title={this.state.user.name + "'s Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} me={this.state.me} library="true" />
 					) : (
 						<div className="book-blocks book-blocks-small">
 							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}

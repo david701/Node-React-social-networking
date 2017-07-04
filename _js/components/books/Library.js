@@ -4,7 +4,8 @@ import UserBooks from './UserBooks';
 
 class Library extends Component {
   render() {
-    const { books, author, title, showBrawl } = this.props;
+    console.log('go')
+    const { books, author, title, showBrawl, me } = this.props;
     let href = "#"
 
     if(title === "My Library"){
@@ -20,7 +21,7 @@ class Library extends Component {
           <h1>{title}</h1>
           <a className="control" href={href}>See All</a>
         </div>
-        <UserBooks title={title} showBrawl={showBrawl} books={books} author={author} library={this.props.library} user={this.props.user} loadUserInfo={this.props.loadUserInfo} loadBooks={this.props.loadBooks}/>
+        <UserBooks title={title} showBrawl={showBrawl} me={me} books={books} author={author} library={this.props.library} user={this.props.user} loadUserInfo={this.props.loadUserInfo} loadBooks={this.props.loadBooks}/>
       </div>
     );
   }

@@ -34439,11 +34439,13 @@ var Library = function (_Component) {
   _createClass(Library, [{
     key: 'render',
     value: function render() {
+      console.log('go');
       var _props = this.props,
           books = _props.books,
           author = _props.author,
           title = _props.title,
-          showBrawl = _props.showBrawl;
+          showBrawl = _props.showBrawl,
+          me = _props.me;
 
       var href = "#";
 
@@ -34470,7 +34472,7 @@ var Library = function (_Component) {
             'See All'
           )
         ),
-        _react2.default.createElement(_UserBooks2.default, { title: title, showBrawl: showBrawl, books: books, author: author, library: this.props.library, user: this.props.user, loadUserInfo: this.props.loadUserInfo, loadBooks: this.props.loadBooks })
+        _react2.default.createElement(_UserBooks2.default, { title: title, showBrawl: showBrawl, me: me, books: books, author: author, library: this.props.library, user: this.props.user, loadUserInfo: this.props.loadUserInfo, loadBooks: this.props.loadBooks })
       );
     }
   }]);
@@ -50144,7 +50146,7 @@ var Author = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Author.__proto__ || Object.getPrototypeOf(Author)).call(this, props));
 
 		_this.getLibrary = function () {
-			var query = '/api/v1/books/library/' + _this.state.id;
+			var query = '/api/v1/books/library/' + _this.state.id + '?limit=8';
 			_jquery2.default.get(query).then(function (books) {
 				_this.setState({ library: books.data });
 			});
@@ -50186,6 +50188,19 @@ var Author = function (_React$Component) {
 			if (!book.hasOwnProperty("brawl")) {
 				_this.setState({ showBrawl: true, brawlBook: book });
 			}
+		};
+
+		_this.loadUserInfo = function (userId, profileId) {
+			var $this = _this;
+			_jquery2.default.get('/api/v1/users/' + profileId).then(function (response) {
+				//in the meantime setup user data
+				_this.setState({
+					user: response.data,
+					following: $this.isFollowing(userId, response.data.followers),
+					followingBooks: response.data.following_books
+				});
+			});
+			_this.getLibrary();
 		};
 
 		_this.user = new Profile();
@@ -50242,7 +50257,7 @@ var Author = function (_React$Component) {
 		key: 'loadAuthorsBooks',
 		value: function loadAuthorsBooks(userId) {
 			var self = this;
-			_jquery2.default.get('/api/v1/users/' + userId + '/books').then(function (res) {
+			_jquery2.default.get('/api/v1/users/' + userId + '/books?limit=8').then(function (res) {
 				self.setState({
 					authorsBooks: res.data
 				});
@@ -50257,25 +50272,9 @@ var Author = function (_React$Component) {
 			return myAccount.length > 0;
 		}
 	}, {
-		key: 'loadUserInfo',
-		value: function loadUserInfo(userId, profileId) {
-			var _this4 = this;
-
-			var $this = this;
-			_jquery2.default.get('/api/v1/users/' + profileId).then(function (response) {
-				//in the meantime setup user data
-				_this4.setState({
-					user: response.data,
-					following: $this.isFollowing(userId, response.data.followers),
-					followingBooks: response.data.following_books
-				});
-			});
-			this.getLibrary();
-		}
-	}, {
 		key: 'render',
 		value: function render() {
-			var _this5 = this;
+			var _this4 = this;
 
 			var following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
 			    self = this,
@@ -50365,7 +50364,7 @@ var Author = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: this.state.showBrawl ? "modal author-page show-modal" : "modal author-page", onClick: function onClick(e) {
-									_this5.hideBrawl(e);
+									_this4.hideBrawl(e);
 								} },
 							_react2.default.createElement(
 								'div',
@@ -50398,14 +50397,14 @@ var Author = function (_React$Component) {
 											_react2.default.createElement(
 												'a',
 												{ className: 'button button-white close', onClick: function onClick(e) {
-														_this5.hideBrawl(e);
+														_this4.hideBrawl(e);
 													} },
 												'Close'
 											),
 											_react2.default.createElement(
 												'a',
 												{ className: 'button button-red', onClick: function onClick(e) {
-														_this5.enterBrawl();
+														_this4.enterBrawl();
 													} },
 												'Yes'
 											)
@@ -50564,7 +50563,7 @@ var Author = function (_React$Component) {
 				),
 				_react2.default.createElement('hr', null),
 				_react2.default.createElement('div', { className: 'title-row' }),
-				this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: this.state.user.name + "'s Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, library: 'true' }) : _react2.default.createElement(
+				this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: this.state.user.name + "'s Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, me: this.state.me, library: 'true' }) : _react2.default.createElement(
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
@@ -50675,12 +50674,12 @@ var Book = function (_React$Component2) {
 	function Book(props) {
 		_classCallCheck(this, Book);
 
-		var _this6 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
+		var _this5 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
 
-		_this6.state = {
+		_this5.state = {
 			name: ''
 		};
-		return _this6;
+		return _this5;
 	}
 
 	_createClass(Book, [{
@@ -50695,12 +50694,12 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var _this7 = this;
+			var _this6 = this;
 
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				if (!self._objectEmpty(response.data)) {
-					self.loadUserInfo(_this7.state.id);
+					self.loadUserInfo(_this6.state.id);
 				} else {
 					window.location.href = "/";
 				}
@@ -50709,11 +50708,11 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'loadUserInfo',
 		value: function loadUserInfo(id) {
-			var _this8 = this;
+			var _this7 = this;
 
 			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
 				if (response.data) {
-					_this8.setState({
+					_this7.setState({
 						name: response.data.name + "'s"
 					});
 				}
@@ -52410,7 +52409,7 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.pendingBooks = function () {
-			_jquery2.default.get(apiUrl + '/books?status=1').then(function (res) {
+			_jquery2.default.get(apiUrl + '/books?status=1&limit=8').then(function (res) {
 				if (res.status !== "error") {
 					_this.setState({
 						pendingBooks: res.data
@@ -52477,13 +52476,13 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.loadBooks = function (id) {
-			_jquery2.default.get(apiUrl + '/users/' + id + '/books').then(function (res) {
+			_jquery2.default.get(apiUrl + '/users/' + id + '/books?limit=7').then(function (res) {
 				_this.setState({ books: res.data });
 			});
 		};
 
 		_this.getLibrary = function () {
-			var query = '/api/v1/books/library?limit=4';
+			var query = '/api/v1/books/library?limit=8';
 			_jquery2.default.get(query).then(function (books) {
 				_this.setState({ library: books.data });
 			});
@@ -52803,7 +52802,7 @@ var Parent = function (_React$Component) {
 								following
 							),
 							_react2.default.createElement('hr', null),
-							this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, loadUserInfo: this.loadUserInfo, library: 'true', onClick: function onClick(e) {
+							this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: "My Library", user: this.state.user, loadBooks: this.loadBooks, me: this.state.user, loadUserInfo: this.loadUserInfo, library: 'true', onClick: function onClick(e) {
 									self.showBrawl(book);
 								} }) : _react2.default.createElement(
 								'div',
@@ -52824,7 +52823,7 @@ var Parent = function (_React$Component) {
 								)
 							),
 							_react2.default.createElement('hr', null),
-							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, loadUserInfo: this.loadUserInfo, showBrawl: this.showBrawl })
+							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, me: this.state.user, loadUserInfo: this.loadUserInfo, showBrawl: this.showBrawl })
 						),
 						_react2.default.createElement(
 							'div',
@@ -58620,10 +58619,19 @@ var UserBooks = function (_React$Component) {
 			}).then(function (res) {
 				_this.props.loadUserInfo(_this.props.user._id);
 			});
+		}, _this.follow = function (bookId) {
+			_jQuery2.default.post(apiUrl + '/books/' + bookId + '/follow').then(function (res) {
+				_this.props.loadUserInfo(_this.props.user._id);
+			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(UserBooks, [{
+		key: 'isFollowing',
+		value: function isFollowing(followers, id) {
+			return followers.includes(id);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
@@ -58649,6 +58657,7 @@ var UserBooks = function (_React$Component) {
 						}
 					}
 				}
+				console.log('check');
 				return _react2.default.createElement(
 					'li',
 					{ key: key },
@@ -58675,12 +58684,18 @@ var UserBooks = function (_React$Component) {
 										{ className: 'button button-red', href: '/books/' + book._id },
 										'Read'
 									),
-									_react2.default.createElement(
+									_this2.isFollowing(book.followers, _this2.props.me._id) ? _react2.default.createElement(
 										'a',
 										{ className: 'button button-red', onClick: function onClick() {
 												return _this2.unfollow(book._id);
 											} },
 										'Unfollow'
+									) : _react2.default.createElement(
+										'a',
+										{ className: 'button button-red', onClick: function onClick() {
+												return _this2.follow(book._id);
+											} },
+										'Follow'
 									)
 								) : _react2.default.createElement(
 									'div',
