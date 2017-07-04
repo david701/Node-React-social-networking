@@ -34441,6 +34441,14 @@ var Library = function (_Component) {
           title = _props.title,
           showBrawl = _props.showBrawl;
 
+      var href = "#";
+
+      if (title === "My Library") {
+        href = "/books/all?view=user-library";
+      } else if (title === "My Books") {
+        href = "/books/all?view=user-books";
+      }
+
       return _react2.default.createElement(
         'div',
         { className: 'book-blocks book-blocks-small' },
@@ -34454,7 +34462,7 @@ var Library = function (_Component) {
           ),
           _react2.default.createElement(
             'a',
-            { className: 'control', href: title === "My Library" ? "/books/all?view=user-library" : "#" },
+            { className: 'control', href: href },
             'See All'
           )
         ),
