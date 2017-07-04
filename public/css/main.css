@@ -1032,14 +1032,11 @@ button, .button {
   .title-row h4 {
     margin-bottom: initial; }
   .title-row .control {
-    background-image: url("/assets/images/icons/right-arrow-dark.svg");
     background-repeat: no-repeat;
     background-position: right center;
     padding-right: 1.0625em;
     line-height: 14px;
     margin: 0; }
-    .title-row .control:hover {
-      opacity: 0.625; }
     .title-row .control-expand {
       background-image: url("/assets/images/icons/down-arrow-dark.svg"); }
 

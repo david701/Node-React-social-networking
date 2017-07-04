@@ -444,15 +444,11 @@ button, .button {
 		margin-bottom: initial;
 	}
 	.control {
-		background-image: url('/assets/images/icons/right-arrow-dark.svg');
 		background-repeat: no-repeat;
 		background-position: right center;
 		padding-right: em(17);
 		line-height: 14px;
     	margin: 0;
-		&:hover {
-			opacity: 0.625;
-		}
 		&-expand {
 			background-image: url('/assets/images/icons/down-arrow-dark.svg');
 		}
