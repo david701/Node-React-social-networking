@@ -17,9 +17,16 @@
 }
 .modal .overlay.overlay-create-brawl .content-block {
     transform: translateY(-130px);
+    margin: 100px 0 0 0;
     p {
         font-size: 16px;
         margin: 20px 0 40px 0;
+        text-align: left;
+        color: #1d1d1d;
+        a {
+            color: #0FAFFF;
+            text-decoration: underline;
+        }
     }
 }
 .modal #log-in .card > .overlay {

@@ -50369,7 +50369,13 @@ var Author = function (_React$Component) {
 									_react2.default.createElement(
 										'p',
 										{ className: 'quote' },
-										'This is where your type would go for the book brawl. We need to determine this.'
+										'By clicking "Yes," this book will be entered into the queue for the weekly brawl.  We only pit fictions of the same type (Serial/Published) and the same genre against each other.  We also try to select fictions with the same relative rating and popularity.  If you would like to withdraw your book from the queue after-the-fact, please email us at ',
+										_react2.default.createElement(
+											'a',
+											{ href: 'mailto:support@bookbrawl.com' },
+											'support@bookbrawl.com'
+										),
+										'.'
 									),
 									_react2.default.createElement(
 										'div',
@@ -52621,7 +52627,13 @@ var Parent = function (_React$Component) {
 												_react2.default.createElement(
 													'p',
 													{ className: 'quote' },
-													'This is where your type would go for the book brawl. We need to determine this.'
+													'By clicking "Yes," this book will be entered into the queue for the weekly brawl.  We only pit fictions of the same type (Serial/Published) and the same genre against each other.  We also try to select fictions with the same relative rating and popularity.  If you would like to withdraw your book from the queue after-the-fact, please email us at ',
+													_react2.default.createElement(
+														'a',
+														{ href: 'mailto:support@bookbrawl.com' },
+														'support@bookbrawl.com'
+													),
+													'.'
 												),
 												_react2.default.createElement(
 													'div',
