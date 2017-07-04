@@ -35054,7 +35054,9 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 							{ className: 'buttons' },
 							_react2.default.createElement(
 								'button',
-								{ className: 'button button-white', onClick: props.cancelClaim },
+								{ className: 'button button-white close', onClick: function onClick(e) {
+										props.cancelClaim(e);
+									} },
 								'Cancel'
 							),
 							_react2.default.createElement(
@@ -60450,8 +60452,12 @@ var EditBookContainer = function (_React$Component) {
         console.log(err);
       });
     }, _this.cancelClaim = function (e) {
+      if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
+        _this.setState({ claim: false, claimContent: '' });
+      }
+
       e.preventDefault();
-      _this.setState({ claim: false, claimContent: '' });
+      e.stopPropagation();
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 

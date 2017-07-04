@@ -106,8 +106,12 @@ export default class EditBookContainer extends React.Component {
 	}
 
 	cancelClaim = (e)=>{
-		e.preventDefault();
-		this.setState({claim:false, claimContent:''});
+		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+      this.setState({claim:false, claimContent:''});
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
 	}
 
   render() {
