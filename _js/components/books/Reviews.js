@@ -8,7 +8,7 @@ import { validate, isValid } from '../../plugins/validation.js';
 const apiUrl = '/api/v1';
 
 export default class Reviews extends React.Component{
-	state = {reviews:[], addReview: false, content: '', rating: 0, authorized: false, disabled: true}
+	state = {reviews:[], addReview: false, content: '', rating: 1, authorized: false, disabled: true}
 	componentDidMount(){
 		this.getReviews();
 	}

@@ -1166,3 +1166,9 @@ hr.dividers {
     line-height:32.4px;
 
 }
+.slick-dots li:last-child {
+    display: none;
+}
+#full-screen .slick-dots li:last-child {
+    display: block;
+}

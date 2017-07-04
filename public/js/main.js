@@ -58259,7 +58259,7 @@ var Reviews = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '', rating: 0, authorized: false, disabled: true }, _this.getReviews = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Reviews.__proto__ || Object.getPrototypeOf(Reviews)).call.apply(_ref, [this].concat(args))), _this), _this.state = { reviews: [], addReview: false, content: '', rating: 1, authorized: false, disabled: true }, _this.getReviews = function () {
 			var bookId = _this.props.bookId;
 			_jQuery2.default.get(apiUrl + '/books/' + bookId + '/reviews').then(function (reviews) {
 				_this.setState({ reviews: reviews.data });
@@ -60479,7 +60479,8 @@ var EditBookContainer = function (_React$Component) {
         infinite: false,
         speed: 500,
         slidesToShow: 2,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        dotsClass: 'slick-dots pagination'
       };
       var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
