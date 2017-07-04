@@ -54,7 +54,7 @@ export default class Description extends React.Component{
 		let socialMedia = {
 				amazon: 'Amazon',
 				kobo: 'Kobo',
-				smashword: 'Smashword',
+				smashword: 'Smashwords',
 				itunes: 'Itunes',
 				barnesandnoble: 'Barnes and Nobles',
 				twitter: 'Twitter'

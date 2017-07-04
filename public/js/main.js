@@ -55562,10 +55562,9 @@ module.exports = [
 /***/ (function(module, exports) {
 
 module.exports = [
-	"Warning 1",
-	"Warning 2",
-	"Warning 3",
-	"Warning 4"
+	"Violence",
+	"Explicit Language",
+	"Sexual Content"
 ];
 
 /***/ }),
@@ -58047,7 +58046,7 @@ var Description = function (_React$Component) {
 			var socialMedia = {
 				amazon: 'Amazon',
 				kobo: 'Kobo',
-				smashword: 'Smashword',
+				smashword: 'Smashwords',
 				itunes: 'Itunes',
 				barnesandnoble: 'Barnes and Nobles',
 				twitter: 'Twitter'
@@ -59675,6 +59674,8 @@ var SocialMedia = function SocialMedia(props) {
         return 'iTunes';
       case 'barnesandnoble':
         return 'Barnes and Noble';
+      case 'smashword':
+        return 'Smashwords';
       default:
         return source.charAt(0).toUpperCase() + source.slice(1);
     }
@@ -59934,7 +59935,7 @@ var Information = function Information(_ref6) {
           ),
           _react2.default.createElement("input", {
             id: "title", name: "title", type: "text", onBlur: validate,
-            onChange: handleChange, value: title, "data-maxlength": "30", "data-validation": "name,maxlength,required"
+            onChange: handleChange, value: title, "data-maxlength": "30", "data-validation": "maxlength,required"
           })
         ),
         _react2.default.createElement(
