@@ -34030,7 +34030,11 @@ module.exports = [
 	"Fantasy",
 	"Science Fiction",
 	"Horror",
-	"Non-Fiction"
+	"Non-Fiction",
+	"Mystery",
+	"Romance",
+	"FanFiction",
+	"LitRPG"
 ];
 
 /***/ }),
