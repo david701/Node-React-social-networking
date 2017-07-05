@@ -106,8 +106,12 @@ export default class EditBookContainer extends React.Component {
 	}
 
 	cancelClaim = (e)=>{
-		e.preventDefault();
-		this.setState({claim:false, claimContent:''});
+		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+      this.setState({claim:false, claimContent:''});
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
 	}
 
   render() {
@@ -118,7 +122,8 @@ export default class EditBookContainer extends React.Component {
       infinite: false,
       speed: 500,
       slidesToShow: 2,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      dotsClass: 'slick-dots pagination'
     };
     const slides = [
       <DescriptionContainer claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,

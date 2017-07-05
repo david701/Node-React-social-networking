@@ -110,7 +110,7 @@ export default class Brawlers extends React.Component {
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
 																		{(!isAdmin || user !== "") && !followingA &&
-																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
+																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
 																		{(!isAdmin || user !== "") && followingA &&
 																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
@@ -145,7 +145,7 @@ export default class Brawlers extends React.Component {
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
 																		{(!isAdmin || user !== "") && !followingB &&
-																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Add to Library</button>
+																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
 																		{(!isAdmin || user !== "") && followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>

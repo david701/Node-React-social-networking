@@ -148,7 +148,7 @@ class Parent extends React.Component {
 	}
 
 	pendingBooks = () => {
-	    $.get(`${apiUrl}/books?status=1`).then((res) => {
+	    $.get(`${apiUrl}/books?status=1&limit=8`).then((res) => {
 	      if (res.status !== "error") {
 	        this.setState({
 	          pendingBooks: res.data,
@@ -215,14 +215,14 @@ class Parent extends React.Component {
 	}
 
 	loadBooks = id => {
-		$.get(`${apiUrl}/users/${id}/books`)
+		$.get(`${apiUrl}/users/${id}/books?limit=7`)
 			.then(res => {
 				this.setState({books: res.data})
 			})
 	}
 
 	getLibrary = () => {
-		var query = '/api/v1/books/library?limit=4';
+		var query = '/api/v1/books/library?limit=8';
 		$.get(query).then((books)=>{
 			this.setState({library: books.data});
 		})
@@ -273,7 +273,7 @@ class Parent extends React.Component {
 											<div className="overlay overlay-create-brawl">
 												<div className="content-block-small content-block">
 													<h3>Are you ready to brawl?</h3>
-													<p className="quote">This is where your type would go for the book brawl. We need to determine this.</p>
+													<p className="quote">By clicking "Yes," this book will be entered into the queue for the weekly brawl.  We only pit fictions of the same type (Serial/Published) and the same genre against each other.  We also try to select fictions with the same relative rating and popularity.  If you would like to withdraw your book from the queue after-the-fact, please email us at <a href="mailto:support@bookbrawl.com">support@bookbrawl.com</a>.</p>
 													<div className="submit-row submit-row-small">
 														<div className="buttons">
 															<a className="button button-white close" onClick={(e) => {this.hideBrawl(e)}}>Close</a>
@@ -364,7 +364,7 @@ class Parent extends React.Component {
 									{following}
 								</ul>
 								<hr />
-								{this.state.library.length ? (<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} loadUserInfo={this.loadUserInfo} library="true" onClick={(e) => {self.showBrawl(book)}}/>)
+								{this.state.library.length ? (<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.loadBooks} me={this.state.user} loadUserInfo={this.loadUserInfo} library="true" onClick={(e) => {self.showBrawl(book)}}/>)
 								: (<div>
 										<div className="title-row">
 											<h4>My Library</h4>
@@ -372,7 +372,7 @@ class Parent extends React.Component {
 									   	<span>No books have been added to your library</span>
 								   	</div>)}
 								<hr />
-								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} loadUserInfo={this.loadUserInfo} showBrawl={this.showBrawl}/>}
+								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} me={this.state.user} loadUserInfo={this.loadUserInfo} showBrawl={this.showBrawl}/>}
 							</div>
 							<div>
 								<AdElement page='dashboard'/>

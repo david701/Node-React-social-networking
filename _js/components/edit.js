@@ -5,7 +5,7 @@ import { validate, formValid } from '../plugins/validation.js';
 
 //list all of the genre's so we can loop through them
 const genres = ["Fantasy","Science Fiction",
-                "Horror","Non-Fiction","Mystery",
+                "Horror","Xianxia","Mystery",
                 "Romance","FanFiction","LitRPG"];
 //list all of the genre's so we can loop through them
 const themes = ["Contemporary", "Historical",
@@ -413,7 +413,7 @@ class SignUp extends React.Component{
 				</ul>
 				<ul className="toggle-list">
         <div className="title password">
-          <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
+          <label htmlFor="password2"><span>*</span>What type of Tags? Add at least one.</label>
           <span className="help-text">Please add at least one theme</span>
         </div>
 					{ this.createCheckboxes(themes, 'themes') }

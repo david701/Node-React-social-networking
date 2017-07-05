@@ -81,7 +81,7 @@ const Information = ({ title, handleChange, coverAdd, validate }) => (
           </div>
           <input
             id="title" name="title" type="text" onBlur={validate}
-            onChange={handleChange} value={title} data-maxlength="30" data-validation="name,maxlength,required"
+            onChange={handleChange} value={title} data-maxlength="30" data-validation="maxlength,required"
           />
         </li>
         <li>

@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { validate, formValid } from '../plugins/validation.js';
 
 //variables that will never change
-const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","FanFiction","LitRPG"];
+const genres = ["Fantasy","Science Fiction","Horror","Xianxia","Mystery","Romance","FanFiction","LitRPG"];
 const themes = ["Contemporary", "Historical", "Drama", "ChickLit", "Tragedy", "Adventure", "Urban", "Epic", "Romance", "Spiritual", "Humor", "Paranormal", "Young Adult","Middle Grade","Gaming","Thriller","Mystery","Anime"];
 const Profile = function(){
 		this.avatar = '/assets/images/avatars/Dog_1.png';
@@ -293,7 +293,7 @@ class SignUp extends React.Component{
 				</ul>
 				<ul className="toggle-list">
         <div className="title password">
-          <label htmlFor="password2"><span>*</span>What type of Fiction Themes? Add at least one.</label>
+          <label htmlFor="password2"><span>*</span>What type of Tags? Add at least one.</label>
           <span className="help-text">Please add at least one theme</span>
         </div>
 					{ this.createCheckboxes(themes, 'themes') }

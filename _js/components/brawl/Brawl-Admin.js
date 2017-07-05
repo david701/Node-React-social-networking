@@ -7,7 +7,7 @@ import moment from 'moment';
 
 let currentResult = "";
 let lastResult = "";
-const genres = ["Fantasy","Science Fiction","Horror","Non-Fiction","Mystery","Romance","FanFiction","LitRPG"]
+const genres = ["Fantasy","Science Fiction","Horror","Xianxia","Mystery","Romance","FanFiction","LitRPG"]
 
 export default class BrawlAdmin extends React.Component {
 	constructor(props) {

@@ -11,7 +11,7 @@ const Book = props => (
 									<div className="overlay">
 											<a className="button button-red" href={'/books/'+props.book._id}>Preview</a>
 											{props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) < 0?(
-												<button className="button button-white" id={props.book._id} onClick={props.followBook}>Add to Library</button>
+												<button className="button button-white" id={props.book._id} onClick={props.followBook}>Follow</button>
 												):''}
 											{props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) > -1?(
 												<button className="button button-white" id={props.book._id} onClick={props.unfollowBook}>Unfollow Book</button>

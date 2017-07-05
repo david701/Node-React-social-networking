@@ -17,9 +17,16 @@
 }
 .modal .overlay.overlay-create-brawl .content-block {
     transform: translateY(-130px);
+    margin: 100px 0 0 0;
     p {
         font-size: 16px;
         margin: 20px 0 40px 0;
+        text-align: left;
+        color: #1d1d1d;
+        a {
+            color: #0FAFFF;
+            text-decoration: underline;
+        }
     }
 }
 .modal #log-in .card > .overlay {
@@ -1044,6 +1051,10 @@ body.search-open {
   }
 }
 
+.login-modal .content-block {
+    transform: translateY(7em);
+}
+
 // Modal
 // -----
 .modal {
@@ -1072,8 +1083,6 @@ body.search-open {
     }
     .content-block {
       transition: transform $timing-slower, opacity $timing-slower;
-
-      transform: translateY(7em);
     }
   }
 }
@@ -1150,13 +1159,28 @@ hr.dividers {
     margin: 0 10px 0 0;
 }
 
-
-#reviews .rating-display {
-    display: flex;
-    justify-content: center;
-    li {
-        width: 23px;
-        height: 23px;
-        background-size: 100%;
+.add_review {
+    text-align: center;
+    .dv-star-rating {
+        margin: 0 auto;
+        font-size: 21px;
     }
+}
+.slick-track p {
+    word-wrap: break-word;
+    hyphens: auto;
+}
+.slick-track .reader p {
+    font-size: 18px;
+    line-height:32.4px;
+    color: #0a0a0a;
+}
+.slick-dots li:last-child {
+    display: none;
+}
+#full-screen .slick-dots li:last-child {
+    display: block;
+}
+.slick-dots {
+    bottom: -45px;
 }

@@ -20,6 +20,43 @@
     font-weight: bold;
     font-size: 15px;
 }
+.slick-track .menu {
+    background: #fff;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    padding: 20px 15px 10px 15px;
+    font-size: 14px;
+    border: solid 1px #ececec;
+    position: absolute;
+    left: 0;
+    top: 45px;
+    font-weight: normal;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    	&.show {
+    		opacity: 1;
+    	}
+		li {
+		    color: #7D7D7D;
+		    padding: 0 0 10px 0;
+		    white-space: nowrap;
+		    text-align: left;
+		    line-height: 13px;
+		    &:hover {
+		    	cursor: pointer;
+		    	color: red;
+		    }
+		}
+}
+.menu-button {
+    position: relative;
+    overflow: visible;
+    border: solid 1px #ececec;
+    margin: 0 0 10px 0;
+    span {
+    	color: #ccc;
+    }
+}
 .dropdown {
     display: inline-block;
     width: 100%;
@@ -407,15 +444,11 @@ button, .button {
 		margin-bottom: initial;
 	}
 	.control {
-		background-image: url('/assets/images/icons/right-arrow-dark.svg');
 		background-repeat: no-repeat;
 		background-position: right center;
 		padding-right: em(17);
 		line-height: 14px;
     	margin: 0;
-		&:hover {
-			opacity: 0.625;
-		}
 		&-expand {
 			background-image: url('/assets/images/icons/down-arrow-dark.svg');
 		}
@@ -496,4 +529,11 @@ button:disabled {
 	padding: 80px 0 100px 0;
     text-align: center;
     color: #fff;
+}
+.buy-section {
+	position: relative;
+}
+#dashboard-create #description {
+    max-width: 650px;
+    width: 100%;
 }

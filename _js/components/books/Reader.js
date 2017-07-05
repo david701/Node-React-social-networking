@@ -8,7 +8,7 @@ export default class Reader extends React.Component{
 					{this.props.content.length > 1 ? (
 						<div>
 							<Comments bookId={this.props.bookId} chapterId={this.props.chapterId} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>
-							<div dangerouslySetInnerHTML={{__html: this.props.content}}></div>
+							<div className="reader" dangerouslySetInnerHTML={{__html: this.props.content}}></div>
 						</div>
 					 ) : (
 					 <div>You haven't written anything yet</div>

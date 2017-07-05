@@ -64,7 +64,7 @@ $(document).ready(function() {
     // Modal password
     $(document).on('click','.modal-trigger-report-issue',function(e) {
         e.preventDefault();
-        $('body').addClass('modal-showing');
+        $('#report').parent('.modal').css({visibility: "visible", opacity: 1})
         $('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
         $('.login-modal ').hide();
     });
@@ -90,6 +90,7 @@ $(document).ready(function() {
             $('body').removeClass('modal-showing');
             $('.overlay').removeClass('is-hidden');
             $('.login-modal').removeAttr('style');
+            $('#report').parent('.modal').removeAttr('style');
         }
     })
 

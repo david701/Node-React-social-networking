@@ -134,6 +134,7 @@ class Login extends React.Component{
                                             <input className="button button-red" type="submit" value="Login" disabled={this.state.formState}/>
                                         </div>
                                         <div className="controls">
+                                            <p>New user?  Please click <a href="/signup/" className="modal-trigger-password">here to sign up.</a></p>
                                             <p>Forgot your Password? <a className="modal-trigger-password" href="javascript:void(0)" onClick={this.flipWindow}>Reset it here.</a></p>
                                         </div>
                                     </div>

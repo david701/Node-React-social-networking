@@ -11,6 +11,8 @@ const SocialMedia = props => {
         return 'iTunes';
       case 'barnesandnoble':
         return 'Barnes and Noble';
+      case 'smashword':
+        return 'Smashwords';
       default:
         return source.charAt(0).toUpperCase() + source.slice(1);
     }

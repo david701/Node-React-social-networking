@@ -46,7 +46,7 @@ class Author extends React.Component{
   	}
 
   	getLibrary = () => {
-        var query = '/api/v1/books/library/' + this.state.id;
+        var query = '/api/v1/books/library/' + this.state.id + '?limit=8';
         $.get(query).then((books)=>{
             this.setState({library: books.data});
         })
@@ -120,7 +120,7 @@ class Author extends React.Component{
 
 	loadAuthorsBooks(userId){
 		let self = this;
-		$.get(`/api/v1/users/${userId}/books`)
+		$.get(`/api/v1/users/${userId}/books?limit=8`)
 		.then(function(res){
 		 	self.setState({
 				authorsBooks: res.data
@@ -135,7 +135,7 @@ class Author extends React.Component{
 		return myAccount.length > 0;
 	}
 
-	loadUserInfo(userId,profileId){
+	loadUserInfo = (userId,profileId) => {
 		let $this = this;
 		$.get('/api/v1/users/' + profileId).then((response)=>{
 			//in the meantime setup user data
@@ -184,7 +184,7 @@ class Author extends React.Component{
 						<div className="overlay overlay-create-brawl">
 							<div className="content-block-small content-block">
 								<h3>Are you ready to brawl?</h3>
-								<p className="quote">This is where your type would go for the book brawl. We need to determine this.</p>
+								<p className="quote">By clicking "Yes," this book will be entered into the queue for the weekly brawl.  We only pit fictions of the same type (Serial/Published) and the same genre against each other.  We also try to select fictions with the same relative rating and popularity.  If you would like to withdraw your book from the queue after-the-fact, please email us at <a href="mailto:support@bookbrawl.com">support@bookbrawl.com</a>.</p>
 								<div className="submit-row submit-row-small">
 									<div className="buttons">
 										<a className="button button-white close" onClick={(e) => {this.hideBrawl(e)}}>Close</a>
@@ -287,11 +287,10 @@ class Author extends React.Component{
 				</ul>
 			<hr/>
 				<div className="title-row">
-					<h4><span id="author-name">{this.state.user.name + "'s"}</span> Library</h4>
 					{/*<a className="control" href=".">See All</a>*/}
 				</div>
 				{this.state.library.length ? (
-						<Library books={this.state.library} author={this.state.user.name} title={"My Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} library="true" />
+						<Library books={this.state.library} author={this.state.user.name} title={this.state.user.name + "'s Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} me={this.state.me} library="true" />
 					) : (
 						<div className="book-blocks book-blocks-small">
 							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
@@ -303,7 +302,7 @@ class Author extends React.Component{
                   	  <hr/>
 	    			  <div className="title-row">
 						<h4><span id="author-name">{this.state.user.name + "'s"}</span> Books</h4>
-						<a className="control" href=".">See All</a>
+						<a className="control" href={"/books/all?author_id=" + this.state.user._id}>See All</a>
 					  </div>
 	                  <div className="book-blocks book-blocks-small">
 		                  <ul>
@@ -325,7 +324,7 @@ class Author extends React.Component{
 		                              </div>
 		                              <figcaption>
 		                                <h4>{book.title}</h4>
-		                                <p>Author Name Here</p>
+		                                <p>{book.author.name}</p>
 		                                <ul className="rating-display">
 		                                  <li className="filled"></li>
 		                                  <li className="filled"></li>

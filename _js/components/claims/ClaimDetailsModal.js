@@ -38,7 +38,7 @@ const ClaimDetailsModal = props => (
 							</div>)
 						:''}
 					<div className="submit-row submit-row-claim">
-							{props.view?(<div className="buttons"><button className="button button-red close" onClick={props.cancelClaim}>Close</button></div>):(<div className="buttons"><button className="button button-white" onClick={props.cancelClaim}>Cancel</button>
+							{props.view?(<div className="buttons"><button className="button button-red close" onClick={props.cancelClaim}>Close</button></div>):(<div className="buttons"><button className="button button-white close" onClick={(e)=>{props.cancelClaim(e)}}>Cancel</button>
 						<button className="button button-red" onClick={props.submitClaim}>Submit</button></div>)}
 					</div>
 				</form>
