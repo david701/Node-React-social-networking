@@ -53608,7 +53608,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     // Modal password
     (0, _jquery2.default)(document).on('click', '.modal-trigger-report-issue', function (e) {
         e.preventDefault();
-        (0, _jquery2.default)('body').addClass('modal-showing');
+        (0, _jquery2.default)('#report').parent('.modal').css({ visibility: "visible", opacity: 1 });
         (0, _jquery2.default)('.overlay-create-brawl').addClass('is-hidden').next('.overlay').removeClass('is-hidden');
         (0, _jquery2.default)('.login-modal ').hide();
     });
@@ -53634,6 +53634,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             (0, _jquery2.default)('body').removeClass('modal-showing');
             (0, _jquery2.default)('.overlay').removeClass('is-hidden');
             (0, _jquery2.default)('.login-modal').removeAttr('style');
+            (0, _jquery2.default)('#report').parent('.modal').removeAttr('style');
         }
     });
 });

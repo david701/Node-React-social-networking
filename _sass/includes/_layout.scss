@@ -1051,6 +1051,10 @@ body.search-open {
   }
 }
 
+.login-modal .content-block {
+    transform: translateY(7em);
+}
+
 // Modal
 // -----
 .modal {
@@ -1079,8 +1083,6 @@ body.search-open {
     }
     .content-block {
       transition: transform $timing-slower, opacity $timing-slower;
-
-      transform: translateY(7em);
     }
   }
 }

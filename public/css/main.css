@@ -1878,6 +1878,9 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
     font-family: "clarendon-urw", -apple-system, Georgia, serif;
     text-align: center; }
 
+.login-modal .content-block {
+  transform: translateY(7em); }
+
 .modal {
   visibility: hidden;
   position: fixed;
@@ -1902,8 +1905,7 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
       opacity: 0;
       visibility: hidden; }
     .modal .overlay .content-block {
-      transition: transform 0.25s ease-out, opacity 0.25s ease-out;
-      transform: translateY(7em); }
+      transition: transform 0.25s ease-out, opacity 0.25s ease-out; }
 
 body.modal-showing .modal {
   visibility: visible;
