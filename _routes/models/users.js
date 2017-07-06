@@ -217,40 +217,15 @@ exports.removeUser = (req, res)=>{
 			}else{
 				user.update({status: 0})
 					.then((userUpdate)=>{
-						mongoBook.find({author: req.params.id}).then((books)=>{
-							async.each(books, (book, cb)=>{
-								book.status = 0;
-								book.save().then((book)=>{
-									cb()
-								}).catch(err=>{
-									cb(err)
-								});
-							}, (err)=>{
-								mongoComment.find({author: req.params.id}).then((comments)=>{
-									async.each(comments, (comment, cb)=>{
-										comment.status = 0;
-										comment.save().then((comment)=>{
-											cb()
-										}).catch(err=>{
-											cb(err)
-										})
-									}, (err)=>{
-										mongoReview.find({author: req.params.id}).then((reviews)=>{
-											async.each(reviews, (review, cb)=>{
-												review.status = 0;
-												review.save().then((review)=>{
-													cb()
-												}).catch(err=>{
-													cb(err)
-												})
-											}, (err)=>{
-												handle.res(res, req.params.id);
-											})
-										});
-									})
+						mongoBook.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
+							mongoComment.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
+								mongoReview.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
+									handle.res(res)
 								})
-							});
-						})
+							})
+						}).catch((err)=>{
+							handle.err(res, err.message)
+						});
 					})
 					.catch((err)=>{
 						handle.err(res, err.message)

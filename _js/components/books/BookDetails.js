@@ -52,6 +52,20 @@ export default class BookDetails extends React.Component {
 		})
 	}
 
+	deleteBook = (e)=>{
+		e.preventDefault();
+		var check = confirm('Are you sure you want to delete this book?');
+
+		if(check){
+			$.ajax({
+				url: `${apiUrl}/books/${this.props.bookId}`,
+				type: 'DELETE',
+			}).then(res => {
+				window.location = "/dashboard";
+			})
+		}
+	}
+
 	render(){
 		var followBtn, rating=0, chapters = [],
 		self = this;
@@ -92,6 +106,7 @@ export default class BookDetails extends React.Component {
 		    </div>
 		    <button onClick={()=>{ this.props.toggleScreen(); this.props.toggleSettings(); }} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
 		    {this.props.authorized? (<a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>):''}
+				{this.props.authorized? (<button onClick={this.deleteBook} className="button button-red toggleScreen">Delete Book</button>):''}
 		    <div className="table-of-contents">
 		    	<p className="buttons">
 		    		<span onClick={(e) => this.moveSlide('details',e)}>Details</span> |
