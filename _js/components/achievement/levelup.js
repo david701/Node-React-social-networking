@@ -72,8 +72,8 @@ export default class LevelUp extends React.Component{
 
 	render(){
 		return(
-			<div className="bar_container" style={{height:"14px", width:'150px', border:'1px solid #e1e1e1', marginTop:'0.25rem'}}>
-				<div className="level_bar" style={{height:"12px", width:this.state.percent+'%', backgroundColor:'#0FAFFF'}}></div>
+			<div className="bar_container" style={{width:'150px', marginTop:'0.25rem'}}>
+				<div className="level_bar" style={{height:"12px", border:'1px solid #e1e1e1', width:this.state.percent+'%', backgroundColor:'#0FAFFF'}}></div>
 				<p>Progress to Level {this.state.nextLevel}</p>
 			</div>
 		)

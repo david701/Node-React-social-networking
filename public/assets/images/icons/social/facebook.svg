@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
-    <title>Facebook</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Book-Brawl-UI" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="10.1-BB_My_Account_Desktop" transform="translate(-559.000000, -268.000000)" fill="#D9DCDD">
-            <g id="Content" transform="translate(256.000000, 55.000000)">
-                <g id="Facebook" transform="translate(303.000000, 213.000000)">
-                    <path d="M6.87066667,12.352 L8.66906667,12.352 L8.66906667,7.99946667 L9.8688,7.99946667 L10.0277333,6.49973333 L8.66906667,6.49973333 L8.67093333,5.7488 C8.67093333,5.35786667 8.70826667,5.148 9.26933333,5.148 L10.0192,5.148 L10.0192,3.648 L8.8192,3.648 C7.37786667,3.648 6.87066667,4.37573333 6.87066667,5.5992 L6.87066667,6.49973333 L5.97226667,6.49973333 L5.97226667,7.99973333 L6.87066667,7.99973333 L6.87066667,12.352 L6.87066667,12.352 Z M8,16 C3.58186667,16 0,12.4184 0,8 C0,3.5816 3.58186667,0 8,0 C12.4181333,0 16,3.5816 16,8 C16,12.4184 12.4181333,16 8,16 Z" id="Shape"></path>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 0 0 24 24" height="24px" id="Layer_1" version="1.1" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="icon"><circle cx="12" cy="12" fill="#5576A5" r="11"/><path d="M12.9575,18.4H10.3v-6.4H9.1V9.8h1.2V8.4858C10.3,6.6957,11.0689,5.6,13.1774,5.6H14.9v2.2h-1.0643c-0.821,0,-0.875,0.318,-0.875,0.8903L12.9572,9.8h1.9878l-0.2326,2.2H12.9v6.4H12.9575z" fill="#FFFFFF"/><path d="M4.2218,19.7782C6.2124,21.7688,8.9624,23,12,23c6.0751,0,11,-4.9249,11,-11c0,-3.0376,-1.2312,-5.7876,-3.2218,-7.7782L4.2218,19.7782z" fill="#231F20" opacity="0.1"/></g></svg>
