@@ -180,7 +180,8 @@
 
 .react-datepicker__input-container {
   position: relative;
-  display: inline-block; }
+  display: inline-block;
+  width: 100%; }
 
 .react-datepicker__year-read-view,
 .react-datepicker__month-read-view {
@@ -701,6 +702,13 @@ body {
   border-radius: 100%;
   font-weight: bold;
   font-size: 15px; }
+
+.details h5 {
+  font-size: 22px;
+  line-height: 22px; }
+
+.website-url {
+  color: #0fafff; }
 
 .slick-track .menu {
   background: #fff;
