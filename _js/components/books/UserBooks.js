@@ -23,8 +23,9 @@ export default class UserBooks extends React.Component {
 		})
 	}
 
-	isFollowing(followers,id){
-		return followers.includes(id);
+	isFollowing(book,id){
+		console.log(book.title + ' is following [' + book.followers + '] ' + id)
+		return book.followers.includes(id);
 	}
 
 	render(){
@@ -41,7 +42,6 @@ export default class UserBooks extends React.Component {
 					}
 				}
 			}
-			console.log('check')
 			return (
 			<li key={key}>
 				<div className="content-block content-block-book">
@@ -56,7 +56,7 @@ export default class UserBooks extends React.Component {
 								{this.props.library ? (
 									<div className="overlay">
 										<a className="button button-red" href={`/books/${book._id}`}>Read</a>
-										{this.isFollowing(book.followers,this.props.me._id) ? (
+										{this.isFollowing(book,this.props.me._id) ? (
 										<a className="button button-red" onClick={() => this.unfollow(book._id)}>Unfollow</a>
 										) : (
 										<a className="button button-red" onClick={() => this.follow(book._id)}>Follow</a>

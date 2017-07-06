@@ -34439,7 +34439,6 @@ var Library = function (_Component) {
   _createClass(Library, [{
     key: 'render',
     value: function render() {
-      console.log('go');
       var _props = this.props,
           books = _props.books,
           author = _props.author,
@@ -51267,7 +51266,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51286,7 +51285,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51305,7 +51304,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51324,7 +51323,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51343,7 +51342,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51362,7 +51361,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -58760,8 +58759,9 @@ var UserBooks = function (_React$Component) {
 
 	_createClass(UserBooks, [{
 		key: 'isFollowing',
-		value: function isFollowing(followers, id) {
-			return followers.includes(id);
+		value: function isFollowing(book, id) {
+			console.log(book.title + ' is following [' + book.followers + '] ' + id);
+			return book.followers.includes(id);
 		}
 	}, {
 		key: 'render',
@@ -58789,7 +58789,6 @@ var UserBooks = function (_React$Component) {
 						}
 					}
 				}
-				console.log('check');
 				return _react2.default.createElement(
 					'li',
 					{ key: key },
@@ -58816,7 +58815,7 @@ var UserBooks = function (_React$Component) {
 										{ className: 'button button-red', href: '/books/' + book._id },
 										'Read'
 									),
-									_this2.isFollowing(book.followers, _this2.props.me._id) ? _react2.default.createElement(
+									_this2.isFollowing(book, _this2.props.me._id) ? _react2.default.createElement(
 										'a',
 										{ className: 'button button-red', onClick: function onClick() {
 												return _this2.unfollow(book._id);
