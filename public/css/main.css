@@ -1991,6 +1991,9 @@ hr.dividers {
 .slick-dots {
   bottom: -45px; }
 
+.level-title {
+  font-size: 1em !important; }
+
 #night-mode h1,
 #night-mode h2,
 #night-mode h3,
@@ -3765,6 +3768,9 @@ hr.dividers {
     display: flex;
     justify-content: center;
     align-items: center; }
+  .filter-controls select {
+    font-size: 1.5em;
+    margin-top: -5px; }
 
 .account-block .avatar-selection {
   padding-top: 1em;

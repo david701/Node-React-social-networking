@@ -50799,8 +50799,10 @@ var Author = function (_React$Component) {
 							),
 							this.state.user.level_title ? _react2.default.createElement(
 								'p',
-								null,
-								this.state.user.level_title
+								{ className: 'level-title' },
+								this.state.user.level_title,
+								' - Level ',
+								this.state.user.level
 							) : _react2.default.createElement(
 								'p',
 								null,
@@ -53053,7 +53055,7 @@ var Parent = function (_React$Component) {
 										),
 										this.state.user.level_title ? _react2.default.createElement(
 											'p',
-											null,
+											{ className: 'level-title' },
 											this.state.user.level_title,
 											' - Level ',
 											this.state.user.level
@@ -61284,7 +61286,7 @@ var Information = function Information(_ref6) {
           _react2.default.createElement(
             "small",
             null,
-            "Max size of 15 MB",
+            "Max size of 5 MB",
             _react2.default.createElement("br", null),
             "Dimensions are X by X",
             _react2.default.createElement("br", null),
