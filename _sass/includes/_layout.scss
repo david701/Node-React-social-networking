@@ -955,12 +955,17 @@ body.search-open {
         display: inline-block;
         width: 50%;
     }
-    .table-of-contents {
-        bottom: 5px;
-    }
     .book-top-half {
         .go-to-chapter {
-            display: none;
+            right: initial;
+            left: 258px;
+            bottom: initial;
+            top: 35px;
+            line-height: 33px;
+            .slide-to-chapter {
+                background: #fff;
+                border: solid 1px #e6e6e6;
+            }
         }
         .content-block:first-child {
             height: 5em;
@@ -982,7 +987,6 @@ body.search-open {
         }
         .profile-info {
             .book-title {
-                width: 100%;
                 float: left;
                 font-size: 28px;
             }
@@ -1179,7 +1183,7 @@ hr.dividers {
     display: none;
 }
 #full-screen .slick-dots li:last-child {
-    display: block;
+    display: inline-block;
 }
 .slick-dots {
     bottom: -45px;

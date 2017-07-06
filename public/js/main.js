@@ -34439,7 +34439,6 @@ var Library = function (_Component) {
   _createClass(Library, [{
     key: 'render',
     value: function render() {
-      console.log('go');
       var _props = this.props,
           books = _props.books,
           author = _props.author,
@@ -51640,7 +51639,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'website', name: 'social_media.website', value: profile.social_media.website, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51659,7 +51658,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'good_reads', name: 'social_media.good_reads', value: profile.social_media.good_reads, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51678,7 +51677,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'amazon', name: 'social_media.amazon', value: profile.social_media.amazon, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51697,7 +51696,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'wordpress', name: 'social_media.wordpress', value: profile.social_media.wordpress, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51716,7 +51715,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'facebook', name: 'social_media.facebook', value: profile.social_media.facebook, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -51735,7 +51734,7 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Url must include http(s)'
+                  'Invalid Url'
                 )
               ),
               _react2.default.createElement('input', { id: 'twitter', name: 'social_media.twitter', value: profile.social_media.twitter, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'url', type: 'text' })
@@ -53073,7 +53072,7 @@ var Parent = function (_React$Component) {
 												null,
 												_react2.default.createElement(
 													'a',
-													{ href: this.state.user.social_media.website, target: '_blank' },
+													{ className: 'website-url', href: this.state.user.social_media.website, target: '_blank' },
 													this.state.user.social_media.website
 												)
 											),
@@ -53585,7 +53584,7 @@ var Report = function (_React$Component2) {
 								{ className: 'buttons' },
 								_react2.default.createElement(
 									'a',
-									{ className: 'button button-white close', href: '/dashboard/' },
+									{ className: 'button button-white close' },
 									'Close'
 								),
 								_react2.default.createElement('input', { className: 'button button-red', type: 'submit', value: 'Report Issue', disabled: true })
@@ -54778,8 +54777,12 @@ var EditBookPage = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ id: this.state.screen },
-				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following, admin: this.state.admin, getBook: this.getBook })
+				{ id: this.state.screen, className: 'container' },
+				_react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following, admin: this.state.admin, getBook: this.getBook })
+				)
 			);
 		}
 	}]);
@@ -58704,8 +58707,8 @@ var LevelUp = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'bar_container', style: { height: "14px", width: '150px', border: '1px solid #e1e1e1', marginTop: '0.25rem' } },
-				_react2.default.createElement('div', { className: 'level_bar', style: { height: "12px", width: this.state.percent + '%', backgroundColor: '#0FAFFF' } }),
+				{ className: 'bar_container', style: { width: '150px', marginTop: '0.25rem' } },
+				_react2.default.createElement('div', { className: 'level_bar', style: { height: "12px", border: '1px solid #e1e1e1', width: this.state.percent + '%', backgroundColor: '#0FAFFF' } }),
 				_react2.default.createElement(
 					'p',
 					null,
@@ -58954,11 +58957,15 @@ var BookDetails = function (_React$Component) {
 						{ className: 'book-title' },
 						this.props.title
 					),
-					'By ',
 					_react2.default.createElement(
-						'a',
-						{ className: 'author-name', href: "/author/" + (this.props.book ? this.props.book.author._id : "") },
-						this.props.book ? this.props.book.author.name : ""
+						'span',
+						{ className: 'author-area' },
+						'By ',
+						_react2.default.createElement(
+							'a',
+							{ className: 'author-name', href: "/author/" + (this.props.book ? this.props.book.author._id : "") },
+							this.props.book ? this.props.book.author.name : ""
+						)
 					),
 					_react2.default.createElement(_Rating2.default, { stars: rating }),
 					_react2.default.createElement(
@@ -59013,7 +59020,9 @@ var BookDetails = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'button',
-					{ onClick: this.props.toggleScreen, className: 'button toggleScreen', value: 'true' },
+					{ onClick: function onClick() {
+							_this2.props.toggleScreen();_this2.props.toggleSettings();
+						}, className: 'button toggleScreen', value: 'true' },
 					this.props.toggleStatus
 				),
 				this.props.authorized ? _react2.default.createElement(
@@ -59939,8 +59948,9 @@ var UserBooks = function (_React$Component) {
 
 	_createClass(UserBooks, [{
 		key: 'isFollowing',
-		value: function isFollowing(followers, id) {
-			return followers.includes(id);
+		value: function isFollowing(book, id) {
+			console.log(book.title + ' is following [' + book.followers + '] ' + id);
+			return book.followers.includes(id);
 		}
 	}, {
 		key: 'render',
@@ -59968,7 +59978,6 @@ var UserBooks = function (_React$Component) {
 						}
 					}
 				}
-				console.log('check');
 				return _react2.default.createElement(
 					'li',
 					{ key: key },
@@ -59995,7 +60004,7 @@ var UserBooks = function (_React$Component) {
 										{ className: 'button button-red', href: '/books/' + book._id },
 										'Read'
 									),
-									_this2.isFollowing(book.followers, _this2.props.me._id) ? _react2.default.createElement(
+									_this2.isFollowing(book, _this2.props.me._id) ? _react2.default.createElement(
 										'a',
 										{ className: 'button button-red', onClick: function onClick() {
 												return _this2.unfollow(book._id);
@@ -61619,6 +61628,7 @@ var DetailsContainer = function (_React$Component) {
 				title: bookTitle,
 				author: this.state.author,
 				rating: this.props.rating,
+				toggleSettings: this.props.toggleSettings,
 				following: this.props.following,
 				authorized: this.props.authorized,
 				toggleScreen: this.props.toggleScreen,
@@ -61698,14 +61708,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var apiUrl = '/api/v1';
 
-var Placeholder = function Placeholder(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'content-block content-block-standard-new' },
-    _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
-  );
-};
-
 var EditBookContainer = function (_React$Component) {
   _inherits(EditBookContainer, _React$Component);
 
@@ -61725,7 +61727,22 @@ var EditBookContainer = function (_React$Component) {
       chapters: [],
       reviews: [],
       claim: false,
-      claimContent: ''
+      claimContent: '',
+      settings: {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        dotsClass: 'slick-dots pagination'
+      }
+    }, _this.toggleSettings = function () {
+      console.log('go');
+      var settings = _this.state.settings;
+
+      settings.slidesToShow = settings.slidesToShow === 1 ? 2 : 1;
+
+      _this.setState({ settings: settings });
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
         var nextState = { chapters: res.data };
@@ -61822,16 +61839,9 @@ var EditBookContainer = function (_React$Component) {
       var bookId = this.props.bookId;
       var _state = this.state,
           chapters = _state.chapters,
-          selectedChapter = _state.selectedChapter;
+          selectedChapter = _state.selectedChapter,
+          settings = _state.settings;
 
-      var settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        dotsClass: 'slick-dots pagination'
-      };
       var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
@@ -61840,13 +61850,28 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'book-top-half' },
-          _react2.default.createElement(_DetailsContainer2.default, { slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
-          _react2.default.createElement(Placeholder, null)
+          _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.toggleSettings, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          settings.slidesToShow === 2 && _react2.default.createElement(
+            'div',
+            { className: 'content-block content-block-standard-new ads' },
+            _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' }),
+            _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
+          )
+        ),
+        settings.slidesToShow === 1 && _react2.default.createElement(
+          'div',
+          { className: 'content-block content-block-standard-new full left' },
+          _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
         ),
         _react2.default.createElement(
           _reactSlick2.default,
           _extends({ ref: 'slider' }, settings),
           this.loadSlides(slides)
+        ),
+        settings.slidesToShow === 1 && _react2.default.createElement(
+          'div',
+          { className: 'content-block content-block-standard-new full right' },
+          _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
         )
       );
     }

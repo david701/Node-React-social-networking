@@ -297,7 +297,7 @@ class Parent extends React.Component {
 												<div className="basic-profile">
 													{this.state.user.social_media.website &&
 														<p>
-															<a href={this.state.user.social_media.website} target="_blank">
+															<a className="website-url" href={this.state.user.social_media.website} target="_blank">
 																{this.state.user.social_media.website}
 															</a>
 														</p>
@@ -582,7 +582,7 @@ class Report extends React.Component {
 						</ul>
 						<div className="submit-row submit-row-small">
 							<div className="buttons">
-								<a className="button button-white close" href="/dashboard/">Close</a>
+								<a className="button button-white close">Close</a>
 								<input className="button button-red" type="submit" value="Report Issue" disabled />
 							</div>
 						</div>
