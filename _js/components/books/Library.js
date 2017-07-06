@@ -4,7 +4,6 @@ import UserBooks from './UserBooks';
 
 class Library extends Component {
   render() {
-    console.log('go')
     const { books, author, title, showBrawl, me } = this.props;
     let href = "#"
 

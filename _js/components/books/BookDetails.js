@@ -83,14 +83,14 @@ export default class BookDetails extends React.Component {
 		      <img src="/assets/images/day-read.gif" className="day" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <img src="/assets/images/night-read.gif" className="night" alt="cat-avatar" style={{ float: 'right' }} height={175} width={175} />
 		      <h4 className="book-title">{this.props.title}</h4>
-			  By <a className="author-name" href={"/author/" + (this.props.book ? this.props.book.author._id : "")}>{this.props.book ? this.props.book.author.name : ""}</a>
+			  <span className="author-area">By <a className="author-name" href={"/author/" + (this.props.book ? this.props.book.author._id : "")}>{this.props.book ? this.props.book.author.name : ""}</a></span>
 		      <Rating stars={rating} />
 					<p><strong>{this.props.book && this.props.book.viewed_by.length ? this.props.book.viewed_by.length : '0'}</strong> Views | <strong>{this.props.book && this.props.book.followers.length ? this.props.book.followers.length : '0'}</strong> Followers</p>
 		      <p><strong>Content Warnings</strong>: {this.props.book && this.props.book.warnings.length ? this.props.book.warnings.join(", ") : 'N/A'}</p>
 		      <p><strong>Genre</strong>: {this.props.book && this.props.book.genre? this.props.book.genre : 'N/A'}</p>
 		      <p><strong>Tags</strong>: {this.props.tags.length ? this.props.tags.join(", ") : 'N/A'}</p>
 		    </div>
-		    <button onClick={this.props.toggleScreen} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
+		    <button onClick={()=>{ this.props.toggleScreen(); this.props.toggleSettings(); }} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
 		    {this.props.authorized? (<a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>):''}
 		    <div className="table-of-contents">
 		    	<p className="buttons">

@@ -200,7 +200,7 @@ class Author extends React.Component{
 					<div className="details">
 						<h5>{this.state.user.name}</h5>
 							{this.state.user.level_title?
-								(<p>{this.state.user.level_title}</p>):
+								(<p className="level-title">{this.state.user.level_title} - Level {this.state.user.level}</p>):
 								<p>Apprentice</p>
 							}
 						<div className="basic-profile">

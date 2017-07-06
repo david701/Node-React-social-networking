@@ -88,7 +88,7 @@ const Information = ({ title, handleChange, coverAdd, validate }) => (
           <label htmlFor="cover">Upload Cover Art</label>
           <input id="cover" type="file" onChange={coverAdd} />
           <small>
-            Max size of 15 MB<br />
+            Max size of 5 MB<br />
             Dimensions are X by X<br />
             Needs to be jpg, png, or gif
             </small>

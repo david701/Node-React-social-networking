@@ -52,7 +52,7 @@ exports.getBooks = (req, res)=>{
 		var rating = parseInt(req.query.rating);
 		var ratingFloor = Math.floor(rating);
 		var ratingCeil = ratingFloor + 1;
-		query.rating = {$gte : ratingFloor, $lt : ratingCeil}
+		query.rating = {$gte : ratingFloor}
 	}
 
 	if(req.query.brawlers){
