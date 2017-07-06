@@ -44,31 +44,36 @@ exports.addReview = (req,res)=>{
 			status: 1
 		}
 
-	var newReview = new mongoReview(review);
-	newReview.save().then((review)=>{
-		mongoBook.findOne({_id: review.book_id}).then((book)=>{
-			mongoReview.find({book_id: review.book_id}).then((reviews)=>{
-				var rating = 0;
-				for (var i = 0; i < reviews.length; i++) {
-					rating = rating + reviews[i].rating;
-				}
-				rating = rating/reviews.length;
-				book.rating = rating;
-				book.save().then((book)=>{
-					xp.rateBook(user._id, (err, user)=>{
-						xp.reviews(book.author, (err, user)=>{
-							handle.res(res, review);
+	mongoReview.find({book_id:review.book_id, author: review.author}).count().then((count)=>{
+		if(count && count > 0){
+			handle.err(res, 'You can only submit 1 review per book');
+		}else{
+			var newReview = new mongoReview(review);
+			newReview.save().then((review)=>{
+				mongoBook.findOne({_id: review.book_id}).then((book)=>{
+					mongoReview.find({book_id: review.book_id}).then((reviews)=>{
+						var rating = 0;
+						for (var i = 0; i < reviews.length; i++) {
+							rating = rating + reviews[i].rating;
+						}
+						rating = rating/reviews.length;
+						book.rating = rating;
+						book.save().then((book)=>{
+							xp.rateBook(user._id, (err, user)=>{
+								xp.reviews(book.author, (err, user)=>{
+									handle.res(res, review);
+								})
+							})
+						}).catch((err)=>{
+							handle.err(res, err);
 						})
 					})
-				}).catch((err)=>{
-					handle.err(res, err);
-				})
+				});
+			}).catch((err)=>{
+				handle.err(res, err);
 			})
-		});
-	}).catch((err)=>{
-		handle.err(res, err);
+		}
 	})
-
 }
 
 exports.editReview = (req,res)=>{
