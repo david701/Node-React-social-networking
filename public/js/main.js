@@ -58887,6 +58887,18 @@ var BookDetails = function (_React$Component) {
 			}).then(function (res) {
 				_this.setState({ following: false });
 			});
+		}, _this.deleteBook = function (e) {
+			e.preventDefault();
+			var check = confirm('Are you sure you want to delete this book?');
+
+			if (check) {
+				_jQuery2.default.ajax({
+					url: apiUrl + '/books/' + _this.props.bookId,
+					type: 'DELETE'
+				}).then(function (res) {
+					window.location = "/dashboard";
+				});
+			}
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -59029,6 +59041,11 @@ var BookDetails = function (_React$Component) {
 					'a',
 					{ href: '/dashboard/edit/books/' + this.props.bookId, className: 'button toggleScreen' },
 					'Edit Book'
+				) : '',
+				this.props.authorized ? _react2.default.createElement(
+					'button',
+					{ onClick: this.deleteBook, className: 'button button-red toggleScreen' },
+					'Delete Book'
 				) : '',
 				_react2.default.createElement(
 					'div',

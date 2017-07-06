@@ -136,14 +136,20 @@ exports.getUserLibrary = (req, res)=>{
 	      model: 'Users',
 				select: 'name email'
      }}).lean().then((user)=>{
-			var count = user.following_books.length;
-			if(limit > 0){
-				var bookList = user.following_books.filter((user,index)=>{
-					return index > (skip - 1) && index < (skip + limit)
-				});
-			}else{
-				var bookList = user.following_books;
+			var books = [];
+			for (var i = 0; i < user.following_books.length; i++) {
+			 if(user.following_books[i].status > 0){
+				 books.push(user.following_books[i]);
+			 }
 			}
+		 var count = books.length;
+		 if(limit > 0){
+			 var bookList = books.filter((user,index)=>{
+				 return index > (skip - 1) && index < (skip + limit)
+			 });
+		 }else{
+			 var bookList = books;
+		 }
 			handle.res(res, bookList, count)
 	}).catch(err=>{
 		handle.err(res, err);
@@ -165,13 +171,19 @@ exports.getAuthorLibrary = (req, res)=>{
 	      model: 'Users',
 				select: 'name email'
      }}).lean().then((user)=>{
-			var count = user.following_books.length;
+			 var books = [];
+			 for (var i = 0; i < user.following_books.length; i++) {
+			 	if(user.following_books[i].status > 0){
+					books.push(user.following_books[i]);
+				}
+			 }
+			var count = books.length;
 			if(limit > 0){
-				var bookList = user.following_books.filter((user,index)=>{
+				var bookList = books.filter((user,index)=>{
 					return index > (skip - 1) && index < (skip + limit)
 				});
 			}else{
-				var bookList = user.following_books;
+				var bookList = books;
 			}
 			handle.res(res, bookList, count)
 	}).catch(err=>{
