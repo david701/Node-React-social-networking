@@ -47,8 +47,10 @@ class EditBookPage extends React.Component {
 
 	render(){
 		return(
-			<div id={this.state.screen}>
-				<EditBookContainer bookId={bookId} toggleStatus={this.state.status} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following} admin={this.state.admin} getBook={this.getBook}/>
+			<div id={this.state.screen} className="container">
+				<div>
+					<EditBookContainer bookId={bookId} toggleStatus={this.state.status} toggleScreen={this.toggleScreen} book={this.state.book} user={this.state.user} authorized={this.state.authorized} following={this.state.following} admin={this.state.admin} getBook={this.getBook}/>
+				</div>
 			</div>
 		)
 	}

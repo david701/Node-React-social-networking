@@ -54405,8 +54405,12 @@ var EditBookPage = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ id: this.state.screen },
-				_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following, admin: this.state.admin, getBook: this.getBook })
+				{ id: this.state.screen, className: 'container' },
+				_react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_EditBookContainer2.default, { bookId: bookId, toggleStatus: this.state.status, toggleScreen: this.toggleScreen, book: this.state.book, user: this.state.user, authorized: this.state.authorized, following: this.state.following, admin: this.state.admin, getBook: this.getBook })
+				)
 			);
 		}
 	}]);
@@ -60525,14 +60529,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var apiUrl = '/api/v1';
 
-var Placeholder = function Placeholder(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'content-block content-block-standard-new' },
-    _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
-  );
-};
-
 var EditBookContainer = function (_React$Component) {
   _inherits(EditBookContainer, _React$Component);
 
@@ -60674,12 +60670,27 @@ var EditBookContainer = function (_React$Component) {
           'div',
           { className: 'book-top-half' },
           _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.toggleSettings, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
-          _react2.default.createElement(Placeholder, null)
+          settings.slidesToShow === 2 && _react2.default.createElement(
+            'div',
+            { className: 'content-block content-block-standard-new ads' },
+            _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' }),
+            _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
+          )
+        ),
+        settings.slidesToShow === 1 && _react2.default.createElement(
+          'div',
+          { className: 'content-block content-block-standard-new full left' },
+          _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
         ),
         _react2.default.createElement(
           _reactSlick2.default,
           _extends({ ref: 'slider' }, settings),
           this.loadSlides(slides)
+        ),
+        settings.slidesToShow === 1 && _react2.default.createElement(
+          'div',
+          { className: 'content-block content-block-standard-new full right' },
+          _react2.default.createElement(_Ad.AdElement, { page: 'dashboard' })
         )
       );
     }

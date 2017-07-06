@@ -24,6 +24,16 @@
 	display: none;
 }
 
+.content-block.content-block-standard-new.ads {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    overflow: visible;
+    .placeholder {
+		height: 10.1em;
+    }
+}
+
 //Night Mode
 .type-of-book {
     width: 25px;
@@ -563,4 +573,47 @@ button:disabled {
 #dashboard-create #description {
     max-width: 650px;
     width: 100%;
+}
+#full-screen .slick-slider {
+	max-width: 700px;
+	width: 100%;
+	margin: 0 auto;
+	display: inline-block;
+}
+#full-screen .content-block.content-block-standard-new.full {
+    background: none;
+    box-shadow: none;
+    width: 141px;
+    display: inline-block;
+    padding: 0;
+    height: 100%;
+    vertical-align: top;
+    white-space: nowrap;
+    margin: 0 2em;
+}
+#full-screen .content-block.content-block-standard-new.full.left {
+	margin: 0 50px 0 0;
+}
+#full-screen .content-block.content-block-standard-new.full.right {
+	margin: 0 0 0 50px;
+}
+#full-screen #edit-book {
+    width: 95%;
+    text-align: center;
+
+}
+#full-screen {
+    width: 100%;
+    text-align: center;
+}
+#full-screen .placeholder {
+	height: 38em;
+}
+#full-screen > div > div {
+    display: inline-block;
+    margin: 0 auto;
+    text-align: left;
+    .review-area textarea {
+    	min-height: 365px;
+    }
 }
