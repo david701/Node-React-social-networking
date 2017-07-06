@@ -26,11 +26,27 @@ export default class EditBookContainer extends React.Component {
 		chapters: [],
 		reviews: [],
 		claim:false,
-		claimContent:''
+		claimContent:'',
+    settings: {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      dotsClass: 'slick-dots pagination'
+    }
 	};
 
   componentDidMount() {
     this.loadChapters();
+  }
+
+  toggleSettings = () => {
+    console.log('go')
+    let {settings} = this.state;
+    settings.slidesToShow = (settings.slidesToShow === 1) ? 2 : 1
+
+    this.setState({settings: settings})
   }
 
   loadChapters = () => {
@@ -116,15 +132,7 @@ export default class EditBookContainer extends React.Component {
 
   render() {
     const { bookId } = this.props;
-    const { chapters, selectedChapter } = this.state;
-    const settings = {
-      dots: true,
-      infinite: false,
-      speed: 500,
-      slidesToShow: 2,
-      slidesToScroll: 1,
-      dotsClass: 'slick-dots pagination'
-    };
+    const { chapters, selectedChapter, settings } = this.state;
     const slides = [
       <DescriptionContainer claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
       <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
@@ -133,7 +141,7 @@ export default class EditBookContainer extends React.Component {
       <div>
 				{this.state.claim?(<Claims book={this.props.book} user={this.props.user} claimContent={this.state.claimContent} submitClaim={this.submitClaim} cancelClaim={this.cancelClaim} _onChange={this._onChange}/>):''}
         <div className="book-top-half">
-          <DetailsContainer slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
+          <DetailsContainer toggleSettings={this.toggleSettings} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           <Placeholder />
         </div>
         <Slider ref='slider' {...settings}>

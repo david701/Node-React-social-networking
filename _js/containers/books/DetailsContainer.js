@@ -28,11 +28,12 @@ export default class DetailsContainer extends React.Component {
 				type={this.state.type}
 				bookId={this.props.bookId}
 				book={this.props.book}
-        length={this.props.length}
-        slider={this.props.slider}
-        title={bookTitle}
-        author={this.state.author}
-        rating={this.props.rating}
+        		length={this.props.length}
+        		slider={this.props.slider}
+        		title={bookTitle}
+        		author={this.state.author}
+        		rating={this.props.rating}
+        		toggleSettings={this.props.toggleSettings}
 				following={this.props.following}
 				authorized={this.props.authorized}
 				toggleScreen={this.props.toggleScreen}

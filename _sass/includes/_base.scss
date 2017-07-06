@@ -9,6 +9,21 @@
     width: 24px;
 }
 
+#full-screen .author-area {
+    display: inline-block;
+    line-height: 38px;
+    margin: 0 0 0 10px;
+}
+
+#full-screen .table-of-contents {
+    top: 40px;
+    position: absolute;
+}
+
+#full-screen .rating-display {
+	display: none;
+}
+
 //Night Mode
 .type-of-book {
     width: 25px;

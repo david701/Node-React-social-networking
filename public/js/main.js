@@ -57774,11 +57774,15 @@ var BookDetails = function (_React$Component) {
 						{ className: 'book-title' },
 						this.props.title
 					),
-					'By ',
 					_react2.default.createElement(
-						'a',
-						{ className: 'author-name', href: "/author/" + (this.props.book ? this.props.book.author._id : "") },
-						this.props.book ? this.props.book.author.name : ""
+						'span',
+						{ className: 'author-area' },
+						'By ',
+						_react2.default.createElement(
+							'a',
+							{ className: 'author-name', href: "/author/" + (this.props.book ? this.props.book.author._id : "") },
+							this.props.book ? this.props.book.author.name : ""
+						)
 					),
 					_react2.default.createElement(_Rating2.default, { stars: rating }),
 					_react2.default.createElement(
@@ -57833,7 +57837,9 @@ var BookDetails = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'button',
-					{ onClick: this.props.toggleScreen, className: 'button toggleScreen', value: 'true' },
+					{ onClick: function onClick() {
+							_this2.props.toggleScreen();_this2.props.toggleSettings();
+						}, className: 'button toggleScreen', value: 'true' },
 					this.props.toggleStatus
 				),
 				this.props.authorized ? _react2.default.createElement(
@@ -60439,6 +60445,7 @@ var DetailsContainer = function (_React$Component) {
 				title: bookTitle,
 				author: this.state.author,
 				rating: this.props.rating,
+				toggleSettings: this.props.toggleSettings,
 				following: this.props.following,
 				authorized: this.props.authorized,
 				toggleScreen: this.props.toggleScreen,
@@ -60545,7 +60552,22 @@ var EditBookContainer = function (_React$Component) {
       chapters: [],
       reviews: [],
       claim: false,
-      claimContent: ''
+      claimContent: '',
+      settings: {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        dotsClass: 'slick-dots pagination'
+      }
+    }, _this.toggleSettings = function () {
+      console.log('go');
+      var settings = _this.state.settings;
+
+      settings.slidesToShow = settings.slidesToShow === 1 ? 2 : 1;
+
+      _this.setState({ settings: settings });
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
         var nextState = { chapters: res.data };
@@ -60640,16 +60662,9 @@ var EditBookContainer = function (_React$Component) {
       var bookId = this.props.bookId;
       var _state = this.state,
           chapters = _state.chapters,
-          selectedChapter = _state.selectedChapter;
+          selectedChapter = _state.selectedChapter,
+          settings = _state.settings;
 
-      var settings = {
-        dots: true,
-        infinite: false,
-        speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        dotsClass: 'slick-dots pagination'
-      };
       var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
@@ -60658,7 +60673,7 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'book-top-half' },
-          _react2.default.createElement(_DetailsContainer2.default, { slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.toggleSettings, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           _react2.default.createElement(Placeholder, null)
         ),
         _react2.default.createElement(

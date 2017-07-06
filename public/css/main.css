@@ -692,6 +692,18 @@ body {
   height: 24px;
   width: 24px; }
 
+#full-screen .author-area {
+  display: inline-block;
+  line-height: 38px;
+  margin: 0 0 0 10px; }
+
+#full-screen .table-of-contents {
+  top: 40px;
+  position: absolute; }
+
+#full-screen .rating-display {
+  display: none; }
+
 .type-of-book {
   width: 25px;
   height: 25px;
@@ -1810,11 +1822,15 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
   display: inline-block;
   width: 50%; }
 
-#full-screen .table-of-contents {
-  bottom: 5px; }
-
 #full-screen .book-top-half .go-to-chapter {
-  display: none; }
+  right: initial;
+  left: 258px;
+  bottom: initial;
+  top: 35px;
+  line-height: 33px; }
+  #full-screen .book-top-half .go-to-chapter .slide-to-chapter {
+    background: #fff;
+    border: solid 1px #e6e6e6; }
 
 #full-screen .book-top-half .content-block:first-child {
   height: 5em;
@@ -1834,7 +1850,6 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
   display: none; }
 
 #full-screen .book-top-half .profile-info .book-title {
-  width: 100%;
   float: left;
   font-size: 28px; }
 
@@ -1998,7 +2013,7 @@ hr.dividers {
   display: none; }
 
 #full-screen .slick-dots li:last-child {
-  display: block; }
+  display: inline-block; }
 
 .slick-dots {
   bottom: -45px; }
