@@ -688,6 +688,10 @@ table {
 body {
   -webkit-text-size-adjust: 100%; }
 
+.social-links img {
+  height: 24px;
+  width: 24px; }
+
 .type-of-book {
   width: 25px;
   height: 25px;
