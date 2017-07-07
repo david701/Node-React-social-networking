@@ -87,7 +87,7 @@ export default class UserBooks extends React.Component {
 							<div className="content-block content-block-book">
 								<figure>
 									<div className="cover" style={{position: 'relative'}}>
-										<div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5'}}>+</div>
+										<div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5', color: '#005876'}}>+</div>
 									</div>
 									<figcaption>
 										<h4>Add Book</h4>

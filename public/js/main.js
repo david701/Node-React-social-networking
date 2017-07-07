@@ -34538,7 +34538,15 @@ var Reader = function (_React$Component) {
 				) : _react2.default.createElement(
 					'div',
 					null,
-					'You haven\'t written anything yet'
+					this.props.authorized ? _react2.default.createElement(
+						'div',
+						null,
+						'You haven\'t written anything yet'
+					) : _react2.default.createElement(
+						'div',
+						null,
+						'Nothing has been written yet'
+					)
 				)
 			);
 		}
@@ -34940,13 +34948,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ClaimDetailsModal = function ClaimDetailsModal(props) {
 	return _react2.default.createElement(
 		'div',
-		{ className: 'modal', style: { visibility: 'visible', opacity: 1 } },
+		{ className: 'modal claim', style: { visibility: 'visible', opacity: 1 } },
 		_react2.default.createElement(
 			'div',
 			{ className: 'overlay', onClick: props.cancelClaim },
 			_react2.default.createElement(
 				'div',
-				{ className: 'content-block content-block-standard', style: { marginTop: '-20%' } },
+				{ className: 'content-block content-block-standard' },
 				_react2.default.createElement(
 					'form',
 					null,
@@ -52805,6 +52813,7 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.viewClaim = function (i) {
+			console.log('good');
 			_this.setState({ claim: true, selectedClaim: _this.state.bookClaims[i] });
 		};
 
@@ -60136,7 +60145,7 @@ var UserBooks = function (_React$Component) {
 									{ className: 'cover', style: { position: 'relative' } },
 									_react2.default.createElement(
 										'div',
-										{ style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5' } },
+										{ style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5', color: '#005876' } },
 										'+'
 									)
 								),
@@ -60441,8 +60450,37 @@ var BrawlAdmin = function (_React$Component) {
 		};
 
 		_this.getBrawls = function () {
+			var newBrawl = {
+				book_a: {
+					_id: "",
+					author: {
+						_id: "0",
+						name: "Brawler Name",
+						avatar: "/assets/images/blank-dog.png"
+					},
+					cover: "/assets/images/default-brawl-art.jpg",
+					title: "Some Book",
+					rating: 0
+				},
+				book_a_vote: [],
+				book_b: {
+					_id: "",
+					author: {
+						_id: "1",
+						name: "Brawler Name",
+						avatar: "/assets/images/blank-cat.png"
+					},
+					cover: "/assets/images/default-brawl-art.jpg",
+					title: "Some Book",
+					rating: 0
+				},
+				book_b_vote: [],
+				_id: "0"
+			};
 			_jQuery2.default.get('/api/v1/brawls').then(function (brawls) {
-				_this.setState({ currentBrawl: brawls.data[0], oldBrawls: brawls.data, title: "Current Brawl", startBrawl: false });
+				var currentBrawl = brawls.data.length ? brawls.data[0] : newBrawl;
+				var title = brawls.data.length ? 'Current Brawl' : 'Create Brawl';
+				_this.setState({ currentBrawl: currentBrawl, oldBrawls: brawls.data, title: title, startBrawl: false });
 				_this.getCurrentBrawls();
 			});
 		};
@@ -60829,7 +60867,7 @@ var Brawl = function (_React$Component) {
 				_react2.default.createElement(
 					'main',
 					null,
-					currentBrawl.map(function (brawl, i) {
+					currentBrawl.length ? currentBrawl.map(function (brawl, i) {
 
 						var votedForA = _jQuery2.default.inArray(me._id, brawl.book_a_vote) === 0;
 						var votedForB = _jQuery2.default.inArray(me._id, brawl.book_b_vote) === 0;
@@ -60849,7 +60887,15 @@ var Brawl = function (_React$Component) {
 							{ key: i, className: latestBrawl ? "week week-this" : "week week-last" },
 							_react2.default.createElement(_Brawlers2.default, { isAdmin: false, showAvatar: 'true', brawl: brawl, vote: $this.vote, user: me, title: title, showResultsBy: 'percentage', onFollow: $this.followBook, unFollow: $this.unfollowBook })
 						);
-					})
+					}) : _react2.default.createElement(
+						'div',
+						{ className: 'empty book' },
+						_react2.default.createElement(
+							'div',
+							null,
+							'The Very First Book Brawl will start soon!'
+						)
+					)
 				),
 				_react2.default.createElement(
 					'footer',

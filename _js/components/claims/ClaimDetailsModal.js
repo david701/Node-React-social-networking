@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const ClaimDetailsModal = props => (
-	<div className="modal" style={{visibility:'visible', opacity:1}}>
+	<div className="modal claim" style={{visibility:'visible', opacity:1}}>
 		<div className="overlay" onClick={props.cancelClaim}>
-			<div className="content-block content-block-standard" style={{marginTop:'-20%'}}>
+			<div className="content-block content-block-standard">
 				<form>
 					<div className="title-row" style={{ marginBottom: 0 }}>
 						<h4>Claim Details</h4>

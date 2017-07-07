@@ -691,6 +691,21 @@ body {
   height: 24px;
   width: 24px; }
 
+.empty.book {
+  height: 400px;
+  text-align: center;
+  line-height: 400px;
+  width: 100%;
+  font-weight: bold;
+  color: rgba(0, 88, 118, 0.85); }
+  .empty.book div {
+    display: inline-block;
+    background: #fff;
+    padding: 40px 50px 40px 50px;
+    line-height: normal;
+    position: relative;
+    top: -20px; }
+
 #full-screen .author-area {
   display: inline-block;
   line-height: 38px;
@@ -2178,9 +2193,6 @@ hr.dividers {
     #night-mode .content-block-standard-new .lead {
       font-size: 1.0625em;
       text-align: center; }
-    #night-mode .content-block-standard-new h4 {
-      font-size: 1.25em;
-      margin-bottom: 1em; }
     #night-mode .content-block-standard-new h4.book-title {
       color: #0FAFFF;
       margin-bottom: 0; }
@@ -2192,8 +2204,6 @@ hr.dividers {
     #night-mode .content-block-standard-new label {
       margin-bottom: 0.25em;
       color: #005876; }
-    #night-mode .content-block-standard-new li {
-      margin-bottom: 1em; }
     #night-mode .content-block-standard-new .rating-display {
       margin: 0.25em 0 0.5em 0; }
     #night-mode .content-block-standard-new textarea {

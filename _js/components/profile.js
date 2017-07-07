@@ -166,6 +166,7 @@ class Parent extends React.Component {
 	}
 
 	viewClaim = (i)=>{
+		console.log('good')
 		this.setState({claim:true, selectedClaim:this.state.bookClaims[i]});
 	}
 
