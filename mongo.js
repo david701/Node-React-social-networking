@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 
 const	Schema = mongoose.Schema;
 
-const mongo = mongoose.connect('mongodb://adminuser:bookbrawl@ds155080.mlab.com:55080/bb-dev')
+if(process.env.NODE_ENV == 'production'){
+	var mongo =  mongoose.connect('mongodb://localhost/bookbrawl')
+}else{
+	var mongo = mongoose.connect('mongodb://adminuser:bookbrawl@ds155080.mlab.com:55080/bb-dev')
+}
 
 mongoose.connection.on('connected', ()=>{console.log('Connected to DB');});
 mongoose.connection.on('error', ()=>{throw new Error('Cannot connect to DB');});
