@@ -404,18 +404,6 @@
         }
     }
 
-
-    // Container
-    // ---------
-    .container {
-        margin: 0 auto;
-        width: calc(100% - #{$gutter});
-        min-width: calc(#{em(320)} - #{$gutter});
-        @include w1000 {
-            width: $col-12-lim;
-        }
-    }
-
     // Standard Section
     // ----------------
     .standard-section {

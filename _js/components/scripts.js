@@ -30,12 +30,12 @@ $(document).ready(function() {
   });
 
     // Brawl week switching
-    $('.week-control-last').click(function(e) {
+    $(document).on('click', '.week-control-last',function(e) {
         e.preventDefault();
         $('.brawl-feature').addClass('last-week-showing');
     });
 
-    $('.week-control-this').click(function(e) {
+    $(document).on('click', '.week-control-this',function(e) {
         e.preventDefault();
         $('.brawl-feature').removeClass('last-week-showing');
     });

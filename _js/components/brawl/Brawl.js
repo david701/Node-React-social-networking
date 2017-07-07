@@ -62,16 +62,21 @@ export default class Brawl extends React.Component {
 		let brawlDeclared, isLatestBrawl;
 		let currentResult = "Please Vote";
 		let lastResult = "Please Vote";
+		console.log('go')
 
 		return (
 			<section className="brawl-feature" id="home">
 					<header>
 						<div className="container">
 							<div className="flex-row">
-									<a href="#last-week" className="week-control-last">
-										<span className="label label-small">Previous</span>
-										<span className="label label-large">Last Week’s Brawl</span>
-									</a>
+										{currentBrawl.length > 1 &&
+											<a href="#last-week" className="week-control-last">
+												<div>
+													<span className="label label-small">Previous</span>
+													<span className="label label-large">Last Week’s Brawl</span>
+												</div>
+											</a>
+										}
 								<h2>
 									<span className="week-title week-title-this">{title}</span>
 									<span className="week-title week-title-last">Last Week’s Brawl</span>
@@ -101,7 +106,7 @@ export default class Brawl extends React.Component {
 								}
 
 								return (
-									<div key={i} className={latestBrawl ? "week week-this" : "week week-last"}>
+									<div key={i} className={currentBrawl.length === 1 ? "week-this" : latestBrawl ? "week week-this" : "week week-last"}>
 										<Brawlers isAdmin={false} showAvatar="true" brawl={brawl} vote={$this.vote} user={me} title={title} showResultsBy="percentage" onFollow={$this.followBook} unFollow={$this.unfollowBook}/>
 									</div>
 								)

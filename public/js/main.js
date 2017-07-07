@@ -53963,12 +53963,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     });
 
     // Brawl week switching
-    (0, _jquery2.default)('.week-control-last').click(function (e) {
+    (0, _jquery2.default)(document).on('click', '.week-control-last', function (e) {
         e.preventDefault();
         (0, _jquery2.default)('.brawl-feature').addClass('last-week-showing');
     });
 
-    (0, _jquery2.default)('.week-control-this').click(function (e) {
+    (0, _jquery2.default)(document).on('click', '.week-control-this', function (e) {
         e.preventDefault();
         (0, _jquery2.default)('.brawl-feature').removeClass('last-week-showing');
     });
@@ -60806,6 +60806,7 @@ var Brawl = function (_React$Component) {
 			    isLatestBrawl = void 0;
 			var currentResult = "Please Vote";
 			var lastResult = "Please Vote";
+			console.log('go');
 
 			return _react2.default.createElement(
 				'section',
@@ -60819,18 +60820,22 @@ var Brawl = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'flex-row' },
-							_react2.default.createElement(
+							currentBrawl.length > 1 && _react2.default.createElement(
 								'a',
 								{ href: '#last-week', className: 'week-control-last' },
 								_react2.default.createElement(
-									'span',
-									{ className: 'label label-small' },
-									'Previous'
-								),
-								_react2.default.createElement(
-									'span',
-									{ className: 'label label-large' },
-									'Last Week\u2019s Brawl'
+									'div',
+									null,
+									_react2.default.createElement(
+										'span',
+										{ className: 'label label-small' },
+										'Previous'
+									),
+									_react2.default.createElement(
+										'span',
+										{ className: 'label label-large' },
+										'Last Week\u2019s Brawl'
+									)
 								)
 							),
 							_react2.default.createElement(
@@ -60884,7 +60889,7 @@ var Brawl = function (_React$Component) {
 
 						return _react2.default.createElement(
 							'div',
-							{ key: i, className: latestBrawl ? "week week-this" : "week week-last" },
+							{ key: i, className: currentBrawl.length === 1 ? "week-this" : latestBrawl ? "week week-this" : "week week-last" },
 							_react2.default.createElement(_Brawlers2.default, { isAdmin: false, showAvatar: 'true', brawl: brawl, vote: $this.vote, user: me, title: title, showResultsBy: 'percentage', onFollow: $this.followBook, unFollow: $this.unfollowBook })
 						);
 					}) : _react2.default.createElement(
