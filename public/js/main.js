@@ -62047,7 +62047,7 @@ var LoginButtons = function (_React$Component) {
 										_react2.default.createElement(
 											'span',
 											null,
-											'Search'
+											'Advance Search'
 										)
 									)
 								),
