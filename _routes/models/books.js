@@ -410,7 +410,6 @@ exports.unfollowBook = (req, res)=>{
 }
 
 exports.addChapter = (req, res)=>{
-
   var book_id = req.params.id;
 
   if(!book_id || !req.body.number || !req.body.content || !req.body.name){
@@ -429,9 +428,11 @@ exports.addChapter = (req, res)=>{
         }
         var chapter = new mongoChapter(chapterInfo);
         chapter.save().then((chapter)=>{
-					xp.chapter(req.session._id, (err, user)=>{
-						res.json({status: 'ok', data: chapter});
-					})
+						mongoBook.findOne({_id: book_id}).then((book)=>{
+							xp.chapter(book.author, (err, user)=>{
+								res.json({status: 'ok', data: chapter});
+							});
+						})
         })
       }
     }).catch(function(err){
