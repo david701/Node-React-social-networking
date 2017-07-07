@@ -31,49 +31,12 @@
     .brawl-feature {
         position: relative;
         header {
-            height: em(59);
             background-color: rgba($black, 0.85);
-            padding: em(6) 0 em(8);
             color: $white;
-            position: absolute;
-            left: 0;
-            width: 100%;
-            box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
-            @include n640 {
-                height: em(41);
-            }
             .flex-row {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                h2 {
-                    position: relative;
-                    width: 10em;
-                    text-align: center;
-                    height: rem(28);
-                    @include w640 {
-                        height: rem(45);
-                    }
-                    .week-title {
-                        display: block;
-                        position: absolute;
-                        width: 100%;
-                        transition: opacity $timing-slower, visibility $timing-slower, transform $timing-slower;
-                        &-this {
-                            opacity: 1;
-                            visibility: visible;
-                            transform: translateX(0);
-                        }
-                        &-last {
-                            opacity: 0;
-                            visibility: hidden;
-                            transform: translateX(-2em);
-                        }
-                    }
-                    @include n640 {
-                        font-size: em(16);
-                    }
-                }
                 .label {
                     @include n640 {
                         font-size: em(15);
@@ -203,15 +166,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding: em(59+6) 0 em(0);
             display: flex;
             width: 100vw;
-            @include w640 {
-                padding: em(59+50) 0 em(24);
-            }
-            @include w1000 {
-                width: calc(100vw - #{em(200)});
-            }
             .week {
                 flex-shrink: 0;
                 display: flex;
@@ -237,34 +193,8 @@
                     justify-content: space-between;
                 }
                 .mascot {
-                    max-width: em(244);
-                    display: none;
-                    margin-top: em(32);
-                    position: relative;
-                    @include w1000 {
-                        width: 25%;
-                        margin-top: 0;
-                        margin-bottom: em(28);
-                    }
-                    @include w640 {
-                        display: block;
-                    }
                     img {
                         width: 100%;
-                    }
-                    @include w1000 {
-                        &:last-of-type {
-                            img {
-                                position: relative;
-                                left: em(11);
-                                width: calc(100% - #{em(7)});
-                            }
-                            &.your-pick {
-                                &:after {
-                                    left: em(6);
-                                }
-                            }
-                        }
                     }
                     .vote-count {
                         position: absolute;
@@ -366,6 +296,17 @@
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 .brawl-feature {
     position: relative;
@@ -599,11 +540,6 @@
                 }
                 @include w1000 {
                     &:last-of-type {
-                        img {
-                            position: relative;
-                            left: em(11);
-                            width: calc(100% - #{em(7)});
-                        }
                         &.your-pick {
                             &:after {
                                 left: em(6);
