@@ -58966,7 +58966,7 @@ var UserBooks = function (_React$Component) {
 									{ className: 'cover', style: { position: 'relative' } },
 									_react2.default.createElement(
 										'div',
-										{ style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5' } },
+										{ style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5', color: '#005876' } },
 										'+'
 									)
 								),
