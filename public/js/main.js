@@ -54932,10 +54932,10 @@ var DashboardCreate = function (_Component) {
         // const coverFile = upload.target.result;
         _this.setState({ coverFile: upload.target.result });
         //toggle submit
-        (0, _validation.formValid)(event);
+        //formValid(event);
       };
       //toggle submit
-      (0, _validation.formValid)(e);
+      //formValid(e);
       reader.readAsDataURL(file);
     }, _this._handleGenre = function (e) {
       var temp_genres = _this.state.genres;
