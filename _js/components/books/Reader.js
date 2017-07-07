@@ -11,7 +11,13 @@ export default class Reader extends React.Component{
 							<div className="reader" dangerouslySetInnerHTML={{__html: this.props.content}}></div>
 						</div>
 					 ) : (
-					 <div>You haven't written anything yet</div>
+					 <div>
+						 {this.props.authorized ? (
+						 	<div>You haven't written anything yet</div>
+						 ) : (
+						 	<div>Nothing has been written yet</div>
+						 )}
+					 </div>
 					)}
 			</div>
 		)

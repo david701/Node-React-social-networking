@@ -314,7 +314,9 @@ class Author extends React.Component{
 		                          <div className="content-block content-block-book">
 		                           <BookType type={book.type}/>
 		                            <figure>
-		                              <div className="cover pending">
+		                              <div className="cover"
+																		style={{
+																			backgroundImage: book.cover ? "url("+book.cover+")": "url('/assets/images/default-cover-art.jpg')"}}>
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
 		                                  {self.state.me.role > 0 &&

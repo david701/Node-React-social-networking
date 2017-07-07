@@ -166,6 +166,7 @@ class Parent extends React.Component {
 	}
 
 	viewClaim = (i)=>{
+		console.log('good')
 		this.setState({claim:true, selectedClaim:this.state.bookClaims[i]});
 	}
 
@@ -215,7 +216,7 @@ class Parent extends React.Component {
 	}
 
 	loadBooks = id => {
-		$.get(`${apiUrl}/users/${id}/books?limit=7`)
+		$.get(`${apiUrl}/users/${id}/books?limit=7&status=1`)
 			.then(res => {
 				this.setState({books: res.data})
 			})

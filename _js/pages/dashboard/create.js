@@ -73,10 +73,10 @@ class DashboardCreate extends Component {
       // const coverFile = upload.target.result;
       this.setState({coverFile: upload.target.result});
       //toggle submit
-      formValid(event);
+      //formValid(event);
     };
     //toggle submit
-    formValid(e);
+    //formValid(e);
     reader.readAsDataURL(file);
   }
 
