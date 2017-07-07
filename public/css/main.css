@@ -692,6 +692,21 @@ body {
   height: 24px;
   width: 24px; }
 
+.empty.book {
+  height: 400px;
+  text-align: center;
+  line-height: 400px;
+  width: 100%;
+  font-weight: bold;
+  color: rgba(0, 88, 118, 0.85); }
+  .empty.book div {
+    display: inline-block;
+    background: #fff;
+    padding: 40px 50px 40px 50px;
+    line-height: normal;
+    position: relative;
+    top: -20px; }
+
 #full-screen .author-area {
   display: inline-block;
   line-height: 38px;

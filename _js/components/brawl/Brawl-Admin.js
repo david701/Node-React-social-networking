@@ -165,8 +165,37 @@ export default class BrawlAdmin extends React.Component {
 	}
 
 	getBrawls = () => {
+		let newBrawl = {
+		  	book_a: {
+		        _id:"",
+		        author:{
+		           _id:"0",
+		           name:"Brawler Name",
+		           avatar:"/assets/images/blank-dog.png"
+		        },
+		        cover:"/assets/images/default-brawl-art.jpg",
+		        title:"Some Book",
+		        rating:0
+			},
+			book_a_vote: [],
+		    book_b: {
+		        _id:"",
+		        author:{
+		           _id:"1",
+		           name:"Brawler Name",
+		           avatar:"/assets/images/blank-cat.png"
+		        },
+		        cover:"/assets/images/default-brawl-art.jpg",
+		        title:"Some Book",
+		        rating:0
+		    },
+		    book_b_vote: [],
+		    _id: "0"
+		}
 		$.get('/api/v1/brawls').then((brawls)=>{
-			this.setState({currentBrawl: brawls.data[0], oldBrawls: brawls.data, title: "Current Brawl", startBrawl: false});
+			let currentBrawl = brawls.data.length ? brawls.data[0] : newBrawl;
+			let title = brawls.data.length ? 'Current Brawl' : 'Create Brawl';
+			this.setState({currentBrawl: currentBrawl, oldBrawls: brawls.data, title: title, startBrawl: false});
 			this.getCurrentBrawls();
 		})
 	}

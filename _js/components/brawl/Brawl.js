@@ -84,7 +84,7 @@ export default class Brawl extends React.Component {
 						</div>
 					</header>
 					<main>
-						{
+						{currentBrawl.length ? (
 							currentBrawl.map(function(brawl, i){
 
 								let votedForA = $.inArray(me._id,brawl.book_a_vote) === 0;
@@ -106,6 +106,12 @@ export default class Brawl extends React.Component {
 									</div>
 								)
 							})
+
+							) : (
+								<div className="empty book">
+										<div>The Very First Book Brawl will start soon!</div>
+								</div>
+							)
 						}
 					</main>
 					<footer>
