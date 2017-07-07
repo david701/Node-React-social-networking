@@ -215,7 +215,7 @@ class Parent extends React.Component {
 	}
 
 	loadBooks = id => {
-		$.get(`${apiUrl}/users/${id}/books?limit=7`)
+		$.get(`${apiUrl}/users/${id}/books?limit=7&status=1`)
 			.then(res => {
 				this.setState({books: res.data})
 			})

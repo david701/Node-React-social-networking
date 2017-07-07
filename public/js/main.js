@@ -50988,7 +50988,9 @@ var Author = function (_React$Component) {
 											null,
 											_react2.default.createElement(
 												'div',
-												{ className: 'cover pending' },
+												{ className: 'cover',
+													style: {
+														backgroundImage: book.cover ? "url(" + book.cover + ")" : "url('/assets/images/default-cover-art.jpg')" } },
 												_react2.default.createElement(
 													'div',
 													{ className: 'overlay' },
@@ -52852,7 +52854,7 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.loadBooks = function (id) {
-			_jquery2.default.get(apiUrl + '/users/' + id + '/books?limit=7').then(function (res) {
+			_jquery2.default.get(apiUrl + '/users/' + id + '/books?limit=7&status=1').then(function (res) {
 				_this.setState({ books: res.data });
 			});
 		};

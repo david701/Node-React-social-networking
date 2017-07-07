@@ -14,7 +14,6 @@ const xp = require('../helpers/achievements.js');
 
 const saveImage = (bookId, img, cb) => {
 	var url = '/uploads/covers/';
-
 	var base64Data = img.replace(/^data:image\/png;base64,/, "");
 	require("fs").writeFile('public' + url + bookId + ".png", base64Data, 'base64', function(err) {
 		if(!err){
@@ -105,8 +104,9 @@ exports.getUserBooks = (req, res)=>{
   var limit  = parseInt(req.query.limit) || 0
 			page = parseInt(req.query.page) || 1,
 			skip = (page - 1) * limit;
+			status = req.query.status || 2;
 
-  mongoBook.find({author: req.params.id}).where('status').gt(0).sort( [['_id', -1]] ).limit(limit).skip(skip).populate('author', 'name avatar').then((books)=>{
+  mongoBook.find({author: req.params.id}).where('status').gte(status).sort( [['_id', -1]] ).limit(limit).skip(skip).populate('author', 'name avatar').then((books)=>{
     if(!books){
       handle.err(res, 'No books for current user');
     }else{
@@ -268,8 +268,10 @@ exports.createBook = (req, res)=>{
   book.author = req.session._id;
   book.status = 1;
 
+	var coverUrl = req.session._id + book.title + (Math.floor(Math.random() * (1 - 200000000000000)) + 200000000000000);
+
 	if(book.cover){
-		saveImage(book._id, book.cover, function(err, url){
+		saveImage(coverUrl, book.cover, function(err, url){
 			if(err){
 				console.log(err);
 				handle.err(res, err.message);
