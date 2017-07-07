@@ -34444,14 +34444,19 @@ var Library = function (_Component) {
           author = _props.author,
           title = _props.title,
           showBrawl = _props.showBrawl,
-          me = _props.me;
+          me = _props.me,
+          user = _props.user;
 
       var href = "#";
 
-      if (title === "My Library") {
-        href = "/books/all?view=user-library";
-      } else if (title === "My Books") {
-        href = "/books/all?view=user-books";
+      if (user._id !== me._id) {
+        href = "/books/all?view=user-library&library_id=" + user._id;
+      } else {
+        if (title === "My Library") {
+          href = "/books/all?view=user-library";
+        } else if (title === "My Books") {
+          href = "/books/all?view=user-books";
+        }
       }
 
       return _react2.default.createElement(
@@ -55625,7 +55630,9 @@ var ViewAll = function (_React$Component) {
 			books: [],
 			authors: [],
 			limit: 20,
-			count: 0
+			count: 0,
+			status: query.status || '',
+			library_id: query.library_id || ''
 		}, _this.getUser = function () {
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
 				if (user.data._id) {
@@ -55696,21 +55703,48 @@ var ViewAll = function (_React$Component) {
 		}, _this.getUserBooks = function (page) {
 			var page = page || _this.state.page;
 			var query = apiUrl + '/users/' + _this.state.user._id + '/books?limit=' + _this.state.limit + '&page=' + page;
+
+			if (_this.state.status) {
+				query = query + '&status=' + _this.state.status;
+			}
+
 			_jQuery2.default.get(query).then(function (books) {
 				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Books' });
 			});
 		}, _this.getAuthorBooks = function (page) {
 			var page = page || _this.state.page;
 			var query = apiUrl + '/users/' + _this.state.author_id + '/books?limit=' + _this.state.limit + '&page=' + page;
-			_jQuery2.default.get(query).then(function (books) {
-				_this.setState({ books: books.data, count: books.count, title: 'Books By ' });
+
+			if (_this.state.status) {
+				query = query + '&status=' + _this.state.status;
+			}
+			_jQuery2.default.get(apiUrl + '/users/' + _this.state.author_id).then(function (author) {
+				author = author.data;
+				_jQuery2.default.get(query).then(function (books) {
+					_this.setState({ books: books.data, count: books.count, title: 'Books By ' + author.name });
+				});
 			});
 		}, _this.getUserLibrary = function (page) {
 			var query = apiUrl + '/books/library?limit=' + _this.state.limit;
 			var page = page || _this.state.page;
-			_jQuery2.default.get(query + '&page=' + page).then(function (books) {
-				_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Library' });
-			});
+
+			if (_this.state.status) {
+				query = query + '&status=' + _this.state.status;
+			}
+
+			if (_this.state.library_id) {
+				query = query + '&library_id=' + _this.state.library_id;
+				_jQuery2.default.get(apiUrl + '/users/' + _this.state.library_id).then(function (library) {
+					library = library.data;
+					_jQuery2.default.get(query + '&page=' + page).then(function (books) {
+						_this.setState({ books: books.data, count: books.count, title: 'Viewing ' + library.name + '\'s Library' });
+					});
+				});
+			} else {
+				_jQuery2.default.get(query + '&page=' + page).then(function (books) {
+					_this.setState({ books: books.data, count: books.count, title: 'Viewing Your Library' });
+				});
+			}
 		}, _this.getBooks = function (page) {
 			var query = apiUrl + '/books?limit=' + _this.state.limit,
 			    title = 'Viewing All Books';
@@ -55720,6 +55754,10 @@ var ViewAll = function (_React$Component) {
 			if (_this.state.view == 'recommended') {
 				query + '/recommended' + query;title = 'Viewing Recommended';
 			}
+			if (_this.state.view == 'trending') {
+				query = query + '&sort=-rating';title = 'Viewing Trending';
+			}
+
 			if (_this.state.bookTitle) {
 				query = query + '&title=' + _this.state.bookTitle;
 			}
@@ -55734,6 +55772,9 @@ var ViewAll = function (_React$Component) {
 			}
 			if (_this.state.genres) {
 				query = query + '&genres=' + _this.state.genres;title = title + ' : ' + _this.state.genres;
+			}
+			if (_this.state.status) {
+				query = query + '&status=' + _this.state.status;
 			}
 
 			if (_this.state.view == 'search') title = 'Search Results';
@@ -62995,7 +63036,7 @@ var LoginButtons = function (_React$Component) {
 											null,
 											_react2.default.createElement(
 												'a',
-												{ href: '/books/all?view=top' },
+												{ href: '/books/all?view=trending' },
 												'Trending'
 											)
 										),

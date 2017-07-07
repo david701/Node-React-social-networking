@@ -127,8 +127,10 @@ exports.getUserLibrary = (req, res)=>{
 			page = parseInt(req.query.page) || 1,
 			skip = (page - 1) * limit;
 
+	var user_id = req.session._id;
+	if(req.query.library_id){user_id = req.query.library_id}
 
-	mongoUser.findOne({_id: req.session._id}).populate({
+	mongoUser.findOne({_id: user_id}).populate({
 			path: 'following_books',
 			model: 'Books',
 			populate: {
