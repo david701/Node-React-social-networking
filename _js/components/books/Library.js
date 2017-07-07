@@ -4,15 +4,19 @@ import UserBooks from './UserBooks';
 
 class Library extends Component {
   render() {
-    const { books, author, title, showBrawl, me } = this.props;
+    const { books, author, title, showBrawl, me, user } = this.props;
     let href = "#"
 
-    if(title === "My Library"){
-      href = "/books/all?view=user-library"
-    }
-    else if(title === "My Books"){
-      href = "/books/all?view=user-books";
-    }
+		if(user._id !== me._id){
+			href = "/books/all?view=user-library&library_id="+user._id;
+		}else{
+			if(title === "My Library"){
+	      href = "/books/all?view=user-library"
+	    }
+	    else if(title === "My Books"){
+	      href = "/books/all?view=user-books";
+	    }
+		}
 
     return (
       <div className="book-blocks book-blocks-small">

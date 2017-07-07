@@ -24,7 +24,9 @@ class ViewAll extends React.Component{
 		books:[],
 		authors: [],
 		limit: 20,
-		count: 0
+		count: 0,
+		status: query.status || '',
+		library_id: query.library_id || ''
 	}
 
 	componentDidMount(){
@@ -106,6 +108,12 @@ class ViewAll extends React.Component{
 	getUserBooks = (page)=>{
 		var page = page || this.state.page;
 		var query = apiUrl+'/users/'+this.state.user._id+'/books?limit='+this.state.limit+'&page='+page;
+
+		if(this.state.status){
+			query = query + '&status='+this.state.status;
+		}
+
+
 		$.get(query).then((books)=>{
 			this.setState({books: books.data, count: books.count, title: 'Viewing Your Books'});
 		})
@@ -114,28 +122,53 @@ class ViewAll extends React.Component{
 	getAuthorBooks = (page)=>{
 		var page = page || this.state.page;
 		var query = apiUrl+'/users/'+this.state.author_id+'/books?limit='+this.state.limit+'&page='+page;
-		$.get(query).then((books)=>{
-			this.setState({books: books.data, count: books.count, title: 'Books By '});
+
+		if(this.state.status){
+			query = query + '&status='+this.state.status;
+		}
+		$.get(apiUrl+'/users/'+this.state.author_id).then((author)=>{
+			author = author.data;
+			$.get(query).then((books)=>{
+				this.setState({books: books.data, count: books.count, title: 'Books By '+author.name});
+			})
 		})
 	}
 
 	getUserLibrary = (page)=>{
 		var query = apiUrl+'/books/library?limit='+this.state.limit;
 		var page = page || this.state.page;
-		$.get(query+'&page='+page).then((books)=>{
-			this.setState({books: books.data, count: books.count, title: 'Viewing Your Library'});
-		})
+
+		if(this.state.status){
+			query = query + '&status='+this.state.status;
+		}
+
+		if(this.state.library_id){
+			query = query + '&library_id='+this.state.library_id;
+			$.get(apiUrl+'/users/'+this.state.library_id).then((library)=>{
+				library = library.data;
+				$.get(query+'&page='+page).then((books)=>{
+					this.setState({books: books.data, count: books.count, title: 'Viewing '+library.name+'\'s Library'});
+				})
+			})
+		}else{
+			$.get(query+'&page='+page).then((books)=>{
+				this.setState({books: books.data, count: books.count, title: 'Viewing Your Library'});
+			})
+		}
 	}
 
 	getBooks = (page)=>{
 		var query = apiUrl+'/books?limit='+this.state.limit, title = 'Viewing All Books';
 		if(this.state.view == 'top'){ query = query + '&sort=-rating'; title = 'Viewing Top Rated' }
 		if(this.state.view == 'recommended'){ query + '/recommended' + query; title = 'Viewing Recommended' }
+		if(this.state.view == 'trending'){ query = query + '&sort=-rating'; title = 'Viewing Trending' }
+
 		if(this.state.bookTitle){ query = query + '&title='+this.state.bookTitle }
 		if(this.state.rating){ query = query + '&rating='+this.state.rating }
 		if(this.state.author_id){ query = query + '&author_id='+this.state.author_id }
 		if(this.state.tags){query = query + '&tags=' + this.state.tags}
 		if(this.state.genres){ query = query + '&genres='+this.state.genres; title = title + ' : ' + this.state.genres }
+		if(this.state.status){ query = query + '&status='+this.state.status;}
 
 		if(this.state.view == 'search') title = 'Search Results';
 		var page = page || this.state.page;
