@@ -946,7 +946,7 @@ body.search-open {
     .book-top-half {
         .go-to-chapter {
             right: initial;
-            left: 258px;
+            left: 185px;
             bottom: initial;
             top: 35px;
             line-height: 33px;
@@ -955,13 +955,16 @@ body.search-open {
                 border: solid 1px #e6e6e6;
             }
         }
+        .delete-book {
+            display: none;
+        }
         .content-block:first-child {
             height: 5em;
-            padding: 0 2em;
+            padding: 0;
             width: 100%;
             background: none;
             box-shadow: none;
-            margin: 0 5px 10px 5px;
+            margin: 0;
             max-width: none;
         }
         .title-row {
@@ -986,14 +989,11 @@ body.search-open {
         .toggleScreen {
             float: right;
             position: relative;
-            margin: 5px 10px 0 0;
+            margin: 10px 10px 0 0;
             width: 150px;
-        }
-        .content-block:last-child {
-            width: 0px;
-            padding: 0px 2em;
-            margin: 0px;
-            height: 0px;
+            &.status {
+                margin: 10px 0 0 0;
+            }
         }
     }
     .content-block-standard-slide {

@@ -1881,7 +1881,7 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
 
 #full-screen .book-top-half .go-to-chapter {
   right: initial;
-  left: 258px;
+  left: 185px;
   bottom: initial;
   top: 35px;
   line-height: 33px; }
@@ -1889,13 +1889,16 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
     background: #fff;
     border: solid 1px #e6e6e6; }
 
+#full-screen .book-top-half .delete-book {
+  display: none; }
+
 #full-screen .book-top-half .content-block:first-child {
   height: 5em;
-  padding: 0 2em;
+  padding: 0;
   width: 100%;
   background: none;
   box-shadow: none;
-  margin: 0 5px 10px 5px;
+  margin: 0;
   max-width: none; }
 
 #full-screen .book-top-half .title-row {
@@ -1917,14 +1920,10 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
 #full-screen .book-top-half .toggleScreen {
   float: right;
   position: relative;
-  margin: 5px 10px 0 0;
+  margin: 10px 10px 0 0;
   width: 150px; }
-
-#full-screen .book-top-half .content-block:last-child {
-  width: 0px;
-  padding: 0px 2em;
-  margin: 0px;
-  height: 0px; }
+  #full-screen .book-top-half .toggleScreen.status {
+    margin: 10px 0 0 0; }
 
 #full-screen .content-block-standard-slide {
   height: 38em; }

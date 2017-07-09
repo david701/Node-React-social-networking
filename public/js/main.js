@@ -57907,7 +57907,7 @@ var BookDetails = function (_React$Component) {
 					'button',
 					{ onClick: function onClick() {
 							_this2.props.toggleScreen();_this2.props.toggleSettings();
-						}, className: 'button toggleScreen', value: 'true' },
+						}, className: 'button toggleScreen status', value: 'true' },
 					this.props.toggleStatus
 				),
 				this.props.authorized ? _react2.default.createElement(
@@ -57917,7 +57917,7 @@ var BookDetails = function (_React$Component) {
 				) : '',
 				this.props.authorized ? _react2.default.createElement(
 					'button',
-					{ onClick: this.deleteBook, className: 'button button-red toggleScreen' },
+					{ onClick: this.deleteBook, className: 'button button-red delete-book toggleScreen' },
 					'Delete Book'
 				) : '',
 				_react2.default.createElement(
