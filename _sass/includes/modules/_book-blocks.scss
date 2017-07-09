@@ -4,9 +4,6 @@
 #night-mode {
     .book-blocks {
         > ul {
-            display: flex;
-            justify-content: flex-start;
-            flex-wrap: wrap;
             > li {
                 a.content-block {
                     transition: box-shadow $timing-normal;

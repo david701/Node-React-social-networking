@@ -57817,7 +57817,7 @@ var BookDetails = function (_React$Component) {
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'content-block content-block-standard-new', style: { overflow: 'hidden' } },
+				{ className: 'content-block content-block-standard-new' },
 				_react2.default.createElement(
 					'div',
 					{ className: 'title-row' },
