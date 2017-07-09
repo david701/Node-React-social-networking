@@ -8,6 +8,12 @@
 	height: 24px;
     width: 24px;
 }
+.create-book {
+    color: #005876;
+}
+#night-mode .create-book {
+    color: #000;
+}
 .empty.book {
     height: 400px;
     text-align: center;

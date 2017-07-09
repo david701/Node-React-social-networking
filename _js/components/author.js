@@ -52,6 +52,23 @@ class Author extends React.Component{
         })
     }
 
+
+	followBook(book){
+		$.post(`/api/v1/books/${book._id}/follow`)
+		.then(res => {
+			this.loadAuthorsBooks(this.state.user._id);
+		})
+	}
+
+	unfollowBook = (book) => {
+		$.ajax({
+			url: `/api/v1/books/${book._id}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.loadAuthorsBooks(this.state.user._id);
+		})
+    }
+
 	handleFollow(){
 		var data = {
 			authorId: this.state.user._id
@@ -82,12 +99,23 @@ class Author extends React.Component{
         });
     }
 
+    loadMyInfo = (id) => {
+    	//my ifo
+		$.get('/api/v1/users/' + id).then((response)=>{
+			//in the meantime setup user data
+			this.setState({
+				followingBooks: response.data.following_books
+			});
+		});
+    }
+
 	componentWillMount(){
 		let self = this;
 		$.get('/api/v1/user_session/').then((response)=>{
 			if(!status.error){
 				self.setState({me: response.data})
 				self.loadUserInfo(response.data._id,this.state.id);
+				self.loadMyInfo(response.data._id)
 				self.loadAuthorsBooks(this.state.id)
 			}else {
 				window.location.href = "/";
@@ -137,12 +165,12 @@ class Author extends React.Component{
 
 	loadUserInfo = (userId,profileId) => {
 		let $this = this;
+		//user info
 		$.get('/api/v1/users/' + profileId).then((response)=>{
 			//in the meantime setup user data
 			this.setState({
 				user: response.data,
-				following: $this.isFollowing(userId,response.data.followers),
-				followingBooks: response.data.following_books
+				following: $this.isFollowing(userId,response.data.followers)
 			});
 		});
 		this.getLibrary();
@@ -318,9 +346,15 @@ class Author extends React.Component{
 																		style={{
 																			backgroundImage: book.cover ? "url("+book.cover+")": "url('/assets/images/default-cover-art.jpg')"}}>
 		                                <div className="overlay">
-		                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
+		                                  <a className="button button-red" href={'/books/' + book._id}>Read</a>
 		                                  {self.state.me.role > 0 &&
 		                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}} disabled={isBrawler}>Brawl</a>
+		                                  }
+		                                  {self.state.me.role === 0 && book.followers.includes(self.state.me._id) &&
+		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.unfollowBook(book)}}>Unfollow</a>
+		                                  }
+		                                  {self.state.me.role === 0 && !book.followers.includes(self.state.me._id) &&
+		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.followBook(book)}}>Follow</a>
 		                                  }
 		                                </div>
 		                              </div>

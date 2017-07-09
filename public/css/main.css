@@ -692,6 +692,12 @@ body {
   height: 24px;
   width: 24px; }
 
+.create-book {
+  color: #005876; }
+
+#night-mode .create-book {
+  color: #000; }
+
 .empty.book {
   height: 400px;
   text-align: center;
@@ -1252,19 +1258,16 @@ button:disabled {
     float: left; }
   #night-mode #full-screen .book-top-half .control, #night-mode #full-screen .book-top-half img {
     display: none; }
-  #night-mode #full-screen .book-top-half .profile-info .book-title {
-    width: 50%;
-    float: left;
-    font-size: 28px; }
   #night-mode #full-screen .book-top-half .profile-info p, #night-mode #full-screen .book-top-half .profile-info ul, #night-mode #full-screen .book-top-half .profile-info img {
     height: 0em;
     opacity: 0; }
   #night-mode #full-screen .book-top-half .toggleScreen {
     float: right;
-    position: relative;
-    margin: 5px 0 0 0; }
+    position: relative; }
   #night-mode #full-screen .content-block-standard-slide {
     height: 38em; }
+  #night-mode #full-screen .slide-to-chapter {
+    background: #000; }
   #night-mode .main-footer {
     background: #222324; }
   #night-mode .view {
@@ -2096,7 +2099,7 @@ hr.dividers {
   background-color: red; }
 
 #night-mode hr {
-  border-color: #17181a; }
+  border-color: #424242; }
 
 #night-mode input[type="radio"] {
   border-color: #17181A; }
@@ -2114,7 +2117,7 @@ hr.dividers {
   display: none; }
 
 #night-mode .slick-track .reader p {
-  color: #afafaf; }
+  color: #eaeaea; }
 
 #night-mode .content-block {
   background-color: #222324; }
@@ -2135,10 +2138,8 @@ hr.dividers {
     #night-mode .content-block-standard .lead {
       font-size: 1.0625em;
       text-align: center; }
-    #night-mode .content-block-standard h4 {
-      margin-bottom: 1em; }
-      #night-mode .content-block-standard h4 span {
-        color: #0FAFFF; }
+    #night-mode .content-block-standard h4 span {
+      color: #0FAFFF; }
     #night-mode .content-block-standard p, #night-mode .content-block-standard label {
       font-size: 0.875em;
       display: block; }
@@ -2189,8 +2190,6 @@ hr.dividers {
       #night-mode .content-block-standard-slide {
         width: calc(100% - 0.75em);
         padding: 2em; } }
-    #night-mode .content-block-standard-slide h4 {
-      margin-bottom: 1em; }
     #night-mode .content-block-standard-slide h5 {
       color: #0FAFFF; }
   #night-mode .content-block .field-list > li {
@@ -2236,72 +2235,62 @@ hr.dividers {
     display: block; }
   #night-mode .content-block .field-list.account-settings {
     justify-content: flex-start; }
-  #night-mode .content-block .toggle-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0.75em 0; }
-    #night-mode .content-block .toggle-list .title.password {
-      width: 100%;
-      display: block;
-      margin: 0 0 10px 0; }
-      #night-mode .content-block .toggle-list .title.password label {
-        text-align: left;
-        margin: 0;
-        padding: 0; }
-        #night-mode .content-block .toggle-list .title.password label span {
-          float: left;
-          width: auto; }
-      #night-mode .content-block .toggle-list .title.password span {
-        width: 100%; }
-    #night-mode .content-block .toggle-list ::selection {
-      background-color: transparent; }
-    #night-mode .content-block .toggle-list li {
-      color: #0FAFFF;
-      cursor: pointer;
-      border-radius: 0.125em;
-      border: 1px solid #0FAFFF;
-      text-align: center;
-      margin-bottom: 1em;
-      width: calc(1/2*100% - 1/2*1em); }
-      @media screen and (min-width: 30em) {
-        #night-mode .content-block .toggle-list li {
-          width: calc(1/3*100% - 2/3*1em); } }
-      @media screen and (min-width: 40em) {
-        #night-mode .content-block .toggle-list li {
-          width: calc(25% - 0.75em); } }
-      #night-mode .content-block .toggle-list li:hover {
-        background-color: rgba(15, 175, 255, 0.09375); }
-      #night-mode .content-block .toggle-list li.is-active {
-        background-color: #0FAFFF;
-        color: #FFFFFF; }
-      #night-mode .content-block .toggle-list li.spacing-block {
-        border: none;
-        visibility: hidden;
-        margin: 0; }
-    #night-mode .content-block .toggle-list input {
-      display: none; }
-    #night-mode .content-block .toggle-list label {
-      color: #0FAFFF;
-      cursor: pointer;
-      text-align: center;
-      font-size: 16px;
+  #night-mode .content-block .toggle-list .title.password {
+    width: 100%;
+    display: block;
+    margin: 0 0 10px 0; }
+    #night-mode .content-block .toggle-list .title.password label {
+      text-align: left;
+      margin: 0;
+      padding: 0; }
+      #night-mode .content-block .toggle-list .title.password label span {
+        float: left;
+        width: auto; }
+    #night-mode .content-block .toggle-list .title.password span {
       width: 100%; }
-    #night-mode .content-block .toggle-list input:checked + label {
+  #night-mode .content-block .toggle-list ::selection {
+    background-color: transparent; }
+  #night-mode .content-block .toggle-list li {
+    color: #0FAFFF;
+    cursor: pointer;
+    border-radius: 0.125em;
+    border: 1px solid #0FAFFF;
+    text-align: center;
+    margin-bottom: 1em;
+    width: calc(1/2*100% - 1/2*1em); }
+    @media screen and (min-width: 30em) {
+      #night-mode .content-block .toggle-list li {
+        width: calc(1/3*100% - 2/3*1em); } }
+    @media screen and (min-width: 40em) {
+      #night-mode .content-block .toggle-list li {
+        width: calc(25% - 0.75em); } }
+    #night-mode .content-block .toggle-list li:hover {
+      background-color: rgba(15, 175, 255, 0.09375); }
+    #night-mode .content-block .toggle-list li.is-active {
       background-color: #0FAFFF;
       color: #FFFFFF; }
-  #night-mode .content-block .new-create-books-row {
+    #night-mode .content-block .toggle-list li.spacing-block {
+      border: none;
+      visibility: hidden;
+      margin: 0; }
+  #night-mode .content-block .toggle-list input {
+    display: none; }
+  #night-mode .content-block .toggle-list label {
+    color: #0FAFFF;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    width: 100%; }
+  #night-mode .content-block .toggle-list input:checked + label {
+    background-color: #0FAFFF;
+    color: #FFFFFF; }
+  #night-mode .content-block .new-create-books-row .new-field {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    width: calc(25% - 0.75em);
+    align-items: center;
     margin: 0.5em 0; }
-    #night-mode .content-block .new-create-books-row .new-field {
-      display: flex;
-      width: calc(25% - 0.75em);
-      align-items: center;
-      margin: 0.5em 0; }
-      #night-mode .content-block .new-create-books-row .new-field label {
-        padding-left: 1em; }
+    #night-mode .content-block .new-create-books-row .new-field label {
+      padding-left: 1em; }
   #night-mode .content-block .submit-row {
     margin: 3em 0 0;
     display: flex;
@@ -2313,14 +2302,10 @@ hr.dividers {
       margin: 0.5em 0; }
       #night-mode .content-block .submit-row .field label {
         padding-left: 1em; }
-    #night-mode .content-block .submit-row .buttons {
-      width: calc(50% - 0.75em);
-      display: flex;
-      justify-content: space-between; }
-      #night-mode .content-block .submit-row .buttons .button {
-        width: calc(50% - 0.75em); }
-      #night-mode .content-block .submit-row .buttons .button-white {
-        color: red; }
+    #night-mode .content-block .submit-row .buttons .button {
+      width: calc(50% - 0.75em); }
+    #night-mode .content-block .submit-row .buttons .button-white {
+      color: red; }
     #night-mode .content-block .submit-row-small {
       width: 100%;
       flex-direction: column;
@@ -3412,7 +3397,7 @@ hr.dividers {
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-    background-color: #222324; }
+    background-color: #676767; }
     #night-mode .book-blocks > ul > li .content-block figure .cover .overlay {
       position: absolute;
       top: 0;
@@ -3494,7 +3479,7 @@ hr.dividers {
       margin-bottom: 0; }
 
 #night-mode .book-blocks-preview > ul > li .content-block figure .cover {
-  background-color: #F2F5F7;
+  background-color: #676767;
   position: relative; }
   #night-mode .book-blocks-preview > ul > li .content-block figure .cover .flex {
     position: absolute;

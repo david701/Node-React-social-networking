@@ -59,11 +59,6 @@
                 display: none;
             }
             .profile-info {
-                .book-title {
-                    width: 50%;
-                    float: left;
-                    font-size: 28px;
-                }
                 p,ul,img {
                     height: 0em;
                     opacity: 0;
@@ -72,11 +67,13 @@
             .toggleScreen {
                 float: right;
                 position: relative;
-                margin: 5px 0 0 0;
             }
         }
         .content-block-standard-slide {
             height: 38em;
+        }
+        .slide-to-chapter {
+            background: #000;
         }
     }
     .main-footer {

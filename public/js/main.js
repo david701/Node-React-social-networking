@@ -34757,7 +34757,7 @@ var Brawlers = function (_React$Component) {
 													_react2.default.createElement(
 														'a',
 														{ className: 'button button-red', href: "/books/" + brawl.book_a._id },
-														'Preview'
+														'Read'
 													),
 													(!isAdmin || user !== "") && !followingA && _react2.default.createElement(
 														'button',
@@ -34834,7 +34834,7 @@ var Brawlers = function (_React$Component) {
 													_react2.default.createElement(
 														'a',
 														{ className: 'button button-red', href: "/books/" + brawl.book_b._id },
-														'Preview'
+														'Read'
 													),
 													(!isAdmin || user !== "") && !followingB && _react2.default.createElement(
 														'button',
@@ -50164,6 +50164,15 @@ var Author = function (_React$Component) {
 			});
 		};
 
+		_this.unfollowBook = function (book) {
+			_jquery2.default.ajax({
+				url: '/api/v1/books/' + book._id + '/follow',
+				type: 'DELETE'
+			}).then(function (res) {
+				_this.loadAuthorsBooks(_this.state.user._id);
+			});
+		};
+
 		_this.handleUnfollow = function (event) {
 			var data = {
 				authorId: _this.state.user._id
@@ -50176,6 +50185,16 @@ var Author = function (_React$Component) {
 						following: false
 					});
 				}
+			});
+		};
+
+		_this.loadMyInfo = function (id) {
+			//my ifo
+			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
+				//in the meantime setup user data
+				_this.setState({
+					followingBooks: response.data.following_books
+				});
 			});
 		};
 
@@ -50204,12 +50223,12 @@ var Author = function (_React$Component) {
 
 		_this.loadUserInfo = function (userId, profileId) {
 			var $this = _this;
+			//user info
 			_jquery2.default.get('/api/v1/users/' + profileId).then(function (response) {
 				//in the meantime setup user data
 				_this.setState({
 					user: response.data,
-					following: $this.isFollowing(userId, response.data.followers),
-					followingBooks: response.data.following_books
+					following: $this.isFollowing(userId, response.data.followers)
 				});
 			});
 			_this.getLibrary();
@@ -50232,9 +50251,18 @@ var Author = function (_React$Component) {
 	}
 
 	_createClass(Author, [{
+		key: 'followBook',
+		value: function followBook(book) {
+			var _this2 = this;
+
+			_jquery2.default.post('/api/v1/books/' + book._id + '/follow').then(function (res) {
+				_this2.loadAuthorsBooks(_this2.state.user._id);
+			});
+		}
+	}, {
 		key: 'handleFollow',
 		value: function handleFollow() {
-			var _this2 = this;
+			var _this3 = this;
 
 			var data = {
 				authorId: this.state.user._id
@@ -50243,7 +50271,7 @@ var Author = function (_React$Component) {
 				if (response.status === "error") {
 					alert(response.message);
 				} else {
-					_this2.setState({
+					_this3.setState({
 						following: true
 					});
 				}
@@ -50252,14 +50280,15 @@ var Author = function (_React$Component) {
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				if (!status.error) {
 					self.setState({ me: response.data });
-					self.loadUserInfo(response.data._id, _this3.state.id);
-					self.loadAuthorsBooks(_this3.state.id);
+					self.loadUserInfo(response.data._id, _this4.state.id);
+					self.loadMyInfo(response.data._id);
+					self.loadAuthorsBooks(_this4.state.id);
 				} else {
 					window.location.href = "/";
 				}
@@ -50286,7 +50315,7 @@ var Author = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
 			    self = this,
@@ -50376,7 +50405,7 @@ var Author = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: this.state.showBrawl ? "modal author-page show-modal" : "modal author-page", onClick: function onClick(e) {
-									_this4.hideBrawl(e);
+									_this5.hideBrawl(e);
 								} },
 							_react2.default.createElement(
 								'div',
@@ -50409,14 +50438,14 @@ var Author = function (_React$Component) {
 											_react2.default.createElement(
 												'a',
 												{ className: 'button button-white close', onClick: function onClick(e) {
-														_this4.hideBrawl(e);
+														_this5.hideBrawl(e);
 													} },
 												'Close'
 											),
 											_react2.default.createElement(
 												'a',
 												{ className: 'button button-red', onClick: function onClick(e) {
-														_this4.enterBrawl();
+														_this5.enterBrawl();
 													} },
 												'Yes'
 											)
@@ -50634,7 +50663,7 @@ var Author = function (_React$Component) {
 													_react2.default.createElement(
 														'a',
 														{ className: 'button button-red', href: '/books/' + book._id },
-														'Preview'
+														'Read'
 													),
 													self.state.me.role > 0 && _react2.default.createElement(
 														'a',
@@ -50642,6 +50671,20 @@ var Author = function (_React$Component) {
 																self.showBrawl(book);
 															}, disabled: isBrawler },
 														'Brawl'
+													),
+													self.state.me.role === 0 && book.followers.includes(self.state.me._id) && _react2.default.createElement(
+														'a',
+														{ className: 'button button-red', href: 'javascript:void(0)', onClick: function onClick(e) {
+																self.unfollowBook(book);
+															} },
+														'Unfollow'
+													),
+													self.state.me.role === 0 && !book.followers.includes(self.state.me._id) && _react2.default.createElement(
+														'a',
+														{ className: 'button button-red', href: 'javascript:void(0)', onClick: function onClick(e) {
+																self.followBook(book);
+															} },
+														'Follow'
 													)
 												)
 											),
@@ -50690,12 +50733,12 @@ var Book = function (_React$Component2) {
 	function Book(props) {
 		_classCallCheck(this, Book);
 
-		var _this5 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
+		var _this6 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
 
-		_this5.state = {
+		_this6.state = {
 			name: ''
 		};
-		return _this5;
+		return _this6;
 	}
 
 	_createClass(Book, [{
@@ -50710,12 +50753,12 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			var _this6 = this;
+			var _this7 = this;
 
 			var self = this;
 			_jquery2.default.get('/api/v1/user_session/').then(function (response) {
 				if (!self._objectEmpty(response.data)) {
-					self.loadUserInfo(_this6.state.id);
+					self.loadUserInfo(_this7.state.id);
 				} else {
 					window.location.href = "/";
 				}
@@ -50724,11 +50767,11 @@ var Book = function (_React$Component2) {
 	}, {
 		key: 'loadUserInfo',
 		value: function loadUserInfo(id) {
-			var _this7 = this;
+			var _this8 = this;
 
 			_jquery2.default.get('/api/v1/users/' + id).then(function (response) {
 				if (response.data) {
-					_this7.setState({
+					_this8.setState({
 						name: response.data.name + "'s"
 					});
 				}
@@ -52958,7 +53001,7 @@ var Parent = function (_React$Component) {
 														_react2.default.createElement(
 															'a',
 															{ className: 'button button-red', href: '/books/' + book._id },
-															'Preview'
+															'Read'
 														)
 													)
 												),
@@ -54384,13 +54427,13 @@ var EditBookPage = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview', admin: false, status: 'Read Book' }, _this.getBook = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditBookPage.__proto__ || Object.getPrototypeOf(EditBookPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = { user: {}, authorized: false, following: false, screen: 'preview', admin: false, status: 'Full Screen' }, _this.getBook = function () {
 			_jQuery2.default.get('/api/v1/books/' + bookId).then(function (book) {
 				_this.setState({ book: book.data });
 			});
 		}, _this.toggleScreen = function () {
 			var preview = _this.state.screen === 'preview' ? 'full-screen' : 'preview';
-			var status = _this.state.screen === 'preview' ? 'Show Details' : 'Read Book';
+			var status = _this.state.screen === 'preview' ? 'Exit Full Screen' : 'Full Screen';
 			_this.setState({ screen: preview, status: status });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
@@ -58294,7 +58337,7 @@ var Description = function (_React$Component) {
 				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden' } },
 				_react2.default.createElement(
 					'div',
-					{ style: { overflow: 'scroll', height: '100%', width: '120%', paddingRight: '5rem' } },
+					{ style: { overflowY: 'scroll', height: '100%', width: '100%' } },
 					followBtn,
 					this.props.authorized && this.props.socialMedia ? _react2.default.createElement(
 						'div',
@@ -58968,7 +59011,7 @@ var UserBooks = function (_React$Component) {
 									{ className: 'cover', style: { position: 'relative' } },
 									_react2.default.createElement(
 										'div',
-										{ style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5', color: '#005876' } },
+										{ className: 'create-book', style: { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '3em', opacity: '0.5' } },
 										'+'
 									)
 								),
@@ -59040,7 +59083,7 @@ var Book = function Book(props) {
 												_react2.default.createElement(
 														'a',
 														{ className: 'button button-red', href: '/books/' + props.book._id },
-														'Preview'
+														'Read'
 												),
 												props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) < 0 ? _react2.default.createElement(
 														'button',
@@ -59452,7 +59495,7 @@ var BrawlAdmin = function (_React$Component) {
 												_react2.default.createElement(
 													'a',
 													{ target: '_blank', href: "/books/" + book._id, className: 'button button-white' },
-													'Preview'
+													'Read'
 												),
 												_react2.default.createElement(
 													'a',
@@ -60071,7 +60114,7 @@ var UploadCover = function UploadCover(props) {
           _react2.default.createElement(
             "p",
             null,
-            "Preview"
+            "Read"
           )
         ),
         _react2.default.createElement(

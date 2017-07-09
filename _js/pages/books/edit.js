@@ -6,7 +6,7 @@ import EditBookContainer from '../../containers/books/EditBookContainer';
 
 class EditBookPage extends React.Component {
 
-	state = {user: {}, authorized: false, following: false, screen: 'preview',admin: false, status: 'Read Book'};
+	state = {user: {}, authorized: false, following: false, screen: 'preview',admin: false, status: 'Full Screen'};
 	componentDidMount(){
 		$.get('/api/v1/user_session').then(
 			resp => {
@@ -41,7 +41,7 @@ class EditBookPage extends React.Component {
 
 	toggleScreen = ()=>{
 		let preview = this.state.screen === 'preview' ? 'full-screen' : 'preview';
-		let status = this.state.screen === 'preview' ? 'Show Details' : 'Read Book';
+		let status = this.state.screen === 'preview' ? 'Exit Full Screen' : 'Full Screen';
 		this.setState({screen: preview, status: status})
 	}
 

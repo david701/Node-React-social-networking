@@ -2,7 +2,7 @@
 // -------------
 #night-mode {
   .slick-track .reader p {
-    color: #afafaf;
+      color: #eaeaea;
   }
   .content-block {
     background-color: $lighter-black;
@@ -26,7 +26,6 @@
         text-align: center;
       }
       h4 {
-        margin-bottom: 1em;
         span {
           color: $light-blue;
         }
@@ -96,9 +95,6 @@
       @include w1000 {
         width: calc(100% - #{ $gutter / 2 });
         padding: 2em;
-      }
-      h4 {
-        margin-bottom: 1em;
       }
       h5 {
         color: $light-blue;
@@ -178,10 +174,6 @@
     }
 
     .toggle-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 0.75em 0;
       .title.password {
         width: 100%;
         display: block;
@@ -246,10 +238,6 @@
     }
 
     .new-create-books-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 0.5em 0;
       .new-field {
         display: flex;
         width: calc(25% - 0.75em);
@@ -276,9 +264,6 @@
         }
       }
       .buttons {
-        width: calc(50% - 0.75em);
-        display: flex;
-        justify-content: space-between;
         .button {
           width: calc(50% - 0.75em);
         }

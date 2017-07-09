@@ -108,7 +108,7 @@ export default class Brawlers extends React.Component {
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_a.cover+")"}}>
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
-																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Preview</a>
+																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Read</a>
 																		{(!isAdmin || user !== "") && !followingA &&
 																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
@@ -143,7 +143,7 @@ export default class Brawlers extends React.Component {
 														<div className="cover" style={{backgroundImage: "url("+brawl.book_b.cover+")"}}>
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
-																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Preview</a>
+																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Read</a>
 																		{(!isAdmin || user !== "") && !followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
