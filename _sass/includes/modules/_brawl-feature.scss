@@ -167,7 +167,6 @@
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
-            width: 100vw;
             .week {
                 flex-shrink: 0;
                 display: flex;
@@ -264,7 +263,6 @@
             h4 {
                 color: $light-blue;
                 text-align: center;
-                width: 10em;
                 position: relative;
                 height: rem(28);
                 margin: 0 auto;
