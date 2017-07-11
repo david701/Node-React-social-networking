@@ -30,9 +30,6 @@ export default class EditorContainer extends React.Component {
 
   loadChapterInfo = () => {
     const { bookId, chapterNumber } = this.props;
-		console.log('Load chapter', bookId);
-		console.log('Load chapter', chapterNumber);
-		console.log('call', `${apiUrl}/books/${bookId}/chapters/${chapterNumber}`);
 		if(chapterNumber){
 			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
 			.then(res => {
