@@ -268,7 +268,7 @@ exports.createBook = (req, res)=>{
   book.author = req.session._id;
   book.status = 1;
 
-	var coverUrl = req.session._id + book.title + (Math.floor(Math.random() * (1 - 200000000000000)) + 200000000000000);
+	var coverUrl = req.session._id + (Math.floor(Math.random() * (1 - 200000000000000)) + 200000000000000);
 
 	if(book.cover){
 		saveImage(coverUrl, book.cover, function(err, url){
