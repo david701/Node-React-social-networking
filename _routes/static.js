@@ -1,5 +1,6 @@
 const express = require('express'),
 		mongo = require('../mongo.js'),
+		rp = require('request-promise'),
 		router = express.Router();
 
 const handle = require('./helpers/handle.js');
@@ -194,6 +195,10 @@ router.get('/admin', (req, res)=>{
 	if(req.session && req.session.role > 0){
 		res.render('search', {title: 'Search'})
 	}
+});
+
+router.get('/testing', (req, res)=>{
+
 });
 
 module.exports = router;
