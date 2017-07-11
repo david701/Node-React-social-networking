@@ -52,15 +52,6 @@
 #night-mode {
     #full-screen {
         .book-top-half {
-            .content-block:first-child {
-                height: 5em;
-                padding: 0 2em;
-                width: 100%;
-                background: none;
-                box-shadow: none;
-                margin: 0 5px 10px 5px;
-                max-width: none;
-            }
             .title-row {
                 float: left;
             }
@@ -68,11 +59,6 @@
                 display: none;
             }
             .profile-info {
-                .book-title {
-                    width: 50%;
-                    float: left;
-                    font-size: 28px;
-                }
                 p,ul,img {
                     height: 0em;
                     opacity: 0;
@@ -81,17 +67,13 @@
             .toggleScreen {
                 float: right;
                 position: relative;
-                margin: 5px 0 0 0;
-            }
-            .content-block:last-child {
-                width: 0px;
-                padding: 0px 2em;
-                margin: 0px;
-                height: 0px;
             }
         }
         .content-block-standard-slide {
             height: 38em;
+        }
+        .slide-to-chapter {
+            background: #000;
         }
     }
     .main-footer {
@@ -946,7 +928,7 @@ body.search-open {
     .book-top-half {
         .go-to-chapter {
             right: initial;
-            left: 258px;
+            left: 185px;
             bottom: initial;
             top: 35px;
             line-height: 33px;
@@ -955,14 +937,18 @@ body.search-open {
                 border: solid 1px #e6e6e6;
             }
         }
+        .delete-book {
+            display: none;
+        }
         .content-block:first-child {
             height: 5em;
-            padding: 0 2em;
+            padding: 0;
             width: 100%;
             background: none;
             box-shadow: none;
-            margin: 0 5px 10px 5px;
+            margin: 0;
             max-width: none;
+            overflow: visible;
         }
         .title-row {
             float: left;
@@ -986,14 +972,12 @@ body.search-open {
         .toggleScreen {
             float: right;
             position: relative;
-            margin: 5px 10px 0 0;
+            margin: 10px 10px 0 0;
             width: 150px;
-        }
-        .content-block:last-child {
-            width: 0px;
-            padding: 0px 2em;
-            margin: 0px;
-            height: 0px;
+            &.status {
+                margin: 10px 0 0 0;
+                overflow: visible;
+            }
         }
     }
     .content-block-standard-slide {

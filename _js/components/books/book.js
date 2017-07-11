@@ -9,7 +9,7 @@ const Book = props => (
 					<figure>
 							<div className="cover" style={{backgroundImage: 'url('+props.book.cover+')'}}>
 									<div className="overlay">
-											<a className="button button-red" href={'/books/'+props.book._id}>Preview</a>
+											<a className="button button-red" href={'/books/'+props.book._id}>Read</a>
 											{props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) < 0?(
 												<button className="button button-white" id={props.book._id} onClick={props.followBook}>Follow</button>
 												):''}

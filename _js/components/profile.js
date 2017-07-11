@@ -423,7 +423,7 @@ class Parent extends React.Component {
 				                              <div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 				                                <div className="overlay">
 				                                  <div className="button button-red" onClick={() => self.approveBooks(book)}>Approve</div>
-				                                  <a className="button button-red" href={'/books/' + book._id}>Preview</a>
+				                                  <a className="button button-red" href={'/books/' + book._id}>Read</a>
 				                                </div>
 				                              </div>
 				                              <figcaption>

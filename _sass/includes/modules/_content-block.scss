@@ -1,19 +1,11 @@
 // Content Block
 // -------------
 #night-mode {
+  .slick-track .reader p {
+      color: #eaeaea;
+  }
   .content-block {
-		position: relative;
     background-color: $lighter-black;
-    width: 100%;
-    box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
-    border-radius: $br-normal;
-    margin-bottom: em(24);
-    .placeholder {
-      height: em(220);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
     &-standard {
       margin: 0 auto;
       max-width: $match-8;
@@ -34,7 +26,6 @@
         text-align: center;
       }
       h4 {
-        margin-bottom: 1em;
         span {
           color: $light-blue;
         }
@@ -50,21 +41,11 @@
       }
     }
     &-standard-new { /* for spacing between blocks - TEMPORARY FIX */
-      margin: 0 auto;
-      margin-bottom: 20px;
-      max-width: $match-8;
-      height: em(350);
-      overflow-y: scroll;
-      @include w1000 {
-        width: calc(50% - #{ $gutter / 2 });
-        padding: 2em;
+      &.ads {
+        background: none;
       }
       .day {
         display: none;
-      }
-      padding: 1em;
-      header, h3, h4 {
-        color: $dark-blue;
       }
       h5 {
         color: $light-blue;
@@ -88,7 +69,7 @@
         font-size: em(14);
         display: block;
         strong {
-          color: $dark-blue;
+          color: #0fafff;
         }
       }
       label {
@@ -114,9 +95,6 @@
       @include w1000 {
         width: calc(100% - #{ $gutter / 2 });
         padding: 2em;
-      }
-      h4 {
-        margin-bottom: 1em;
       }
       h5 {
         color: $light-blue;
@@ -196,10 +174,6 @@
     }
 
     .toggle-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 0.75em 0;
       .title.password {
         width: 100%;
         display: block;
@@ -264,10 +238,6 @@
     }
 
     .new-create-books-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 0.5em 0;
       .new-field {
         display: flex;
         width: calc(25% - 0.75em);
@@ -294,9 +264,6 @@
         }
       }
       .buttons {
-        width: calc(50% - 0.75em);
-        display: flex;
-        justify-content: space-between;
         .button {
           width: calc(50% - 0.75em);
         }

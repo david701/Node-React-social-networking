@@ -88,7 +88,7 @@ export default class BookDetails extends React.Component {
 		}
 
 		return(
-		  <div className="content-block content-block-standard-new" style={{overflow: 'hidden'}}>
+		  <div className="content-block content-block-standard-new">
 		    <div className="title-row">
 		      <h4>{this.props.book? this.props.book.type:''}</h4>
 		      <span className="control">{sanitizeLength(this.props.length)}</span>
@@ -104,9 +104,9 @@ export default class BookDetails extends React.Component {
 		      <p><strong>Genre</strong>: {this.props.book && this.props.book.genre? this.props.book.genre : 'N/A'}</p>
 		      <p><strong>Tags</strong>: {this.props.tags.length ? this.props.tags.join(", ") : 'N/A'}</p>
 		    </div>
-		    <button onClick={()=>{ this.props.toggleScreen(); this.props.toggleSettings(); }} className="button toggleScreen" value="true">{this.props.toggleStatus}</button>
+		    <button onClick={()=>{ this.props.toggleScreen(); this.props.toggleSettings(); }} className="button toggleScreen status" value="true">{this.props.toggleStatus}</button>
 		    {this.props.authorized? (<a href={'/dashboard/edit/books/' + this.props.bookId} className="button toggleScreen">Edit Book</a>):''}
-				{this.props.authorized? (<button onClick={this.deleteBook} className="button button-red toggleScreen">Delete Book</button>):''}
+				{this.props.authorized? (<button onClick={this.deleteBook} className="button button-red delete-book toggleScreen">Delete Book</button>):''}
 		    <div className="table-of-contents">
 		    	<p className="buttons">
 		    		<span onClick={(e) => this.moveSlide('details',e)}>Details</span> |

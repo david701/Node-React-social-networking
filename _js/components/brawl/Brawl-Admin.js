@@ -261,7 +261,7 @@ export default class BrawlAdmin extends React.Component {
 												<figure>
 													<div className="cover" style={{backgroundImage: 'url('+book.cover+')'}}>
 														<div className="overlay">
-															<a target="_blank" href={"/books/" + book._id} className="button button-white">Preview</a>
+															<a target="_blank" href={"/books/" + book._id} className="button button-white">Read</a>
 															<a href="javascript:void(0)" onClick={(e) => {$this.pickBrawler(title === "Create Brawl",book,e)}} className="button button-white" id={book._id}>Brawl</a>
 														</div>
 													</div>

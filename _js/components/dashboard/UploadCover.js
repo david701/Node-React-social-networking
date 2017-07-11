@@ -10,7 +10,7 @@ const UploadCover = props => {
       <ul className="field-list field-list-split">
         <li>
           <div className="copy">
-            <p>Preview</p>
+            <p>Read</p>
           </div>
           <div className="book-blocks book-blocks-single book-blocks-preview">
             <ul>
