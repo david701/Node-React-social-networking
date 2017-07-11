@@ -15,6 +15,7 @@ const mongoUser = mongo.schema.user,
 const handle = require('../helpers/handle.js');
 const mailchimp = require('../helpers/mailchimp.js');
 const xp = require('../helpers/achievements.js');
+const forum = require('../helpers/forumSign.js');
 
 const makeToken = ()=>{
 		var text = "";
@@ -97,6 +98,7 @@ exports.getUsers = (req, res) => {
 exports.createUser = (req, res)=>{
 	mongoUser.findOne({email: req.body.email}).then((user)=>{
 			if(!user){
+				const rawPass = req.body.password;
 				var token = makeToken();
 				var userData = req.body
 				userData.password =  bcrypt.hashSync(req.body.password, salt);
@@ -111,7 +113,9 @@ exports.createUser = (req, res)=>{
 					var vars = [{name:'verify_link', content: link}]
 					sendEmail('Verify Email', 'Verify Book Brawl Email', {vars: vars}, userInfo.email, (err, resp)=>{
 						mailchimp.signup(userData.email, userData.newsletter, (err, resp)=>{
-							handle.res(res, userInfo)
+							forum.signup(userInfo.email, userInfo.name, rawPass, ()=>{
+								handle.res(res, userInfo)
+							});
 						})
 					})
 				})

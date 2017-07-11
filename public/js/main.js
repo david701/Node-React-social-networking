@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
+/******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/ 		}
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -52427,8 +52427,9 @@ var Login = function (_React$Component) {
 
             var new_profile = {
                 email: this.state.profile.email
-                //restart profile
-            };_jquery2.default.post('/api/v1/reset_request', new_profile).then(function (data) {
+            };
+            //restart profile
+            _jquery2.default.post('/api/v1/reset_request', new_profile).then(function (data) {
                 if (data.status === "error") {
                     _this2.setState({ error: data.message });
                 } else {
@@ -62048,9 +62049,7 @@ var EditBookContainer = function (_React$Component) {
               chapter.name
             )
           )
-        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id, user: _this.props.user, admin: _this.props.admin, authorized: _this.props.authorized })
-        //<ViewBookContainer bookId={bookId} chapterId={chapter.number} />
-        );
+        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id, user: _this.props.user, admin: _this.props.admin, authorized: _this.props.authorized }));
       });
 
       if (_this.state.chapters.length) {
