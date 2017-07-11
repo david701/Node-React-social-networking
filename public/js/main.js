@@ -62060,8 +62060,12 @@ var EditorContainer = function (_React$Component) {
           bookId = _this$props.bookId,
           chapterNumber = _this$props.chapterNumber;
 
+      console.log('Load chapter', bookId);
+      console.log('Load chapter', chapterNumber);
+      console.log('call', apiUrl + '/books/' + bookId + '/chapters/' + chapterNumber);
       if (chapterNumber) {
         _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters/' + chapterNumber).then(function (res) {
+          console.log('chapter', res.data);
           var nextState = _extends({}, _this.state, {
             chapter_id: res.data._id,
             name: res.data.name,
