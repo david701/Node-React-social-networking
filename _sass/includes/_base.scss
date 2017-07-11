@@ -8,6 +8,12 @@
 	height: 24px;
     width: 24px;
 }
+.create-book {
+    color: #005876;
+}
+#night-mode .create-book {
+    color: #000;
+}
 .empty.book {
     height: 400px;
     text-align: center;
@@ -121,11 +127,17 @@
 	}
 }
 #night-mode {
+    .slick-dots li.slick-active button:before {
+        color: #0fafff;
+    }
+    .slick-dots li button:before {
+        color: rgba(15,175,255,0.9)
+    }
 	.title-row {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: $dark-blue;
+		color: #0fafff;
 		margin-bottom: em(17);
 		h4 {
 			margin-bottom: initial;

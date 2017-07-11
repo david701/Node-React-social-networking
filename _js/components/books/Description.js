@@ -70,7 +70,7 @@ export default class Description extends React.Component{
 
 		return(
 			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
-				<div style={{overflow: 'scroll', height:'100%', width: '120%', paddingRight: '5rem'}}>
+				<div style={{overflowY: 'scroll', height:'100%', width: '100%'}}>
 				{followBtn}
 				{this.props.authorized && this.props.socialMedia ?
 					(
