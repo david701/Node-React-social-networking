@@ -186,9 +186,6 @@ class LoginButtons extends React.Component{
 				                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 				                            <a href="/dashboard/following/1">Following</a>
 				                        </li>
-																<li>
-				                            <a href=".">Messages</a>
-				                        </li>
 				                        <li>
 				                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
 				                        </li>

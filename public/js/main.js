@@ -62621,15 +62621,6 @@ var LoginButtons = function (_React$Component) {
 												null,
 												_react2.default.createElement(
 													'a',
-													{ href: '.' },
-													'Messages'
-												)
-											),
-											_react2.default.createElement(
-												'li',
-												null,
-												_react2.default.createElement(
-													'a',
 													{ href: 'javascript:void(0)', id: 'report-issue', className: 'modal-trigger modal-trigger-report-issue' },
 													'Report Issue'
 												)
