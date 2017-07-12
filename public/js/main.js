@@ -54493,7 +54493,7 @@ var Report = function (_React$Component2) {
 						_react2.default.createElement(
 							'p',
 							{ className: 'instructions' },
-							'Please report your issue below and we will get back to you in X amount of time.'
+							'Please report your issue below and we will get back to you within two business days.'
 						),
 						_react2.default.createElement(
 							'div',
