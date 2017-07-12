@@ -33,6 +33,7 @@ export default class EditorContainer extends React.Component {
 		if(chapterNumber){
 			$.get(`${apiUrl}/books/${bookId}/chapters/${chapterNumber}`)
 			.then(res => {
+				console.log('chapter', res.data);
 				const nextState = {
 					...this.state,
 					chapter_id: res.data._id,

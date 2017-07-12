@@ -258,17 +258,17 @@ exports.getBooksById = (req, res)=>{
 }
 
 exports.createBook = (req, res)=>{
-  var user = req.session;
-  if(!user){
-    res.json({status:'error', message: 'Not logged in'})
-    return;
-  }
+	var user = req.session;
+	if(!user){
+	  res.json({status:'error', message: 'Not logged in'})
+	  return;
+	}
 
-  var book = req.body;
-  book.author = req.session._id;
-  book.status = 1;
+	var book = req.body;
+	book.author = req.session._id;
+	book.status = 1;
 
-	var coverUrl = req.session._id + book.title + (Math.floor(Math.random() * (1 - 200000000000000)) + 200000000000000);
+	var coverUrl = req.session._id + (Math.floor(Math.random() * (1 - 200000000000000)) + 200000000000000);
 
 	if(book.cover){
 		saveImage(coverUrl, book.cover, function(err, url){
@@ -474,7 +474,10 @@ exports.getChapterByNumber = (req, res)=>{
   var book_id = req.params.id,
       number = parseInt(req.params.number);
 
-  mongoChapter.findOne({book_id: book_id}).where('status').gt(0).where('number').equals(number).lean().then((chapter)=>{
+			console.log(book_id);
+			console.log(number);
+
+  mongoChapter.findOne({book_id: book_id}).where('status').gt(0).where('number').equals(number).then((chapter)=>{
 		if(req.session && req.session._id){
 			if(chapter.viewed_by){
 				chapter.viewed_by[req.session._id] = new Date();
@@ -484,13 +487,13 @@ exports.getChapterByNumber = (req, res)=>{
 				chapter.viewed_by = viewed_by;
 			}
 			chapter.save().then((chapter)=>{
-				res.json({status: 'ok', data: chapter})
+				handle.res(res, chapter)
 			})
 		}else{
-			res.json({status: 'ok', data: chapter})
+			handle.res(res, chapter)
 		}
   }).catch(function(err){
-    res.json({status: 'ok', message: err})
+    handle.err(res, err)
   })
 }
 
