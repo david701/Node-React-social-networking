@@ -751,6 +751,7 @@ body {
   font-size: 22px;
   line-height: 22px; }
 
+#night-mode .website-url,
 .website-url {
   color: #0fafff; }
 
@@ -2137,9 +2138,6 @@ hr.dividers {
       text-align: center; }
     #night-mode .content-block-standard h4 span {
       color: #0FAFFF; }
-    #night-mode .content-block-standard p, #night-mode .content-block-standard label {
-      font-size: 0.875em;
-      display: block; }
     #night-mode .content-block-standard textarea {
       margin: 1em 0 2em;
       background: #17181A;
@@ -2163,11 +2161,8 @@ hr.dividers {
     #night-mode .content-block-standard-new h4.book-title {
       color: #0FAFFF;
       margin-bottom: 0; }
-    #night-mode .content-block-standard-new p, #night-mode .content-block-standard-new label {
-      font-size: 0.875em;
-      display: block; }
-      #night-mode .content-block-standard-new p strong, #night-mode .content-block-standard-new label strong {
-        color: #0fafff; }
+    #night-mode .content-block-standard-new p strong, #night-mode .content-block-standard-new label strong {
+      color: #0fafff; }
     #night-mode .content-block-standard-new label {
       margin-bottom: 0.25em;
       color: #005876; }

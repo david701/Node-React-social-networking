@@ -30,10 +30,6 @@
           color: $light-blue;
         }
       }
-      p, label {
-        font-size: em(14);
-        display: block;
-      }
       textarea {
         margin: 1em 0 2em;
         background: #17181A;
@@ -66,8 +62,6 @@
         margin-bottom: 0;
       }
       p, label {
-        font-size: em(14);
-        display: block;
         strong {
           color: #0fafff;
         }
