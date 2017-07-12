@@ -32,6 +32,7 @@ export default class Brawlers extends React.Component {
 	render(){
 		const $this = this;
 		const {showAvatar, brawl, vote, user, title, showResultsBy, showBrawlers, isAdmin, onFollow, unFollow} = this.props;
+
 		//helps us to decide is we need to show results
 		const brawlDeclared = brawl.status > 1;
 		let votedForA, votedForB, totalVotes, hideVoteButton,
@@ -109,10 +110,10 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_a._id}>Read</a>
-																		{(!isAdmin || user !== "") && !followingA &&
+																		{!isAdmin && user !== "" && !followingA &&
 																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
-																		{(!isAdmin || user !== "") && followingA &&
+																		{!isAdmin && user !== "" && followingA &&
 																			<button id={brawl.book_a._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
 																		}
 																	</div>
@@ -144,10 +145,10 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Read</a>
-																		{(!isAdmin || user !== "") && !followingB &&
+																		{isAdmin && user !== "" && !followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
-																		{(!isAdmin || user !== "") && followingB &&
+																		{!isAdmin && user !== "" && followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {unFollow(e)}}>Unfollow</button>
 																		}
 																	</div>
