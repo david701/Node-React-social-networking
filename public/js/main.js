@@ -56230,7 +56230,7 @@ var Warnings = exports.Warnings = function Warnings(_ref5) {
     _react2.default.createElement(
       'p',
       null,
-      'Content warning'
+      'Content warning.'
     ),
     _react2.default.createElement(
       'div',
