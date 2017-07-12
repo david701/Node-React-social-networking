@@ -98,7 +98,7 @@ export default class Reviews extends React.Component{
 							<p>
 								{review.content}
 							</p>
-							{this.props.admin? <a style={{fontSize: '0.75em', textTramsform:'uppercase', color:'red'}} id={review._id} onClick={this.deleteReview}>Delete Comment</a>:''}
+							{this.props.admin? <a style={{fontSize: '0.75em', textTramsform:'uppercase', color:'red'}} id={review._id} onClick={this.deleteReview}>Delete Review</a>:''}
 						</li>
 					)
 				}

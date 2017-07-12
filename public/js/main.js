@@ -59185,7 +59185,7 @@ var Reviews = function (_React$Component) {
 							_this2.props.admin ? _react2.default.createElement(
 								'a',
 								{ style: { fontSize: '0.75em', textTramsform: 'uppercase', color: 'red' }, id: review._id, onClick: _this2.deleteReview },
-								'Delete Comment'
+								'Delete Review'
 							) : ''
 						);
 					}
