@@ -55240,6 +55240,11 @@ var DashboardCreate = function (_Component) {
           _react2.default.createElement('hr', null),
           type === "Published" ? _react2.default.createElement(_SocialMedia2.default, { sources: socialMedia, onUrlChange: this._onUrlChange }) : "",
           _react2.default.createElement(
+            'p',
+            null,
+            this.state.bookId ? '' : 'Once you click Create, your book will be visible in your dashboard and will be added to the queue to be approved by an administrator. Please note that you will need to add your first chapter before your book will be approved.'
+          ),
+          _react2.default.createElement(
             'div',
             { className: 'submit-row submit-row-single' },
             _react2.default.createElement(

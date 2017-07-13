@@ -235,6 +235,7 @@ class DashboardCreate extends Component {
           <Warnings checked={this.state.warnings} warnings={warnings} handleCheckbox={this._handleWarnings} validate={validate}/>
           <hr />
           {type === "Published" ? <SocialMedia sources={socialMedia} onUrlChange={this._onUrlChange} /> : ""}
+					<p>{this.state.bookId? '': 'Once you click Create, your book will be visible in your dashboard and will be added to the queue to be approved by an administrator. Please note that you will need to add your first chapter before your book will be approved.'}</p>
           <div className="submit-row submit-row-single">
             <div className="buttons">
               <a href={this.state.bookId ? '/books/' + bookId : '/dashboard/'} className="button button-white">Cancel</a>
