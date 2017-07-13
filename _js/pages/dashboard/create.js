@@ -306,7 +306,7 @@ export const Tags = ({tags, handleCheckbox, validate, checked}) => (
 
 export const Warnings = ({warnings, handleCheckbox, validate, checked}) => (
   <div>
-    <p>Content warning</p>
+    <p>Content warning.</p>
     <div className="new-create-books-row">
       {warnings.map((warning, index) => (
         <Checkbox name="warnings" checked={checked.includes(warning)} label={warning} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks" minCheck={1} validate={validate} />

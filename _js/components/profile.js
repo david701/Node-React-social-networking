@@ -572,7 +572,7 @@ class Report extends React.Component {
 				<div className="content-block-small content-block" id="reset">
 					<form onSubmit={this._handleSubmit}>
 						<h3>Report Issue</h3>
-						<p className="instructions">Please report your issue below and we will get back to you in X amount of time.</p>
+						<p className="instructions">Please report your issue below and we will get back to you within two business days.</p>
 						<div className="title">
 							<span className="help-text">Please enter your report before pressing enter</span>
 						</div>

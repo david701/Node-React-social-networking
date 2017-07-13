@@ -76,6 +76,8 @@
     font-size: 22px;
     line-height: 22px;
 }
+
+#night-mode .website-url,
 .website-url {
 	color: rgb(15, 175, 255);
 }
@@ -139,9 +141,6 @@
 		align-items: center;
 		color: #0fafff;
 		margin-bottom: em(17);
-		h4 {
-			margin-bottom: initial;
-		}
 		.control {
 			background-image: url('/assets/images/icons/right-arrow.svg');
 			background-repeat: no-repeat;

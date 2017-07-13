@@ -186,9 +186,6 @@ class LoginButtons extends React.Component{
 				                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 				                            <a href="/dashboard/following/1">Following</a>
 				                        </li>
-																<li>
-				                            <a href=".">Messages</a>
-				                        </li>
 				                        <li>
 				                            <a href="javascript:void(0)" id="report-issue" className="modal-trigger modal-trigger-report-issue">Report Issue</a>
 				                        </li>
@@ -228,7 +225,7 @@ class LoginButtons extends React.Component{
 		                            <img className="day" src="/assets/images/icons/nav/advanced-search.svg" alt="Browse"/>
                                     <img className="night" src="/assets/images/icons/nav/advanced-search-night.svg" alt="Browse"/>
 		                        </div>
-		                        <span>Advance Search</span>
+		                        <span>Advanced Search</span>
 		                    </a>
 		                </li>
 									<li>
