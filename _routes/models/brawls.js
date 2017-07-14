@@ -107,7 +107,7 @@ exports.editBrawl = (req, res)=>{
 	}
 	mongoBrawl.findOne({_id: req.params.id})
 	.then((brawl)=>{
-		if(user && user.role > 1){
+		if(user && user.role > 0){
 			if(req.body.status) brawl.status = parseInt(req.body.status);
 			brawl.updated_at = new Date();
 		}
