@@ -12,7 +12,7 @@ const ClaimDetailsModal = props => (
 					<div className="flex-row">
 						<p><strong>Reporter's Name: </strong> {props.user ? props.user.name : ""}</p>
 						<p><strong>Book Reference: </strong>{props.book? props.book.author.name:''} of {props.book? props.book.title : ''}</p>
-						<p><strong>Posted on: </strong> {props.book? props.book.genre : ''}</p>
+						<p><strong>Posted in: </strong> {props.book? props.book.genre : ''}</p>
 					</div>
 					<hr />
 					{props.view?(<p>{props.content}</p>):
