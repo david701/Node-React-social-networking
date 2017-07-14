@@ -69,7 +69,7 @@ class Parent extends React.Component {
 	}
 
 	showBrawl = (book) => {
-		if(!book.hasOwnProperty("brawl")){
+		if(!book.brawl_submit){
 			this.setState({showBrawl: true, brawlBook: book})
 		}
 	}

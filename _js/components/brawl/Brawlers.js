@@ -98,7 +98,7 @@ export default class Brawlers extends React.Component {
 															</div>
 													</div>
 												}
-												<img src={avatarA} alt="" />
+												<img src="/assets/images/dog.gif" alt="" />
 											</div>
 										}
 										{brawl.book_a &&
@@ -179,7 +179,7 @@ export default class Brawlers extends React.Component {
 														</div>
 													}
 												</div>
-												<img src={avatarB} alt="" />
+												<img src="/assets/images/cat.gif" alt="" />
 											</div>
 										}
 									</li>

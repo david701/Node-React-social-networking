@@ -141,7 +141,7 @@ class Author extends React.Component{
 	}
 
 	showBrawl = (book) => {
-		if(!book.hasOwnProperty("brawl")){
+		if(!book.brawl_submit){
 			this.setState({showBrawl: true, brawlBook: book})
 		}
 	}
@@ -321,6 +321,7 @@ class Author extends React.Component{
 						<Library books={this.state.library} author={this.state.user.name} title={this.state.user.name + "'s Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} me={this.state.me} library="true" />
 					) : (
 						<div className="book-blocks book-blocks-small">
+							<div class="title-row"><h4>{this.state.user.name + "'s"} Library</h4></div>
 							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
 						</div>
 					)
@@ -336,7 +337,7 @@ class Author extends React.Component{
 		                  <ul>
 		                  {
 		                    this.state.authorsBooks.map(function(book, i){
-		                      let isBrawler = book.hasOwnProperty("brawl_submit") && book.brawl_submit;
+		                      let isBrawler = book.brawl_submit;
 		                      return (
 		                        <li key={i}>
 		                          <div className="content-block content-block-book">
@@ -348,7 +349,7 @@ class Author extends React.Component{
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Read</a>
 		                                  {self.state.me.role > 0 &&
-		                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}} disabled={isBrawler}>Brawl</a>
+		                                  	<a className={"button button-red" + (!isBrawler ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}}>Brawl</a>
 		                                  }
 		                                  {self.state.me.role === 0 && book.followers.includes(self.state.me._id) &&
 		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.unfollowBook(book)}}>Unfollow</a>

@@ -26,7 +26,8 @@ class ViewAll extends React.Component{
 		limit: 20,
 		count: 0,
 		status: query.status || '',
-		library_id: query.library_id || ''
+		library_id: query.library_id || '',
+		showBrawl: false
 	}
 
 	componentDidMount(){
@@ -102,6 +103,29 @@ class ViewAll extends React.Component{
 			$.get(query).then((authors)=>{
 				this.setState({authors: authors.data, count: authors.count, title: title});
 			})
+		}
+	}
+
+	enterBrawl = () => {
+		$.ajax({
+            url: '/api/v1/books/' + this.state.brawlBook._id,
+            type: 'PUT',
+            data: {brawl_submit: true}
+        }).then((response)=>{
+        	this.getUserBooks();
+        	this.hideBrawl();
+        });
+	}
+
+	hideBrawl = (e) => {
+		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+			this.setState({showBrawl: false})
+		}
+	}
+
+	showBrawl = (book) => {
+		if(!book.brawl_submit){
+			this.setState({showBrawl: true, brawlBook: book})
 		}
 	}
 
@@ -239,13 +263,27 @@ class ViewAll extends React.Component{
 
 		var bookRow;
 		if(!this.state.authorPage && this.state.view == 'user-books'){
-			bookRow = <BookRow userBooks='true' smallBooks='true' books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
+			bookRow = <BookRow userBooks='true' smallBooks='true' showBrawl={this.showBrawl} books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 		}else{
 			bookRow = <BookRow smallBooks='true' books={this.state.books} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
 		}
 
 		return(
 			<div>
+				<div className={this.state.showBrawl ? "modal author-page show-modal" : "modal author-page"} onClick={(e) => {this.hideBrawl(e)}}>
+					<div className="overlay overlay-create-brawl">
+						<div className="content-block-small content-block">
+							<h3>Are you ready to brawl?</h3>
+							<p className="quote">By clicking "Yes," this book will be entered into the queue for the weekly brawl.  We only pit fictions of the same type (Serial/Published) and the same genre against each other.  We also try to select fictions with the same relative rating and popularity.  If you would like to withdraw your book from the queue after-the-fact, please email us at <a href="mailto:support@bookbrawl.com">support@bookbrawl.com</a>.</p>
+							<div className="submit-row submit-row-small">
+								<div className="buttons">
+									<a className="button button-white close" onClick={(e) => {this.hideBrawl(e)}}>Close</a>
+									<a className="button button-red" onClick={(e) => {this.enterBrawl()}}>Yes</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<h3>{this.state.title}</h3>
 				{this.state.authorPage || this.state.author?
 					<AuthorRow authors={this.state.authors} user={this.state.user}/>

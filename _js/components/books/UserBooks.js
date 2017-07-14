@@ -65,7 +65,7 @@ export default class UserBooks extends React.Component {
 								) : (
 									<div className="overlay">
 										<a className="button button-red" href={`/books/${book._id}`}>Edit</a>
-										<button className="button button-red" onClick={(e) => {this.props.showBrawl(book)}} disabled={book.hasOwnProperty("brawl_submit") && book.brawl_submit}>Brawl</button>
+										<button className="button button-red" onClick={(e) => {this.props.showBrawl(book)}} disabled={book.brawl_submit ? book.brawl_submit : false}>Brawl</button>
 									</div>
 								) }
 						</div>
