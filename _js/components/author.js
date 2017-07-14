@@ -349,7 +349,7 @@ class Author extends React.Component{
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Read</a>
 		                                  {self.state.me.role > 0 &&
-		                                  	<a className={"button button-red" + (book.brawl ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}} disabled={isBrawler}>Brawl</a>
+		                                  	<a className={"button button-red" + (!isBrawler ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}} disabled={isBrawler}>Brawl</a>
 		                                  }
 		                                  {self.state.me.role === 0 && book.followers.includes(self.state.me._id) &&
 		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.unfollowBook(book)}}>Unfollow</a>

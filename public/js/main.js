@@ -51926,7 +51926,7 @@ var Author = function (_React$Component) {
 													),
 													self.state.me.role > 0 && _react2.default.createElement(
 														'a',
-														{ className: "button button-red" + (book.brawl ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
+														{ className: "button button-red" + (!isBrawler ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
 																self.showBrawl(book);
 															}, disabled: isBrawler },
 														'Brawl'
@@ -53667,7 +53667,7 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.showBrawl = function (book) {
-			if (!book.hasOwnProperty("brawl")) {
+			if (book.hasOwnProperty("brawl_submit") && !book.brawl_submit) {
 				_this.setState({ showBrawl: true, brawlBook: book });
 			}
 		};
@@ -53823,6 +53823,8 @@ var Parent = function (_React$Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			var _this2 = this;
+
+			console.log('get me');
 
 			_jquery2.default.get(apiUrl + '/user_session/').then(function (response) {
 				if (response.status !== "error") {
