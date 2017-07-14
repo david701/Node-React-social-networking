@@ -2331,11 +2331,13 @@ hr.dividers {
       font-size: 1.5em;
       margin-bottom: 0; }
     #night-mode .content-block-small .quote {
-      color: #0FAFFF;
+      color: #fff;
       font-size: 1em;
       text-align: center;
       line-height: 1.25;
       margin-bottom: 1.25em; }
+      #night-mode .content-block-small .quote a {
+        display: inline-block; }
     #night-mode .content-block-small .instructions {
       font-size: 1em;
       text-align: center;

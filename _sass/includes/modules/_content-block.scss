@@ -307,11 +307,14 @@
         margin-bottom: 0;
       }
       .quote {
-        color: $light-blue;
+        color: #fff;
         font-size: em(16);
         text-align: center;
         line-height: 1.25;
         margin-bottom: 1.25em;
+        a {
+          display: inline-block;
+        }
       }
       .instructions {
         font-size: em(16);
