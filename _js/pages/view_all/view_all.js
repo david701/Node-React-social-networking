@@ -161,7 +161,7 @@ class ViewAll extends React.Component{
 		var query = apiUrl+'/books?limit='+this.state.limit, title = 'Viewing All Books';
 		if(this.state.view == 'top'){ query = query + '&sort=-rating'; title = 'Viewing Top Rated' }
 		if(this.state.view == 'recommended'){ query + '/recommended' + query; title = 'Viewing Recommended' }
-		if(this.state.view == 'trending'){ query = query + '&sort=-rating'; title = 'Viewing Trending' }
+		if(this.state.view == 'trending'){ query = query + '&trending=true'; title = 'Viewing Trending' }
 
 		if(this.state.bookTitle){ query = query + '&title='+this.state.bookTitle }
 		if(this.state.rating){ query = query + '&rating='+this.state.rating }
