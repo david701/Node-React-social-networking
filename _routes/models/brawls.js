@@ -80,10 +80,12 @@ exports.newBrawl = (req, res)=>{
 	brawl = new mongoBrawl(brawl);
 	brawl.save().then((brawl)=>{
 		mongoBook.findOne({_id: brawl.book_a}).then((book_a)=>{
-			book_a.brawl = brawl._id
+			book_a.brawls.push(brawl._id);
+			book_a.brawl_submit = false;
 			book_a.save().then((book_a)=>{
 				mongoBook.findOne({_id: brawl.book_b}).then((book_b)=>{
-					book_b.brawl = brawl._id;
+					book_b.brawls.push(brawl._id);
+					book_b.brawl_submit = false;
 					book_b.save().then((book_b)=>{
 						handle.res(res, brawl);
 					})

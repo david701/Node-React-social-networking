@@ -55,7 +55,7 @@ const bookSchema = new Schema({
 	links: {},
 	rating: {type:Number, default: 0},
 	brawl_submit: Boolean,
-	brawl: { type: Schema.Types.ObjectId, ref: 'Brawls' },
+	brawls: [{ type: Schema.Types.ObjectId, ref: 'Brawls' }],
 	updated_at: { type: Date, default: Date.now }
 });
 
