@@ -59522,6 +59522,7 @@ var Comments = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
+<<<<<<< HEAD
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' }, comments: [], disabled: true }, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
@@ -59535,6 +59536,18 @@ var Comments = function (_React$Component) {
 				_this.setState({ open: true, commentClass: { position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: '100', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
 			} else {
 				_this.setState({ open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
+=======
+		_this.declareWinner = function (currentBrawl) {
+			if (currentBrawl) {
+				var url = '/api/v1/brawls/' + currentBrawl._id;
+				_jQuery2.default.ajax({
+					url: url,
+					method: 'PUT',
+					data: { status: 2 }
+				}).then(function (brawl) {
+					_this.getBrawls();
+				});
+>>>>>>> Front_End
 			}
 		}, _this.getComments = function (chapterId) {
 			if (chapterId || _this.props.chapterId) {
@@ -59584,6 +59597,7 @@ var Comments = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
+<<<<<<< HEAD
 			var comments = this.state.comments.map(function (comment, key) {
 				var canDelete;
 				if (_this2.props.admin || comment.author._id === _this2.props.user._id) {
@@ -59599,6 +59613,28 @@ var Comments = function (_React$Component) {
 							} },
 						'Delete Comment'
 					) : '',
+=======
+			var $this = this;
+			var _state = this.state,
+			    oldBrawls = _state.oldBrawls,
+			    title = _state.title,
+			    brawlers = _state.brawlers,
+			    showBrawlers = _state.showBrawlers,
+			    startBrawl = _state.startBrawl,
+			    selectedBrawler = _state.selectedBrawler,
+			    currentBrawl = _state.currentBrawl,
+			    brawlType = _state.brawlType;
+
+			var isCurrentBrawl = currentBrawl.status < 2;
+			var isDeclared = currentBrawl.status === 2;
+
+			return _react2.default.createElement(
+				'section',
+				{ className: 'brawl-feature', id: 'admin' },
+				_react2.default.createElement(
+					'header',
+					null,
+>>>>>>> Front_End
 					_react2.default.createElement(
 						'div',
 						{ className: 'comment_image', style: { width: '25%', padding: '0.25rem', marginRight: '2%', display: 'inline-block' } },
@@ -59661,9 +59697,17 @@ var Comments = function (_React$Component) {
 							'Close'
 						),
 						_react2.default.createElement(
+<<<<<<< HEAD
 							'button',
 							{ onClick: this.handleSubmit, style: { display: 'inline-block', marginTop: '0.5rem', width: '30%' }, disabled: this.state.disabled },
 							'Send'
+=======
+							'a',
+							{ href: 'javascript:void(0)', onClick: function onClick() {
+									_this2.declareWinner(currentBrawl);
+								}, className: "button btn-positive" + (!isDeclared ? "" : " disabled") },
+							'Declare Winner'
+>>>>>>> Front_End
 						)
 					)
 				)

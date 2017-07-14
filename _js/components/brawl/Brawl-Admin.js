@@ -89,7 +89,7 @@ export default class BrawlAdmin extends React.Component {
 
 	declareWinner = (currentBrawl) => {
 		if(currentBrawl){
-			var url = '/api/v1/brawls/'+this.state.currentBrawl._id;
+			var url = '/api/v1/brawls/'+currentBrawl._id;
 			$.ajax({
 				url: url,
 				method: 'PUT',
@@ -204,7 +204,7 @@ export default class BrawlAdmin extends React.Component {
 		const $this = this;
 		const {oldBrawls, title, brawlers, showBrawlers, startBrawl, selectedBrawler, currentBrawl, brawlType} = this.state;
 		const isCurrentBrawl = currentBrawl.status < 2;
-		const isDeclared = currentBrawl.status > 1;
+		const isDeclared = currentBrawl.status === 2;
 
 		return (
 			<section className="brawl-feature" id="admin">
@@ -289,7 +289,7 @@ export default class BrawlAdmin extends React.Component {
 				<footer>
 					<div className="container all-buttons">
 						<a href="javascript:void(0)" onClick={() => {this.startBrawl(title === "Create Brawl")}} className={"button" + ((startBrawl && title === "Create Brawl") ? "" : " disabled")}>Start Brawl</a>
-						<a href="javascript:void(0)" onClick={() => {this.declareWinner(isCurrentBrawl && title !== "Create Brawl")}} className={"button btn-positive" + ((isCurrentBrawl && title !== "Create Brawl") ? "" : " disabled")}>Declare Winner</a>
+						<a href="javascript:void(0)" onClick={() => {this.declareWinner(currentBrawl)}} className={"button btn-positive" + ((!isDeclared) ? "" : " disabled")}>Declare Winner</a>
 					</div>
 				</footer>
 			</section>
