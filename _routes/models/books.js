@@ -56,7 +56,7 @@ exports.getBooks = (req, res)=>{
 
 	if(req.query.brawlers){
 		query.brawl_submit = true;
-		query.brawl = {$exists: false};
+		// query.brawl = {$exists: false};
 	}
 
 	if(req.query.author){
