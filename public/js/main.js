@@ -60323,7 +60323,7 @@ var BrawlAdmin = function (_React$Component) {
 							'a',
 							{ href: 'javascript:void(0)', onClick: function onClick() {
 									_this2.declareWinner(currentBrawl);
-								}, className: "button btn-positive" + (!isDeclared ? "" : " disabled") },
+								}, className: "button btn-positive" + (!isDeclared && title !== "Create Brawl" ? "" : " disabled") },
 							'Declare Winner'
 						)
 					)
