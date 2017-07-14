@@ -60007,7 +60007,7 @@ var BrawlAdmin = function (_React$Component) {
 
 		_this.declareWinner = function (currentBrawl) {
 			if (currentBrawl) {
-				var url = '/api/v1/brawls/' + _this.state.currentBrawl._id;
+				var url = '/api/v1/brawls/' + currentBrawl._id;
 				_jQuery2.default.ajax({
 					url: url,
 					method: 'PUT',
@@ -60162,7 +60162,7 @@ var BrawlAdmin = function (_React$Component) {
 			    brawlType = _state.brawlType;
 
 			var isCurrentBrawl = currentBrawl.status < 2;
-			var isDeclared = currentBrawl.status > 1;
+			var isDeclared = currentBrawl.status === 2;
 
 			return _react2.default.createElement(
 				'section',
@@ -60322,8 +60322,8 @@ var BrawlAdmin = function (_React$Component) {
 						_react2.default.createElement(
 							'a',
 							{ href: 'javascript:void(0)', onClick: function onClick() {
-									_this2.declareWinner(isCurrentBrawl && title !== "Create Brawl");
-								}, className: "button btn-positive" + (isCurrentBrawl && title !== "Create Brawl" ? "" : " disabled") },
+									_this2.declareWinner(currentBrawl);
+								}, className: "button btn-positive" + (!isDeclared ? "" : " disabled") },
 							'Declare Winner'
 						)
 					)
