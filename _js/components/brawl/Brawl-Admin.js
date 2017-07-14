@@ -289,7 +289,7 @@ export default class BrawlAdmin extends React.Component {
 				<footer>
 					<div className="container all-buttons">
 						<a href="javascript:void(0)" onClick={() => {this.startBrawl(title === "Create Brawl")}} className={"button" + ((startBrawl && title === "Create Brawl") ? "" : " disabled")}>Start Brawl</a>
-						<a href="javascript:void(0)" onClick={() => {this.declareWinner(currentBrawl)}} className={"button btn-positive" + ((!isDeclared) ? "" : " disabled")}>Declare Winner</a>
+						<a href="javascript:void(0)" onClick={() => {this.declareWinner(currentBrawl)}} className={"button btn-positive" + ((!isDeclared && title !== "Create Brawl") ? "" : " disabled")}>Declare Winner</a>
 					</div>
 				</footer>
 			</section>

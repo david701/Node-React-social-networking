@@ -59661,9 +59661,17 @@ var Comments = function (_React$Component) {
 							'Close'
 						),
 						_react2.default.createElement(
+<<<<<<< HEAD
 							'button',
 							{ onClick: this.handleSubmit, style: { display: 'inline-block', marginTop: '0.5rem', width: '30%' }, disabled: this.state.disabled },
 							'Send'
+=======
+							'a',
+							{ href: 'javascript:void(0)', onClick: function onClick() {
+									_this2.declareWinner(currentBrawl);
+								}, className: "button btn-positive" + (!isDeclared && title !== "Create Brawl" ? "" : " disabled") },
+							'Declare Winner'
+>>>>>>> Front_End
 						)
 					)
 				)
