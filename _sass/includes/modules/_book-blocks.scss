@@ -435,3 +435,65 @@
     }
   }
 }
+
+#reviews{
+  .add_review_btn{
+    position: absolute;
+    bottom:0;
+    left: 0;
+    right: 0;
+    background: #F2F5F7;
+  }
+  .add_review{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top:0;
+    background:rgba(0,0,0,0.5);
+    & > div {
+      position: absolute;
+      bottom:0.5rem;
+      left: 0.5rem;
+      right: 0.5rem;
+      top:0.5rem;
+      background:#fff;
+      padding:1rem;
+    }
+    h4{
+      text-align:center;
+      font-size:1.5em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.comments_add{
+  background:'#fff';
+}
+.comments_block{
+  background: #fff;
+}
+
+#night-mode{
+  #reviews{
+    .add_review_btn{
+      background: rgba(0,0,0,0.5);
+    }
+    .add_review{
+      background:rgba(200,200,200,0.5);
+      & > div {
+        background:#222324;
+      }
+    }
+  }
+  .comments_add{
+    background: rgba(0,0,0,0.5);
+    textarea{
+      background:rgba(200,200,200,0.25);
+    }
+  }
+  .comments_block{
+    background: #000;
+  }
+}
