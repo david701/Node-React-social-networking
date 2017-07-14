@@ -55877,7 +55877,7 @@ var DashboardCreate = function (_Component) {
         //formValid(event);
       };
       //toggle submit
-      //formValid(e);
+      (0, _validation.formValid)(e);
       reader.readAsDataURL(file);
     }, _this._handleGenre = function (e) {
       var temp_genres = _this.state.genres;
@@ -61040,7 +61040,7 @@ var Information = function Information(_ref6) {
             { htmlFor: "cover" },
             "Upload Cover Art"
           ),
-          _react2.default.createElement("input", { id: "cover", type: "file", onChange: coverAdd }),
+          _react2.default.createElement("input", { id: "cover", type: "file", onChange: coverAdd, "data-validation": "" }),
           _react2.default.createElement(
             "small",
             null,

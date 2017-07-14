@@ -76,7 +76,7 @@ class DashboardCreate extends Component {
       //formValid(event);
     };
     //toggle submit
-    //formValid(e);
+    formValid(e);
     reader.readAsDataURL(file);
   }
 
