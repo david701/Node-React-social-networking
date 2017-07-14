@@ -2073,46 +2073,38 @@ hr.dividers {
 .level-title {
   font-size: 1em !important; }
 
-#night-mode h1,
-#night-mode h2,
-#night-mode h3,
-#night-mode h4,
-#night-mode h5,
-#night-mode .filter-controls,
-#night-mode select,
-#night-mode input,
-#night-mode a, #night-mode .notice-404 .flex-row .copy p {
-  color: #FFFFFF; }
-
-#night-mode .button-white {
-  color: red; }
-
-#night-mode .admin-link {
-  color: red; }
-
-#night-mode input, #night-mode select {
-  background: #17181A; }
-
-#night-mode input.button-red {
-  background-color: red; }
-
-#night-mode hr {
-  border-color: #424242; }
-
-#night-mode input[type="radio"] {
-  border-color: #17181A; }
-
-#night-mode input[type="radio"]:checked {
-  background: #0FAFFF; }
-
-#night-mode .day {
-  display: none; }
-
-#night-mode .night {
-  display: block; }
-
-#night-mode #hide {
-  display: none; }
+#night-mode {
+  color: #fff; }
+  #night-mode h1,
+  #night-mode h2,
+  #night-mode h3,
+  #night-mode h4,
+  #night-mode h5,
+  #night-mode .filter-controls,
+  #night-mode select,
+  #night-mode input,
+  #night-mode a, #night-mode .notice-404 .flex-row .copy p {
+    color: #FFFFFF; }
+  #night-mode .button-white {
+    color: red; }
+  #night-mode .admin-link {
+    color: red; }
+  #night-mode input, #night-mode select {
+    background: #17181A; }
+  #night-mode input.button-red {
+    background-color: red; }
+  #night-mode hr {
+    border-color: #424242; }
+  #night-mode input[type="radio"] {
+    border-color: #17181A; }
+  #night-mode input[type="radio"]:checked {
+    background: #0FAFFF; }
+  #night-mode .day {
+    display: none; }
+  #night-mode .night {
+    display: block; }
+  #night-mode #hide {
+    display: none; }
 
 #night-mode .slick-track .reader p {
   color: #eaeaea; }
