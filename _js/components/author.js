@@ -321,6 +321,7 @@ class Author extends React.Component{
 						<Library books={this.state.library} author={this.state.user.name} title={this.state.user.name + "'s Library"} user={this.state.user} loadBooks={this.getLibrary} loadUserInfo={this.loadUserInfo} me={this.state.me} library="true" />
 					) : (
 						<div className="book-blocks book-blocks-small">
+							<div class="title-row"><h4>{this.state.user.name + "'s"} Library</h4></div>
 							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
 						</div>
 					)

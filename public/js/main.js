@@ -51858,6 +51858,16 @@ var Author = function (_React$Component) {
 				this.state.library.length ? _react2.default.createElement(_Library2.default, { books: this.state.library, author: this.state.user.name, title: this.state.user.name + "'s Library", user: this.state.user, loadBooks: this.getLibrary, loadUserInfo: this.loadUserInfo, me: this.state.me, library: 'true' }) : _react2.default.createElement(
 					'div',
 					{ className: 'book-blocks book-blocks-small' },
+					_react2.default.createElement(
+						'div',
+						{ 'class': 'title-row' },
+						_react2.default.createElement(
+							'h4',
+							null,
+							this.state.user.name + "'s",
+							' Library'
+						)
+					),
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
 				),
 				this.state.authorsBooks && _react2.default.createElement(
