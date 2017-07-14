@@ -59786,7 +59786,7 @@ var Book = function Book(props) {
 												props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) > -1 ? _react2.default.createElement(
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.unfollowBook },
-														'Unfollow Book'
+														'Unfollow'
 												) : ''
 										)
 								),
@@ -59996,10 +59996,10 @@ var BrawlAdmin = function (_React$Component) {
 
 		_this.getBrawlers = function (brawlType) {
 			//brawlers=true&type=brawlType
-			_jQuery2.default.get('/api/v1/books?brawl_submit=true').then(function (brawlers) {
+			_jQuery2.default.get('/api/v1/books?brawl_submit=false').then(function (brawlers) {
 				var brawl_type = _this.filterBy(brawlers.data, "genre", brawlType);
-				var brawl = _this.filterBy(brawl_type, "brawl", undefined);
-				_this.setState({ brawlers: brawl });
+				console.log(brawl_type);
+				_this.setState({ brawlers: brawl_type });
 			});
 		};
 

@@ -14,7 +14,7 @@ const Book = props => (
 												<button className="button button-white" id={props.book._id} onClick={props.followBook}>Follow</button>
 												):''}
 											{props.user && !props.userBooks && props.user.following_books && props.user.following_books.indexOf(props.book._id) > -1?(
-												<button className="button button-white" id={props.book._id} onClick={props.unfollowBook}>Unfollow Book</button>
+												<button className="button button-white" id={props.book._id} onClick={props.unfollowBook}>Unfollow</button>
 												):''}
 									</div>
 							</div>

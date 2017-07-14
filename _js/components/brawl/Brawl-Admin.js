@@ -152,10 +152,10 @@ export default class BrawlAdmin extends React.Component {
 
 	getBrawlers = (brawlType) => {
 		//brawlers=true&type=brawlType
-		$.get('/api/v1/books?brawl_submit=true').then((brawlers)=>{
+		$.get('/api/v1/books?brawl_submit=false').then((brawlers)=>{
 			let brawl_type = this.filterBy(brawlers.data, "genre", brawlType);
-			let brawl = this.filterBy(brawl_type, "brawl", undefined);
-			this.setState({brawlers: brawl});
+			console.log(brawl_type)
+			this.setState({brawlers: brawl_type});
 		})
 	}
 
