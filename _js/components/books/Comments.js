@@ -3,7 +3,7 @@ import $ from 'jQuery';
 import { validate, isValid } from '../../plugins/validation.js';
 
 export default class Comments extends React.Component{
-	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem',transition: 'right 0.25s'}, comments:[], disabled: true}
+	state={comment:'', open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem',transition: 'right 0.25s'}, comments:[], disabled: true}
 
 	componentDidMount(){
 		if(this.props.chapterId){
@@ -29,9 +29,9 @@ export default class Comments extends React.Component{
 
 	toggleComments = ()=>{
 		if(!this.state.open){
-			this.setState({open: true, commentClass: {position:'absolute', top:0, right:0, bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
+			this.setState({open: true, commentClass: {position:'absolute', top:0, right:0, bottom:0, zIndex:'100', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
 		}else{
-			this.setState({open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', background:'#fff', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
+			this.setState({open: false, commentClass: {position:'absolute', top:0, right:'-60%', bottom:0, zIndex:'100', width:'60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding:'1rem', transition: 'right 0.25s'}})
 		}
 	}
 
@@ -95,7 +95,7 @@ export default class Comments extends React.Component{
 					<span style={{fontSize:'0.8125em', color:'#666', float:'left', marginTop: '5px', lineHeight:'1em'}}>{this.state.comments.length?this.state.comments.length:''}</span>
 					<img style={{width:'24px', float:'right'}} src='/assets/images/comment.png'/>
 				</div>
-				<div style={this.state.commentClass}>
+				<div className="comments_block" style={this.state.commentClass}>
 					<div className="comments_head" style={{ paddingBottom:'0.5rem', borderBottom: '1px solid rgba(217, 220, 221, 0.5)'}}>
 						<h5 className="comments_count" style={{width:'50%', display:'inline-block'}}>{this.state.comments.length} Comments</h5>
 						{/*<h4 className="comments_sort" style={{float:'right', fontSize:'0.8125em'}}>Sort ></h4>*/}
@@ -103,7 +103,7 @@ export default class Comments extends React.Component{
 					<ul className="comments_list" style={{height: 'calc(100% - 165px)', overflowY: 'scroll'}}>
 						{comments}
 					</ul>
-					<div className="comments_add" style={{position:'absolute', bottom:0, left:0, right:0, padding:'0.5rem', background:'#fff'}}>
+					<div className="comments_add" style={{position:'absolute', bottom:0, left:0, right:0, padding:'0.5rem'}}>
 						<textarea name="comment" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-validation="required" value={this.state.comment}></textarea>
 						<button className='button-white' style={{display:'inline-block', marginTop:'0.5rem', marginRight:'0.5rem', width:'30%'}} onClick={this.toggleComments}>Close</button>
 						<button onClick={this.handleSubmit} style={{display:'inline-block', marginTop:'0.5rem', width:'30%'}} disabled={this.state.disabled}>Send</button>

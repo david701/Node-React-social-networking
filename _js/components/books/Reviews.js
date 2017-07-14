@@ -111,13 +111,13 @@ export default class Reviews extends React.Component{
 				<ul style={{paddingBottom: '2rem'}}>
 					{reviews}
 				</ul>
-				<button onClick={this.addReview} style={{position:'absolute', bottom:0, left: 0, right: 0, background: '#F2F5F7'}}>
+				<button className="add_review_btn" onClick={this.addReview}>
 					<h4 style={{margin:0}}>Create Review</h4>
 				</button>
 				{this.state.addReview?
-				<div className="add_review" style={{ position: 'absolute', bottom:0, left: 0, right: 0, top:0, background: 'rgba(0,0,0,0.5)'}}>
-					<div style={{position: 'absolute', bottom:'0.5rem', left: '0.5rem', right: '0.5rem', top:'0.5rem', background:'#fff', padding:'1rem'}}>
-						<h4 style={{textAlign:'center', fontSize:'1.5em', marginBottom: '0'}}>Create Review</h4>
+				<div className="add_review">
+					<div>
+						<h4>Create Review</h4>
 							<StarRatingComponent
 				        name="rating"
 				        emptyStarColor="#D9DCDD"

@@ -514,9 +514,12 @@
                 justify-content: space-between;
             }
             .book {
-                width: calc(50% - 1em);
+                width: 100%;
                 .button {
                     margin: 0 auto;
+                }
+                @include w640 {
+                  width: calc(50% - 1em);
                 }
             }
             .mascot {

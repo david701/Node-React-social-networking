@@ -59440,7 +59440,7 @@ var Comments = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' }, comments: [], disabled: true }, _this._onChange = function (e) {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Comments.__proto__ || Object.getPrototypeOf(Comments)).call.apply(_ref, [this].concat(args))), _this), _this.state = { comment: '', open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' }, comments: [], disabled: true }, _this._onChange = function (e) {
 			var state = {};
 			state[e.target.name] = e.target.value;
 			(0, _validation.validate)(e);
@@ -59450,9 +59450,9 @@ var Comments = function (_React$Component) {
 			_this.setState({ disabled: !(0, _validation.isValid)('required', e.target) });
 		}, _this.toggleComments = function () {
 			if (!_this.state.open) {
-				_this.setState({ open: true, commentClass: { position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
+				_this.setState({ open: true, commentClass: { position: 'absolute', top: 0, right: 0, bottom: 0, zIndex: '100', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
 			} else {
-				_this.setState({ open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', background: '#fff', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
+				_this.setState({ open: false, commentClass: { position: 'absolute', top: 0, right: '-60%', bottom: 0, zIndex: '100', width: '60%', boxShadow: '0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18)', padding: '1rem', transition: 'right 0.25s' } });
 			}
 		}, _this.getComments = function (chapterId) {
 			if (chapterId || _this.props.chapterId) {
@@ -59551,7 +59551,7 @@ var Comments = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'div',
-					{ style: this.state.commentClass },
+					{ className: 'comments_block', style: this.state.commentClass },
 					_react2.default.createElement(
 						'div',
 						{ className: 'comments_head', style: { paddingBottom: '0.5rem', borderBottom: '1px solid rgba(217, 220, 221, 0.5)' } },
@@ -59569,7 +59569,7 @@ var Comments = function (_React$Component) {
 					),
 					_react2.default.createElement(
 						'div',
-						{ className: 'comments_add', style: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0.5rem', background: '#fff' } },
+						{ className: 'comments_add', style: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0.5rem' } },
 						_react2.default.createElement('textarea', { name: 'comment', onChange: function onChange(e) {
 								_this2._onChange(e);(0, _validation.validate)(e);
 							}, onBlur: _validation.validate, 'data-validation': 'required', value: this.state.comment }),
@@ -60023,7 +60023,7 @@ var Reviews = function (_React$Component) {
 				),
 				_react2.default.createElement(
 					'button',
-					{ onClick: this.addReview, style: { position: 'absolute', bottom: 0, left: 0, right: 0, background: '#F2F5F7' } },
+					{ className: 'add_review_btn', onClick: this.addReview },
 					_react2.default.createElement(
 						'h4',
 						{ style: { margin: 0 } },
@@ -60032,13 +60032,13 @@ var Reviews = function (_React$Component) {
 				),
 				this.state.addReview ? _react2.default.createElement(
 					'div',
-					{ className: 'add_review', style: { position: 'absolute', bottom: 0, left: 0, right: 0, top: 0, background: 'rgba(0,0,0,0.5)' } },
+					{ className: 'add_review' },
 					_react2.default.createElement(
 						'div',
-						{ style: { position: 'absolute', bottom: '0.5rem', left: '0.5rem', right: '0.5rem', top: '0.5rem', background: '#fff', padding: '1rem' } },
+						null,
 						_react2.default.createElement(
 							'h4',
-							{ style: { textAlign: 'center', fontSize: '1.5em', marginBottom: '0' } },
+							null,
 							'Create Review'
 						),
 						_react2.default.createElement(_reactStarRatingComponent2.default, {
