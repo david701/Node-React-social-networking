@@ -55549,7 +55549,7 @@ var Home = function (_React$Component) {
 			args[_key] = arguments[_key];
 		}
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Home.__proto__ || Object.getPrototypeOf(Home)).call.apply(_ref, [this].concat(args))), _this), _this.state = { books: [], topBooks: [], recommendedBooks: [], genre: '', user: '', brawls: [] }, _this.getUser = function () {
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Home.__proto__ || Object.getPrototypeOf(Home)).call.apply(_ref, [this].concat(args))), _this), _this.state = { books: [], topBooks: [], trendingBooks: [], recommendedBooks: [], genre: '', user: '', brawls: [] }, _this.getUser = function () {
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
 				if (user.data._id) {
 					_this.setState({ user: user.data });
@@ -55559,6 +55559,7 @@ var Home = function (_React$Component) {
 			_this.getBooks(genre);
 			_this.getRecommended(genre);
 			_this.getTopRated(genre);
+			_this.getTrending(genre);
 		}, _this.getBooks = function (genre) {
 			var url = apiUrl + '/books?limit=' + limit;
 			if (genre) url = url + '&genre=' + genre;
@@ -55580,6 +55581,15 @@ var Home = function (_React$Component) {
 			if (genre) url = url + '&genre=' + genre;
 			_jQuery2.default.get(url).then(function (books) {
 				_this.setState({ topBooks: books.data });
+			}).catch(function (err) {
+				console.log(err);
+			});
+		}, _this.getTrending = function (genre) {
+			var url = apiUrl + '/books?trending=true&limit=' + limit;
+			if (genre) url = url + '&genre=' + genre;
+			_jQuery2.default.get(url).then(function (books) {
+				console.log(books);
+				_this.setState({ trendingBooks: books.data });
 			}).catch(function (err) {
 				console.log(err);
 			});
@@ -55645,6 +55655,7 @@ var Home = function (_React$Component) {
 						this.state.genre ? _react2.default.createElement(_BooksRow2.default, { title: this.state.genre, link: '/books/all?genres=' + this.state.genre, books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }) : '',
 						this.state.recommendedBooks && this.state.recommendedBooks.length ? _react2.default.createElement(_BooksRow2.default, { title: 'Recommended', link: '/books/all?view=recommended', books: this.state.recommendedBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }) : '',
 						_react2.default.createElement(_BooksRow2.default, { title: 'Top Rated', link: '/books/all?view=top', books: this.state.topBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }),
+						_react2.default.createElement(_BooksRow2.default, { title: 'Trending', link: '/books/all?view=trending', books: this.state.trendingBooks, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook }),
 						_react2.default.createElement(
 							'div',
 							{ className: 'content-block-spread' },
@@ -55886,7 +55897,7 @@ var ViewAll = function (_React$Component) {
 				query + '/recommended' + query;title = 'Viewing Recommended';
 			}
 			if (_this.state.view == 'trending') {
-				query = query + '&sort=-rating';title = 'Viewing Trending';
+				query = query + '&trending=true';title = 'Viewing Trending';
 			}
 
 			if (_this.state.bookTitle) {

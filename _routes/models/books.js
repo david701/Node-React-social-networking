@@ -89,13 +89,36 @@ exports.getBooks = (req, res)=>{
 		var countQuery = mongoBook.find(query).count();
 		if(req.query.sort) mongoQuery = mongoQuery.sort(req.query.sort);
 
-		mongoQuery.then((books)=>{
-			countQuery.then((count)=>{
-				handle.res(res, books, count)
-			})
-		}).catch((err)=>{
-			handle.err(res, err)
-		});
+    if(req.query.trending){
+      mongoBook.aggregate([
+          {"$match": query},
+          { "$project": {
+            "title":1,
+            "author":1,
+            "cover":1,
+            "viewed_by": 1,
+            "type":1,
+            "length": { "$size": "$viewed_by" }
+          }},
+          { "$sort": { "length": -1 } },
+          { "$limit": limit || 40 }
+        ],
+        function(err,results) {
+          if(err)console.log(err);
+          mongoBook.populate(results, {"path":"author", "model": "Users", "select": "avatar name"}, (err, results)=>{
+            handle.res(res, results)
+          })
+        }
+      )
+    }else{
+  		mongoQuery.then((books)=>{
+  			countQuery.then((count)=>{
+  				handle.res(res, books, count)
+  			})
+  		}).catch((err)=>{
+  			handle.err(res, err)
+  		});
+    }
 	}
 
 }

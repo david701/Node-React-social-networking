@@ -13,7 +13,7 @@ import genres from '../../../data/genres.json';
 const limit = 8;
 
 class Home extends React.Component{
-	state = {books:[], topBooks:[], recommendedBooks:[], genre:'', user:'',brawls:[]}
+	state = {books:[], topBooks:[], trendingBooks:[], recommendedBooks:[], genre:'', user:'',brawls:[]}
 	componentDidMount(){
 		this.getUser();
 		this.getAllBooks();
@@ -31,6 +31,7 @@ class Home extends React.Component{
 		this.getBooks(genre);
 		this.getRecommended(genre);
 		this.getTopRated(genre);
+		this.getTrending(genre);
 	}
 
 	getBooks = (genre)=>{
@@ -58,6 +59,17 @@ class Home extends React.Component{
 		if(genre) url = url + '&genre='+genre;
 		$.get(url).then((books)=>{
 			this.setState({topBooks: books.data});
+		}).catch(err=>{
+			console.log(err);
+		})
+	}
+
+	getTrending = (genre)=>{
+		var url = apiUrl + '/books?trending=true&limit='+limit;
+		if(genre) url = url + '&genre='+genre;
+		$.get(url).then((books)=>{
+			console.log(books);
+			this.setState({trendingBooks: books.data});
 		}).catch(err=>{
 			console.log(err);
 		})
@@ -94,6 +106,8 @@ class Home extends React.Component{
 						{this.state.recommendedBooks && this.state.recommendedBooks.length?<BookRow title="Recommended" link='/books/all?view=recommended' books={this.state.recommendedBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>:''}
 
 						<BookRow title="Top Rated" link='/books/all?view=top' books={this.state.topBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
+						<BookRow title="Trending" link='/books/all?view=trending' books={this.state.trendingBooks} user={this.state.user} followBook={this.followBook} unfollowBook={this.unfollowBook}/>
+
 						<div className="content-block-spread">
 							<AdElement page='home'/>
 							<AdElement page='home'/>
