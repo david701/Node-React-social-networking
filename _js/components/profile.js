@@ -69,7 +69,7 @@ class Parent extends React.Component {
 	}
 
 	showBrawl = (book) => {
-		if(book.hasOwnProperty("brawl_submit") && !book.brawl_submit){
+		if(!book.brawl_submit){
 			this.setState({showBrawl: true, brawlBook: book})
 		}
 	}
@@ -92,8 +92,6 @@ class Parent extends React.Component {
 	}
 
 	componentDidMount() {
-				console.log('get me')
-
 		$.get(`${apiUrl}/user_session/`).then((response) => {
 			if (response.status !== "error") {
 				this.user.id = response.data._id;

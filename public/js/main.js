@@ -31295,7 +31295,7 @@ var BookRow = function BookRow(props) {
 			'ul',
 			null,
 			props.books.map(function (book, key) {
-				return _react2.default.createElement(_book2.default, { userBooks: props.userBooks, book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
+				return _react2.default.createElement(_book2.default, { userBooks: props.userBooks, showBrawl: props.showBrawl, book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
 			}),
 			_react2.default.createElement('li', null),
 			_react2.default.createElement('li', null)
@@ -51465,7 +51465,7 @@ var Author = function (_React$Component) {
 		};
 
 		_this.showBrawl = function (book) {
-			if (!book.hasOwnProperty("brawl")) {
+			if (!book.brawl_submit) {
 				_this.setState({ showBrawl: true, brawlBook: book });
 			}
 		};
@@ -51900,7 +51900,7 @@ var Author = function (_React$Component) {
 							'ul',
 							null,
 							this.state.authorsBooks.map(function (book, i) {
-								var isBrawler = book.hasOwnProperty("brawl_submit") && book.brawl_submit;
+								var isBrawler = book.brawl_submit;
 								return _react2.default.createElement(
 									'li',
 									{ key: i },
@@ -51928,7 +51928,7 @@ var Author = function (_React$Component) {
 														'a',
 														{ className: "button button-red" + (!isBrawler ? " disabled" : ""), href: 'javascript:void(0)', onClick: function onClick(e) {
 																self.showBrawl(book);
-															}, disabled: isBrawler },
+															} },
 														'Brawl'
 													),
 													self.state.me.role === 0 && book.followers.includes(self.state.me._id) && _react2.default.createElement(
@@ -53667,7 +53667,7 @@ var Parent = function (_React$Component) {
 		};
 
 		_this.showBrawl = function (book) {
-			if (book.hasOwnProperty("brawl_submit") && !book.brawl_submit) {
+			if (!book.brawl_submit) {
 				_this.setState({ showBrawl: true, brawlBook: book });
 			}
 		};
@@ -53823,8 +53823,6 @@ var Parent = function (_React$Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			var _this2 = this;
-
-			console.log('get me');
 
 			_jquery2.default.get(apiUrl + '/user_session/').then(function (response) {
 				if (response.status !== "error") {
@@ -56592,7 +56590,8 @@ var ViewAll = function (_React$Component) {
 			limit: 20,
 			count: 0,
 			status: query.status || '',
-			library_id: query.library_id || ''
+			library_id: query.library_id || '',
+			showBrawl: false
 		}, _this.getUser = function () {
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
 				if (user.data._id) {
@@ -56659,6 +56658,23 @@ var ViewAll = function (_React$Component) {
 				_jQuery2.default.get(query).then(function (authors) {
 					_this.setState({ authors: authors.data, count: authors.count, title: title });
 				});
+			}
+		}, _this.enterBrawl = function () {
+			_jQuery2.default.ajax({
+				url: '/api/v1/books/' + _this.state.brawlBook._id,
+				type: 'PUT',
+				data: { brawl_submit: true }
+			}).then(function (response) {
+				_this.getUserBooks();
+				_this.hideBrawl();
+			});
+		}, _this.hideBrawl = function (e) {
+			if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
+				_this.setState({ showBrawl: false });
+			}
+		}, _this.showBrawl = function (book) {
+			if (!book.brawl_submit) {
+				_this.setState({ showBrawl: true, brawlBook: book });
 			}
 		}, _this.getUserBooks = function (page) {
 			var page = page || _this.state.page;
@@ -56776,6 +56792,8 @@ var ViewAll = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var section = '/books/all?';
 			if (this.state.authorPage) {
 				section = '/authors/all?';
@@ -56827,7 +56845,7 @@ var ViewAll = function (_React$Component) {
 
 			var bookRow;
 			if (!this.state.authorPage && this.state.view == 'user-books') {
-				bookRow = _react2.default.createElement(_BooksRow2.default, { userBooks: 'true', smallBooks: 'true', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
+				bookRow = _react2.default.createElement(_BooksRow2.default, { userBooks: 'true', smallBooks: 'true', showBrawl: this.showBrawl, books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
 			} else {
 				bookRow = _react2.default.createElement(_BooksRow2.default, { smallBooks: 'true', books: this.state.books, user: this.state.user, followBook: this.followBook, unfollowBook: this.unfollowBook });
 			}
@@ -56835,6 +56853,58 @@ var ViewAll = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(
+					'div',
+					{ className: this.state.showBrawl ? "modal author-page show-modal" : "modal author-page", onClick: function onClick(e) {
+							_this2.hideBrawl(e);
+						} },
+					_react2.default.createElement(
+						'div',
+						{ className: 'overlay overlay-create-brawl' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content-block-small content-block' },
+							_react2.default.createElement(
+								'h3',
+								null,
+								'Are you ready to brawl?'
+							),
+							_react2.default.createElement(
+								'p',
+								{ className: 'quote' },
+								'By clicking "Yes," this book will be entered into the queue for the weekly brawl.  We only pit fictions of the same type (Serial/Published) and the same genre against each other.  We also try to select fictions with the same relative rating and popularity.  If you would like to withdraw your book from the queue after-the-fact, please email us at ',
+								_react2.default.createElement(
+									'a',
+									{ href: 'mailto:support@bookbrawl.com' },
+									'support@bookbrawl.com'
+								),
+								'.'
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'submit-row submit-row-small' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'buttons' },
+									_react2.default.createElement(
+										'a',
+										{ className: 'button button-white close', onClick: function onClick(e) {
+												_this2.hideBrawl(e);
+											} },
+										'Close'
+									),
+									_react2.default.createElement(
+										'a',
+										{ className: 'button button-red', onClick: function onClick(e) {
+												_this2.enterBrawl();
+											} },
+										'Yes'
+									)
+								)
+							)
+						)
+					)
+				),
 				_react2.default.createElement(
 					'h3',
 					null,
@@ -59659,7 +59729,7 @@ var UserBooks = function (_React$Component) {
 										'button',
 										{ className: 'button button-red', onClick: function onClick(e) {
 												_this2.props.showBrawl(book);
-											}, disabled: book.hasOwnProperty("brawl_submit") && book.brawl_submit },
+											}, disabled: book.brawl_submit ? book.brawl_submit : false },
 										'Brawl'
 									)
 								)
@@ -59789,7 +59859,14 @@ var Book = function Book(props) {
 														'button',
 														{ className: 'button button-white', id: props.book._id, onClick: props.unfollowBook },
 														'Unfollow'
-												) : ''
+												) : '',
+												props.userBooks && _react2.default.createElement(
+														'button',
+														{ className: 'button button-red', onClick: function onClick() {
+																		props.showBrawl(props.book);
+																}, disabled: props.book.brawl_submit ? props.book.brawl_submit : false },
+														'Brawl'
+												)
 										)
 								),
 								_react2.default.createElement(

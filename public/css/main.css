@@ -1231,7 +1231,8 @@ button:disabled {
     color: #1d1d1d; }
     .modal .overlay.overlay-create-brawl .content-block p a {
       color: #0FAFFF;
-      text-decoration: underline; }
+      text-decoration: underline;
+      display: inline-block; }
 
 .modal #log-in .card > .overlay {
   display: block;

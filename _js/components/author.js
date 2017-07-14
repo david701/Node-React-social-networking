@@ -141,7 +141,7 @@ class Author extends React.Component{
 	}
 
 	showBrawl = (book) => {
-		if(!book.hasOwnProperty("brawl")){
+		if(!book.brawl_submit){
 			this.setState({showBrawl: true, brawlBook: book})
 		}
 	}
@@ -337,7 +337,7 @@ class Author extends React.Component{
 		                  <ul>
 		                  {
 		                    this.state.authorsBooks.map(function(book, i){
-		                      let isBrawler = book.hasOwnProperty("brawl_submit") && book.brawl_submit;
+		                      let isBrawler = book.brawl_submit;
 		                      return (
 		                        <li key={i}>
 		                          <div className="content-block content-block-book">
@@ -349,7 +349,7 @@ class Author extends React.Component{
 		                                <div className="overlay">
 		                                  <a className="button button-red" href={'/books/' + book._id}>Read</a>
 		                                  {self.state.me.role > 0 &&
-		                                  	<a className={"button button-red" + (!isBrawler ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}} disabled={isBrawler}>Brawl</a>
+		                                  	<a className={"button button-red" + (!isBrawler ? " disabled" : "")} href="javascript:void(0)" onClick={(e) => {self.showBrawl(book)}}>Brawl</a>
 		                                  }
 		                                  {self.state.me.role === 0 && book.followers.includes(self.state.me._id) &&
 		                                  	<a className="button button-red" href="javascript:void(0)" onClick={(e) => {self.unfollowBook(book)}}>Unfollow</a>
