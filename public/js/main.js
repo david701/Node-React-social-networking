@@ -35628,7 +35628,7 @@ var Brawlers = function (_React$Component) {
 											)
 										)
 									),
-									_react2.default.createElement('img', { src: avatarA, alt: '' })
+									_react2.default.createElement('img', { src: '/assets/images/dog.gif', alt: '' })
 								),
 								brawl.book_a && _react2.default.createElement(
 									'div',
@@ -35801,7 +35801,7 @@ var Brawlers = function (_React$Component) {
 											)
 										)
 									),
-									_react2.default.createElement('img', { src: avatarB, alt: '' })
+									_react2.default.createElement('img', { src: '/assets/images/cat.gif', alt: '' })
 								)
 							)
 						)
@@ -35891,7 +35891,7 @@ var ClaimDetailsModal = function ClaimDetailsModal(props) {
 							_react2.default.createElement(
 								'strong',
 								null,
-								'Posted on: '
+								'Posted in: '
 							),
 							' ',
 							props.book ? props.book.genre : ''
