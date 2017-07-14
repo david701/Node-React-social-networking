@@ -456,9 +456,13 @@ exports.addChapter = (req, res)=>{
         var chapter = new mongoChapter(chapterInfo);
         chapter.save().then((chapter)=>{
 						mongoBook.findOne({_id: book_id}).then((book)=>{
-							xp.chapter(book.author, (err, user)=>{
-								res.json({status: 'ok', data: chapter});
-							});
+              if(book.status > 1){
+                xp.chapter(book.author, (err, user)=>{
+                  res.json({status: 'ok', data: chapter});
+                });
+              }else{
+                res.json({status: 'ok', data: chapter});
+              }
 						})
         })
       }

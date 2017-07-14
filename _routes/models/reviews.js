@@ -59,11 +59,15 @@ exports.addReview = (req,res)=>{
 						rating = rating/reviews.length;
 						book.rating = rating;
 						book.save().then((book)=>{
-							xp.rateBook(user._id, (err, user)=>{
-								xp.reviews(book.author, (err, user)=>{
-									handle.res(res, review);
+							if(book.status > 1){
+								xp.rateBook(user._id, (err, user)=>{
+									xp.reviews(book.author, (err, user)=>{
+										handle.res(res, review);
+									})
 								})
-							})
+							}else{
+								handle.res(res, review);
+							}
 						}).catch((err)=>{
 							handle.err(res, err);
 						})
