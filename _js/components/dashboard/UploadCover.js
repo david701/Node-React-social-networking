@@ -86,7 +86,7 @@ const Information = ({ title, handleChange, coverAdd, validate }) => (
         </li>
         <li>
           <label htmlFor="cover">Upload Cover Art</label>
-          <input id="cover" type="file" onChange={coverAdd} />
+          <input id="cover" type="file" onChange={coverAdd} data-validation="" />
           <small>
             Max size of 5 MB<br />
             Dimensions are X by X<br />
