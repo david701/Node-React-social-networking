@@ -55054,7 +55054,8 @@ var DashboardCreate = function (_Component) {
             type: book.data.type,
             genres: [book.data.genre],
             tags: book.data.tags,
-            warnings: book.data.warnings
+            warnings: book.data.warnings,
+            socialMedia: book.data.social_media
           });
         });
       }
@@ -59766,11 +59767,14 @@ var Description = function (_React$Component) {
 	_createClass(Description, [{
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
+			console.log(this.props);
 			this.setState({ following: nextProps.following });
 		}
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var followBtn = void 0;
 			var $this = this;
 			var socialMedia = {
@@ -59805,7 +59809,7 @@ var Description = function (_React$Component) {
 					'div',
 					{ style: { overflowY: 'scroll', height: '100%', width: '100%' } },
 					followBtn,
-					this.props.authorized && this.props.socialMedia ? _react2.default.createElement(
+					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',
 						{ className: 'buy-section' },
 						_react2.default.createElement(
@@ -59818,16 +59822,16 @@ var Description = function (_React$Component) {
 						_react2.default.createElement(
 							'ul',
 							{ className: "menu " + this.state.showMenu },
-							Object.keys(this.props.socialMedia).map(function (link, index) {
-								var _this2 = this;
-
-								return _react2.default.createElement(
-									'li',
-									{ onClick: function onClick(e) {
-											$this.navigateToPage(e, _this2.props.socialMedia[link]);
-										}, key: index },
-									socialMedia[link]
-								);
+							Object.keys(this.props.book.social_media).map(function (link, index) {
+								if (_this2.props.book.social_media[link]) {
+									return _react2.default.createElement(
+										'li',
+										{ onClick: function onClick(e) {
+												$this.navigateToPage(e, _this2.props.book.social_media[link]);
+											}, key: index },
+										socialMedia[link]
+									);
+								}
 							})
 						)
 					) : '',

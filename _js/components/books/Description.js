@@ -9,6 +9,7 @@ export default class Description extends React.Component{
 	state = {following: this.props.following, showMenu: ""};
 
 	componentWillReceiveProps(nextProps){
+		console.log(this.props);
 		this.setState({following: nextProps.following})
 	}
 
@@ -72,15 +73,17 @@ export default class Description extends React.Component{
 			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
 				<div style={{overflowY: 'scroll', height:'100%', width: '100%'}}>
 				{followBtn}
-				{this.props.authorized && this.props.socialMedia ?
+				{!this.props.authorized && this.props.book && this.props.book.social_media ?
 					(
 						<div className="buy-section">
 							<button className='button-white menu-button' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem'}} onClick={(e)=> {$this.toggleBuy(e)}}>Buy</button>
 							<ul className={"menu " + this.state.showMenu}>
-								{Object.keys(this.props.socialMedia).map(function(link,index){
-									return (
-										<li onClick={(e) => {$this.navigateToPage(e,this.props.socialMedia[link])}} key={index}>{socialMedia[link]}</li>
-									)
+								{Object.keys(this.props.book.social_media).map((link,index)=>{
+									if(this.props.book.social_media[link]){
+										return (
+											<li onClick={(e) => {$this.navigateToPage(e,this.props.book.social_media[link])}} key={index}>{socialMedia[link]}</li>
+										)
+									}
 								})}
 							</ul>
 						</div>

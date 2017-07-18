@@ -55,7 +55,8 @@ class DashboardCreate extends Component {
 					type: book.data.type,
 					genres: [book.data.genre],
 					tags: book.data.tags,
-					warnings: book.data.warnings
+					warnings: book.data.warnings,
+					socialMedia: book.data.social_media
 				})
 			})
 		}
