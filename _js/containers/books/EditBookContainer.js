@@ -137,14 +137,14 @@ export default class EditBookContainer extends React.Component {
           <DetailsContainer toggleSettings={this.toggleSettings} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           {(settings.slidesToShow === 2) &&
             <div className="content-block content-block-standard-new ads">
-              <AdElement page='dashboard'/>
-              <AdElement page='dashboard'/>
+              <AdElement page='book-detail'/>
+              <AdElement page='book-detail'/>
             </div>
           }
         </div>
         {(settings.slidesToShow === 1) &&
           <div className="content-block content-block-standard-new full left">
-            <AdElement page='dashboard'/>
+            <AdElement page='book-detail'/>
           </div>
         }
         <Slider ref='slider' {...settings}>
@@ -152,7 +152,7 @@ export default class EditBookContainer extends React.Component {
         </Slider>
         {(settings.slidesToShow === 1) &&
           <div className="content-block content-block-standard-new full right">
-            <AdElement page='dashboard'/>
+            <AdElement page='book-detail'/>
           </div>
         }
       </div>

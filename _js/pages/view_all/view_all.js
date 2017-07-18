@@ -6,6 +6,8 @@ import $ from 'jQuery';
 import BookRow from '../../components/books/BooksRow';
 import AuthorRow from '../../components/authors/AuthorRow';
 
+import {AdElement} from '../../components/ads/Ad';
+
 const apiUrl = '/api/v1';
 
 class ViewAll extends React.Component{
