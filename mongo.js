@@ -52,7 +52,7 @@ const bookSchema = new Schema({
 	last_viewed:{},
 	featured: Boolean,
 	in_library: Boolean,
-	links: {},
+	social_media: {},
 	rating: {type:Number, default: 0},
 	brawl_submit: Boolean,
 	brawls: [{ type: Schema.Types.ObjectId, ref: 'Brawls' }],
