@@ -59087,7 +59087,9 @@ var LevelUp = function (_React$Component) {
 					'p',
 					null,
 					'Progress to Level ',
-					this.state.nextLevel
+					this.state.nextLevel,
+					' --- POINTS: ',
+					this.props.user.points
 				)
 			);
 		}
