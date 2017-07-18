@@ -53335,7 +53335,7 @@ var Parent = function (_React$Component) {
 								)
 							),
 							_react2.default.createElement('hr', null),
-							this.state.books && _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, me: this.state.user, loadUserInfo: this.loadUserInfo, showBrawl: this.showBrawl })
+							this.state.books.length ? _react2.default.createElement(_Library2.default, { books: this.state.books, loadBooks: this.loadBooks, author: this.state.user.name, title: "My Books", user: this.state.user, me: this.state.user, loadUserInfo: this.loadUserInfo, showBrawl: this.showBrawl }) : ''
 						),
 						_react2.default.createElement(
 							'div',

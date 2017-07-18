@@ -373,7 +373,7 @@ class Parent extends React.Component {
 									   	<span>No books have been added to your library</span>
 								   	</div>)}
 								<hr />
-								{this.state.books && <Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} me={this.state.user} loadUserInfo={this.loadUserInfo} showBrawl={this.showBrawl}/>}
+								{this.state.books.length? (<Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} me={this.state.user} loadUserInfo={this.loadUserInfo} showBrawl={this.showBrawl}/>):''}
 							</div>
 							<div>
 								<AdElement page='dashboard'/>
