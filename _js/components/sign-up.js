@@ -185,9 +185,9 @@ class SignUp extends React.Component{
 					<li>
                         <div className="title">
                             <label htmlFor="name"><span>*</span>What is your name?</label>
-                            <span className="help-text">Please enter your full name. It must be under 30 characters</span>
+                            <span className="help-text">Please enter your full name. It must be under 20 characters</span>
                         </div>
-						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} onBlur={validate} data-maxlength="30" data-validation="name,required,maxlength"/>
+						<input id="name" name="name" type="text" value={this.state.profile.name} onChange={this.handleChange} onBlur={validate} data-maxlength="20" data-validation="name,required,maxlength"/>
 					</li>
 					<li>
                         <div className="title">
@@ -263,14 +263,14 @@ class SignUp extends React.Component{
     				</ul>
 				<hr/>
 				<h4><span>Step 3.</span><span>*</span> Create a secure password</h4>
-                <span className="instructions">Password must be 8 to 10 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).</span>
+                <span className="instructions">Password must be 10 to 12 characters and contain at least one uppercase letter, lowercase letter, number, and special character (etc. @$!%*?&).</span>
 				<ul className="field-list">
 					<li>
             <div className="title password">
                 <label htmlFor="password1"><span>*</span>Password</label>
                 <span className="help-text">Password must match above format</span>
             </div>
-						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-validation="password,required" />
+						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-maxlength="12" data-minlength="10" data-validation="password,required,maxlength,minLength" />
 					</li>
 					<li>
             <div className="title">
