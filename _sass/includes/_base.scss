@@ -358,17 +358,18 @@ input[type="file"] {
 .minimal-select {
 	position: relative;
 	&:after {
-		content: "";
-		display: block;
-		position: absolute;
-		width: em(16);
-		height: em(16);
-		right: 0;
-		top: em(14);
-		background-image: url('/assets/images/icons/down-arrow.svg');
-		background-repeat: no-repeat;
-		background-position: center;
-		pointer-events: none;
+	    content: "";
+	    display: block;
+	    position: absolute;
+	    width: 30px;
+	    height: 30px;
+	    right: 0;
+	    top: 24px !important;
+	    background-image: url(/assets/images/icons/down-arrow.svg);
+	    background-repeat: no-repeat;
+	    background-position: center;
+	    background-size: 100% auto;
+	    pointer-events: none;
 	}
 	select {
 		background-color: transparent;

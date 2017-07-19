@@ -991,13 +991,14 @@ input[type="file"] {
     content: "";
     display: block;
     position: absolute;
-    width: 1em;
-    height: 1em;
+    width: 30px;
+    height: 30px;
     right: 0;
-    top: 0.875em;
-    background-image: url("/assets/images/icons/down-arrow.svg");
+    top: 24px !important;
+    background-image: url(/assets/images/icons/down-arrow.svg);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 100% auto;
     pointer-events: none; }
   .minimal-select select {
     background-color: transparent;
