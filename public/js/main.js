@@ -56291,7 +56291,7 @@ var BookType = exports.BookType = function BookType(_ref6) {
         return _react2.default.createElement(
           'li',
           { key: index },
-          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), checked: currentType === type, value: type, onChange: handleChange }),
+          _react2.default.createElement('input', { type: 'radio', name: 'avatar', id: "avatar-" + (index + 1), checked: currentType === type, value: type, validation: '', validate: _validation.validate, onChange: handleChange }),
           _react2.default.createElement(
             'label',
             { htmlFor: "avatar-" + (index + 1) },

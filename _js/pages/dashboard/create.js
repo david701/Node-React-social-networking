@@ -326,7 +326,7 @@ export const BookType = ({types, handleChange, currentType}) => (
     <ul className="radio-list radio-list-inline">
       {types.map((type, index) => (
         <li key={index}>
-          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} onChange={handleChange} />
+          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} validation="" validate={validate} onChange={handleChange} />
           <label htmlFor={"avatar-"+ (index + 1)}>
             {type}
           </label>
