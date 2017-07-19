@@ -3041,17 +3041,6 @@ hr.dividers {
             border-top: 0.625em solid #17181A; }
         #night-mode .brawl-feature main .flex-row .mascot .vote-count.has-won strong {
           color: red; }
-      #night-mode .brawl-feature main .flex-row .mascot.your-pick:after {
-        content: "";
-        display: block;
-        position: absolute;
-        background-image: url("/assets/images/pick-banner.svg");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        width: 100%;
-        height: 3.125em;
-        left: -1em; }
   #night-mode .brawl-feature footer {
     background-color: #222324; }
     #night-mode .brawl-feature footer h4 {
@@ -3717,6 +3706,9 @@ hr.dividers {
 .comments_block {
   background: #fff; }
 
+.comment-text {
+  color: #666; }
+
 #night-mode #reviews .add_review_btn {
   background: rgba(0, 0, 0, 0.5); }
 
@@ -3725,10 +3717,14 @@ hr.dividers {
   #night-mode #reviews .add_review > div {
     background: #222324; }
 
+#night-mode .comment-text {
+  color: #fff; }
+
 #night-mode .comments_add {
   background: rgba(0, 0, 0, 0.5); }
   #night-mode .comments_add textarea {
-    background: rgba(200, 200, 200, 0.25); }
+    background: rgba(200, 200, 200, 0.25);
+    color: #fff; }
 
 #night-mode .comments_block {
   background: #000; }

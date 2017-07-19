@@ -474,6 +474,9 @@
 .comments_block{
   background: #fff;
 }
+.comment-text {
+  color:#666;
+}
 
 #night-mode{
   #reviews{
@@ -487,10 +490,14 @@
       }
     }
   }
+  .comment-text {
+    color: #fff;
+  }
   .comments_add{
     background: rgba(0,0,0,0.5);
     textarea{
       background:rgba(200,200,200,0.25);
+      color: #fff;
     }
   }
   .comments_block{
