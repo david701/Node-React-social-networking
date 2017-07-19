@@ -59750,7 +59750,7 @@ var Description = function (_React$Component) {
 				_this.setState({ following: false });
 			});
 		}, _this.navigateToPage = function (e, url) {
-			alert(url);
+			window.location.href = url;
 			_this.setState({ showMenu: "" });
 			e.preventDefault();
 			e.stopPropagation();

@@ -32,7 +32,7 @@ export default class Description extends React.Component{
 	}
 
 	navigateToPage = (e,url) => {
-		alert(url);
+		window.location.href = url;
 		this.setState({showMenu: ""});
 		e.preventDefault();
 		e.stopPropagation();
