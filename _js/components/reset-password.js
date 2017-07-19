@@ -126,7 +126,7 @@ class ResetPassword extends React.Component{
                                         <label htmlFor="password1"><span>*</span>New Password</label>
                                         <span className="help-text">Please enter your new password</span>
                                     </div>
-            						<input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-validation="password,required"/>
+                                    <input id="password1" name="password" type="password" value={this.state.profile.password} onChange={this.handleChange} onBlur={validate} data-maxlength="12" data-minlength="10" data-validation="password,required,maxlength,minLength" />
             					</li>
             					<li>
                                     <div className="title">

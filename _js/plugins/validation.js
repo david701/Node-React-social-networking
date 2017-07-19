@@ -66,7 +66,7 @@ const isValid = (validate,input) => {
             valid = !validator.isEmpty(value);
             break;
         case "password":
-            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,10}/.test(value);
+            valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/.test(value);
             break;
         case "confirmPassword":
             valid = validator.equals(value, input.dataset.password);
