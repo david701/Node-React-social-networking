@@ -6,7 +6,18 @@
 #hide {
     display: none;
 }
+.book-cover {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
+    width: 45%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
 .content-block-standard-slide {
+    position: relative;
     h1 {
         color: #005876;
     }

@@ -35,7 +35,6 @@ export default class EditBookContainer extends React.Component {
   }
 
   toggleSettings = () => {
-    console.log('go')
     let {settings} = this.state;
     settings.slidesToShow = (settings.slidesToShow === 1) ? 2 : 1
 
@@ -128,7 +127,7 @@ export default class EditBookContainer extends React.Component {
     const { chapters, selectedChapter, settings } = this.state;
     const slides = [
       <DescriptionContainer claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
-      <TOCContainer bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
+      <TOCContainer book={this.props.book} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
     ];
     return (
       <div>

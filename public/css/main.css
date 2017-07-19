@@ -1214,8 +1214,20 @@ button:disabled {
 #hide {
   display: none; }
 
-.content-block-standard-slide h1 {
-  color: #005876; }
+.book-cover {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  bottom: 20px;
+  width: 45%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain; }
+
+.content-block-standard-slide {
+  position: relative; }
+  .content-block-standard-slide h1 {
+    color: #005876; }
 
 .modal.author-page.show-modal {
   visibility: visible;

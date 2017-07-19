@@ -59076,7 +59076,6 @@ var Description = function (_React$Component) {
 	_createClass(Description, [{
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
-			console.log(this.props);
 			this.setState({ following: nextProps.following });
 		}
 	}, {
@@ -59515,6 +59514,8 @@ var oneDay = 24 * 60 * 60 * 1000;
 var today = new Date();
 
 var TableOfContents = function TableOfContents(props) {
+  var book = props.book;
+
   return _react2.default.createElement(
     'div',
     { className: 'content-block content-block-standard-slide' },
@@ -59546,10 +59547,10 @@ var TableOfContents = function TableOfContents(props) {
         );
       })
     ),
-    _react2.default.createElement(AddChapter, props)
+    _react2.default.createElement(AddChapter, props),
+    book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })
   );
 };
-
 var AddChapter = function AddChapter(props) {
   return _react2.default.createElement(
     'div',
@@ -61500,7 +61501,6 @@ var EditBookContainer = function (_React$Component) {
         dotsClass: 'slick-dots pagination'
       }
     }, _this.toggleSettings = function () {
-      console.log('go');
       var settings = _this.state.settings;
 
       settings.slidesToShow = settings.slidesToShow === 1 ? 2 : 1;
@@ -61605,7 +61605,7 @@ var EditBookContainer = function (_React$Component) {
           selectedChapter = _state.selectedChapter,
           settings = _state.settings;
 
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { book: this.props.book, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,
@@ -61934,13 +61934,15 @@ var TocContainer = function (_React$Component) {
     value: function render() {
       var _props = this.props,
           chapters = _props.chapters,
-          selectChapter = _props.selectChapter;
+          selectChapter = _props.selectChapter,
+          book = _props.book;
       var _state = this.state,
           buttonVisible = _state.buttonVisible,
           title = _state.title;
 
       return _react2.default.createElement(_TableOfContents2.default, {
         buttonVisible: buttonVisible,
+        book: book,
         chapters: chapters,
         title: title,
         handleChange: this.handleChange,
