@@ -14,14 +14,35 @@ const xp = require('../helpers/achievements.js');
 
 const saveImage = (bookId, img, cb) => {
 	var url = '/uploads/covers/';
-	var base64Data = img.replace(/^data:image\/png;base64,/, "");
-	require("fs").writeFile('public' + url + bookId + ".png", base64Data, 'base64', function(err) {
-		if(!err){
-			cb(null, url + bookId + ".png")
-		}else{
-			cb(err)
-		}
-	});
+
+  var base64Data, mime;
+  if(img.indexOf('png;base64') != -1){
+    base64Data = img.replace(/^data:image\/png;base64,/, "");
+    mime = '.png';
+  }
+  if(img.indexOf('jpeg;base64') != -1){
+    base64Data = img.replace(/^data:image\/jpeg;base64,/, "");
+    mime = '.jpg';
+  }
+
+  if(img.indexOf('tiff;base64') != -1){
+    base64Data = img.replace(/^data:image\/tiff;base64,/, "");
+    mime = '.tiff';
+  }
+
+  if(!mime){
+    cb('Incorrect file type')
+  }else{
+    require("fs").writeFile('public' + url + bookId + mime, base64Data, 'base64', function(err) {
+      if(!err){
+        cb(null, url + bookId + mime)
+      }else{
+        cb(err)
+      }
+    });
+  }
+
+
 }
 
 exports.getBooks = (req, res)=>{
