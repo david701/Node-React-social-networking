@@ -108,11 +108,11 @@ exports.createUser = (req, res)=>{
 				userData.token = token;
 
 				if(userData.name.startsWith(' ')){
-					userData.name = '1' + userData.name;
+					userData.name = userData.name.slice(0, 0);
 				}
 
 				if(userData.name.endsWith(' ')){
-					userData.name = userData.name + '1';
+					userData.name = userData.name.slice(0, -1);
 				}
 
 				var user = new mongoUser(userData);
