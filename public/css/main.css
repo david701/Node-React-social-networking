@@ -1016,6 +1016,9 @@ img {
   width: auto;
   max-width: 100%; }
 
+.button {
+  font: 11px system-ui; }
+
 .buttons span {
   cursor: pointer; }
   .buttons span:hover {
