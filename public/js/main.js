@@ -52486,10 +52486,10 @@ var SignUp = function (_React$Component) {
                 _react2.default.createElement(
                   'span',
                   { className: 'help-text' },
-                  'Please enter your full name. It must be under 30 characters'
+                  'Please enter your full name. It must be under 20 characters'
                 )
               ),
-              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-maxlength': '30', 'data-validation': 'name,required,maxlength' })
+              _react2.default.createElement('input', { id: 'name', name: 'name', type: 'text', value: profile.name, onChange: this.handleChange, onBlur: _validation.validate, 'data-maxlength': '20', 'data-validation': 'name,required,maxlength' })
             ),
             _react2.default.createElement(
               'li',
@@ -54755,7 +54755,7 @@ var ResetPassword = function (_React$Component) {
                                         'Please enter your new password'
                                     )
                                 ),
-                                _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-validation': 'password,required' })
+                                _react2.default.createElement('input', { id: 'password1', name: 'password', type: 'password', value: this.state.profile.password, onChange: this.handleChange, onBlur: _validation.validate, 'data-maxlength': '12', 'data-minlength': '10', 'data-validation': 'password,required,maxlength,minLength' })
                             ),
                             _react2.default.createElement(
                                 'li',
