@@ -293,10 +293,12 @@ exports.createBook = (req, res)=>{
 
 	var coverUrl = req.session._id + (Math.floor(Math.random() * (1 - 200000000000000)) + 200000000000000);
 
+  console.log('= DEBUG =', book);
+
 	if(book.cover){
 		saveImage(coverUrl, book.cover, function(err, url){
 			if(err){
-				console.log(err);
+				console.log('=== IMAGE SAVE ERROR ===', err);
 				handle.err(res, err.message);
 			}else{
 				var newBook = new mongoBook(book);
@@ -340,10 +342,13 @@ exports.editBook = (req, res)=>{
     res.json({status:'error', message: 'Not logged in'})
     return;
   }
+
+  console.log('= DEBUG =', req.body);
+
 	if(req.body.cover){
 		saveImage(req.params.id, req.body.cover, function(err, url){
 			if(err){
-				console.log(err);
+				console.log('=== IMAGE SAVE ERROR ===', err);
 				handle.err(res, err.message);
 			}else{
 				req.body.cover = url;
