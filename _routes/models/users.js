@@ -106,6 +106,15 @@ exports.createUser = (req, res)=>{
 				userData.level = 0;
 				userData.status = 1;
 				userData.token = token;
+
+				if(userData.name.startsWith(' ')){
+					userData.name = '1' + userData.name;
+				}
+
+				if(userData.name.endsWith(' ')){
+					userData.name = userData.name + '1';
+				}
+
 				var user = new mongoUser(userData);
 				user.save((err, userInfo)=>{
 					if(err){console.error(err);}
