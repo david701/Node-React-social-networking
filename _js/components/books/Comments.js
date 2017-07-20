@@ -92,7 +92,7 @@ export default class Comments extends React.Component{
 		return(
 			<div>
 				<div style={{position:'absolute', top:'0.5rem', right:'1rem', zIndex:'1', cursor:'pointer'}} onClick={this.toggleComments}>
-					<span style={{fontSize:'0.8125em', color:'#666', float:'left', marginTop: '5px', lineHeight:'1em'}}>{this.state.comments.length?this.state.comments.length:''}</span>
+					<span className="comment-text" style={{fontSize:'0.8125em', float:'left', marginTop: '5px', lineHeight:'1em'}}>{this.state.comments.length?this.state.comments.length:''}</span>
 					<img style={{width:'24px', float:'right'}} src='/assets/images/comment.png'/>
 				</div>
 				<div className="comments_block" style={this.state.commentClass}>

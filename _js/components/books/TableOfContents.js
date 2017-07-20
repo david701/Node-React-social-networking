@@ -4,7 +4,9 @@ import moment from 'moment';
 const oneDay = 24*60*60*1000;
 var today = new Date();
 
-const TableOfContents = props => (
+const TableOfContents = props => {
+  const {book} = props;
+  return(
   <div className="content-block content-block-standard-slide">
     <h4>Table of Contents</h4>
     <ul>
@@ -16,9 +18,12 @@ const TableOfContents = props => (
       ))}
     </ul>
     <AddChapter {...props} />
+    {book &&
+      <div style={{backgroundImage: 'url('+book.cover+')'}} className="book-cover"/>
+    }
   </div>
 );
-
+}
 const AddChapter = props => (
   <div className="chapter-row chapter-row-small">
 		{props.authorized?

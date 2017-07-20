@@ -9,7 +9,6 @@ export default class Description extends React.Component{
 	state = {following: this.props.following, showMenu: ""};
 
 	componentWillReceiveProps(nextProps){
-		console.log(this.props);
 		this.setState({following: nextProps.following})
 	}
 

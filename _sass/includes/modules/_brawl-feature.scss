@@ -1,4 +1,5 @@
 // Brawl feature
+
 // ---------------
 .all-buttons {
     display: flex;
@@ -239,20 +240,6 @@
                             strong {
                                 color: $light-red;
                             }
-                        }
-                    }
-                    &.your-pick {
-                        &:after {
-                            content: "";
-                            display: block;
-                            position: absolute;
-                            background-image: url('/assets/images/pick-banner.svg');
-                            background-size: contain;
-                            background-repeat: no-repeat;
-                            background-position: center;
-                            width: 100%;
-                            height: em(50);
-                            left: em(-16);
                         }
                     }
                 }

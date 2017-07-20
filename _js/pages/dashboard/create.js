@@ -33,7 +33,7 @@ class DashboardCreate extends Component {
 		}
 	};
 
-  componentDidMount = () => {
+  componentDidMount = () => { 
     $.get('/api/v1/user_session/')
       .then(resp => {
 				this.setState({user: resp.data, type: "Serial", formDisabled: true})
@@ -47,7 +47,7 @@ class DashboardCreate extends Component {
   getBookInfo = () => {
 		if(bookId){
 			$.get(`/api/v1/books/${bookId}`).then((book)=>{
-				this.setState({
+        this.setState({
 					user: book.data.author,
 					coverFile: book.data.cover,
 					title: book.data.title,
@@ -56,7 +56,7 @@ class DashboardCreate extends Component {
 					genres: [book.data.genre],
 					tags: book.data.tags,
 					warnings: book.data.warnings,
-					socialMedia: book.data.social_media
+					socialMedia: book.data.social_media || this.state.socialMedia
 				})
 			})
 		}
@@ -68,8 +68,8 @@ class DashboardCreate extends Component {
   }
 
   _handleCover = e => {
-    const reader = new FileReader();
     const file = e.target.files[0];
+    const reader = new FileReader();
     reader.onload = upload => {
       // const coverFile = upload.target.result;
       this.setState({coverFile: upload.target.result});
@@ -326,7 +326,7 @@ export const BookType = ({types, handleChange, currentType}) => (
     <ul className="radio-list radio-list-inline">
       {types.map((type, index) => (
         <li key={index}>
-          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} onChange={handleChange} />
+          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} validation="" validate={validate} onChange={handleChange} />
           <label htmlFor={"avatar-"+ (index + 1)}>
             {type}
           </label>
