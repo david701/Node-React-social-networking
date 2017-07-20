@@ -2810,7 +2810,8 @@ hr.dividers {
         margin-right: 20px;
         width: auto; }
     .chapter-row .buttons .button {
-      width: calc(50% - 0.75em);
+      width: auto;
+      padding: 0 20px;
       margin-right: 0.375rem; }
 
 .error-message {
