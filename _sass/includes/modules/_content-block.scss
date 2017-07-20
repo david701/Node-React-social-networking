@@ -921,7 +921,8 @@
       }
     }
     .button {
-      width: calc(50% - 0.75em);
+      width: auto;
+      padding: 0 20px;
       margin-right: rem(6);
     }
   }
