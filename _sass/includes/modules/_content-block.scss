@@ -901,6 +901,11 @@
   }
 }
 
+.chapter-row .buttons .button.button-plusminus {
+    width: auto;
+    padding: 0 15px;
+}
+
 .chapter-row {
   margin: 0.5em 0 0;
   display: flex;
@@ -921,8 +926,7 @@
       }
     }
     .button {
-      width: auto;
-      padding: 0 20px;
+      width: calc(50% - 0.75em);
       margin-right: rem(6);
     }
   }

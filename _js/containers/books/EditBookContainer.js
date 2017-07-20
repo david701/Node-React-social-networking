@@ -14,12 +14,12 @@ import {AdElement} from '../../components/ads/Ad';
 const apiUrl = '/api/v1';
 
 export default class EditBookContainer extends React.Component {
-	state = {
-		selectedChapter: null,
-		chapters: [],
-		reviews: [],
-		claim:false,
-		claimContent:'',
+  state = {
+    selectedChapter: null,
+    chapters: [],
+    reviews: [],
+    claim:false,
+    claimContent:'',
     settings: {
       dots: true,
       infinite: false,
@@ -28,7 +28,7 @@ export default class EditBookContainer extends React.Component {
       slidesToScroll: 1,
       dotsClass: 'slick-dots pagination'
     }
-	};
+  };
 
   componentDidMount() {
     this.loadChapters();
@@ -49,13 +49,13 @@ export default class EditBookContainer extends React.Component {
       });
   }
 
-	loadReviews = () => {
+  loadReviews = () => {
     $.get(`${apiUrl}/books/${bookId}/reviews`)
       .then(res => {
         this.setState({reviews: res.data});
       }).catch((err)=>{
-				console.log(err);
-			})
+        console.log(err);
+      })
   }
 
   selectChapter = id => {
@@ -90,48 +90,48 @@ export default class EditBookContainer extends React.Component {
     })
   }
 
-	_onChange = (e)=>{
-		var state = {};
-		state[e.target.name]=e.target.value;
-		this.setState(state)
-	}
+  _onChange = (e)=>{
+    var state = {};
+    state[e.target.name]=e.target.value;
+    this.setState(state)
+  }
 
-	claim = ()=>{
-		this.setState({claim:true});
-	}
+  claim = ()=>{
+    this.setState({claim:true});
+  }
 
-	submitClaim = (e)=>{
-		e.preventDefault();
-		var postData = {
-			bookId: this.props.bookId,
-			content: this.state.claimContent
-		}
-		$.post(`${apiUrl}/books/${bookId}/claims`, postData).then((claim)=>{
-			this.setState({claim:false, claimContent:''});
-		}).catch((err)=>{
-			console.log(err);
-		})
-	}
+  submitClaim = (e)=>{
+    e.preventDefault();
+    var postData = {
+      bookId: this.props.bookId,
+      content: this.state.claimContent
+    }
+    $.post(`${apiUrl}/books/${bookId}/claims`, postData).then((claim)=>{
+      this.setState({claim:false, claimContent:''});
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
-	cancelClaim = (e)=>{
-		if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
+  cancelClaim = (e)=>{
+    if(e.target.classList.contains('overlay') || e.target.classList.contains('close')){
       this.setState({claim:false, claimContent:''});
     }
 
     e.preventDefault();
     e.stopPropagation();
-	}
+  }
 
   render() {
     const { bookId } = this.props;
     const { chapters, selectedChapter, settings } = this.state;
     const slides = [
       <DescriptionContainer claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
-      <TOCContainer book={this.props.book} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
+      <TOCContainer book={this.props.book} bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
     ];
     return (
       <div>
-				{this.state.claim?(<Claims book={this.props.book} user={this.props.user} claimContent={this.state.claimContent} submitClaim={this.submitClaim} cancelClaim={this.cancelClaim} _onChange={this._onChange}/>):''}
+        {this.state.claim?(<Claims book={this.props.book} user={this.props.user} claimContent={this.state.claimContent} submitClaim={this.submitClaim} cancelClaim={this.cancelClaim} _onChange={this._onChange}/>):''}
         <div className="book-top-half">
           <DetailsContainer toggleSettings={this.toggleSettings} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           {(settings.slidesToShow === 2) &&

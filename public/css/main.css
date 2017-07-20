@@ -2795,6 +2795,10 @@ hr.dividers {
   #search-categories {
     display: none; } }
 
+.chapter-row .buttons .button.button-plusminus {
+  width: auto;
+  padding: 0 15px; }
+
 .chapter-row {
   margin: 0.5em 0 0;
   display: flex; }
@@ -2810,8 +2814,7 @@ hr.dividers {
         margin-right: 20px;
         width: auto; }
     .chapter-row .buttons .button {
-      width: auto;
-      padding: 0 20px;
+      width: calc(50% - 0.75em);
       margin-right: 0.375rem; }
 
 .error-message {
