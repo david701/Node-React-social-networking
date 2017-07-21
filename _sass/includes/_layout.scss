@@ -204,7 +204,6 @@
             // padding: 1em;
             background-color: $black;
             box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
-            overflow: scroll;
             -webkit-overflow-scrolling: touch;
 
             width: calc(100vw - 3em);
@@ -655,10 +654,11 @@ label span {
   .fixed-area {
     position: fixed;
     height: 100%;
-    // padding: 1em;
+    padding: 10px;
+    overflow: auto;
     background-color: $white;
     box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
-    overflow: scroll;
+    
     -webkit-overflow-scrolling: touch;
 
     width: calc(100vw - 3em);

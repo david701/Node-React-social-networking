@@ -69,12 +69,13 @@ export default class Description extends React.Component{
 		}
 
 		return(
-			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden'}}>
-				<div style={{overflowY: 'scroll', height:'100%', width: '100%'}}>
+			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden', padding: 0}}>
+				<div style={{overflowY: 'scroll', height:'100%', width: '100%', padding: '2em'}}>
 				{followBtn}
+				{!this.props.authorized?(<button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.props.claim}>Claim</button>):''}
 				{!this.props.authorized && this.props.book && this.props.book.social_media ?
 					(
-						<div className="buy-section">
+						<div className="buy-section" style={{display: 'inline-block', margin: '0 0 1rem 1rem'}}>
 							<button className='button-white menu-button' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem'}} onClick={(e)=> {$this.toggleBuy(e)}}>Buy</button>
 							<ul className={"menu " + this.state.showMenu}>
 								{Object.keys(this.props.book.social_media).map((link,index)=>{
@@ -89,7 +90,7 @@ export default class Description extends React.Component{
 					)
 					: ''
 				}
-				{!this.props.authorized?(<button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.props.claim}>Claim</button>):''}
+					<h4 style={{marginBottom: '0.25em', marginTop: '0.5rem'}}>Description</h4>
 					<p>{this.props.description}</p>
 					<Reviews bookId={this.props.bookId} authorized={this.props.authorized} admin={this.props.admin} getBook={this.props.getBook}/>
 				</div>

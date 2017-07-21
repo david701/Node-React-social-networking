@@ -55563,7 +55563,10 @@ var Home = function (_React$Component) {
 		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Home.__proto__ || Object.getPrototypeOf(Home)).call.apply(_ref, [this].concat(args))), _this), _this.state = { books: [], topBooks: [], trendingBooks: [], recommendedBooks: [], genre: '', user: '', brawls: [] }, _this.getUser = function () {
 			_jQuery2.default.get(apiUrl + '/user_session').then(function (user) {
 				if (user.data._id) {
-					_this.setState({ user: user.data });
+					_jQuery2.default.get(apiUrl + '/users/' + user.data._id + '?book_list=true').then(function (user) {
+						console.log(user.data);
+						_this.setState({ user: user.data });
+					});
 				}
 			});
 		}, _this.getAllBooks = function (genre) {
@@ -55607,6 +55610,19 @@ var Home = function (_React$Component) {
 		}, _this.changeGenre = function (e) {
 			_this.setState({ genre: e.target.value });
 			_this.getAllBooks(e.target.value);
+		}, _this.followBook = function (e) {
+			var bookId = e.target.id;
+			_jQuery2.default.post('/api/v1/books/' + bookId + '/follow').then(function (res) {
+				_this.getUser();
+			});
+		}, _this.unfollowBook = function (e) {
+			var bookId = e.target.id;
+			_jQuery2.default.ajax({
+				url: '/api/v1/books/' + bookId + '/follow',
+				type: 'DELETE'
+			}).then(function (res) {
+				_this.getUser();
+			});
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -55856,14 +55872,13 @@ var ViewAll = function (_React$Component) {
 					_this.setState({ authors: authors.data, count: authors.count, title: title });
 				});
 			}
-		}, _this.enterBrawl = function () {
+		}, _this.enterBrawl = function (e) {
 			_jQuery2.default.ajax({
 				url: '/api/v1/books/' + _this.state.brawlBook._id,
 				type: 'PUT',
 				data: { brawl_submit: true }
 			}).then(function (response) {
 				_this.getUserBooks();
-				_this.hideBrawl();
 			});
 		}, _this.hideBrawl = function (e) {
 			if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
@@ -56095,8 +56110,8 @@ var ViewAll = function (_React$Component) {
 										),
 										_react2.default.createElement(
 											'a',
-											{ className: 'button button-red', onClick: function onClick(e) {
-													_this2.enterBrawl();
+											{ className: 'button button-red close', onClick: function onClick(e) {
+													_this2.enterBrawl(e);
 												} },
 											'Yes'
 										)
@@ -59803,14 +59818,19 @@ var Description = function (_React$Component) {
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden' } },
+				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden', padding: 0 } },
 				_react2.default.createElement(
 					'div',
-					{ style: { overflowY: 'scroll', height: '100%', width: '100%' } },
+					{ style: { overflowY: 'scroll', height: '100%', width: '100%', padding: '2em' } },
 					followBtn,
+					!this.props.authorized ? _react2.default.createElement(
+						'button',
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
+						'Claim'
+					) : '',
 					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',
-						{ className: 'buy-section' },
+						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 0 1rem 1rem' } },
 						_react2.default.createElement(
 							'button',
 							{ className: 'button-white menu-button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem' }, onClick: function onClick(e) {
@@ -59834,11 +59854,11 @@ var Description = function (_React$Component) {
 							})
 						)
 					) : '',
-					!this.props.authorized ? _react2.default.createElement(
-						'button',
-						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
-						'Claim'
-					) : '',
+					_react2.default.createElement(
+						'h4',
+						{ style: { marginBottom: '0.25em', marginTop: '0.5rem' } },
+						'Description'
+					),
 					_react2.default.createElement(
 						'p',
 						null,
@@ -60242,6 +60262,7 @@ var TableOfContents = function TableOfContents(props) {
     book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })
   );
 };
+
 var AddChapter = function AddChapter(props) {
   return _react2.default.createElement(
     'div',
@@ -62296,7 +62317,7 @@ var EditBookContainer = function (_React$Component) {
           selectedChapter = _state.selectedChapter,
           settings = _state.settings;
 
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { book: this.props.book, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { book: this.props.book, bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,

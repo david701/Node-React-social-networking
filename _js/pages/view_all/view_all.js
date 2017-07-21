@@ -108,14 +108,13 @@ class ViewAll extends React.Component{
 		}
 	}
 
-	enterBrawl = () => {
+	enterBrawl = (e) => {
 		$.ajax({
             url: '/api/v1/books/' + this.state.brawlBook._id,
             type: 'PUT',
             data: {brawl_submit: true}
         }).then((response)=>{
         	this.getUserBooks();
-        	this.hideBrawl();
         });
 	}
 
@@ -281,7 +280,7 @@ class ViewAll extends React.Component{
 							<div className="submit-row submit-row-small">
 								<div className="buttons">
 									<a className="button button-white close" onClick={(e) => {this.hideBrawl(e)}}>Close</a>
-									<a className="button button-red" onClick={(e) => {this.enterBrawl()}}>Yes</a>
+									<a className="button button-red close" onClick={(e) => {this.enterBrawl(e)}}>Yes</a>
 								</div>
 							</div>
 						</div>
