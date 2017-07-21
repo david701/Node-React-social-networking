@@ -59112,10 +59112,10 @@ var Description = function (_React$Component) {
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden' } },
+				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden', padding: 0 } },
 				_react2.default.createElement(
 					'div',
-					{ style: { overflowY: 'scroll', height: '100%', width: '100%' } },
+					{ style: { overflowY: 'scroll', height: '100%', width: '100%', padding: '2em' } },
 					followBtn,
 					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',

@@ -85,7 +85,6 @@
       margin-bottom: 20px;
       max-width: $match-8;
       height: em(350);
-      overflow-y: scroll;
       @include w1000 {
         width: calc(100% - #{ $gutter / 2 });
         padding: 2em;
@@ -473,7 +472,6 @@
     margin-bottom: 20px;
     max-width: $match-8;
     height: em(350);
-    overflow-y: scroll;
     @include w1000 {
       width: calc(50% - #{ $gutter / 2 });
       padding: 2em;
@@ -592,7 +590,6 @@
     margin-bottom: 20px;
     max-width: $match-8;
     height: em(350);
-    overflow-y: scroll;
     @include w1000 {
       width: calc(100% - #{ $gutter / 2 });
       padding: 2em;

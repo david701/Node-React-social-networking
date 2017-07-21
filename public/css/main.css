@@ -1357,7 +1357,6 @@ button:disabled {
       height: 100%;
       background-color: #000000;
       box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);
-      overflow: scroll;
       -webkit-overflow-scrolling: touch;
       width: calc(100vw - 3em);
       transform: translateX(calc(-100vw + 3em));
@@ -1686,9 +1685,10 @@ label span {
   .view-sidebar .fixed-area {
     position: fixed;
     height: 100%;
+    padding: 10px;
+    overflow: auto;
     background-color: #FFFFFF;
     box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);
-    overflow: scroll;
     -webkit-overflow-scrolling: touch;
     width: calc(100vw - 3em);
     transform: translateX(calc(-100vw + 3em));
@@ -2182,8 +2182,7 @@ hr.dividers {
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: 46.5em;
-    height: 21.875em;
-    overflow-y: scroll; }
+    height: 21.875em; }
     @media screen and (min-width: 62.5em) {
       #night-mode .content-block-standard-slide {
         width: calc(100% - 0.75em);
@@ -2468,7 +2467,6 @@ hr.dividers {
     margin-bottom: 20px;
     max-width: 46.5em;
     height: 21.875em;
-    overflow-y: scroll;
     padding: 1em; }
     @media screen and (min-width: 62.5em) {
       .content-block-standard-new {
@@ -2550,8 +2548,7 @@ hr.dividers {
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: 46.5em;
-    height: 21.875em;
-    overflow-y: scroll; }
+    height: 21.875em; }
     @media screen and (min-width: 62.5em) {
       .content-block-standard-slide {
         width: calc(100% - 0.75em);
