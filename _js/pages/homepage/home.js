@@ -22,7 +22,10 @@ class Home extends React.Component{
 	getUser = ()=>{
 		$.get(`${apiUrl}/user_session`).then((user)=>{
 			if(user.data._id){
-				this.setState({user:user.data});
+				$.get(`${apiUrl}/users/${user.data._id}?book_list=true`).then((user)=>{
+					console.log(user.data);
+					this.setState({user:user.data});
+				})
 			}
 		})
 	}
@@ -79,6 +82,24 @@ class Home extends React.Component{
 		this.setState({genre: e.target.value});
 		this.getAllBooks(e.target.value);
 	}
+
+	followBook = (e)=>{
+		var bookId = e.target.id;
+		$.post(`/api/v1/books/${bookId}/follow`)
+		.then(res => {
+			this.getUser();
+		})
+	}
+
+	unfollowBook = (e) => {
+		var bookId = e.target.id;
+		$.ajax({
+			url: `/api/v1/books/${bookId}/follow`,
+			type: 'DELETE',
+		}).then(res => {
+			this.getUser();
+		})
+  }
 
 	render(){
 		return(

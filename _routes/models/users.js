@@ -155,7 +155,7 @@ exports.getUserById = (req, res)=>{
 	if(!req.query.book_list){
 		query = query.populate({
 			path: 'following_books',
-			match: {'status':1},
+			match: {'status':2},
 			populate: {
 				path: 'author',
 				model: 'Users',

@@ -17,7 +17,7 @@ const Book = props => (
 												<button className="button button-white" id={props.book._id} onClick={props.unfollowBook}>Unfollow</button>
 												):''}
 											{props.userBooks &&
-												<button className="button button-red" onClick={()=>{props.showBrawl(props.book)}} disabled={props.book.brawl_submit ? props.book.brawl_submit : false}>Brawl</button>													
+												<button className="button button-red" onClick={()=>{props.showBrawl(props.book)}} disabled={props.book.brawl_submit ? props.book.brawl_submit : false}>Brawl</button>
 											}
 
 									</div>
