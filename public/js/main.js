@@ -56662,14 +56662,13 @@ var ViewAll = function (_React$Component) {
 					_this.setState({ authors: authors.data, count: authors.count, title: title });
 				});
 			}
-		}, _this.enterBrawl = function () {
+		}, _this.enterBrawl = function (e) {
 			_jQuery2.default.ajax({
 				url: '/api/v1/books/' + _this.state.brawlBook._id,
 				type: 'PUT',
 				data: { brawl_submit: true }
 			}).then(function (response) {
 				_this.getUserBooks();
-				_this.hideBrawl();
 			});
 		}, _this.hideBrawl = function (e) {
 			if (e.target.classList.contains('overlay') || e.target.classList.contains('close')) {
@@ -56901,8 +56900,8 @@ var ViewAll = function (_React$Component) {
 										),
 										_react2.default.createElement(
 											'a',
-											{ className: 'button button-red', onClick: function onClick(e) {
-													_this2.enterBrawl();
+											{ className: 'button button-red close', onClick: function onClick(e) {
+													_this2.enterBrawl(e);
 												} },
 											'Yes'
 										)
