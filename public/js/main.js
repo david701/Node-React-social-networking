@@ -34938,7 +34938,7 @@ var Brawlers = function (_React$Component) {
 														{ className: 'button button-red', href: "/books/" + brawl.book_b._id },
 														'Read'
 													),
-													isAdmin && user !== "" && !followingB && _react2.default.createElement(
+													!isAdmin && user !== "" && !followingB && _react2.default.createElement(
 														'button',
 														{ id: brawl.book_b._id, className: 'button button-white', onClick: function onClick(e) {
 																onFollow(e);

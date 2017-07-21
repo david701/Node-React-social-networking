@@ -145,7 +145,7 @@ export default class Brawlers extends React.Component {
 															{title !== "Create Brawl" ? (
 																	<div className="overlay">
 																		<a className="button button-red" href={"/books/" + brawl.book_b._id}>Read</a>
-																		{isAdmin && user !== "" && !followingB &&
+																		{!isAdmin && user !== "" && !followingB &&
 																			<button id={brawl.book_b._id} className="button button-white" onClick={(e)=> {onFollow(e)}}>Follow</button>
 																		}
 																		{!isAdmin && user !== "" && followingB &&
