@@ -6,6 +6,9 @@
 #hide {
     display: none;
 }
+.button {
+    font-family: system-ui;
+}
 .book-cover {
     position: absolute;
     right: 20px;
@@ -80,9 +83,6 @@
                 float: right;
                 position: relative;
             }
-        }
-        .content-block-standard-slide {
-            height: 38em;
         }
         .slide-to-chapter {
             background: #000;
@@ -938,6 +938,7 @@ body.search-open {
         width: 50%;
     }
     .book-top-half {
+        height: auto;
         .go-to-chapter {
             right: initial;
             left: 185px;
@@ -993,7 +994,7 @@ body.search-open {
         }
     }
     .content-block-standard-slide {
-        height: 38em;
+        height: 85vh;
     }
 }
 
@@ -1170,7 +1171,8 @@ hr.dividers {
     display: inline-block;
 }
 .slick-dots {
-    bottom: -45px;
+    bottom: 0px !important;
+    display: none !important;
 }
 
 .level-title{

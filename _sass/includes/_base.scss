@@ -3,7 +3,9 @@
 
 // Typography
 // ----------
-
+#preview {
+	height: 92vh;
+}
 .social-links img {
 	height: 24px;
     width: 24px;
@@ -48,7 +50,7 @@
     padding: 0;
     overflow: visible;
     .placeholder {
-		height: 10.1em;
+		height: 20.7vh;
     }
 }
 
@@ -407,7 +409,7 @@ img {
 // Button
 // ------
 .button {
-	//font: 11px system-ui;
+	font: 11px system-ui;
 }
 .buttons {
 	span {
@@ -605,6 +607,7 @@ button:disabled {
 	max-width: 700px;
 	width: 100%;
 	margin: 0 auto;
+	height: 85vh;
 	display: inline-block;
 }
 #full-screen .content-block.content-block-standard-new.full {
@@ -613,7 +616,7 @@ button:disabled {
     width: 141px;
     display: inline-block;
     padding: 0;
-    height: 100%;
+    height: 85vh;
     vertical-align: top;
     white-space: nowrap;
     margin: 0 2em;
@@ -634,7 +637,7 @@ button:disabled {
     text-align: center;
 }
 #full-screen .placeholder {
-	height: 38em;
+	height: 85vh;
 }
 #full-screen > div > div {
     display: inline-block;
@@ -644,3 +647,9 @@ button:disabled {
     	min-height: 365px;
     }
 }
+.slick-slider {
+	height: 50vh;
+}
+
+
+
