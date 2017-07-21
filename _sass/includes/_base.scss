@@ -409,7 +409,7 @@ img {
 // Button
 // ------
 .button {
-	font: 11px system-ui;
+	font: 11px $body;
 }
 .buttons {
 	span {
@@ -650,6 +650,3 @@ button:disabled {
 .slick-slider {
 	height: 50vh;
 }
-
-
-

@@ -6,9 +6,6 @@
 #hide {
     display: none;
 }
-.button {
-    font-family: system-ui;
-}
 .book-cover {
     position: absolute;
     right: 20px;
@@ -658,7 +655,7 @@ label span {
     overflow: auto;
     background-color: $white;
     box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
-    
+
     -webkit-overflow-scrolling: touch;
 
     width: calc(100vw - 3em);
