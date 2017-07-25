@@ -84,10 +84,10 @@ export default class Description extends React.Component{
 				<div style={{overflowY: 'scroll', height:'100%', width: '100%', padding: '2em'}}>
 				{followBtn}
 				{claimBtn}
-				{!this.props.authorized && this.props.book && this.props.book.social_media ?
+				{!this.props.authorized && this.props.book && this.props.book.social_media  ?
 					(
 						<div className="buy-section" style={{display: 'inline-block', margin: '0 0 1rem 1rem'}}>
-							<button className='button-white menu-button' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem'}} onClick={(e)=> {$this.toggleBuy(e)}}>Buy</button>
+							{this.props.book.social_media.amazon != '' || this.props.book.social_media.kobo != '' || this.props.book.social_media.smashword != '' || this.props.book.social_media.itunes != '' || this.props.book.social_media.barnesandnoble != '' || this.props.book.social_media.twitter != ''?<button className='button-white menu-button' style={{display: 'inline-block', width: 'auto', minWidth:'100px', padding: '0.9375rem 2rem'}} onClick={(e)=> {$this.toggleBuy(e)}}>Buy</button>:''  }
 							<ul className={"menu " + this.state.showMenu}>
 								{Object.keys(this.props.book.social_media).map((link,index)=>{
 									if(this.props.book.social_media[link]){

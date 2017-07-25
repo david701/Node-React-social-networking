@@ -59849,13 +59849,13 @@ var Description = function (_React$Component) {
 					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',
 						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 0 1rem 1rem' } },
-						_react2.default.createElement(
+						this.props.book.social_media.amazon != '' || this.props.book.social_media.kobo != '' || this.props.book.social_media.smashword != '' || this.props.book.social_media.itunes != '' || this.props.book.social_media.barnesandnoble != '' || this.props.book.social_media.twitter != '' ? _react2.default.createElement(
 							'button',
-							{ className: 'button-white menu-button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem' }, onClick: function onClick(e) {
+							{ className: 'button-white menu-button', style: { display: 'inline-block', width: 'auto', minWidth: '100px', padding: '0.9375rem 2rem' }, onClick: function onClick(e) {
 									$this.toggleBuy(e);
 								} },
 							'Buy'
-						),
+						) : '',
 						_react2.default.createElement(
 							'ul',
 							{ className: "menu " + this.state.showMenu },
