@@ -13,12 +13,6 @@ export default class Reviews extends React.Component{
 		this.getReviews();
 	}
 
-	// componentWillReceiveProps(nextProps){
-	// 	if(nextProps.authorized){
-	// 		this.setState({authorized: nextProps.authorized})
-	// 	}
-	// }
-
 	getReviews = ()=>{
 		var bookId = this.props.bookId;
 		$.get(`${apiUrl}/books/${bookId}/reviews`).then((reviews)=>{
@@ -111,9 +105,7 @@ export default class Reviews extends React.Component{
 				<ul style={{paddingBottom: '2rem'}}>
 					{reviews}
 				</ul>
-				<button className="add_review_btn" onClick={this.addReview}>
-					<h4 style={{margin:0}}>Create Review</h4>
-				</button>
+				{this.props.user?(<button className="add_review_btn" onClick={this.addReview}><h4 style={{margin:0}}>Create Review</h4></button>):(<button className="add_review_btn" onClick={this.props.signUp}><h4 style={{margin:0}}>Create Review</h4></button>)}
 				{this.state.addReview?
 				<div className="add_review">
 					<div>

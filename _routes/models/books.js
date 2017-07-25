@@ -119,6 +119,7 @@ exports.getBooks = (req, res)=>{
             "cover":1,
             "viewed_by": 1,
             "type":1,
+            "rating":1,
             "length": { "$size": "$viewed_by" }
           }},
           { "$sort": { "length": -1 } },
