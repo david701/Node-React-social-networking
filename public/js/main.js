@@ -59776,6 +59776,9 @@ var Description = function (_React$Component) {
 			e.stopPropagation();
 		}, _this.closePopUps = function () {
 			_this.setState({ showMenu: "" });
+		}, _this.signUp = function (e) {
+			e.preventDefault();
+			(0, _jQuery2.default)('.login-modal').css({ visibility: 'visible', opacity: 1 });
 		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
@@ -59789,7 +59792,8 @@ var Description = function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			var followBtn = void 0;
+			var followBtn = void 0,
+			    claimBtn = void 0;
 			var $this = this;
 			var socialMedia = {
 				amazon: 'Amazon',
@@ -59801,17 +59805,35 @@ var Description = function (_React$Component) {
 			};
 
 			if (!this.props.authorized) {
-				if (this.state.following) {
-					followBtn = _react2.default.createElement(
-						'a',
-						{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
-						'Unfollow'
+				if (this.props.user) {
+					if (this.state.following) {
+						followBtn = _react2.default.createElement(
+							'a',
+							{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+							'Unfollow'
+						);
+					} else {
+						followBtn = _react2.default.createElement(
+							'a',
+							{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+							'Follow'
+						);
+					}
+					claimBtn = _react2.default.createElement(
+						'button',
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
+						'Claim'
 					);
 				} else {
 					followBtn = _react2.default.createElement(
 						'a',
-						{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						{ onClick: this.signUp, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
 						'Follow'
+					);
+					claimBtn = _react2.default.createElement(
+						'button',
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.signUp },
+						'Claim'
 					);
 				}
 			}
@@ -59823,11 +59845,7 @@ var Description = function (_React$Component) {
 					'div',
 					{ style: { overflowY: 'scroll', height: '100%', width: '100%', padding: '2em' } },
 					followBtn,
-					!this.props.authorized ? _react2.default.createElement(
-						'button',
-						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
-						'Claim'
-					) : '',
+					claimBtn,
 					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',
 						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 0 1rem 1rem' } },
@@ -59864,7 +59882,7 @@ var Description = function (_React$Component) {
 						null,
 						this.props.description
 					),
-					_react2.default.createElement(_Reviews2.default, { bookId: this.props.bookId, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook })
+					_react2.default.createElement(_Reviews2.default, { bookId: this.props.bookId, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook, user: this.props.user, signUp: this.signUp })
 				)
 			);
 		}
@@ -60078,13 +60096,6 @@ var Reviews = function (_React$Component) {
 		value: function componentDidMount() {
 			this.getReviews();
 		}
-
-		// componentWillReceiveProps(nextProps){
-		// 	if(nextProps.authorized){
-		// 		this.setState({authorized: nextProps.authorized})
-		// 	}
-		// }
-
 	}, {
 		key: 'render',
 		value: function render() {
@@ -60136,9 +60147,17 @@ var Reviews = function (_React$Component) {
 					{ style: { paddingBottom: '2rem' } },
 					reviews
 				),
-				_react2.default.createElement(
+				this.props.user ? _react2.default.createElement(
 					'button',
 					{ className: 'add_review_btn', onClick: this.addReview },
+					_react2.default.createElement(
+						'h4',
+						{ style: { margin: 0 } },
+						'Create Review'
+					)
+				) : _react2.default.createElement(
+					'button',
+					{ className: 'add_review_btn', onClick: this.props.signUp },
 					_react2.default.createElement(
 						'h4',
 						{ style: { margin: 0 } },
