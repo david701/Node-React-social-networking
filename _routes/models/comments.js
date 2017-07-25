@@ -37,7 +37,17 @@ exports.addComment = (req,res)=>{
 
 	var newComment = new mongoComment(comment);
 	newComment.save().then((comment)=>{
-		handle.res(res, comment);
+		xp.comment(user._id, (err, comment_user)=>{
+			mongoBook.findOne({_id: comment.book_id}).then((book)=>{
+				if(user._id != book.author){
+					xp.comment(book.author, (err, book_user)=>{
+						handle.res(res, comment)
+					})
+				}else{
+					handle.res(res, comment)
+				}
+			})
+		})
 	}).catch((err)=>{
 		handle.err(res, err.message);
 	})
@@ -50,9 +60,7 @@ exports.editComment = (req,res)=>{
 		}else{
 			if(req.body.content) comment.content = req.body.content;
 			comment.save().then((comment)=>{
-				xp.comment(user._id, (err, user)=>{
-					handle.res(res, comment)
-				})
+				handle.res(res, comment)
 			})
 		}
 	}).catch((err)=>{
