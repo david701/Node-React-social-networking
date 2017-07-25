@@ -52561,7 +52561,7 @@ var Login = function (_React$Component) {
                             _react2.default.createElement(
                                 'p',
                                 { className: 'quote' },
-                                '\u201CSome type of quote.\u201D'
+                                '\u201CWe do not need magic to transform our world. We carry all of the power we need inside ourselves already." - J.K. Rowling'
                             ),
                             this.state.error && _react2.default.createElement(
                                 'p',
