@@ -27,17 +27,26 @@ export default class EditBookContainer extends React.Component {
       slidesToShow: 2,
       slidesToScroll: 1,
       dotsClass: 'slick-dots pagination'
-    }
+    },
+    mobile: false
   };
 
   componentDidMount() {
     this.loadChapters();
+    this.updateSlidesToShow();
+  }
+
+  updateSlidesToShow = () => {
+    let {settings} = this.state
+    if(window.innerWidth <= 768) {
+      settings.slidesToShow = 1;
+      this.setState({settings: settings, mobile: true})
+    }
   }
 
   toggleSettings = () => {
     let {settings} = this.state;
     settings.slidesToShow = (settings.slidesToShow === 1) ? 2 : 1
-
     this.setState({settings: settings})
   }
 
@@ -124,7 +133,7 @@ export default class EditBookContainer extends React.Component {
 
   render() {
     const { bookId } = this.props;
-    const { chapters, selectedChapter, settings } = this.state;
+    const { chapters, selectedChapter, settings, mobile } = this.state;
     const slides = [
       <DescriptionContainer claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
       <TOCContainer book={this.props.book} bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
@@ -134,14 +143,14 @@ export default class EditBookContainer extends React.Component {
         {this.state.claim?(<Claims book={this.props.book} user={this.props.user} claimContent={this.state.claimContent} submitClaim={this.submitClaim} cancelClaim={this.cancelClaim} _onChange={this._onChange}/>):''}
         <div className="book-top-half">
           <DetailsContainer toggleSettings={this.toggleSettings} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
-          {(settings.slidesToShow === 2) &&
+          {(settings.slidesToShow === 2 || mobile) &&
             <div className="content-block content-block-standard-new ads">
               <AdElement page='book-detail'/>
               <AdElement page='book-detail'/>
             </div>
           }
         </div>
-        {(settings.slidesToShow === 1) &&
+        {(settings.slidesToShow === 1 && !mobile) &&
           <div className="content-block content-block-standard-new full left">
             <AdElement page='book-detail'/>
           </div>
@@ -149,7 +158,7 @@ export default class EditBookContainer extends React.Component {
         <Slider ref='slider' {...settings}>
           {this.loadSlides(slides)}
         </Slider>
-        {(settings.slidesToShow === 1) &&
+        {(settings.slidesToShow === 1 && !mobile) &&
           <div className="content-block content-block-standard-new full right">
             <AdElement page='book-detail'/>
           </div>

@@ -61539,12 +61539,19 @@ var EditBookContainer = function (_React$Component) {
         slidesToShow: 2,
         slidesToScroll: 1,
         dotsClass: 'slick-dots pagination'
+      },
+      mobile: false
+    }, _this.updateSlidesToShow = function () {
+      var settings = _this.state.settings;
+
+      if (window.innerWidth <= 768) {
+        settings.slidesToShow = 1;
+        _this.setState({ settings: settings, mobile: true });
       }
     }, _this.toggleSettings = function () {
       var settings = _this.state.settings;
 
       settings.slidesToShow = settings.slidesToShow === 1 ? 2 : 1;
-
       _this.setState({ settings: settings });
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
@@ -61635,6 +61642,7 @@ var EditBookContainer = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.loadChapters();
+      this.updateSlidesToShow();
     }
   }, {
     key: 'render',
@@ -61643,7 +61651,8 @@ var EditBookContainer = function (_React$Component) {
       var _state = this.state,
           chapters = _state.chapters,
           selectedChapter = _state.selectedChapter,
-          settings = _state.settings;
+          settings = _state.settings,
+          mobile = _state.mobile;
 
       var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { book: this.props.book, bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
@@ -61654,14 +61663,14 @@ var EditBookContainer = function (_React$Component) {
           'div',
           { className: 'book-top-half' },
           _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.toggleSettings, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
-          settings.slidesToShow === 2 && _react2.default.createElement(
+          (settings.slidesToShow === 2 || mobile) && _react2.default.createElement(
             'div',
             { className: 'content-block content-block-standard-new ads' },
             _react2.default.createElement(_Ad.AdElement, { page: 'book-detail' }),
             _react2.default.createElement(_Ad.AdElement, { page: 'book-detail' })
           )
         ),
-        settings.slidesToShow === 1 && _react2.default.createElement(
+        settings.slidesToShow === 1 && !mobile && _react2.default.createElement(
           'div',
           { className: 'content-block content-block-standard-new full left' },
           _react2.default.createElement(_Ad.AdElement, { page: 'book-detail' })
@@ -61671,7 +61680,7 @@ var EditBookContainer = function (_React$Component) {
           _extends({ ref: 'slider' }, settings),
           this.loadSlides(slides)
         ),
-        settings.slidesToShow === 1 && _react2.default.createElement(
+        settings.slidesToShow === 1 && !mobile && _react2.default.createElement(
           'div',
           { className: 'content-block content-block-standard-new full right' },
           _react2.default.createElement(_Ad.AdElement, { page: 'book-detail' })

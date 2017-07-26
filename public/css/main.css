@@ -3897,7 +3897,17 @@ hr.dividers {
     bottom: initial;
     margin: 20px 0 0 0; }
   #preview {
-    height: auto; } }
+    height: auto; }
+  .slick-prev {
+    left: 5px !important;
+    z-index: 5 !important; }
+  .slick-next {
+    right: 5px !important;
+    z-index: 5 !important; }
+  .content-block-standard-slide {
+    padding: 20px 30px; }
+  .chapter-row .buttons .button {
+    width: auto; } }
 
 @media screen and (min-width: 30em) {
   .user-info {

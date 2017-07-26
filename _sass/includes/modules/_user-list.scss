@@ -181,4 +181,18 @@
     #preview {
         height: auto;
     }
+    .slick-prev {
+        left: 5px !important;
+        z-index: 5 !important;
+    }
+    .slick-next {
+        right: 5px !important;
+        z-index: 5 !important;
+    }
+    .content-block-standard-slide {
+        padding: 20px 30px;
+    }
+    .chapter-row .buttons .button {
+        width: auto;
+    }
 }
