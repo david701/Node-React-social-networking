@@ -196,23 +196,7 @@
             flex-shrink: 0;
         }
         .fixed-area {
-            position: fixed;
-            height: 100%;
-            // padding: 1em;
             background-color: $black;
-            box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
-            -webkit-overflow-scrolling: touch;
-
-            width: calc(100vw - 3em);
-            transform: translateX((calc(-100vw + 3em)));
-            transition: transform $timing-slower, width $timing-slower;
-            @include w480 {
-                width: em(200);
-                transform: translateX(em(-200));
-            }
-            @include w1000 {
-                transform: translateX(0);
-            }
             .brand {
                 padding: em(24) 1em em(10);
                 flex-direction: column;
@@ -402,6 +386,7 @@
         background-image: none;
         background-size: 350px;
         background-position: center;
+        width: 100vw;
         .copy-limit {
             max-width: $match-8;
             margin: 0 auto;
