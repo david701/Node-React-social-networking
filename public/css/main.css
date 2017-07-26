@@ -1021,7 +1021,7 @@ img {
   max-width: 100%; }
 
 .button {
-  font: 11px system-ui; }
+  font: 11px "franklin-gothic-urw", -apple-system, Helvetica, Arial, sans-serif; }
 
 .buttons span {
   cursor: pointer; }
@@ -1221,9 +1221,6 @@ button:disabled {
 
 #hide {
   display: none; }
-
-.button {
-  font-family: system-ui; }
 
 .book-cover {
   position: absolute;

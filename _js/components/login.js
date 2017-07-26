@@ -107,7 +107,7 @@ class Login extends React.Component{
                         <div className="card__front overlay">
                             <div className="content-block-small content-block" onClick={this.handleClick}>
                                 <h3>Book Brawl Log In</h3>
-                                <p className="quote">“Some type of quote.”</p>
+                                <p className="quote">“We do not need magic to transform our world. We carry all of the power we need inside ourselves already." - J.K. Rowling</p>
                                 {this.state.error &&
                                     <p className="error-message">{this.state.error}</p>
                                 }
