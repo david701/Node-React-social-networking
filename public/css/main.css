@@ -3883,7 +3883,21 @@ hr.dividers {
   #admin.brawl-feature .container .book-blocks-feature > ul > li:last-child .book {
     margin: 0; }
   #admin.brawl-feature .container {
-    min-width: 100%; } }
+    min-width: 100%; }
+  .book-top-half, .content-block-standard-new {
+    height: auto; }
+  button.toggleScreen, .button.toggleScreen {
+    display: inline-block;
+    float: none;
+    margin: 10px 10px 0 0; }
+  .table-of-contents {
+    display: block;
+    position: relative;
+    width: 100%;
+    bottom: initial;
+    margin: 20px 0 0 0; }
+  #preview {
+    height: auto; } }
 
 @media screen and (min-width: 30em) {
   .user-info {
