@@ -195,4 +195,30 @@
     .chapter-row .buttons .button {
         width: auto;
     }
+    .chapter-row .buttons .button.button-plusminus {
+        float: left;
+        margin: 10px 5px 0 0;
+        font-weight: bold;
+    }
+    .chapter-row .buttons .add-or-remove input {
+        margin-right: 20px;
+        width: auto;
+    }
+    .chapter-row .buttons .add-or-remove {
+        display: inline-block;
+    }
+    .chapter-row .buttons .button.button-plusminus {
+        padding: 10px 15px;
+
+    }
+    #home .brawl-feature header .flex-row .label-large {
+        display: none !important;
+    }
+    .go-to-chapter {
+        float: none;
+        position: relative;
+        bottom: initial;
+        right: initial;
+        margin: 10px 0 0 0;
+    }
 }
