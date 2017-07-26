@@ -45,8 +45,9 @@ export default class EditBookContainer extends React.Component {
   }
 
   toggleSettings = () => {
+    let {toggleStatus} = this.props;
     let {settings} = this.state;
-    settings.slidesToShow = (settings.slidesToShow === 1) ? 2 : 1
+    settings.slidesToShow = (toggleStatus === "Full Screen") ? 1 : 2
     this.setState({settings: settings})
   }
 

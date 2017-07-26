@@ -191,6 +191,7 @@
     }
     .content-block-standard-slide {
         padding: 20px 30px;
+        overflow-y: scroll;
     }
     .chapter-row .buttons .button {
         width: auto;
@@ -220,5 +221,43 @@
         bottom: initial;
         right: initial;
         margin: 10px 0 0 0;
+    }
+    #full-screen > div > div {
+        width: 100%;
+    }
+    #full-screen .profile-info {
+        width: 100%;
+        text-align: left;
+    }
+    #full-screen .table-of-contents {
+        position: relative;
+        top: initial;
+        text-align: left;
+    }
+    #full-screen .placeholder {
+        height: 20.7vh;
+        background: #fff;
+        margin: 30px 0;
+    }
+    #full-screen .book-top-half .content-block:first-child {
+        padding: 0 10px;
+        height: auto;
+    }
+    #full-screen .book-top-half .go-to-chapter {
+        left: 0;
+        top: 0;
+    }
+    #full-screen .book-top-half .toggleScreen {
+        display: inline-block;
+        position: relative;
+        margin: 10px 10px 0 0;
+        width: 45%;
+        float: none;
+    }
+    #full-screen .book-top-half .profile-info p, #full-screen .rating-display {
+        display: none;
+    }
+    #full-screen .book-top-half .toggleScreen.status {
+        margin: 10px 10px 0 0;
     }
 }

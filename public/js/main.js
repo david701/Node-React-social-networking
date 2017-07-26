@@ -61549,9 +61549,10 @@ var EditBookContainer = function (_React$Component) {
         _this.setState({ settings: settings, mobile: true });
       }
     }, _this.toggleSettings = function () {
+      var toggleStatus = _this.props.toggleStatus;
       var settings = _this.state.settings;
 
-      settings.slidesToShow = settings.slidesToShow === 1 ? 2 : 1;
+      settings.slidesToShow = toggleStatus === "Full Screen" ? 1 : 2;
       _this.setState({ settings: settings });
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
