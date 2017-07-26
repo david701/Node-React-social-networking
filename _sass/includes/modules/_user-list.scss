@@ -7,14 +7,6 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    @include n768 {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-right: solid 1px #dedede;
-        padding: 50px 0 0 0;
-        box-shadow: inset -13px 0px 10px -8px rgb(226, 226, 226);
-    }
     li {
         width: auto;
         text-align: center;
@@ -38,13 +30,28 @@
 }
 
 @include n768 {
+    #accountInfo .user-list {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-right: solid 1px #dedede;
+        padding: 50px 0 0 0;
+        box-shadow: inset -13px 0px 10px -8px rgb(226, 226, 226);
+    }
     .standard-section-with-sidebar {
         width: 100%;
+    }
+    #view_all .book-blocks-small > ul {
+        justify-content: center;
+        > li {
+            margin: 0 5px;
+            width: calc(50% - 1em);
+        }
     }
     .user-list li:last-child {
         padding: 0 30px 0 0;
     }
-    .book-blocks-small > ul {
+    #accountInfo .book-blocks-small > ul {
         flex-wrap: nowrap;
         justify-content: flex-start;
         overflow-x: scroll;
@@ -53,10 +60,10 @@
         padding: 20px 0 0 0;
         box-shadow: inset -13px 0px 10px -8px rgb(226, 226, 226);
     }
-    .book-blocks-small > ul > li {
+    #accountInfo .book-blocks-small > ul > li {
         min-width: 170px;
     }
-    .book-blocks-small > ul > li:last-child {
+    #accountInfo .book-blocks-small > ul > li:last-child {
         padding: 25px 25px 0 0;
         min-width: 195px;
     }
@@ -86,5 +93,47 @@
     }
     .user-info .main .button-row .button:first-of-type {
         margin: 0 0 10px 0;
+    }
+    .content-block .toggle-list li {
+        margin-right: 0;
+    }
+    .content-block .toggle-list {
+        justify-content: space-between;
+    }
+    .content-block-standard-search {
+        margin: 0 auto 40px auto;
+        max-width: 46.5em;
+        padding: 1em;
+    }
+    .standard-section {
+        padding: 1em 0;
+    }
+    .content-block .new-create-books-row .new-field {
+        width: 50%;
+    }
+    .content-block .new-create-books-row {
+        justify-content: flex-start;
+    }
+    .book-blocks-single {
+        max-width: 70%;
+        margin: 0 auto;
+    }
+    .title label {
+        white-space: normal;
+    }
+    #dashboard-create .book-blocks-single > ul > li {
+        width: 66%;
+        margin: 0 auto;
+    }
+    #edit-page .submit-row {
+        display: block;
+        margin: 10px 0 0 0;
+    }
+    #edit-page .submit-row .field {
+        width: 100%;
+        margin: 0 0 20px 0;
+    }
+    #edit-page .button.reset-password {
+        margin: 10px auto;
     }
 }
