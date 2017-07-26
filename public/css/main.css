@@ -3865,7 +3865,25 @@ hr.dividers {
     width: 100%;
     margin: 0 0 20px 0; }
   #edit-page .button.reset-password {
-    margin: 10px auto; } }
+    margin: 10px auto; }
+  #log-in .title {
+    display: block; }
+    #log-in .title label {
+      display: block; }
+  #accountInfo .button.reset-password {
+    margin: 0 auto; }
+  #admin.brawl-feature .container .week-control-this span {
+    display: none; }
+  .brawl-feature header .flex-row .label-large {
+    display: block !important; }
+  #admin.brawl-feature .container .book-blocks-feature > ul > li:last-child {
+    left: 0px; }
+  #admin.brawl-feature .book-blocks-feature > ul > li {
+    width: calc(45%); }
+  #admin.brawl-feature .container .book-blocks-feature > ul > li:last-child .book {
+    margin: 0; }
+  #admin.brawl-feature .container {
+    min-width: 100%; } }
 
 @media screen and (min-width: 30em) {
   .user-info {

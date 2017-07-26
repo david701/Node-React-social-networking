@@ -54174,7 +54174,7 @@ var Parent = function (_React$Component) {
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'user-list' },
+							null,
 							_react2.default.createElement(
 								'a',
 								{ className: 'admin-link', href: 'https://analytics.google.com' },

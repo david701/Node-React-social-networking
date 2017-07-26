@@ -390,7 +390,7 @@ class Parent extends React.Component {
 							<div className="title-row">
 								<h4>Quick Links</h4>
 							</div>
-							<div className="user-list">
+							<div>
 								<a className="admin-link" href="https://analytics.google.com">Google Analytics</a>
 								<a className="admin-link" href="http://www.mandrill.com/">Create Newsletter</a>
 							</div>
