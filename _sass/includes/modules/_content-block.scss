@@ -84,7 +84,6 @@
       margin: 0 auto;
       margin-bottom: 20px;
       max-width: $match-8;
-      height: 44vh;
       @include w1000 {
         width: calc(100% - #{ $gutter / 2 });
         padding: 2em;

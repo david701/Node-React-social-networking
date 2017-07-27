@@ -2187,8 +2187,7 @@ hr.dividers {
   #night-mode .content-block-standard-slide {
     margin: 0 auto;
     margin-bottom: 20px;
-    max-width: 46.5em;
-    height: 44vh; }
+    max-width: 46.5em; }
     @media screen and (min-width: 62.5em) {
       #night-mode .content-block-standard-slide {
         width: calc(100% - 0.75em);
@@ -3604,7 +3603,8 @@ hr.dividers {
       .book-blocks-feature > ul > li {
         width: calc(50% - 0.75em);
         display: flex;
-        align-items: center; }
+        align-items: center;
+        justify-content: center; }
         .book-blocks-feature > ul > li a:first-child figure figcaption {
           padding: 0.625em 0.75em 0.8125em; }
           .book-blocks-feature > ul > li a:first-child figure figcaption h4 {

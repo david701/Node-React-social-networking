@@ -81,7 +81,7 @@ export default class Description extends React.Component{
 
 		return(
 			<div className="content-block content-block-standard-slide" style={{overflow: 'hidden', padding: 0}}>
-				<div style={{overflowY: 'scroll', height:'100%', width: '100%', padding: '2em'}}>
+				<div style={{overflowY: 'scroll', height:'calc(100% - 44px)', width: '100%', padding: '2em'}}>
 				{followBtn}
 				{claimBtn}
 				{!this.props.authorized && this.props.book && this.props.book.social_media  ?
