@@ -1477,7 +1477,7 @@ button:disabled {
   #night-mode .standard-section {
     padding: 3em 0;
     background-color: #17181A;
-    background-image: none;
+    background-image: url(/assets/images/background-pattern-dark.jpg);
     background-size: 350px;
     background-position: center; }
     #night-mode .standard-section .copy-limit {
@@ -2129,6 +2129,9 @@ hr.dividers {
 #night-mode .slick-track .reader p {
   color: #eaeaea; }
 
+#night-mode .slick-track .reader table p {
+  color: #0a0a0a; }
+
 #night-mode .content-block {
   background-color: #222324; }
   #night-mode .content-block-standard {
@@ -2410,7 +2413,7 @@ hr.dividers {
   width: 100%;
   box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);
   border-radius: 0.125em;
-  margin-bottom: 1.5em; }
+  margin: 1.5em 0; }
   .content-block .placeholder {
     height: 13.75em;
     display: flex;
@@ -2886,6 +2889,12 @@ hr.dividers {
     background: #ccc;
     box-shadow: none;
     cursor: default; }
+
+.week-this {
+  width: 100%; }
+
+.week-control-last.hide {
+  visibility: hidden; }
 
 .brawlers > ul > li {
   width: 125px !important;

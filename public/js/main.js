@@ -54305,7 +54305,7 @@ var Parent = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'book-blocks book-blocks-small' },
-							_react2.default.createElement(
+							this.state.bookClaims.length > 0 ? _react2.default.createElement(
 								'ul',
 								null,
 								this.state.bookClaims.map(function (claim, i) {
@@ -54366,6 +54366,10 @@ var Parent = function (_React$Component) {
 										)
 									);
 								})
+							) : _react2.default.createElement(
+								'p',
+								null,
+								'There aren\'t any book claims'
 							)
 						),
 						_react2.default.createElement('hr', null),
@@ -56871,6 +56875,7 @@ var ViewAll = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(_Ad.AdElement, { page: 'browse' }),
 				_react2.default.createElement(
 					'div',
 					{ className: 'content-block content-block-standard account-block' },
@@ -56940,7 +56945,6 @@ var ViewAll = function (_React$Component) {
 						'No search results...'
 					) : ''
 				),
-				_react2.default.createElement(_Ad.AdElement, { page: 'browse' }),
 				_react2.default.createElement(_Ad.AdElement, { page: 'browse' })
 			);
 		}
@@ -60508,7 +60512,6 @@ var Brawl = function (_React$Component) {
 			    isLatestBrawl = void 0;
 			var currentResult = "Please Vote";
 			var lastResult = "Please Vote";
-			console.log('go');
 
 			return _react2.default.createElement(
 				'section',
@@ -60522,9 +60525,9 @@ var Brawl = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'flex-row' },
-							currentBrawl.length > 1 && _react2.default.createElement(
+							_react2.default.createElement(
 								'a',
-								{ href: '#last-week', className: 'week-control-last' },
+								{ href: '#last-week', className: "week-control-last" + (currentBrawl.length < 2 ? " hide" : "") },
 								_react2.default.createElement(
 									'div',
 									null,

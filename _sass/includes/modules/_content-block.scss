@@ -4,6 +4,9 @@
   .slick-track .reader p {
       color: #eaeaea;
   }
+  .slick-track .reader table p {
+      color: #0a0a0a;
+  }
   .content-block {
     background-color: $lighter-black;
     &-standard {
@@ -397,7 +400,7 @@
   width: 100%;
   box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
   border-radius: $br-normal;
-  margin-bottom: em(24);
+  margin: em(24) 0;
   .placeholder {
     height: em(220);
     display: flex;

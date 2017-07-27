@@ -57,26 +57,23 @@ export default class Brawl extends React.Component {
 
 	render() {
 		const $this = this;
-		const {currentBrawl, title} = this.state;
+		let {currentBrawl, title} = this.state;
 		const {me} = this.props;
 		let brawlDeclared, isLatestBrawl;
 		let currentResult = "Please Vote";
 		let lastResult = "Please Vote";
-		console.log('go')
 
 		return (
 			<section className="brawl-feature" id="home">
 					<header>
 						<div className="container">
 							<div className="flex-row">
-										{currentBrawl.length > 1 &&
-											<a href="#last-week" className="week-control-last">
-												<div>
-													<span className="label label-small">Previous</span>
-													<span className="label label-large">Last Week’s Brawl</span>
-												</div>
-											</a>
-										}
+								<a href="#last-week" className={"week-control-last" + (currentBrawl.length < 2 ? " hide" : "")}>
+									<div>
+										<span className="label label-small">Previous</span>
+										<span className="label label-large">Last Week’s Brawl</span>
+									</div>
+								</a>
 								<h2>
 									<span className="week-title week-title-this">{title}</span>
 									<span className="week-title week-title-last">Last Week’s Brawl</span>

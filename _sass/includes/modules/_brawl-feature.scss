@@ -15,6 +15,12 @@
         cursor: default;
     }
 }
+.week-this {
+    width: 100%;
+}
+.week-control-last.hide {
+    visibility: hidden;
+}
 .brawlers > ul > li {
     width: 125px !important;
     min-width: 125px;
