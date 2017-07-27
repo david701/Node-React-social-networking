@@ -41,5 +41,19 @@
 	#hide {
 		display: none;
 	}
+	.email-us {
+		p {
+			background: none !important;
+			a {
+				color: #0fafff;
+				span {
+					color: #0fafff !important;
+				}
+			}
+			span {
+				background: none !important;
+			}
+		}
+	}
 }
 

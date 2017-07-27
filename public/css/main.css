@@ -2095,6 +2095,14 @@ hr.dividers {
     display: block; }
   #night-mode #hide {
     display: none; }
+  #night-mode .email-us p {
+    background: none !important; }
+    #night-mode .email-us p a {
+      color: #0fafff; }
+      #night-mode .email-us p a span {
+        color: #0fafff !important; }
+    #night-mode .email-us p span {
+      background: none !important; }
 
 #night-mode .slick-track .reader p {
   color: #eaeaea; }
