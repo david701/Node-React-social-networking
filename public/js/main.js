@@ -51870,7 +51870,7 @@ var Author = function (_React$Component) {
 					),
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
 				),
-				this.state.authorsBooks && _react2.default.createElement(
+				this.state.authorsBooks.length > 0 && _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement('hr', null),
