@@ -809,17 +809,6 @@ body {
   align-items: center;
   color: #0fafff;
   margin-bottom: 1.0625em; }
-  #night-mode .title-row .control {
-    background-image: url("/assets/images/icons/right-arrow.svg");
-    background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 1.0625em;
-    line-height: 14px;
-    margin: -10px 0 0 0; }
-    #night-mode .title-row .control:hover {
-      opacity: 0.625; }
-    #night-mode .title-row .control-expand {
-      background-image: url("/assets/images/icons/down-arrow.svg"); }
 
 body {
   line-height: 1.75;
@@ -1491,8 +1480,7 @@ button:disabled {
     background-color: #17181A;
     background-image: none;
     background-size: 350px;
-    background-position: center;
-    width: 100vw; }
+    background-position: center; }
     #night-mode .standard-section .copy-limit {
       max-width: 46.5em;
       margin: 0 auto;
@@ -3045,30 +3033,24 @@ hr.dividers {
           color: red; }
   #night-mode .brawl-feature footer {
     background-color: #222324; }
-    #night-mode .brawl-feature footer h4 {
-      color: #0FAFFF;
-      text-align: center;
-      position: relative;
-      height: 1.75rem;
-      margin: 0 auto; }
-      #night-mode .brawl-feature footer h4 .week-results {
-        display: block;
-        position: absolute;
-        width: 100%;
-        transition: opacity 0.25s ease-out, visibility 0.25s ease-out, transform 0.25s ease-out; }
-        #night-mode .brawl-feature footer h4 .week-results-this {
-          opacity: 1;
-          visibility: visible;
-          transform: translateX(0); }
-        #night-mode .brawl-feature footer h4 .week-results-last {
-          opacity: 0;
-          visibility: hidden;
-          transform: translateX(-2em); }
-        #night-mode .brawl-feature footer h4 .week-results.is-announced {
-          color: red; }
-      @media screen and (max-width: 39.9375em) {
-        #night-mode .brawl-feature footer h4 {
-          font-size: 1em; } }
+    #night-mode .brawl-feature footer h4 .week-results {
+      display: block;
+      position: absolute;
+      width: 100%;
+      transition: opacity 0.25s ease-out, visibility 0.25s ease-out, transform 0.25s ease-out; }
+      #night-mode .brawl-feature footer h4 .week-results-this {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0); }
+      #night-mode .brawl-feature footer h4 .week-results-last {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-2em); }
+      #night-mode .brawl-feature footer h4 .week-results.is-announced {
+        color: red; }
+    @media screen and (max-width: 39.9375em) {
+      #night-mode .brawl-feature footer h4 {
+        font-size: 1em; } }
 
 .brawl-feature {
   position: relative; }
@@ -3305,7 +3287,8 @@ hr.dividers {
       width: 15em;
       position: relative;
       height: 1.75rem;
-      margin: 0 auto; }
+      margin: 0 auto;
+      width: 100%; }
       .brawl-feature footer h4 .week-results {
         display: block;
         position: absolute;
