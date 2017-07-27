@@ -26,7 +26,8 @@ export default class EditBookContainer extends React.Component {
       speed: 500,
       slidesToShow: 2,
       slidesToScroll: 1,
-      dotsClass: 'slick-dots pagination'
+      dotsClass: 'slick-dots pagination',
+      editorHeight: 'auto'
     },
     mobile: false
   };
@@ -48,6 +49,7 @@ export default class EditBookContainer extends React.Component {
     let {toggleStatus} = this.props;
     let {settings} = this.state;
     settings.slidesToShow = (toggleStatus === "Full Screen") ? 1 : 2
+    settings.editorHeight = (toggleStatus === "Full Screen") ? '60vh' : 'auto';
     this.setState({settings: settings})
   }
 
@@ -84,7 +86,7 @@ export default class EditBookContainer extends React.Component {
     this.state.chapters.map((chapter,index)=>{
       pages.push(
         <div className="content-block content-block-standard-slide chapter-begin"><div><h4>Chapter {chapter.number}</h4><span className="chapter-name">{chapter.name}</span></div></div>,
-        <EditorContainer bookId={bookId} chapterNumber={chapter.number} chapterId={chapter._id} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>,
+        <EditorContainer bookId={bookId} chapterNumber={chapter.number} chapterId={chapter._id} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized} settings={this.state.settings}/>,
         //<ViewBookContainer bookId={bookId} chapterId={chapter.number} />
       )
     })

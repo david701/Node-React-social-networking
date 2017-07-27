@@ -59936,13 +59936,6 @@ var Editor = function (_Component) {
   }
 
   _createClass(Editor, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.content !== this.props.content) {
-        tinymce.EditorManager.get('react-tinymce-0').setContent(nextProps.content);
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       var content = this.props.content;
@@ -59953,8 +59946,10 @@ var Editor = function (_Component) {
         _react2.default.createElement(_reactTinymce2.default, {
           content: sanitizeContent(this.props.content),
           config: {
-            plugins: 'autolink link image',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'
+            plugins: 'autolink link image table',
+            toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | table',
+            menubar: false,
+            height: this.props.settings.editorHeight
           },
           onChange: this.props.handleChange
         }),
@@ -62229,7 +62224,8 @@ var EditBookContainer = function (_React$Component) {
         speed: 500,
         slidesToShow: 2,
         slidesToScroll: 1,
-        dotsClass: 'slick-dots pagination'
+        dotsClass: 'slick-dots pagination',
+        editorHeight: 'auto'
       },
       mobile: false
     }, _this.updateSlidesToShow = function () {
@@ -62244,6 +62240,7 @@ var EditBookContainer = function (_React$Component) {
       var settings = _this.state.settings;
 
       settings.slidesToShow = toggleStatus === "Full Screen" ? 1 : 2;
+      settings.editorHeight = toggleStatus === "Full Screen" ? '60vh' : 'auto';
       _this.setState({ settings: settings });
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
@@ -62287,7 +62284,7 @@ var EditBookContainer = function (_React$Component) {
               chapter.name
             )
           )
-        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id, user: _this.props.user, admin: _this.props.admin, authorized: _this.props.authorized })
+        ), _react2.default.createElement(_EditorContainer2.default, { bookId: bookId, chapterNumber: chapter.number, chapterId: chapter._id, user: _this.props.user, admin: _this.props.admin, authorized: _this.props.authorized, settings: _this.state.settings })
         //<ViewBookContainer bookId={bookId} chapterId={chapter.number} />
         );
       });
@@ -62533,7 +62530,8 @@ var EditorContainer = function (_React$Component) {
           handleChange: this.handleChange,
           handleSubmit: this.handleSubmit,
           deleteChapter: this.deleteChapter,
-          name: this.state.name
+          name: this.state.name,
+          settings: this.props.settings
         });
       } else {
         cardContent = _react2.default.createElement(_Reader2.default, { content: this.state.content, bookId: this.props.bookId, chapterId: this.props.chapterId, user: this.props.user, admin: this.props.admin, authorized: this.props.authorized });
