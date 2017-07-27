@@ -472,6 +472,7 @@
             align-items: center;
             justify-content: center;
             background-color: rgba($black, 0.5625);
+            overflow: auto;
             &.is-hidden {
                 opacity: 0;
                 visibility: hidden;
@@ -1038,6 +1039,7 @@ body.search-open {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     background-color: rgba($black, 0.5625);
     &.is-hidden {
       opacity: 0;
@@ -1182,4 +1184,8 @@ hr.dividers {
     .chapter-editor {
         width: 50%;
     } 
+}
+.ads .content-block {
+    margin: 0;
+    margin-bottom: 1.5em;
 }

@@ -68,13 +68,13 @@ export default class Description extends React.Component{
 		if(!this.props.authorized){
 			if(this.props.user){
 				if(this.state.following){
-					followBtn = <a onClick={this.unfollow} className="button button-red" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Unfollow</a>;
+					followBtn = <a onClick={this.unfollow} className="button button-red" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0'}}>Unfollow</a>;
 				}else{
-					followBtn = <a onClick={this.follow} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Follow</a>;
+					followBtn = <a onClick={this.follow} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0'}}>Follow</a>;
 				}
-				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.props.claim}>Claim</button>;
+				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0'}} onClick={this.props.claim}>Claim</button>;
 			}else{
-				followBtn = <a onClick={this.signUp} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem'}}>Follow</a>;
+				followBtn = <a onClick={this.signUp} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0'}}>Follow</a>;
 				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.signUp}>Claim</button>
 			}
 		}
@@ -86,7 +86,7 @@ export default class Description extends React.Component{
 				{claimBtn}
 				{!this.props.authorized && this.props.book && this.props.book.social_media  ?
 					(
-						<div className="buy-section" style={{display: 'inline-block', margin: '0 0 1rem 1rem'}}>
+						<div className="buy-section" style={{display: 'inline-block', margin: '0 1rem 1rem 0'}}>
 							{this.props.book.social_media.amazon != '' || this.props.book.social_media.kobo != '' || this.props.book.social_media.smashword != '' || this.props.book.social_media.itunes != '' || this.props.book.social_media.barnesandnoble != '' || this.props.book.social_media.twitter != ''?<button className='button-white menu-button' style={{display: 'inline-block', width: 'auto', minWidth:'100px', padding: '0.9375rem 2rem'}} onClick={(e)=> {$this.toggleBuy(e)}}>Buy</button>:''  }
 							<ul className={"menu " + this.state.showMenu}>
 								{Object.keys(this.props.book.social_media).map((link,index)=>{

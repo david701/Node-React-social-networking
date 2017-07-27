@@ -59122,25 +59122,25 @@ var Description = function (_React$Component) {
 					if (this.state.following) {
 						followBtn = _react2.default.createElement(
 							'a',
-							{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+							{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0' } },
 							'Unfollow'
 						);
 					} else {
 						followBtn = _react2.default.createElement(
 							'a',
-							{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+							{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0' } },
 							'Follow'
 						);
 					}
 					claimBtn = _react2.default.createElement(
 						'button',
-						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0' }, onClick: this.props.claim },
 						'Claim'
 					);
 				} else {
 					followBtn = _react2.default.createElement(
 						'a',
-						{ onClick: this.signUp, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						{ onClick: this.signUp, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0' } },
 						'Follow'
 					);
 					claimBtn = _react2.default.createElement(
@@ -59161,7 +59161,7 @@ var Description = function (_React$Component) {
 					claimBtn,
 					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',
-						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 0 1rem 1rem' } },
+						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 1rem 1rem 0' } },
 						this.props.book.social_media.amazon != '' || this.props.book.social_media.kobo != '' || this.props.book.social_media.smashword != '' || this.props.book.social_media.itunes != '' || this.props.book.social_media.barnesandnoble != '' || this.props.book.social_media.twitter != '' ? _react2.default.createElement(
 							'button',
 							{ className: 'button-white menu-button', style: { display: 'inline-block', width: 'auto', minWidth: '100px', padding: '0.9375rem 2rem' }, onClick: function onClick(e) {

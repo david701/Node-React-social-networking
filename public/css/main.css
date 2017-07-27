@@ -1536,7 +1536,8 @@ button:disabled {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5625); }
+    background-color: rgba(0, 0, 0, 0.5625);
+    overflow: auto; }
     #night-mode .modal .overlay.is-hidden {
       opacity: 0;
       visibility: hidden; }
@@ -1960,6 +1961,7 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     background-color: rgba(0, 0, 0, 0.5625); }
     .modal .overlay.is-hidden {
       opacity: 0;
@@ -2084,6 +2086,10 @@ hr.dividers {
   justify-content: space-between; }
   .chapter-info .chapter-editor {
     width: 50%; }
+
+.ads .content-block {
+  margin: 0;
+  margin-bottom: 1.5em; }
 
 #night-mode {
   color: #fff; }
