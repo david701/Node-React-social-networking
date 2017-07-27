@@ -451,6 +451,7 @@ class Parent extends React.Component {
 								<h4>Book Claims</h4>
 							</div>
 							<div className="book-blocks book-blocks-small">
+								{this.state.bookClaims.length > 0 ? (
 								<ul>
 									{
 										this.state.bookClaims.map((claim, i)=>{
@@ -483,6 +484,9 @@ class Parent extends React.Component {
 										})
 									}
 								</ul>
+								) : (
+									<p>There aren't any book claims</p>
+								)}
 							</div>
 							<hr />
 							<div className="title-row">
@@ -578,7 +582,7 @@ class Report extends React.Component {
 						</div>
 						<ul className="field-list field-list-small">
 							<li>
-								<textarea name="body" rows="5" cols="80" onChange={this._handleChange} onBlur={validate} data-validation="required"></textarea>
+								<textarea name="body" rows="5" cols="40" onChange={this._handleChange} onBlur={validate} data-validation="required"></textarea>
 							</li>
 						</ul>
 						<div className="submit-row submit-row-small">

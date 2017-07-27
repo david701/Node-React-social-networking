@@ -7,14 +7,10 @@
     display: none;
 }
 .book-cover {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    bottom: 20px;
     width: 45%;
-    background-repeat: no-repeat;
-    background-position: center center;
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top;
 }
 .content-block-standard-slide {
     overflow-x: hidden;
@@ -60,6 +56,7 @@
     span {
         font-size: 22px;
         display: block;
+        word-break: break-word;
     }
 }
 
@@ -385,10 +382,9 @@
     .standard-section {
         padding: em(48) 0;
         background-color: $light-black;
-        background-image: none;
+        background-image: url(/assets/images/background-pattern-dark.jpg);
         background-size: 350px;
         background-position: center;
-        width: 100vw;
         .copy-limit {
             max-width: $match-8;
             margin: 0 auto;
@@ -476,6 +472,7 @@
             align-items: center;
             justify-content: center;
             background-color: rgba($black, 0.5625);
+            overflow: auto;
             &.is-hidden {
                 opacity: 0;
                 visibility: hidden;
@@ -512,13 +509,6 @@
                 margin: 0 30px 30px 0;
             }
         }
-    }
-    form .instructions {
-        font-size: 14px;
-        line-height: 20px;
-        vertical-align: initial;
-        display: block;
-        margin: 0 0 20px 0;
     }
 }
 
@@ -1049,6 +1039,7 @@ body.search-open {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     background-color: rgba($black, 0.5625);
     &.is-hidden {
       opacity: 0;
@@ -1161,4 +1152,40 @@ hr.dividers {
 
 .level-title{
 	font-size: 1em!important;
+}
+#report {
+    .content-block-small {
+        max-height: 100vh;
+        max-width: initial;
+        width: auto;
+    }
+    .instructions {
+        max-width: 320px;
+        margin: 0 auto 20px auto;
+    }
+    textarea {
+        max-height: 400px;
+        max-width: 600px;
+    }
+    .field-list-small li {
+        width: auto;
+    }
+}
+.comment_text {
+    word-break: break-word;
+}
+.chapter {
+    cursor: pointer;  
+}
+.chapter-info {
+    display: flex;
+    min-height: calc(100% - 44px);
+    justify-content: space-between;  
+    .chapter-editor {
+        width: 50%;
+    } 
+}
+.ads .content-block {
+    margin: 0;
+    margin-bottom: 1.5em;
 }

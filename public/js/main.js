@@ -51064,7 +51064,7 @@ var Author = function (_React$Component) {
 					),
 					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
 				),
-				this.state.authorsBooks && _react2.default.createElement(
+				this.state.authorsBooks.length > 0 && _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement('hr', null),
@@ -53499,7 +53499,7 @@ var Parent = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'book-blocks book-blocks-small' },
-							_react2.default.createElement(
+							this.state.bookClaims.length > 0 ? _react2.default.createElement(
 								'ul',
 								null,
 								this.state.bookClaims.map(function (claim, i) {
@@ -53560,6 +53560,10 @@ var Parent = function (_React$Component) {
 										)
 									);
 								})
+							) : _react2.default.createElement(
+								'p',
+								null,
+								'There aren\'t any book claims'
 							)
 						),
 						_react2.default.createElement('hr', null),
@@ -53714,7 +53718,7 @@ var Report = function (_React$Component2) {
 							_react2.default.createElement(
 								'li',
 								null,
-								_react2.default.createElement('textarea', { name: 'body', rows: '5', cols: '80', onChange: this._handleChange, onBlur: _validation.validate, 'data-validation': 'required' })
+								_react2.default.createElement('textarea', { name: 'body', rows: '5', cols: '40', onChange: this._handleChange, onBlur: _validation.validate, 'data-validation': 'required' })
 							)
 						),
 						_react2.default.createElement(
@@ -56065,6 +56069,7 @@ var ViewAll = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				_react2.default.createElement(_Ad.AdElement, { page: 'browse' }),
 				_react2.default.createElement(
 					'div',
 					{ className: 'content-block content-block-standard account-block' },
@@ -56134,7 +56139,6 @@ var ViewAll = function (_React$Component) {
 						'No search results...'
 					) : ''
 				),
-				_react2.default.createElement(_Ad.AdElement, { page: 'browse' }),
 				_react2.default.createElement(_Ad.AdElement, { page: 'browse' })
 			);
 		}
@@ -59809,25 +59813,25 @@ var Description = function (_React$Component) {
 					if (this.state.following) {
 						followBtn = _react2.default.createElement(
 							'a',
-							{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+							{ onClick: this.unfollow, className: 'button button-red', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0' } },
 							'Unfollow'
 						);
 					} else {
 						followBtn = _react2.default.createElement(
 							'a',
-							{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+							{ onClick: this.follow, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0' } },
 							'Follow'
 						);
 					}
 					claimBtn = _react2.default.createElement(
 						'button',
-						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.props.claim },
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0' }, onClick: this.props.claim },
 						'Claim'
 					);
 				} else {
 					followBtn = _react2.default.createElement(
 						'a',
-						{ onClick: this.signUp, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem' } },
+						{ onClick: this.signUp, className: 'button', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0' } },
 						'Follow'
 					);
 					claimBtn = _react2.default.createElement(
@@ -59843,12 +59847,12 @@ var Description = function (_React$Component) {
 				{ className: 'content-block content-block-standard-slide', style: { overflow: 'hidden', padding: 0 } },
 				_react2.default.createElement(
 					'div',
-					{ style: { overflowY: 'scroll', height: '100%', width: '100%', padding: '2em' } },
+					{ style: { overflowY: 'scroll', height: 'calc(100% - 44px)', width: '100%', padding: '2em' } },
 					followBtn,
 					claimBtn,
 					!this.props.authorized && this.props.book && this.props.book.social_media ? _react2.default.createElement(
 						'div',
-						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 0 1rem 1rem' } },
+						{ className: 'buy-section', style: { display: 'inline-block', margin: '0 1rem 1rem 0' } },
 						this.props.book.social_media.amazon != '' || this.props.book.social_media.kobo != '' || this.props.book.social_media.smashword != '' || this.props.book.social_media.itunes != '' || this.props.book.social_media.barnesandnoble != '' || this.props.book.social_media.twitter != '' ? _react2.default.createElement(
 							'button',
 							{ className: 'button-white menu-button', style: { display: 'inline-block', width: 'auto', minWidth: '100px', padding: '0.9375rem 2rem' }, onClick: function onClick(e) {
@@ -60239,7 +60243,8 @@ var oneDay = 24 * 60 * 60 * 1000;
 var today = new Date();
 
 var TableOfContents = function TableOfContents(props) {
-  var book = props.book;
+  var book = props.book,
+      authorized = props.authorized;
 
   return _react2.default.createElement(
     'div',
@@ -60250,30 +60255,43 @@ var TableOfContents = function TableOfContents(props) {
       'Table of Contents'
     ),
     _react2.default.createElement(
-      'ul',
-      null,
-      props.chapters.map(function (chapter, key) {
-        return _react2.default.createElement(
-          'li',
-          { key: chapter.number, onClick: function onClick() {
-              return props.selectChapter(key + 1);
-            } },
-          _react2.default.createElement(
-            'h5',
+      'div',
+      { className: 'chapter-info' },
+      _react2.default.createElement(
+        'div',
+        { className: 'chapter-editor' },
+        _react2.default.createElement(
+          'ul',
+          null,
+          props.chapters.map(function (chapter, key) {
+            return _react2.default.createElement(
+              'li',
+              { className: 'chapter', key: chapter.number, onClick: function onClick() {
+                  return props.selectChapter(key + 1);
+                } },
+              _react2.default.createElement(
+                'h5',
+                null,
+                'Chapter ',
+                chapter.number
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                chapter.name
+              )
+            );
+          }),
+          props.chapters.length === 0 && !authorized && _react2.default.createElement(
+            'span',
             null,
-            'Chapter ',
-            chapter.number
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            chapter.name
+            'No chapters have been created'
           )
-        );
-      })
-    ),
-    _react2.default.createElement(AddChapter, props),
-    book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })
+        ),
+        _react2.default.createElement(AddChapter, props)
+      ),
+      book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })
+    )
   );
 };
 
@@ -61185,7 +61203,6 @@ var Brawl = function (_React$Component) {
 			    isLatestBrawl = void 0;
 			var currentResult = "Please Vote";
 			var lastResult = "Please Vote";
-			console.log('go');
 
 			return _react2.default.createElement(
 				'section',
@@ -61199,9 +61216,9 @@ var Brawl = function (_React$Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'flex-row' },
-							currentBrawl.length > 1 && _react2.default.createElement(
+							_react2.default.createElement(
 								'a',
-								{ href: '#last-week', className: 'week-control-last' },
+								{ href: '#last-week', className: "week-control-last" + (currentBrawl.length < 2 ? " hide" : "") },
 								_react2.default.createElement(
 									'div',
 									null,
@@ -62548,8 +62565,7 @@ var EditorContainer = function (_React$Component) {
           this.props.authorized && !this.state.editChapter ? _react2.default.createElement(
             'span',
             { className: 'edit_chapter_btn', onClick: this.editChapter },
-            'Click to Edit ',
-            this.state.name
+            'Click to Edit'
           ) : ''
         ),
         cardContent

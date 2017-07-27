@@ -15,6 +15,12 @@
         cursor: default;
     }
 }
+.week-this {
+    width: 100%;
+}
+.week-control-last.hide {
+    visibility: hidden;
+}
 .brawlers > ul > li {
     width: 125px !important;
     min-width: 125px;
@@ -248,11 +254,6 @@
         footer {
                 background-color: #222324;
             h4 {
-                color: $light-blue;
-                text-align: center;
-                position: relative;
-                height: rem(28);
-                margin: 0 auto;
                 .week-results {
                     display: block;
                     position: absolute;
@@ -607,6 +608,7 @@
             position: relative;
             height: rem(28);
             margin: 0 auto;
+            width: 100%;
             .week-results {
                 display: block;
                 position: absolute;
