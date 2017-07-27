@@ -97,6 +97,7 @@ export default class EditorContainer extends React.Component {
 	        handleSubmit={this.handleSubmit}
 					deleteChapter={this.deleteChapter}
 	        name={this.state.name}
+					settings={this.props.settings}
 	      />
 		}else{
 			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>
