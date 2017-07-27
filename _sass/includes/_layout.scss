@@ -512,13 +512,6 @@
             }
         }
     }
-    form .instructions {
-        font-size: 14px;
-        line-height: 20px;
-        vertical-align: initial;
-        display: block;
-        margin: 0 0 20px 0;
-    }
 }
 
 .view {
@@ -1160,4 +1153,22 @@ hr.dividers {
 
 .level-title{
 	font-size: 1em!important;
+}
+#report {
+    .content-block-small {
+        max-height: 100vh;
+        max-width: initial;
+        width: auto;
+    }
+    .instructions {
+        max-width: 320px;
+        margin: 0 auto 20px auto;
+    }
+    textarea {
+        max-height: 400px;
+        max-width: 600px;
+    }
+    .field-list-small li {
+        width: auto;
+    }
 }

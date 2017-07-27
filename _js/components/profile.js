@@ -578,7 +578,7 @@ class Report extends React.Component {
 						</div>
 						<ul className="field-list field-list-small">
 							<li>
-								<textarea name="body" rows="5" cols="80" onChange={this._handleChange} onBlur={validate} data-validation="required"></textarea>
+								<textarea name="body" rows="5" cols="40" onChange={this._handleChange} onBlur={validate} data-validation="required"></textarea>
 							</li>
 						</ul>
 						<div className="submit-row submit-row-small">

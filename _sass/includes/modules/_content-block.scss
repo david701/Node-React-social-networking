@@ -293,10 +293,6 @@
       }
     }
     &-small {
-      width: $col-12;
-      max-width: em(400);
-      margin: 0 auto;
-      padding: 1.75em 2.25em 1.75em;
       @include w640 {
         padding-left: 2.5em;
         padding-right: 2.5em;
@@ -314,12 +310,6 @@
         a {
           display: inline-block;
         }
-      }
-      .instructions {
-        font-size: em(16);
-        text-align: center;
-        line-height: 1.25;
-        margin-bottom: 1.25em;
       }
     }
   }

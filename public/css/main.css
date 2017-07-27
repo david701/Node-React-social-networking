@@ -1561,12 +1561,6 @@ button:disabled {
     #night-mode #search .user-list li {
       float: left;
       margin: 0 30px 30px 0; }
-  #night-mode form .instructions {
-    font-size: 14px;
-    line-height: 20px;
-    vertical-align: initial;
-    display: block;
-    margin: 0 0 20px 0; }
 
 .view {
   display: flex;
@@ -2065,6 +2059,22 @@ hr.dividers {
 .level-title {
   font-size: 1em !important; }
 
+#report .content-block-small {
+  max-height: 100vh;
+  max-width: initial;
+  width: auto; }
+
+#report .instructions {
+  max-width: 320px;
+  margin: 0 auto 20px auto; }
+
+#report textarea {
+  max-height: 400px;
+  max-width: 600px; }
+
+#report .field-list-small li {
+  width: auto; }
+
 #night-mode {
   color: #fff; }
   #night-mode h1,
@@ -2309,31 +2319,21 @@ hr.dividers {
         display: flex; }
         #night-mode .content-block .submit-row-editor .buttons .button {
           width: calc(50% - 0.75em); }
-  #night-mode .content-block-small {
-    width: calc( 100vw - 1.5em);
-    max-width: 25em;
-    margin: 0 auto;
-    padding: 1.75em 2.25em 1.75em; }
-    @media screen and (min-width: 40em) {
-      #night-mode .content-block-small {
-        padding-left: 2.5em;
-        padding-right: 2.5em; } }
-    #night-mode .content-block-small h3 {
-      font-size: 1.5em;
-      margin-bottom: 0; }
-    #night-mode .content-block-small .quote {
-      color: #fff;
-      font-size: 1em;
-      text-align: center;
-      line-height: 1.25;
-      margin-bottom: 1.25em; }
-      #night-mode .content-block-small .quote a {
-        display: inline-block; }
-    #night-mode .content-block-small .instructions {
-      font-size: 1em;
-      text-align: center;
-      line-height: 1.25;
-      margin-bottom: 1.25em; }
+  @media screen and (min-width: 40em) {
+    #night-mode .content-block-small {
+      padding-left: 2.5em;
+      padding-right: 2.5em; } }
+  #night-mode .content-block-small h3 {
+    font-size: 1.5em;
+    margin-bottom: 0; }
+  #night-mode .content-block-small .quote {
+    color: #fff;
+    font-size: 1em;
+    text-align: center;
+    line-height: 1.25;
+    margin-bottom: 1.25em; }
+    #night-mode .content-block-small .quote a {
+      display: inline-block; }
 
 #night-mode .chapter-row {
   margin: 0.5em 0 0;

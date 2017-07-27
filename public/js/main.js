@@ -54520,7 +54520,7 @@ var Report = function (_React$Component2) {
 							_react2.default.createElement(
 								'li',
 								null,
-								_react2.default.createElement('textarea', { name: 'body', rows: '5', cols: '80', onChange: this._handleChange, onBlur: _validation.validate, 'data-validation': 'required' })
+								_react2.default.createElement('textarea', { name: 'body', rows: '5', cols: '40', onChange: this._handleChange, onBlur: _validation.validate, 'data-validation': 'required' })
 							)
 						),
 						_react2.default.createElement(
