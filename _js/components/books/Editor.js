@@ -6,11 +6,6 @@ function sanitizeContent(content) {
 }
 
 class Editor extends Component{
-  componentWillReceiveProps(nextProps){
-    if(nextProps.content!==this.props.content){
-      tinymce.EditorManager.get('react-tinymce-0').setContent(nextProps.content);
-    }
-  }
 
   render(){
     const { content } = this.props;
@@ -19,8 +14,10 @@ class Editor extends Component{
         <TinyMCE
           content={sanitizeContent(this.props.content)}
           config={{
-            plugins: 'autolink link image',
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'
+            plugins: 'autolink link image table',
+            toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | table',
+            menubar: false,
+            height: this.props.settings.editorHeight
           }}
           onChange={this.props.handleChange}
         />
