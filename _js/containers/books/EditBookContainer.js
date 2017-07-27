@@ -138,7 +138,7 @@ export default class EditBookContainer extends React.Component {
     const { bookId } = this.props;
     const { chapters, selectedChapter, settings, mobile } = this.state;
     const slides = [
-      <DescriptionContainer claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
+      <DescriptionContainer user={this.props.user} claim={this.claim} bookId={this.props.bookId} book={this.props.book} authorized={this.props.authorized} following={this.props.following} admin={this.props.admin} getBook={this.props.getBook}/>,
       <TOCContainer book={this.props.book} bookId={this.props.bookId} loadChapters={this.loadChapters} selectChapter={this.selectChapter} chapters={this.state.chapters} authorized={this.props.authorized}/>,
     ];
     return (
