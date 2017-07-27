@@ -105,7 +105,7 @@ export default class EditorContainer extends React.Component {
     return (
     <div className="content-block content-block-standard-slide">
       {this.props.authorized &&
-			<h4>Chapter {this.state.number} Editor {this.props.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit {this.state.name}</span>:''}</h4>
+			<h4>Chapter {this.state.number} Editor {this.props.authorized && !this.state.editChapter ? <span className="edit_chapter_btn" onClick={this.editChapter}>Click to Edit</span>:''}</h4>
     	}
       {cardContent}
     </div>

@@ -271,6 +271,7 @@ class ViewAll extends React.Component{
 
 		return(
 			<div>
+				<AdElement page='browse'/>
 				<div className="content-block content-block-standard account-block">
 				<div className={this.state.showBrawl ? "modal author-page show-modal" : "modal author-page"} onClick={(e) => {this.hideBrawl(e)}}>
 					<div className="overlay overlay-create-brawl">
@@ -295,7 +296,6 @@ class ViewAll extends React.Component{
 				{paginate}
 				{!this.state.books.length && !this.state.authors.length? <h4>No search results...</h4>:''}
 				</div>
-				<AdElement page='browse'/>
 				<AdElement page='browse'/>
 			</div>
 		)

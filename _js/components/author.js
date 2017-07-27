@@ -326,7 +326,7 @@ class Author extends React.Component{
 						</div>
 					)
 				}
-                {this.state.authorsBooks &&
+                {this.state.authorsBooks.length > 0 &&
                   <div>
                   	  <hr/>
 	    			  <div className="title-row">

@@ -4,6 +4,9 @@
   .slick-track .reader p {
       color: #eaeaea;
   }
+  .slick-track .reader table p {
+      color: #0a0a0a;
+  }
   .content-block {
     background-color: $lighter-black;
     &-standard {
@@ -84,7 +87,6 @@
       margin: 0 auto;
       margin-bottom: 20px;
       max-width: $match-8;
-      height: 44vh;
       @include w1000 {
         width: calc(100% - #{ $gutter / 2 });
         padding: 2em;
@@ -293,10 +295,6 @@
       }
     }
     &-small {
-      width: $col-12;
-      max-width: em(400);
-      margin: 0 auto;
-      padding: 1.75em 2.25em 1.75em;
       @include w640 {
         padding-left: 2.5em;
         padding-right: 2.5em;
@@ -315,12 +313,6 @@
           display: inline-block;
         }
       }
-      .instructions {
-        font-size: em(16);
-        text-align: center;
-        line-height: 1.25;
-        margin-bottom: 1.25em;
-      }
     }
   }
 
@@ -331,7 +323,7 @@
       //     width: calc(75% - 0.75em) !important;
     // }
     .buttons {
-      width: calc(100% - 0.75em);
+      width: 100%;
       display: flex;
       justify-content: space-between;
       .add-or-remove {
@@ -344,7 +336,7 @@
         }
       }
       .button {
-        width: calc(50% - 0.75em);
+        width: 100%;
         margin-right: rem(6);
       }
     }
@@ -408,7 +400,7 @@
   width: 100%;
   box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
   border-radius: $br-normal;
-  margin-bottom: em(24);
+  margin: em(24) 0;
   .placeholder {
     height: em(220);
     display: flex;
@@ -905,7 +897,6 @@
 
 .chapter-row {
   margin: 0.5em 0 0;
-  display: flex;
   // input {
   //     width: calc(75% - 0.75em) !important;
   // }
@@ -923,7 +914,7 @@
       }
     }
     .button {
-      width: calc(50% - 0.75em);
+      width: 100%;
       margin-right: rem(6);
     }
   }
@@ -987,6 +978,7 @@
 	font-size: 0.75em;
 	color:$blue;
 	margin-left: 1em;
+  word-break: break-word;
 	cursor: pointer;
   float: right;
 }
