@@ -62027,7 +62027,7 @@ var DescriptionContainer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Description2.default, { bookId: this.props.bookId, book: this.props.book, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook, claim: this.props.claim });
+      return _react2.default.createElement(_Description2.default, { user: this.props.user, bookId: this.props.bookId, book: this.props.book, description: this.state.description, toggleStatus: this.props.toggleStatus, following: this.props.following, authorized: this.props.authorized, admin: this.props.admin, getBook: this.props.getBook, claim: this.props.claim });
     }
   }]);
 
@@ -62343,7 +62343,7 @@ var EditBookContainer = function (_React$Component) {
           settings = _state.settings,
           mobile = _state.mobile;
 
-      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { book: this.props.book, bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
+      var slides = [_react2.default.createElement(_DescriptionContainer2.default, { user: this.props.user, claim: this.claim, bookId: this.props.bookId, book: this.props.book, authorized: this.props.authorized, following: this.props.following, admin: this.props.admin, getBook: this.props.getBook }), _react2.default.createElement(_TOCContainer2.default, { book: this.props.book, bookId: this.props.bookId, loadChapters: this.loadChapters, selectChapter: this.selectChapter, chapters: this.state.chapters, authorized: this.props.authorized })];
       return _react2.default.createElement(
         'div',
         null,
