@@ -3804,7 +3804,7 @@ hr.dividers {
       .user-list li a h5 {
         margin-top: 0.75em; }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   #accountInfo .user-list {
     flex-wrap: nowrap;
     overflow-x: auto;

@@ -39,7 +39,7 @@ export default class EditBookContainer extends React.Component {
 
   updateSlidesToShow = () => {
     let {settings} = this.state
-    if(window.innerWidth <= 768) {
+    if(window.innerWidth <= 1024) {
       settings.slidesToShow = 1;
       this.setState({settings: settings, mobile: true})
     }

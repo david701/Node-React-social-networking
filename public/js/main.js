@@ -61557,7 +61557,7 @@ var EditBookContainer = function (_React$Component) {
     }, _this.updateSlidesToShow = function () {
       var settings = _this.state.settings;
 
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1024) {
         settings.slidesToShow = 1;
         _this.setState({ settings: settings, mobile: true });
       }
