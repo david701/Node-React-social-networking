@@ -59548,7 +59548,8 @@ var oneDay = 24 * 60 * 60 * 1000;
 var today = new Date();
 
 var TableOfContents = function TableOfContents(props) {
-  var book = props.book;
+  var book = props.book,
+      authorized = props.authorized;
 
   return _react2.default.createElement(
     'div',
@@ -59564,7 +59565,7 @@ var TableOfContents = function TableOfContents(props) {
       props.chapters.map(function (chapter, key) {
         return _react2.default.createElement(
           'li',
-          { key: chapter.number, onClick: function onClick() {
+          { className: 'chapter', key: chapter.number, onClick: function onClick() {
               return props.selectChapter(key + 1);
             } },
           _react2.default.createElement(
@@ -59579,7 +59580,12 @@ var TableOfContents = function TableOfContents(props) {
             chapter.name
           )
         );
-      })
+      }),
+      props.chapters.length === 0 && !authorized && _react2.default.createElement(
+        'span',
+        null,
+        'No chapters have been created'
+      )
     ),
     _react2.default.createElement(AddChapter, props),
     book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })

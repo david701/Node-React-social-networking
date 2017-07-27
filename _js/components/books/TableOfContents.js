@@ -5,17 +5,20 @@ const oneDay = 24*60*60*1000;
 var today = new Date();
 
 const TableOfContents = props => {
-  const {book} = props;
+  const {book, authorized} = props;
   return (
   <div className="content-block content-block-standard-slide">
     <h4>Table of Contents</h4>
     <ul>
       {props.chapters.map((chapter, key) => (
-        <li key={chapter.number} onClick={() => props.selectChapter(key + 1)}>
+        <li className="chapter" key={chapter.number} onClick={() => props.selectChapter(key + 1)}>
           <h5>Chapter {chapter.number}</h5>
           <p>{chapter.name}</p>
         </li>
       ))}
+      {props.chapters.length === 0 && !authorized && 
+        <span>No chapters have been created</span>
+      }
     </ul>
     <AddChapter {...props} />
     {book &&
