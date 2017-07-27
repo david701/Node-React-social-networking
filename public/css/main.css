@@ -1212,14 +1212,10 @@ button:disabled {
   display: none; }
 
 .book-cover {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  bottom: 20px;
   width: 45%;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain; }
+  background-position: top; }
 
 .content-block-standard-slide {
   overflow-x: hidden;
@@ -1259,7 +1255,8 @@ button:disabled {
     margin: 0; }
   .content-block-standard-slide.chapter-begin span {
     font-size: 22px;
-    display: block; }
+    display: block;
+    word-break: break-word; }
 
 #night-mode {
   /* card fronts and backs */
@@ -2081,6 +2078,13 @@ hr.dividers {
 .chapter {
   cursor: pointer; }
 
+.chapter-info {
+  display: flex;
+  min-height: calc(100% - 44px);
+  justify-content: space-between; }
+  .chapter-info .chapter-editor {
+    width: 50%; }
+
 #night-mode {
   color: #fff; }
   #night-mode h1,
@@ -2345,7 +2349,7 @@ hr.dividers {
   margin: 0.5em 0 0;
   display: flex; }
   #night-mode .chapter-row .buttons {
-    width: calc(100% - 0.75em);
+    width: 100%;
     display: flex;
     justify-content: space-between; }
     #night-mode .chapter-row .buttons .add-or-remove {
@@ -2356,7 +2360,7 @@ hr.dividers {
         margin-right: 20px;
         width: auto; }
     #night-mode .chapter-row .buttons .button {
-      width: calc(50% - 0.75em);
+      width: 100%;
       margin-right: 0.375rem; }
 
 #night-mode .error-message {
@@ -2789,8 +2793,7 @@ hr.dividers {
   padding: 0 15px; }
 
 .chapter-row {
-  margin: 0.5em 0 0;
-  display: flex; }
+  margin: 0.5em 0 0; }
   .chapter-row .buttons {
     width: calc(100% - 0.75em);
     display: flex;
@@ -2803,7 +2806,7 @@ hr.dividers {
         margin-right: 20px;
         width: auto; }
     .chapter-row .buttons .button {
-      width: calc(50% - 0.75em);
+      width: 100%;
       margin-right: 0.375rem; }
 
 .error-message {
@@ -2857,6 +2860,7 @@ hr.dividers {
   font-size: 0.75em;
   color: #0D9DE5;
   margin-left: 1em;
+  word-break: break-word;
   cursor: pointer;
   float: right; }
 

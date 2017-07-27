@@ -321,7 +321,7 @@
       //     width: calc(75% - 0.75em) !important;
     // }
     .buttons {
-      width: calc(100% - 0.75em);
+      width: 100%;
       display: flex;
       justify-content: space-between;
       .add-or-remove {
@@ -334,7 +334,7 @@
         }
       }
       .button {
-        width: calc(50% - 0.75em);
+        width: 100%;
         margin-right: rem(6);
       }
     }
@@ -895,7 +895,6 @@
 
 .chapter-row {
   margin: 0.5em 0 0;
-  display: flex;
   // input {
   //     width: calc(75% - 0.75em) !important;
   // }
@@ -913,7 +912,7 @@
       }
     }
     .button {
-      width: calc(50% - 0.75em);
+      width: 100%;
       margin-right: rem(6);
     }
   }
@@ -977,6 +976,7 @@
 	font-size: 0.75em;
 	color:$blue;
 	margin-left: 1em;
+  word-break: break-word;
 	cursor: pointer;
   float: right;
 }

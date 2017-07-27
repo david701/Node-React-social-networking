@@ -9,21 +9,25 @@ const TableOfContents = props => {
   return (
   <div className="content-block content-block-standard-slide">
     <h4>Table of Contents</h4>
-    <ul>
-      {props.chapters.map((chapter, key) => (
-        <li className="chapter" key={chapter.number} onClick={() => props.selectChapter(key + 1)}>
-          <h5>Chapter {chapter.number}</h5>
-          <p>{chapter.name}</p>
-        </li>
-      ))}
-      {props.chapters.length === 0 && !authorized && 
-        <span>No chapters have been created</span>
+    <div className="chapter-info">
+      <div className="chapter-editor">
+        <ul>
+          {props.chapters.map((chapter, key) => (
+            <li className="chapter" key={chapter.number} onClick={() => props.selectChapter(key + 1)}>
+              <h5>Chapter {chapter.number}</h5>
+              <p>{chapter.name}</p>
+            </li>
+          ))}
+          {props.chapters.length === 0 && !authorized && 
+            <span>No chapters have been created</span>
+          }
+        </ul>
+        <AddChapter {...props} />
+      </div>
+      {book &&
+        <div style={{backgroundImage: 'url('+book.cover+')'}} className="book-cover"/>
       }
-    </ul>
-    <AddChapter {...props} />
-    {book &&
-      <div style={{backgroundImage: 'url('+book.cover+')'}} className="book-cover"/>
-    }
+    </div>
   </div>
 )}
 

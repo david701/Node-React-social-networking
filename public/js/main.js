@@ -59560,35 +59560,43 @@ var TableOfContents = function TableOfContents(props) {
       'Table of Contents'
     ),
     _react2.default.createElement(
-      'ul',
-      null,
-      props.chapters.map(function (chapter, key) {
-        return _react2.default.createElement(
-          'li',
-          { className: 'chapter', key: chapter.number, onClick: function onClick() {
-              return props.selectChapter(key + 1);
-            } },
-          _react2.default.createElement(
-            'h5',
+      'div',
+      { className: 'chapter-info' },
+      _react2.default.createElement(
+        'div',
+        { className: 'chapter-editor' },
+        _react2.default.createElement(
+          'ul',
+          null,
+          props.chapters.map(function (chapter, key) {
+            return _react2.default.createElement(
+              'li',
+              { className: 'chapter', key: chapter.number, onClick: function onClick() {
+                  return props.selectChapter(key + 1);
+                } },
+              _react2.default.createElement(
+                'h5',
+                null,
+                'Chapter ',
+                chapter.number
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                chapter.name
+              )
+            );
+          }),
+          props.chapters.length === 0 && !authorized && _react2.default.createElement(
+            'span',
             null,
-            'Chapter ',
-            chapter.number
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            chapter.name
+            'No chapters have been created'
           )
-        );
-      }),
-      props.chapters.length === 0 && !authorized && _react2.default.createElement(
-        'span',
-        null,
-        'No chapters have been created'
-      )
-    ),
-    _react2.default.createElement(AddChapter, props),
-    book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })
+        ),
+        _react2.default.createElement(AddChapter, props)
+      ),
+      book && _react2.default.createElement('div', { style: { backgroundImage: 'url(' + book.cover + ')' }, className: 'book-cover' })
+    )
   );
 };
 
@@ -61863,8 +61871,7 @@ var EditorContainer = function (_React$Component) {
           this.props.authorized && !this.state.editChapter ? _react2.default.createElement(
             'span',
             { className: 'edit_chapter_btn', onClick: this.editChapter },
-            'Click to Edit ',
-            this.state.name
+            'Click to Edit'
           ) : ''
         ),
         cardContent
