@@ -1172,6 +1172,9 @@ hr.dividers {
         width: auto;
     }
 }
+.comment_text {
+    word-break: break-word;
+}
 .chapter {
     cursor: pointer;  
 }

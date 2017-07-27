@@ -2075,6 +2075,9 @@ hr.dividers {
 #report .field-list-small li {
   width: auto; }
 
+.comment_text {
+  word-break: break-word; }
+
 .chapter {
   cursor: pointer; }
 
