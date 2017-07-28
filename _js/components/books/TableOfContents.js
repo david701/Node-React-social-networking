@@ -53,7 +53,7 @@ const AddChapter = props => (
             onChange={props.handleChange}
           />
           <button className="button button-plusminus" onClick={props.handleSubmit}>+</button>
-          <button className="button button-plusminus" onClick={props.toggleVisibility} value={props.buttonVisible}>-</button>
+          <button className="button button-plusminus minus" onClick={props.toggleVisibility} value={props.buttonVisible}>-</button>
         </div>
       }
     </div>

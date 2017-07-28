@@ -1211,6 +1211,9 @@ button:disabled {
 #hide {
   display: none; }
 
+.chapter-row .buttons .button.button-plusminus.minus {
+  padding: 0 17px; }
+
 .book-cover {
   width: 45%;
   background-size: contain;
@@ -1220,6 +1223,7 @@ button:disabled {
 .content-block-standard-slide {
   overflow-x: hidden;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   position: relative; }
   .content-block-standard-slide h1 {
     color: #005876; }
@@ -1542,7 +1546,8 @@ select, input, textarea {
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5625);
-    overflow: auto; }
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; }
     #night-mode .modal .overlay.is-hidden {
       opacity: 0;
       visibility: hidden; }
@@ -1666,6 +1671,7 @@ label span {
     height: 100%;
     padding: 10px;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background-color: #FFFFFF;
     box-shadow: 0 0.125em 0.3125em 0 rgba(0, 0, 0, 0.18);
     -webkit-overflow-scrolling: touch;
@@ -1967,6 +1973,7 @@ body.search-open .mobile-header .fixed-area .flex-row a.control .menu-close {
     align-items: center;
     justify-content: center;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background-color: rgba(0, 0, 0, 0.5625); }
     .modal .overlay.is-hidden {
       opacity: 0;
@@ -3511,7 +3518,8 @@ hr.dividers {
       height: auto; }
     .book-blocks.brawlers.book-blocks-small > ul {
       flex-wrap: nowrap;
-      overflow-y: scroll; }
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch; }
   .book-blocks > ul {
     display: flex;
     justify-content: space-between;
@@ -3807,6 +3815,13 @@ hr.dividers {
       .user-list li a h5 {
         margin-top: 0.75em; }
 
+.slick-next, .slick-prev {
+  width: 50px !important;
+  height: 50px !important; }
+
+.slick-next:before, .slick-prev:before {
+  font-size: 50px !important; }
+
 @media screen and (max-width: 1024px) {
   #accountInfo .user-list {
     flex-wrap: nowrap;
@@ -3928,7 +3943,8 @@ hr.dividers {
     z-index: 5 !important; }
   .content-block-standard-slide {
     padding: 20px 30px;
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; }
   .chapter-row .buttons .button {
     width: auto; }
   .chapter-row .buttons .button.button-plusminus {
@@ -3982,7 +3998,7 @@ hr.dividers {
   .user-list li {
     margin: 25px 0;
     width: 50%; }
-  .book-blocks > ul {
+  .book-blocks > ul, #author .user-list {
     flex-wrap: nowrap;
     justify-content: flex-start;
     overflow-x: scroll;
@@ -3990,13 +4006,21 @@ hr.dividers {
     border-right: solid 1px #dedede;
     padding: 20px 0 0 0;
     box-shadow: inset -13px 0px 10px -8px #e2e2e2; }
-    .book-blocks > ul > li {
+    .book-blocks > ul > li, #author .user-list > li {
       min-width: 170px;
       margin-right: 20px; }
   .last-book {
     display: none; }
   .book-blocks-feature > ul {
-    overflow: visible; } }
+    overflow: visible;
+    box-shadow: none;
+    border: none; }
+  .slick-prev {
+    bottom: -24px !important;
+    top: initial !important; }
+  .slick-next {
+    bottom: -24px;
+    top: initial !important; } }
 
 @media screen and (min-width: 30em) {
   .user-info {

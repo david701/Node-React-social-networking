@@ -50760,7 +50760,7 @@ var Author = function (_React$Component) {
 		value: function render() {
 			var _this5 = this;
 
-			var following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
+			var following = this.state.user.gender === "Male" ? "He isn't following any authors" : this.state.user.gender === "Other" ? "They haven't followed any authors" : "She isn't following any authors",
 			    self = this,
 			    authors = this.state.user.following_authors;
 
@@ -51062,7 +51062,7 @@ var Author = function (_React$Component) {
 							' Library'
 						)
 					),
-					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library."
+					this.state.user.gender === "Male" ? "He doesn't have any books in his library." : this.state.user.gender === "Other" ? "They don't have any books in their library." : "She doesn't have any books in her library."
 				),
 				this.state.authorsBooks.length > 0 && _react2.default.createElement(
 					'div',
@@ -51752,6 +51752,11 @@ var SignUp = function (_React$Component) {
                   'option',
                   { value: 'Female' },
                   'Female'
+                ),
+                _react2.default.createElement(
+                  'option',
+                  { value: 'Other' },
+                  'Other'
                 )
               )
             )
@@ -54531,6 +54536,11 @@ var SignUp = function (_React$Component) {
                                 'option',
                                 { value: 'Female' },
                                 'Female'
+                            ),
+                            _react2.default.createElement(
+                                'option',
+                                { value: 'Other' },
+                                'Other'
                             )
                         )
                     )
@@ -60336,7 +60346,7 @@ var AddChapter = function AddChapter(props) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'button button-plusminus', onClick: props.toggleVisibility, value: props.buttonVisible },
+          { className: 'button button-plusminus minus', onClick: props.toggleVisibility, value: props.buttonVisible },
           '-'
         )
       )

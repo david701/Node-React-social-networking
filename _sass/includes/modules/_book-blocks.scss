@@ -181,6 +181,7 @@
     > ul {
       flex-wrap: nowrap;
       overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
     }
   }
   > ul {

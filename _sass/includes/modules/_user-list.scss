@@ -25,6 +25,13 @@
         }
     }
 }
+.slick-next, .slick-prev {
+    width: 50px !important;
+    height: 50px !important;
+}
+.slick-next:before, .slick-prev:before {
+    font-size: 50px !important;
+}
 
 @include n1024 {
     #accountInfo .user-list {
@@ -190,6 +197,7 @@
     .content-block-standard-slide {
         padding: 20px 30px;
         overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
     }
     .chapter-row .buttons .button {
         width: auto;
@@ -262,7 +270,7 @@
         margin: 25px 0;
         width: 50%;
     }
-    .book-blocks > ul {
+    .book-blocks > ul, #author .user-list {
         flex-wrap: nowrap;
         justify-content: flex-start;
         overflow-x: scroll;
@@ -280,5 +288,15 @@
     }
     .book-blocks-feature > ul {
         overflow: visible;
+        box-shadow: none;
+        border: none;
+    }
+    .slick-prev {
+        bottom: -24px !important;
+        top: initial !important;
+    }
+    .slick-next {
+        bottom: -24px;
+        top: initial !important;
     }
 }
