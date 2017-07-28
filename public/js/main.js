@@ -59643,7 +59643,7 @@ var AddChapter = function AddChapter(props) {
         ),
         _react2.default.createElement(
           'button',
-          { className: 'button button-plusminus', onClick: props.toggleVisibility, value: props.buttonVisible },
+          { className: 'button button-plusminus minus', onClick: props.toggleVisibility, value: props.buttonVisible },
           '-'
         )
       )
