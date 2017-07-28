@@ -39,15 +39,16 @@ export default class EditBookContainer extends React.Component {
   }
 
   updateSlidesToShow = () => {
-    let {settings} = this.state;
+    let {settings, mobile} = this.state;
     let {toggleStatus} = this.props;
     let oldNumOfSlides = settings.slidesToShow;
-    settings.slidesToShow = (window.innerWidth <= 1024) ? 1 : 2;
+    let isMobile = window.innerWidth < 1024
+    settings.slidesToShow = !isMobile && toggleStatus === "Full Screen" ? 2 : 1;
 
     settings.editorHeight = (toggleStatus === "Full Screen") ? '60vh' : 'auto';
 
-    if(oldNumOfSlides !== settings.slidesToShow){
-      this.setState({settings: settings, mobile: true})
+    if(oldNumOfSlides !== settings.slidesToShow || mobile !== isMobile){
+      this.setState({settings: settings, mobile: isMobile})
     }
   }
 

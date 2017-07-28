@@ -1228,6 +1228,9 @@ button:disabled {
   visibility: visible;
   opacity: 1; }
 
+select, input, textarea {
+  -moz-appearance: none; }
+
 .modal .overlay.overlay-create-brawl .content-block {
   transform: translateY(-130px);
   margin: 100px 0 0 0; }
@@ -1256,6 +1259,8 @@ button:disabled {
   .content-block-standard-slide.chapter-begin span {
     font-size: 22px;
     display: block;
+    white-space: pre-wrap;
+    word-break: break-all;
     word-break: break-word; }
 
 #night-mode {
@@ -2091,6 +2096,9 @@ hr.dividers {
 .ads .content-block {
   margin: 0;
   margin-bottom: 1.5em; }
+
+#edit-book .content-block {
+  margin-top: 0; }
 
 #night-mode {
   color: #fff; }

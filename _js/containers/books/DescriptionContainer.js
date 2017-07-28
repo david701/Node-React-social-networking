@@ -1,5 +1,5 @@
 import React from 'react';
-
+import $ from 'jQuery';
 import Description from '../../components/books/Description';
 
 const apiUrl = `/api/v1`;
@@ -18,7 +18,7 @@ export default class DescriptionContainer extends React.Component {
   }
 
   loadDescription = () => {
-    fetch(`${apiUrl}/books/${this.props.bookId}`)
+    $.get(`${apiUrl}/books/${this.props.bookId}`)
       .then(res => res.json())
       .then(res => {
         const nextState = { ...this.state, description: res.data.description };

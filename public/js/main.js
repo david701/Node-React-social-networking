@@ -58750,7 +58750,9 @@ var BookDetails = function (_React$Component) {
 				_react2.default.createElement(
 					'button',
 					{ onClick: function onClick() {
-							_this2.props.toggleScreen();_this2.props.toggleSettings();
+							_this2.props.toggleScreen();setTimeout(function () {
+								_this2.props.toggleSettings();
+							}, 0);
 						}, className: 'button toggleScreen status', value: 'true' },
 					this.props.toggleStatus
 				),
@@ -61312,6 +61314,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jQuery = __webpack_require__(11);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 var _Description = __webpack_require__(293);
 
 var _Description2 = _interopRequireDefault(_Description);
@@ -61335,7 +61341,7 @@ var DescriptionContainer = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (DescriptionContainer.__proto__ || Object.getPrototypeOf(DescriptionContainer)).call(this, props));
 
     _this.loadDescription = function () {
-      fetch(apiUrl + '/books/' + _this.props.bookId).then(function (res) {
+      _jQuery2.default.get(apiUrl + '/books/' + _this.props.bookId).then(function (res) {
         return res.json();
       }).then(function (res) {
         var nextState = _extends({}, _this.state, { description: res.data.description });
@@ -61559,16 +61565,19 @@ var EditBookContainer = function (_React$Component) {
       },
       mobile: false
     }, _this.updateSlidesToShow = function () {
-      var settings = _this.state.settings;
+      var _this$state = _this.state,
+          settings = _this$state.settings,
+          mobile = _this$state.mobile;
       var toggleStatus = _this.props.toggleStatus;
 
       var oldNumOfSlides = settings.slidesToShow;
-      settings.slidesToShow = window.innerWidth <= 1024 ? 1 : 2;
+      var isMobile = window.innerWidth < 1024;
+      settings.slidesToShow = !isMobile && toggleStatus === "Full Screen" ? 2 : 1;
 
       settings.editorHeight = toggleStatus === "Full Screen" ? '60vh' : 'auto';
 
-      if (oldNumOfSlides !== settings.slidesToShow) {
-        _this.setState({ settings: settings, mobile: true });
+      if (oldNumOfSlides !== settings.slidesToShow || mobile !== isMobile) {
+        _this.setState({ settings: settings, mobile: isMobile });
       }
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
@@ -61909,6 +61918,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jQuery = __webpack_require__(11);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 var _TableOfContents = __webpack_require__(296);
 
 var _TableOfContents2 = _interopRequireDefault(_TableOfContents);
@@ -61941,7 +61954,7 @@ var TocContainer = function (_React$Component) {
     _this.handleSubmit = function (e) {
       e.preventDefault();
       if (_this.state.newChapterName) {
-        fetch(apiUrl + '/books/' + _this.props.bookId + '/chapters', {
+        _jQuery2.default.get(apiUrl + '/books/' + _this.props.bookId + '/chapters', {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -61970,7 +61983,7 @@ var TocContainer = function (_React$Component) {
     };
 
     _this.loadBookInfo = function () {
-      fetch(apiUrl + '/books/' + bookId).then(function (res) {
+      _jQuery2.default.get(apiUrl + '/books/' + bookId).then(function (res) {
         return res.json();
       }).then(function (res) {
         var nextState = _extends({}, _this.state, { title: res.data.title });
