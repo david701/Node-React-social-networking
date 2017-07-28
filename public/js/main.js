@@ -61560,18 +61560,16 @@ var EditBookContainer = function (_React$Component) {
       mobile: false
     }, _this.updateSlidesToShow = function () {
       var settings = _this.state.settings;
+      var toggleStatus = _this.props.toggleStatus;
 
-      if (window.innerWidth <= 1024) {
-        settings.slidesToShow = 1;
+      var oldNumOfSlides = settings.slidesToShow;
+      settings.slidesToShow = window.innerWidth <= 1024 ? 1 : 2;
+
+      settings.editorHeight = toggleStatus === "Full Screen" ? '60vh' : 'auto';
+
+      if (oldNumOfSlides !== settings.slidesToShow) {
         _this.setState({ settings: settings, mobile: true });
       }
-    }, _this.toggleSettings = function () {
-      var toggleStatus = _this.props.toggleStatus;
-      var settings = _this.state.settings;
-
-      settings.slidesToShow = toggleStatus === "Full Screen" ? 1 : 2;
-      settings.editorHeight = toggleStatus === "Full Screen" ? '60vh' : 'auto';
-      _this.setState({ settings: settings });
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
         var nextState = { chapters: res.data };
@@ -61662,6 +61660,7 @@ var EditBookContainer = function (_React$Component) {
     value: function componentDidMount() {
       this.loadChapters();
       this.updateSlidesToShow();
+      window.addEventListener("resize", this.updateSlidesToShow);
     }
   }, {
     key: 'render',
@@ -61681,7 +61680,7 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'book-top-half' },
-          _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.toggleSettings, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.updateSlidesToShow, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           (settings.slidesToShow === 2 || mobile) && _react2.default.createElement(
             'div',
             { className: 'content-block content-block-standard-new ads' },
