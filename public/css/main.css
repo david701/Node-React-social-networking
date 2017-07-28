@@ -3986,7 +3986,9 @@ hr.dividers {
       min-width: 170px;
       margin-right: 20px; }
   .last-book {
-    display: none; } }
+    display: none; }
+  .book-blocks-feature > ul {
+    overflow: visible; } }
 
 @media screen and (min-width: 30em) {
   .user-info {
