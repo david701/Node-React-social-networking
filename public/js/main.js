@@ -31298,7 +31298,7 @@ var BookRow = function BookRow(props) {
 				return _react2.default.createElement(_book2.default, { userBooks: props.userBooks, showBrawl: props.showBrawl, book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
 			}),
 			_react2.default.createElement('li', null),
-			_react2.default.createElement('li', null)
+			_react2.default.createElement('li', { className: 'last-book' })
 		) : ''
 	);
 };
