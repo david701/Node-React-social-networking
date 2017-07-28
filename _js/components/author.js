@@ -177,7 +177,7 @@ class Author extends React.Component{
 	}
 
 	render(){
-		let following = this.state.user.gender === "Male" ? "He isn't following any authors" : "She isn't following any authors",
+		let following = this.state.user.gender === "Male" ? "He isn't following any authors" : this.state.user.gender === "Other" ? "They haven't followed any authors" : "She isn't following any authors",
 		self = this,
 		authors = this.state.user.following_authors;
 
@@ -322,7 +322,7 @@ class Author extends React.Component{
 					) : (
 						<div className="book-blocks book-blocks-small">
 							<div class="title-row"><h4>{this.state.user.name + "'s"} Library</h4></div>
-							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : "She doesn't have any books in her library.")}
+							{(this.state.user.gender === "Male" ? "He doesn't have any books in his library." : this.state.user.gender === "Other" ? "They don't have any books in their library." : "She doesn't have any books in her library.")}
 						</div>
 					)
 				}

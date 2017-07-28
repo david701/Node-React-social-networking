@@ -6,6 +6,9 @@
 #hide {
     display: none;
 }
+.chapter-row .buttons .button.button-plusminus.minus {
+    padding: 0 17px;   
+}
 .book-cover {
     width: 45%;
     background-size: contain;
@@ -15,6 +18,7 @@
 .content-block-standard-slide {
     overflow-x: hidden;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     position: relative;
     h1 {
         color: #005876;
@@ -478,6 +482,7 @@ select, input, textarea {
             justify-content: center;
             background-color: rgba($black, 0.5625);
             overflow: auto;
+            -webkit-overflow-scrolling: touch;
             &.is-hidden {
                 opacity: 0;
                 visibility: hidden;
@@ -635,6 +640,7 @@ label span {
     height: 100%;
     padding: 10px;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background-color: $white;
     box-shadow: 0 em(2) em(5) 0 rgba($black, 0.18);
 
@@ -1045,6 +1051,7 @@ body.search-open {
     align-items: center;
     justify-content: center;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background-color: rgba($black, 0.5625);
     &.is-hidden {
       opacity: 0;
