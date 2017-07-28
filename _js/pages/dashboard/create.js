@@ -36,7 +36,11 @@ class DashboardCreate extends Component {
   componentDidMount = () => { 
     $.get('/api/v1/user_session/')
       .then(resp => {
-				this.setState({user: resp.data, type: "Serial", formDisabled: true})
+        if(resp.data._id){
+				  this.setState({user: resp.data, type: "Serial", formDisabled: true});
+        }else{
+          window.location = "/"
+        }
 		});
 
     if(bookId){

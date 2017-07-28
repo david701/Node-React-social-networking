@@ -1,5 +1,5 @@
 import React from 'react';
-
+import $ from 'jQuery';
 import TableOfContents from '../../components/books/TableOfContents';
 
 const apiUrl = `/api/v1`;
@@ -26,7 +26,7 @@ export default class TocContainer extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.state.newChapterName) {
-    fetch(`${apiUrl}/books/${this.props.bookId}/chapters`, {
+    $.get(`${apiUrl}/books/${this.props.bookId}/chapters`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -53,7 +53,7 @@ export default class TocContainer extends React.Component {
  }
 
   loadBookInfo = () => {
-    fetch(`${apiUrl}/books/${bookId}`)
+    $.get(`${apiUrl}/books/${bookId}`)
       .then(res => res.json())
       .then(res => {
         const nextState = { ...this.state, title: res.data.title };

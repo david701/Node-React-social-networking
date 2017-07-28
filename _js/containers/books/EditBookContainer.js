@@ -35,22 +35,21 @@ export default class EditBookContainer extends React.Component {
   componentDidMount() {
     this.loadChapters();
     this.updateSlidesToShow();
+    window.addEventListener("resize", this.updateSlidesToShow)
   }
 
   updateSlidesToShow = () => {
-    let {settings} = this.state
-    if(window.innerWidth <= 768) {
-      settings.slidesToShow = 1;
-      this.setState({settings: settings, mobile: true})
-    }
-  }
-
-  toggleSettings = () => {
+    let {settings, mobile} = this.state;
     let {toggleStatus} = this.props;
-    let {settings} = this.state;
-    settings.slidesToShow = (toggleStatus === "Full Screen") ? 1 : 2
+    let oldNumOfSlides = settings.slidesToShow;
+    let isMobile = window.innerWidth < 1024
+    settings.slidesToShow = !isMobile && toggleStatus === "Full Screen" ? 2 : 1;
+
     settings.editorHeight = (toggleStatus === "Full Screen") ? '60vh' : 'auto';
-    this.setState({settings: settings})
+
+    if(oldNumOfSlides !== settings.slidesToShow || mobile !== isMobile){
+      this.setState({settings: settings, mobile: isMobile})
+    }
   }
 
   loadChapters = () => {
@@ -145,7 +144,7 @@ export default class EditBookContainer extends React.Component {
       <div>
         {this.state.claim?(<Claims book={this.props.book} user={this.props.user} claimContent={this.state.claimContent} submitClaim={this.submitClaim} cancelClaim={this.cancelClaim} _onChange={this._onChange}/>):''}
         <div className="book-top-half">
-          <DetailsContainer toggleSettings={this.toggleSettings} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
+          <DetailsContainer toggleSettings={this.updateSlidesToShow} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           {(settings.slidesToShow === 2 || mobile) &&
             <div className="content-block content-block-standard-new ads">
               <AdElement page='book-detail'/>

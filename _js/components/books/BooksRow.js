@@ -13,7 +13,7 @@ const BookRow = props => (
 						<Book userBooks={props.userBooks} showBrawl={props.showBrawl} book={book} key={key} user={props.user} followBook={props.followBook} unfollowBook={props.unfollowBook}/>
 					))}
 					<li></li>
-					<li></li>
+					<li className="last-book"></li>
 				</ul>
 			):''}
 	</div>
