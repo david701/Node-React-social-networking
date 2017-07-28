@@ -54274,7 +54274,7 @@ var Parent = function (_React$Component) {
 													_react2.default.createElement(
 														'p',
 														null,
-														book.author.name
+														book.author ? book.author.name : ""
 													),
 													_react2.default.createElement(
 														'ul',
@@ -55847,7 +55847,11 @@ var DashboardCreate = function (_Component) {
       }
     }, _this.componentDidMount = function () {
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
-        _this.setState({ user: resp.data, type: "Serial", formDisabled: true });
+        if (resp.data._id) {
+          _this.setState({ user: resp.data, type: "Serial", formDisabled: true });
+        } else {
+          window.location = "/";
+        }
       });
 
       if (bookId) {
