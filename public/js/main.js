@@ -56073,6 +56073,7 @@ var ViewAll = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				'// ',
 				_react2.default.createElement(_Ad.AdElement, { page: 'browse' }),
 				_react2.default.createElement(
 					'div',
@@ -56143,6 +56144,7 @@ var ViewAll = function (_React$Component) {
 						'No search results...'
 					) : ''
 				),
+				'// ',
 				_react2.default.createElement(_Ad.AdElement, { page: 'browse' })
 			);
 		}
