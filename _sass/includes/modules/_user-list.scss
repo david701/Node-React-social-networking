@@ -13,11 +13,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 50%;
-        margin: 0 35px 1.5em 0;
-        @include w480 {
-            width: initial;
-        }
+        width: 25%;
+        margin: 1.5em 35px 1.5em 0;
         a {
             display: flex;
             flex-direction: column;
@@ -29,7 +26,7 @@
     }
 }
 
-@include n768 {
+@include n1024 {
     #accountInfo .user-list {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -165,6 +162,7 @@
     }
     .book-top-half,.content-block-standard-new {
         height: auto;
+        width: 100%;
     }
     button.toggleScreen, .button.toggleScreen {
         display: inline-block;
@@ -259,5 +257,28 @@
     }
     #full-screen .book-top-half .toggleScreen.status {
         margin: 10px 10px 0 0;
+    }
+    .user-list li {
+        margin: 25px 0;
+        width: 50%;
+    }
+    .book-blocks > ul {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        border-right: solid 1px #dedede;
+        padding: 20px 0 0 0;
+        box-shadow: inset -13px 0px 10px -8px #e2e2e2;
+        > li {
+            min-width: 170px;
+            margin-right: 20px;
+        }
+    }
+    .last-book {
+        display: none;
+    }
+    .book-blocks-feature > ul {
+        overflow: visible;
     }
 }

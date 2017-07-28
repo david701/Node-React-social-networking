@@ -1228,6 +1228,9 @@ button:disabled {
   visibility: visible;
   opacity: 1; }
 
+select, input, textarea {
+  -moz-appearance: none; }
+
 .modal .overlay.overlay-create-brawl .content-block {
   transform: translateY(-130px);
   margin: 100px 0 0 0; }
@@ -1256,6 +1259,8 @@ button:disabled {
   .content-block-standard-slide.chapter-begin span {
     font-size: 22px;
     display: block;
+    white-space: pre-wrap;
+    word-break: break-all;
     word-break: break-word; }
 
 #night-mode {
@@ -1999,7 +2004,8 @@ form .instructions {
   margin: 0 0 20px 0; }
 
 .pages {
-  float: right;
+  display: flex;
+  justify-content: flex-end;
   font-size: 14px; }
   .pages span, .pages a {
     float: left;
@@ -2090,6 +2096,9 @@ hr.dividers {
 .ads .content-block {
   margin: 0;
   margin-bottom: 1.5em; }
+
+#edit-book .content-block {
+  margin-top: 0; }
 
 #night-mode {
   color: #fff; }
@@ -2471,11 +2480,8 @@ hr.dividers {
     margin-bottom: 20px;
     max-width: 46.5em;
     height: 44vh;
+    width: calc(50% - 0.75em);
     padding: 1em; }
-    @media screen and (min-width: 62.5em) {
-      .content-block-standard-new {
-        width: calc(50% - 0.75em);
-        padding: 2em; } }
     .content-block-standard-new .night {
       display: none;
       width: 134px;
@@ -3792,11 +3798,8 @@ hr.dividers {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
-    margin: 0 35px 1.5em 0; }
-    @media screen and (min-width: 30em) {
-      .user-list li {
-        width: initial; } }
+    width: 25%;
+    margin: 1.5em 35px 1.5em 0; }
     .user-list li a {
       display: flex;
       flex-direction: column;
@@ -3804,7 +3807,7 @@ hr.dividers {
       .user-list li a h5 {
         margin-top: 0.75em; }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   #accountInfo .user-list {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -3903,7 +3906,8 @@ hr.dividers {
   #admin.brawl-feature .container {
     min-width: 100%; }
   .book-top-half, .content-block-standard-new {
-    height: auto; }
+    height: auto;
+    width: 100%; }
   button.toggleScreen, .button.toggleScreen {
     display: inline-block;
     float: none;
@@ -3974,7 +3978,25 @@ hr.dividers {
   #full-screen .book-top-half .profile-info p, #full-screen .rating-display {
     display: none; }
   #full-screen .book-top-half .toggleScreen.status {
-    margin: 10px 10px 0 0; } }
+    margin: 10px 10px 0 0; }
+  .user-list li {
+    margin: 25px 0;
+    width: 50%; }
+  .book-blocks > ul {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    border-right: solid 1px #dedede;
+    padding: 20px 0 0 0;
+    box-shadow: inset -13px 0px 10px -8px #e2e2e2; }
+    .book-blocks > ul > li {
+      min-width: 170px;
+      margin-right: 20px; }
+  .last-book {
+    display: none; }
+  .book-blocks-feature > ul {
+    overflow: visible; } }
 
 @media screen and (min-width: 30em) {
   .user-info {

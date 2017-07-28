@@ -31395,7 +31395,7 @@ var BookRow = function BookRow(props) {
 				return _react2.default.createElement(_book2.default, { userBooks: props.userBooks, showBrawl: props.showBrawl, book: book, key: key, user: props.user, followBook: props.followBook, unfollowBook: props.unfollowBook });
 			}),
 			_react2.default.createElement('li', null),
-			_react2.default.createElement('li', null)
+			_react2.default.createElement('li', { className: 'last-book' })
 		) : ''
 	);
 };
@@ -53468,7 +53468,7 @@ var Parent = function (_React$Component) {
 													_react2.default.createElement(
 														'p',
 														null,
-														book.author.name
+														book.author ? book.author.name : ""
 													),
 													_react2.default.createElement(
 														'ul',
@@ -55041,7 +55041,11 @@ var DashboardCreate = function (_Component) {
       }
     }, _this.componentDidMount = function () {
       _jquery2.default.get('/api/v1/user_session/').then(function (resp) {
-        _this.setState({ user: resp.data, type: "Serial", formDisabled: true });
+        if (resp.data._id) {
+          _this.setState({ user: resp.data, type: "Serial", formDisabled: true });
+        } else {
+          window.location = "/";
+        }
       });
 
       if (bookId) {
@@ -59437,7 +59441,9 @@ var BookDetails = function (_React$Component) {
 				_react2.default.createElement(
 					'button',
 					{ onClick: function onClick() {
-							_this2.props.toggleScreen();_this2.props.toggleSettings();
+							_this2.props.toggleScreen();setTimeout(function () {
+								_this2.props.toggleSettings();
+							}, 0);
 						}, className: 'button toggleScreen status', value: 'true' },
 					this.props.toggleStatus
 				),
@@ -61999,6 +62005,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jQuery = __webpack_require__(11);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 var _Description = __webpack_require__(297);
 
 var _Description2 = _interopRequireDefault(_Description);
@@ -62022,7 +62032,7 @@ var DescriptionContainer = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (DescriptionContainer.__proto__ || Object.getPrototypeOf(DescriptionContainer)).call(this, props));
 
     _this.loadDescription = function () {
-      fetch(apiUrl + '/books/' + _this.props.bookId).then(function (res) {
+      _jQuery2.default.get(apiUrl + '/books/' + _this.props.bookId).then(function (res) {
         return res.json();
       }).then(function (res) {
         var nextState = _extends({}, _this.state, { description: res.data.description });
@@ -62246,19 +62256,20 @@ var EditBookContainer = function (_React$Component) {
       },
       mobile: false
     }, _this.updateSlidesToShow = function () {
-      var settings = _this.state.settings;
-
-      if (window.innerWidth <= 768) {
-        settings.slidesToShow = 1;
-        _this.setState({ settings: settings, mobile: true });
-      }
-    }, _this.toggleSettings = function () {
+      var _this$state = _this.state,
+          settings = _this$state.settings,
+          mobile = _this$state.mobile;
       var toggleStatus = _this.props.toggleStatus;
-      var settings = _this.state.settings;
 
-      settings.slidesToShow = toggleStatus === "Full Screen" ? 1 : 2;
+      var oldNumOfSlides = settings.slidesToShow;
+      var isMobile = window.innerWidth < 1024;
+      settings.slidesToShow = !isMobile && toggleStatus === "Full Screen" ? 2 : 1;
+
       settings.editorHeight = toggleStatus === "Full Screen" ? '60vh' : 'auto';
-      _this.setState({ settings: settings });
+
+      if (oldNumOfSlides !== settings.slidesToShow || mobile !== isMobile) {
+        _this.setState({ settings: settings, mobile: isMobile });
+      }
     }, _this.loadChapters = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId + '/chapters').then(function (res) {
         var nextState = { chapters: res.data };
@@ -62349,6 +62360,7 @@ var EditBookContainer = function (_React$Component) {
     value: function componentDidMount() {
       this.loadChapters();
       this.updateSlidesToShow();
+      window.addEventListener("resize", this.updateSlidesToShow);
     }
   }, {
     key: 'render',
@@ -62368,7 +62380,7 @@ var EditBookContainer = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: 'book-top-half' },
-          _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.toggleSettings, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
+          _react2.default.createElement(_DetailsContainer2.default, { toggleSettings: this.updateSlidesToShow, slider: this.refs.slider, bookId: this.props.bookId, toggleStatus: this.props.toggleStatus, toggleScreen: this.props.toggleScreen, book: this.props.book, length: this.state.chapters.length, following: this.props.following, authorized: this.props.authorized }),
           (settings.slidesToShow === 2 || mobile) && _react2.default.createElement(
             'div',
             { className: 'content-block content-block-standard-new ads' },
@@ -62597,6 +62609,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _jQuery = __webpack_require__(11);
+
+var _jQuery2 = _interopRequireDefault(_jQuery);
+
 var _TableOfContents = __webpack_require__(300);
 
 var _TableOfContents2 = _interopRequireDefault(_TableOfContents);
@@ -62629,7 +62645,7 @@ var TocContainer = function (_React$Component) {
     _this.handleSubmit = function (e) {
       e.preventDefault();
       if (_this.state.newChapterName) {
-        fetch(apiUrl + '/books/' + _this.props.bookId + '/chapters', {
+        _jQuery2.default.get(apiUrl + '/books/' + _this.props.bookId + '/chapters', {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -62658,7 +62674,7 @@ var TocContainer = function (_React$Component) {
     };
 
     _this.loadBookInfo = function () {
-      fetch(apiUrl + '/books/' + bookId).then(function (res) {
+      _jQuery2.default.get(apiUrl + '/books/' + bookId).then(function (res) {
         return res.json();
       }).then(function (res) {
         var nextState = _extends({}, _this.state, { title: res.data.title });

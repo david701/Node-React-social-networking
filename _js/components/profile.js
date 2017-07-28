@@ -428,7 +428,7 @@ class Parent extends React.Component {
 				                              </div>
 				                              <figcaption>
 				                                <h4>{book.title}</h4>
-				                                <p>{book.author.name}</p>
+				                                <p>{book.author ? book.author.name : ""}</p>
 				                                <ul className="rating-display">
 				                                  <li></li>
 				                                  <li></li>
