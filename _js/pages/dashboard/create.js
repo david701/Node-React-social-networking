@@ -33,7 +33,7 @@ class DashboardCreate extends Component {
 		}
 	};
 
-  componentDidMount = () => { 
+  componentDidMount = () => {
     $.get('/api/v1/user_session/')
       .then(resp => {
         if(resp.data._id){
@@ -103,9 +103,7 @@ class DashboardCreate extends Component {
         // skip loop if the property is from prototype
         if (!links.hasOwnProperty(key)) continue;
         //clear out empty urls
-        if(links[key] === "http://"){
-          links[key] = ""
-        }
+        links[key] = links[key].replace('https://', '').replace('http://', '');
     }
 
     return links;
