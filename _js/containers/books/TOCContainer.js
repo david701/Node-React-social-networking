@@ -46,7 +46,6 @@ export default class TocContainer extends React.Component {
 
   loadBookInfo = () => {
     $.get(`${apiUrl}/books/${bookId}`)
-      .then(res => res.json())
       .then(res => {
         const nextState = { ...this.state, title: res.data.title };
         this.setState(nextState);

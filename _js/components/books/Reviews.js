@@ -105,7 +105,7 @@ export default class Reviews extends React.Component{
 				<ul style={{paddingBottom: '2rem'}}>
 					{reviews}
 				</ul>
-				{this.props.user?(<button className="add_review_btn" onClick={this.addReview}><h4 style={{margin:0}}>Create Review</h4></button>):(<button className="add_review_btn" onClick={this.props.signUp}><h4 style={{margin:0}}>Create Review</h4></button>)}
+				{this.props.user && this.props.user._id?(<button className="add_review_btn" onClick={this.addReview}><h4 style={{margin:0}}>Create Review</h4></button>):(<button className="add_review_btn" onClick={this.props.signUp}><h4 style={{margin:0}}>Create Review</h4></button>)}
 				{this.state.addReview?
 				<div className="add_review">
 					<div>

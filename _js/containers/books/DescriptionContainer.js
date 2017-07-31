@@ -19,7 +19,6 @@ export default class DescriptionContainer extends React.Component {
 
   loadDescription = () => {
     $.get(`${apiUrl}/books/${this.props.bookId}`)
-      .then(res => res.json())
       .then(res => {
         const nextState = { ...this.state, description: res.data.description };
         this.setState(nextState);

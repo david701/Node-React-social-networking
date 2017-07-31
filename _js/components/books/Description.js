@@ -66,7 +66,7 @@ export default class Description extends React.Component{
 		}
 
 		if(!this.props.authorized){
-			if(this.props.user){
+			if(this.props.user && this.props.user._id ){
 				if(this.state.following){
 					followBtn = <a onClick={this.unfollow} className="button button-red" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0'}}>Unfollow</a>;
 				}else{

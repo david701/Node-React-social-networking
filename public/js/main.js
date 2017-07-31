@@ -59823,7 +59823,7 @@ var Description = function (_React$Component) {
 			};
 
 			if (!this.props.authorized) {
-				if (this.props.user) {
+				if (this.props.user && this.props.user._id) {
 					if (this.state.following) {
 						followBtn = _react2.default.createElement(
 							'a',
@@ -60160,7 +60160,7 @@ var Reviews = function (_React$Component) {
 					{ style: { paddingBottom: '2rem' } },
 					reviews
 				),
-				this.props.user ? _react2.default.createElement(
+				this.props.user && this.props.user._id ? _react2.default.createElement(
 					'button',
 					{ className: 'add_review_btn', onClick: this.addReview },
 					_react2.default.createElement(
@@ -62041,8 +62041,6 @@ var DescriptionContainer = function (_React$Component) {
 
     _this.loadDescription = function () {
       _jQuery2.default.get(apiUrl + '/books/' + _this.props.bookId).then(function (res) {
-        return res.json();
-      }).then(function (res) {
         var nextState = _extends({}, _this.state, { description: res.data.description });
         _this.setState(nextState);
       });
@@ -62673,8 +62671,6 @@ var TocContainer = function (_React$Component) {
 
     _this.loadBookInfo = function () {
       _jQuery2.default.get(apiUrl + '/books/' + bookId).then(function (res) {
-        return res.json();
-      }).then(function (res) {
         var nextState = _extends({}, _this.state, { title: res.data.title });
         _this.setState(nextState);
       });
