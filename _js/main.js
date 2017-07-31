@@ -181,7 +181,7 @@ class LoginButtons extends React.Component{
 			                        {this.state.user.role < 1 &&
 			                        <div>
 			                        	<li className={this.state.title === "Create" ? 'selected' : ''}>
-				                            <a href="/dashboard/create/">Create</a>
+				                            <a href="/dashboard/create/">Create Book</a>
 				                        </li>
 				                        <li className={this.state.title === "Following" ? 'selected' : ''}>
 				                            <a href="/dashboard/following/1">Following</a>

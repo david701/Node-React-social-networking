@@ -55110,9 +55110,7 @@ var DashboardCreate = function (_Component) {
         // skip loop if the property is from prototype
         if (!links.hasOwnProperty(key)) continue;
         //clear out empty urls
-        if (links[key] === "http://") {
-          links[key] = "";
-        }
+        links[key] = links[key].replace('https://', '').replace('http://', '');
       }
 
       return links;
@@ -56083,7 +56081,6 @@ var ViewAll = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				'// ',
 				_react2.default.createElement(_Ad.AdElement, { page: 'browse' }),
 				_react2.default.createElement(
 					'div',
@@ -56154,7 +56151,6 @@ var ViewAll = function (_React$Component) {
 						'No search results...'
 					) : ''
 				),
-				'// ',
 				_react2.default.createElement(_Ad.AdElement, { page: 'browse' })
 			);
 		}
@@ -59968,7 +59964,7 @@ var Editor = function (_Component) {
         _react2.default.createElement(_reactTinymce2.default, {
           content: sanitizeContent(this.props.content),
           config: {
-            plugins: 'autolink link image table',
+            plugins: 'autolink link image table textcolor',
             toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | table',
             menubar: false,
             height: this.props.settings.editorHeight
@@ -62277,7 +62273,7 @@ var EditBookContainer = function (_React$Component) {
       var isMobile = window.innerWidth < 1024;
       settings.slidesToShow = !isMobile && toggleStatus === "Full Screen" ? 2 : 1;
 
-      settings.editorHeight = toggleStatus === "Full Screen" ? '60vh' : 'auto';
+      settings.editorHeight = toggleStatus === "Full Screen" ? 'auto' : '60vh';
 
       if (oldNumOfSlides !== settings.slidesToShow || mobile !== isMobile) {
         _this.setState({ settings: settings, mobile: isMobile });
@@ -62657,22 +62653,12 @@ var TocContainer = function (_React$Component) {
     _this.handleSubmit = function (e) {
       e.preventDefault();
       if (_this.state.newChapterName) {
-        _jQuery2.default.get(apiUrl + '/books/' + _this.props.bookId + '/chapters', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            name: _this.state.newChapterName,
-            number: _this.props.chapters.length + 1,
-            content: ' '
-          })
-        }).then(function (res) {
-          return res.json();
-        }).then(function (res) {
-          return _this.props.loadChapters();
-        }).then(function () {
+        _jQuery2.default.post(apiUrl + '/books/' + _this.props.bookId + '/chapters', {
+          name: _this.state.newChapterName,
+          number: _this.props.chapters.length + 1,
+          content: ' '
+        }).then(function (data) {
+          _this.props.loadChapters();
           _this.toggleVisibility();
           setTimeout(function () {
             _this.props.selectChapter(_this.props.chapters.length + 1);
@@ -63618,7 +63604,7 @@ var LoginButtons = function (_React$Component) {
 												_react2.default.createElement(
 													'a',
 													{ href: '/dashboard/create/' },
-													'Create'
+													'Create Book'
 												)
 											),
 											_react2.default.createElement(

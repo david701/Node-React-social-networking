@@ -26,21 +26,13 @@ export default class TocContainer extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.state.newChapterName) {
-    $.get(`${apiUrl}/books/${this.props.bookId}/chapters`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: this.state.newChapterName,
-        number: this.props.chapters.length + 1,
-        content: ' ',
-      }),
+    $.post(`${apiUrl}/books/${this.props.bookId}/chapters`,{
+      name: this.state.newChapterName,
+      number: this.props.chapters.length + 1,
+      content: ' ',
     })
-    .then(res => res.json())
-    .then(res => this.props.loadChapters())
-    .then(() => {
+    .then((data) => {
+      this.props.loadChapters()
       this.toggleVisibility();
       setTimeout(() => {
         this.props.selectChapter(this.props.chapters.length + 1)

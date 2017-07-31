@@ -14,7 +14,7 @@ class Editor extends Component{
         <TinyMCE
           content={sanitizeContent(this.props.content)}
           config={{
-            plugins: 'autolink link image table',
+            plugins: 'autolink link image table textcolor',
             toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | table',
             menubar: false,
             height: this.props.settings.editorHeight
