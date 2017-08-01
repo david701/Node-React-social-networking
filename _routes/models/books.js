@@ -365,9 +365,7 @@ exports.editBook = (req, res)=>{
     return;
   }
 
-  console.log('= DEBUG =', req.body);
-
-	if(req.body.cover){
+	if(!req.body.cover.startsWith('/')){
 		saveImage(req.params.id, req.body.cover, function(err, url){
 			if(err){
 				console.log('=== IMAGE SAVE ERROR ===', err);

@@ -15,7 +15,7 @@ class Editor extends Component{
           content={sanitizeContent(this.props.content)}
           config={{
             plugins: 'autolink link image table textcolor',
-            toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | table',
+            toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | formatselect | table | forecolor',
             menubar: false,
             height: this.props.settings.editorHeight
           }}
