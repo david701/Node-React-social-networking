@@ -507,3 +507,13 @@
     background: #000;
   }
 }
+
+button.slick-arrow{
+  z-index:10000000;
+  &.slick-prev{
+    left:-4%;
+  }
+  &.slick-next{
+    right:-4%;
+  }
+}
