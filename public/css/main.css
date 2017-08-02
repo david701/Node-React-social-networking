@@ -3764,6 +3764,13 @@ hr.dividers {
 #night-mode .comments_block {
   background: #000; }
 
+button.slick-arrow {
+  z-index: 10000000; }
+  button.slick-arrow.slick-prev {
+    left: -4%; }
+  button.slick-arrow.slick-next {
+    right: -4%; }
+
 .filter-controls {
   margin-bottom: 0.71875em;
   padding-top: 0.1875em;
