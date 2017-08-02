@@ -60843,7 +60843,7 @@ var BrawlAdmin = function (_React$Component) {
 
 		_this.getBrawlers = function (brawlType) {
 			//brawlers=true&type=brawlType
-			_jQuery2.default.get('/api/v1/books?brawl_submit=false').then(function (brawlers) {
+			_jQuery2.default.get('/api/v1/books?brawlers=true').then(function (brawlers) {
 				var brawl_type = _this.filterBy(brawlers.data, "genre", brawlType);
 				console.log(brawl_type);
 				_this.setState({ brawlers: brawl_type });
