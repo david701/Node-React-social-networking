@@ -52178,6 +52178,11 @@ var Friends = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
+                !this.state.users.length ? _react2.default.createElement(
+                    'p',
+                    null,
+                    'You are not currently following anyone.'
+                ) : '',
                 _react2.default.createElement(
                     'ul',
                     { className: 'user-list' },
@@ -52213,7 +52218,7 @@ var Friends = function (_React$Component) {
                         );
                     })
                 ),
-                _react2.default.createElement(
+                this.state.users.length ? _react2.default.createElement(
                     'div',
                     { className: 'pages' },
                     currentPage > 1 && _react2.default.createElement(
@@ -52242,7 +52247,7 @@ var Friends = function (_React$Component) {
                         { href: "/dashboard/following/" + (currentPage + 1), className: 'next' },
                         'Next'
                     )
-                )
+                ) : ''
             );
         }
     }]);
