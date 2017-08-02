@@ -3394,6 +3394,13 @@ hr.dividers {
       #admin.brawl-feature main .week {
         width: calc(100%); } }
 
+@media screen and (min-width: 40em) {
+  .brawl-feature main .flex-row
+li:first-child .mascot img {
+    margin-left: 0; }
+  .mascot img {
+    margin-left: 17px; } }
+
 #night-mode .book-blocks > ul > li a.content-block {
   transition: box-shadow 0.1875s ease-out; }
   #night-mode .book-blocks > ul > li a.content-block:hover {
