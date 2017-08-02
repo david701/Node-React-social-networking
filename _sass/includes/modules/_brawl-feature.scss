@@ -690,3 +690,15 @@
         }
     }
 }
+
+@include w640 {
+  .brawl-feature main .flex-row
+  li:first-child{
+    .mascot img{
+      margin-left: 0;
+    }
+  }
+  .mascot img{
+    margin-left: 17px;
+  }
+}
