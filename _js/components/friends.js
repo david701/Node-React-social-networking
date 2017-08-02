@@ -82,6 +82,7 @@ class Friends extends React.Component{
 
         return(
             <div>
+								{!this.state.users.length?<p>You are not currently following anyone.</p>:''}
                 <ul className="user-list">
                     {this.state.users.map(function(user, i){
                     return (
@@ -99,7 +100,7 @@ class Friends extends React.Component{
                     )
                     })}
                 </ul>
-                <div className="pages">
+								{this.state.users.length?(<div className="pages">
                     {currentPage > 1 &&
                         <a href={"/dashboard/following/" + (currentPage - 1)} className="prev">Previous</a>
                     }
@@ -109,7 +110,8 @@ class Friends extends React.Component{
                     {currentPage < this.state.numOfPages &&
                         <a href={"/dashboard/following/" + (currentPage + 1)} className="next">Next</a>
                     }
-                </div>
+                </div>):''}
+
             </div>
 		)
 	}
