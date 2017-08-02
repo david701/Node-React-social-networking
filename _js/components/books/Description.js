@@ -31,9 +31,9 @@ export default class Description extends React.Component{
 	}
 
 	navigateToPage = (e,url) => {
-		window.location.href = url;
-		this.setState({showMenu: ""});
 		e.preventDefault();
+		this.setState({showMenu: ""});
+		window.open(url, '_blank');
 		e.stopPropagation();
 	}
 
@@ -72,10 +72,10 @@ export default class Description extends React.Component{
 				}else{
 					followBtn = <a onClick={this.follow} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0'}}>Follow</a>;
 				}
-				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0'}} onClick={this.props.claim}>Claim</button>;
+				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0'}} onClick={this.props.claim}>Report</button>;
 			}else{
 				followBtn = <a onClick={this.signUp} className="button" style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 0 0'}}>Follow</a>;
-				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem'}} onClick={this.signUp}>Claim</button>
+				claimBtn = <button className='button-white' style={{display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0'}} onClick={this.signUp}>Report</button>
 			}
 		}
 

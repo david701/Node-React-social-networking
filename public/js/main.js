@@ -51675,7 +51675,7 @@ var SignUp = function (_React$Component) {
                     null,
                     '*'
                   ),
-                  'Your name:'
+                  'Your Username:'
                 ),
                 _react2.default.createElement(
                   'span',
@@ -53530,11 +53530,6 @@ var Parent = function (_React$Component) {
 																	return _this3.viewClaim(i);
 																} },
 															'View Claim'
-														),
-														_react2.default.createElement(
-															'a',
-															{ className: 'button button-white', id: claim.book._id },
-															'Accept'
 														)
 													)
 												),
@@ -54444,7 +54439,7 @@ var SignUp = function (_React$Component) {
                                     null,
                                     '*'
                                 ),
-                                'What is your name?'
+                                'Create a Username'
                             ),
                             _react2.default.createElement(
                                 'span',
@@ -59783,9 +59778,9 @@ var Description = function (_React$Component) {
 				_this.setState({ following: false });
 			});
 		}, _this.navigateToPage = function (e, url) {
-			window.location.href = url;
-			_this.setState({ showMenu: "" });
 			e.preventDefault();
+			_this.setState({ showMenu: "" });
+			window.open(url, '_blank');
 			e.stopPropagation();
 		}, _this.toggleBuy = function (e) {
 			var newState = _this.state.showMenu === "" ? "show" : "";
@@ -59840,7 +59835,7 @@ var Description = function (_React$Component) {
 					claimBtn = _react2.default.createElement(
 						'button',
 						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0' }, onClick: this.props.claim },
-						'Claim'
+						'Report'
 					);
 				} else {
 					followBtn = _react2.default.createElement(
@@ -59850,8 +59845,8 @@ var Description = function (_React$Component) {
 					);
 					claimBtn = _react2.default.createElement(
 						'button',
-						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 0 1rem 1rem' }, onClick: this.signUp },
-						'Claim'
+						{ className: 'button-white', style: { display: 'inline-block', width: 'auto', padding: '0.9375rem 2rem', margin: '0 1rem 1rem 0' }, onClick: this.signUp },
+						'Report'
 					);
 				}
 			}

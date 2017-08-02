@@ -318,7 +318,7 @@ class SignUp extends React.Component{
 				<ul className="field-list">
 					<li>
 						<div className="title">
-              <label htmlFor="name"><span>*</span>Your name:</label>
+              <label htmlFor="name"><span>*</span>Your Username:</label>
               <span className="help-text">Please enter your full name. It must be under 20 characters</span>
             </div>
 						<input id="name" name="name" type="text" value={profile.name} onChange={this.handleChange} onBlur={validate} data-maxlength="20" data-validation="name,required,maxlength"/>
