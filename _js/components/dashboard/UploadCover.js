@@ -9,9 +9,6 @@ const UploadCover = props => {
       <h4><span>Step 1.</span> Upload Cover Art</h4>
       <ul className="field-list field-list-split">
         <li>
-          <div className="copy">
-            <p>Read</p>
-          </div>
           <div className="book-blocks book-blocks-single book-blocks-preview">
             <ul>
               <li>
