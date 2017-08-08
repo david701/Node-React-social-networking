@@ -359,13 +359,13 @@ exports.removeBook = (req, res)=>{
 }
 
 exports.editBook = (req, res)=>{
-  var user = req.session;
+	var user = req.session;
   if(!user){
     res.json({status:'error', message: 'Not logged in'})
     return;
-  }
+	}
 
-	if(!req.body.cover.startsWith('/')){
+	if(req.body.cover && !req.body.cover.startsWith('/')){
 		saveImage(req.params.id, req.body.cover, function(err, url){
 			if(err){
 				console.log('=== IMAGE SAVE ERROR ===', err);
