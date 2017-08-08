@@ -29,8 +29,7 @@ const ClaimDetailsModal = props => (
 							(<div className="submit-row submit-row-claim">
 								{props.user && props.book &&
 								<div className="claim-details">
-									<a href={'mailto:'+props.user.email}><p>Email {props.user ? props.user.email : ""}</p></a>
-									<a href={'mailto:'+props.book.author.email}><p>Email {props.book.author.name}</p></a>
+									<a href={'mailto:'+props.user.email}><p>Email : {props.user ? props.user.email : ""}</p></a>
 									<a onClick={props.deleteBook}><p>Delete Book Immediately</p></a>
 									<a onClick={props.resolveClaim}><p>Mark as Resolved</p></a>
 								</div>
