@@ -459,7 +459,7 @@ exports.reports = (req, res)=>{
 		return;
 	}else{
 		var vars = [{name: 'content', content: req.body.message}, {name:'email', content: user.email}];
-		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'ericka@elonandcompany.com', (err, resp)=>{
+		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'support@bookbrawl.com', (err, resp)=>{
 			if(!err){
 				handle.res(res)
 			}else{
