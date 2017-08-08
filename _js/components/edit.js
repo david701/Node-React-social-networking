@@ -142,7 +142,10 @@ class SignUp extends React.Component{
   		if(props.length > 1){
         // add sub properties here
         let http = 'http://',
-        realValue = value.replace(http,"");
+				realValue = value.replace(http,"");
+				
+				let https = 'https://';
+        realValue = realValue.replace(https,"");
 
         if(props[0] === "social_media"){
           if(realValue !== "http:/"){
