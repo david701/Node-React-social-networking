@@ -7,7 +7,7 @@ const ClaimDetailsModal = props => (
 			<div className="content-block content-block-standard">
 				<form>
 					<div className="title-row" style={{ marginBottom: 0 }}>
-						<h4>Claim Details</h4>
+						<h4>Report Details</h4>
 					</div>
 					<div className="flex-row">
 						<p><strong>Reporter's Name: </strong> {props.user ? props.user.name : ""}</p>
@@ -19,7 +19,7 @@ const ClaimDetailsModal = props => (
 					(<textarea
 						id="claim"
 						rows="5"
-						placeholder="Description of claim..."
+						placeholder="Description of report..."
 						name="claimContent"
 						value={props.claimContent}
 						onChange={props._onChange}
@@ -29,8 +29,7 @@ const ClaimDetailsModal = props => (
 							(<div className="submit-row submit-row-claim">
 								{props.user && props.book &&
 								<div className="claim-details">
-									<a href={'mailto:'+props.user.email}><p>Email {props.user ? props.user.email : ""}</p></a>
-									<a href={'mailto:'+props.book.author.email}><p>Email {props.book.author.name}</p></a>
+									<a href={'mailto:'+props.user.email}><p>Email : {props.user ? props.user.email : ""}</p></a>
 									<a onClick={props.deleteBook}><p>Delete Book Immediately</p></a>
 									<a onClick={props.resolveClaim}><p>Mark as Resolved</p></a>
 								</div>
