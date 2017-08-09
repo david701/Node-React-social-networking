@@ -228,7 +228,9 @@ exports.removeUser = (req, res)=>{
 			if(user.role > 0){
 				handle.err(res, 'Admins can not be removed')
 			}else{
-				user.update({status: 0})
+				let isAdminAction = req.query.admin;
+				if (isAdminAction == 1){   // Just disable it, if admin deletes the account
+					user.update({status: 0})
 					.then((userUpdate)=>{
 						mongoBook.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
 							mongoComment.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
@@ -243,6 +245,24 @@ exports.removeUser = (req, res)=>{
 					.catch((err)=>{
 						handle.err(res, err.message)
 					})
+				}
+				else{ // Completely remove for re-signup, if user deletes his account himself
+					user.remove()
+					.then((userUpdate)=>{
+						mongoBook.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
+							mongoComment.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
+								mongoReview.update({author: req.params.id},{status: 0},{multi: true}).then((update)=>{
+									handle.res(res)
+								})
+							})
+						}).catch((err)=>{
+							handle.err(res, err.message)
+						});
+					})
+					.catch((err)=>{
+						handle.err(res, err.message)
+					})
+				}
 			}
 		})
 		.catch((err)=>{
@@ -439,7 +459,7 @@ exports.reports = (req, res)=>{
 		return;
 	}else{
 		var vars = [{name: 'content', content: req.body.message}, {name:'email', content: user.email}];
-		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'ericka@elonandcompany.com', (err, resp)=>{
+		sendEmail('Report', 'Book Brawl Report Submitted', {vars: vars}, 'support@bookbrawl.com', (err, resp)=>{
 			if(!err){
 				handle.res(res)
 			}else{

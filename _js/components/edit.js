@@ -113,11 +113,20 @@ class SignUp extends React.Component{
 
     handleDelete = (event) => {
       let self = this;
-      let check = confirm('Are you sure that you want to delete the account?');
+			let check = confirm('Are you sure that you want to delete the account?');
+
+			let isAdminRole = 0;
+			if (this.state.me.role > 0)
+				isAdminRole = 1;
+				
+			
+			console.log('state : ', JSON.stringify(this.state));
+
+			console.log('admin role : ', this.state.me.role);
 
       if(check){
         $.ajax({
-            url: '/api/v1/users/' + this.state.profile._id,
+            url: '/api/v1/users/' + this.state.profile._id + '?' + 'admin=' + isAdminRole,
             type: 'DELETE',
             success: function(response){
               if(response.status === "ok"){
@@ -142,7 +151,10 @@ class SignUp extends React.Component{
   		if(props.length > 1){
         // add sub properties here
         let http = 'http://',
-        realValue = value.replace(http,"");
+				realValue = value.replace(http,"");
+				
+				let https = 'https://';
+        realValue = realValue.replace(https,"");
 
         if(props[0] === "social_media"){
           if(realValue !== "http:/"){
