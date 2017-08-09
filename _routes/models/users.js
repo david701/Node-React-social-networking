@@ -228,7 +228,7 @@ exports.removeUser = (req, res)=>{
 			if(user.role > 0){
 				handle.err(res, 'Admins can not be removed')
 			}else{
-				let isAdminAction = req.query.admin;
+				var isAdminAction = req.query.admin;
 				if (isAdminAction == 1){   // Just disable it, if admin deletes the account
 					user.update({status: 0})
 					.then((userUpdate)=>{
