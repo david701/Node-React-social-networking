@@ -70,12 +70,14 @@ router.get('/books/:id', (req, res) => {
 			if(book.author != user._id){
 				if(book.viewed_by.indexOf(user._id) == -1){
 					book.viewed_by.push(user._id);
-					book.save().then((book)=>{
-						res.render('book-edit', {title: 'Edit Book', id: req.params.id})
-					})
-				}else{
-					res.render('book-edit', {title: 'Edit Book', id: req.params.id})
 				}
+				else{
+					book.visits += 1;
+				}
+
+				book.save().then((book)=>{
+					res.render('book-edit', {title: 'Edit Book', id: req.params.id})
+				})
 			}else{
 				res.render('book-edit', {title: 'Edit Book', id: req.params.id})
 			}

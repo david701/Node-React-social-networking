@@ -56,7 +56,8 @@ const bookSchema = new Schema({
 	rating: {type:Number, default: 0},
 	brawl_submit: Boolean,
 	brawls: [{ type: Schema.Types.ObjectId, ref: 'Brawls' }],
-	updated_at: { type: Date, default: Date.now }
+	updated_at: { type: Date, default: Date.now },
+	visits : {type:Number, default: 0},
 });
 
 const chapterSchema = new Schema({
