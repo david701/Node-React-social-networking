@@ -80,8 +80,8 @@ const isValid = (validate,input) => {
         case "maxChecks":
             valid = maxCheckboxes(input);
             break;
-        case "minLength":
-            valid = value.length >= parseInt(input.dataset.minlength)
+        case "minlength":
+            valid = value.length >= parseInt(input.dataset.minlength)   
             break;
         case "maxlength":
             valid = value.length <= parseInt(input.dataset.maxlength)
