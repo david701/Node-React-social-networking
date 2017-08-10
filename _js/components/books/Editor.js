@@ -14,10 +14,19 @@ class Editor extends Component{
         <TinyMCE
           content={sanitizeContent(this.props.content)}
           config={{
-            plugins: 'autolink link image table textcolor',
-            toolbar: 'undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | formatselect | table | forecolor',
+            // plugins: 'autolink link image table textcolor',
+            plugins: [
+              'advlist autolink lists link image charmap hr anchor pagebreak',
+              'searchreplace wordcount visualblocks visualchars code fullscreen',
+              'insertdatetime media nonbreaking save table contextmenu directionality',
+              'emoticons template paste textcolor colorpicker textpattern imagetools toc'
+            ],
+            toolbar1: 'undo redo | insert | styleselect | bold italic underline strikethrough | link image',
+            toolbar2: 'formatselect | alignleft aligncenter alignright alignjustify | outdent indent | table | emoticons',
+            toolbar3: 'bullist numlist | forecolor backcolor',
             menubar: false,
-            height: this.props.settings.editorHeight
+            height: this.props.settings.editorHeight,
+            theme: 'modern'
           }}
           onChange={this.props.handleChange}
         />
