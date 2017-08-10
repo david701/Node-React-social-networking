@@ -75,10 +75,24 @@ export default class EditorContainer extends React.Component {
 	editChapter = e => {
 		e.preventDefault;
 		this.setState({editChapter: true})
-	}
+  }
+  
+  isLastChapter = e => {
+    const { chapterNumber, chapterCount } = this.props;
+    
+    if(chapterNumber >= chapterCount) {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 
 	deleteChapter = e =>{
-		const { bookId, chapterId, chapterNumber } = this.props;
+    if (!this.isLastChapter()) return;
+
+    const { bookId, chapterId, chapterNumber } = this.props;
+
 		e.preventDefault;
 		$.ajax({
         url: `${apiUrl}/books/${bookId}/chapters/${chapterNumber}`,
@@ -97,7 +111,8 @@ export default class EditorContainer extends React.Component {
 	        handleSubmit={this.handleSubmit}
 					deleteChapter={this.deleteChapter}
 	        name={this.state.name}
-					settings={this.props.settings}
+          settings={this.props.settings}
+          isLastChapter={this.isLastChapter}
 	      />
 		}else{
 			cardContent = <Reader content={this.state.content} bookId={this.props.bookId} chapterId={this.props.chapterId} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized}/>
