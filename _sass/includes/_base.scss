@@ -636,3 +636,12 @@ button:disabled {
 .slick-slider {
 	height: 50vh;
 }
+
+//For TinyMCE buttons
+.mce-btn button {
+	display: inline-block !important;
+}
+
+.mce-branding-powered-by {
+	display : none !important;
+}
