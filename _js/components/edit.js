@@ -118,11 +118,6 @@ class SignUp extends React.Component{
 			let isAdminRole = 0;
 			if (this.state.me.role > 0)
 				isAdminRole = 1;
-				
-			
-			console.log('state : ', JSON.stringify(this.state));
-
-			console.log('admin role : ', this.state.me.role);
 
       if(check){
         $.ajax({

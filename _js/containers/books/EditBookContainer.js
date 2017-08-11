@@ -80,12 +80,13 @@ export default class EditBookContainer extends React.Component {
   loadSlides = slides => {
     const { bookId } = this.props;
     const { selectedChapter } = this.state;
+    let chapterCount = this.state.chapters.length;
     let pages = [];
 
     this.state.chapters.map((chapter,index)=>{
       pages.push(
         <div className="content-block content-block-standard-slide chapter-begin"><div><h4>Chapter {chapter.number}</h4><span className="chapter-name">{chapter.name}</span></div></div>,
-        <EditorContainer bookId={bookId} chapterNumber={chapter.number} chapterId={chapter._id} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized} settings={this.state.settings}/>,
+        <EditorContainer bookId={bookId} chapterCount={chapterCount} chapterNumber={chapter.number} chapterId={chapter._id} user={this.props.user} admin={this.props.admin} authorized={this.props.authorized} settings={this.state.settings}/>,
         //<ViewBookContainer bookId={bookId} chapterId={chapter.number} />
       )
     })
