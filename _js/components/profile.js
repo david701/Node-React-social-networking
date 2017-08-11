@@ -448,7 +448,7 @@ class Parent extends React.Component {
 				              </div>
 							<hr />
 							<div className="title-row">
-								<h4>Book Claims</h4>
+								<h4>Book Reports</h4>
 							</div>
 							<div className="book-blocks book-blocks-small">
 								{this.state.bookClaims.length > 0 ? (
@@ -462,7 +462,7 @@ class Parent extends React.Component {
 														<figure>
 															<div className="cover" style={{backgroundImage: 'url('+claim.book.cover+')'}}>
 																<div className="overlay">
-																	<div className="button button-red" onClick={()=>this.viewClaim(i)}>View Claim</div>
+																	<div className="button button-red" onClick={()=>this.viewClaim(i)}>View Report</div>
 																	{/* <a className="button button-white" id={claim.book._id}>Accept</a> */}
 																</div>
 															</div>
