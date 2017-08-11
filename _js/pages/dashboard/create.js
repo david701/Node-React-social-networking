@@ -264,9 +264,9 @@ export const Description = ({description, handleChange, validate}) => (
           id="description"
           rows="5"
           placeholder="Description must be between 30 and 250 characters"
-          data-minLength="30"
+          data-minlength="30"
           data-maxlength="250"
-          data-validation="required,minLength,maxlength"
+          data-validation="required,minlength,maxlength"
           onBlur={validate}
           onChange={handleChange}
           value={description}

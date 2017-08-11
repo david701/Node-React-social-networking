@@ -54,7 +54,7 @@
     "react-moment": "^0.2.4",
     "react-slick": "^0.14.11",
     "react-star-rating-component": "^1.2.4",
-    "react-tinymce": "^0.5.1",
+    "react-tinymce": "^0.6.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "slick-carousel": "^1.6.0",

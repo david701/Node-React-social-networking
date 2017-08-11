@@ -67,7 +67,7 @@ export default class BookDetails extends React.Component {
 	}
 
 	render(){
-		var followBtn, rating=0, chapters = [],
+		var followBtn, rating=0, visits = 0, chapters = [],
 		self = this;
 		if(!this.props.authorized){
 			if(this.state.following){
@@ -87,6 +87,11 @@ export default class BookDetails extends React.Component {
 			rating = this.props.book.rating;
 		}
 
+		if(this.props.book){
+			visits += this.props.book.viewed_by.length ? this.props.book.viewed_by.length : 0;
+			visits += this.props.book.visits ? this.props.book.visits : 0;
+		}
+
 		return(
 		  <div className="content-block content-block-standard-new">
 		    <div className="title-row">
@@ -99,7 +104,7 @@ export default class BookDetails extends React.Component {
 		      <h4 className="book-title">{this.props.title}</h4>
 			  <span className="author-area">By <a className="author-name" href={"/author/" + (this.props.book ? this.props.book.author._id : "")}>{this.props.book ? this.props.book.author.name : ""}</a></span>
 		      <Rating stars={rating} />
-					<p><strong>{this.props.book && this.props.book.viewed_by.length ? this.props.book.viewed_by.length : '0'}</strong> Views | <strong>{this.props.book && this.props.book.followers.length ? this.props.book.followers.length : '0'}</strong> Followers</p>
+					<p><strong>{visits}</strong> Views | <strong>{this.props.book && this.props.book.followers.length ? this.props.book.followers.length : '0'}</strong> Followers</p>
 		      <p><strong>Content Warnings</strong>: {this.props.book && this.props.book.warnings.length ? this.props.book.warnings.join(", ") : 'N/A'}</p>
 		      <p><strong>Genre</strong>: {this.props.book && this.props.book.genre? this.props.book.genre : 'N/A'}</p>
 		      <p><strong>Tags</strong>: {this.props.tags.length ? this.props.tags.join(", ") : 'N/A'}</p>
