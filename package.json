@@ -38,7 +38,9 @@
     "bcrypt": "^1.0.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
+    "code-point-at": "^1.1.0",
     "cookie-session": "^2.0.0-beta.2",
+    "destroy": "^1.0.4",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
@@ -47,6 +49,7 @@
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "mongoose": "^4.11.1",
+    "mquery": "^2.3.1",
     "nodemon": "^1.11.0",
     "react": "^15.6.1",
     "react-datepicker": "^0.46.0",
@@ -57,6 +60,7 @@
     "react-tinymce": "^0.6.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
+    "require_optional": "^1.0.1",
     "slick-carousel": "^1.6.0",
     "validator": "^7.2.0"
   }
