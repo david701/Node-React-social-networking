@@ -67,7 +67,7 @@ router.get('/books/:id', (req, res) => {
 	var user = req.session
 	if(user && user._id){
 		mongoBook.findOne({_id: req.params.id}).then((book)=>{
-			if(book.author != user._id){
+			if(book.author && book.author != user._id){
 				if(book.viewed_by.indexOf(user._id) == -1){
 					book.viewed_by.push(user._id);
 				}

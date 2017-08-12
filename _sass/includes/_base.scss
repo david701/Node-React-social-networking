@@ -4,7 +4,8 @@
 // Typography
 // ----------
 #preview {
-	height: 92vh;
+	// height: 92vh;
+	height : auto;
 }
 .social-links img {
 	height: 24px;
@@ -51,7 +52,20 @@
     overflow: visible;
     .placeholder {
 		height: 20.7vh;
-    }
+	}
+	
+	&.book-details-ads div {
+		&:first-child .content-block {
+			margin-bottom: 34px;
+		}
+		&:last-child .content-block {
+			margin-bottom: 0;
+		}
+		.content-block .placeholder {
+			min-height: 170px;
+			height: auto;
+			}
+	}
 }
 
 //Night Mode
@@ -634,7 +648,8 @@ button:disabled {
     }
 }
 .slick-slider {
-	height: 50vh;
+	// height: 50vh;
+	height: 370px;
 }
 
 //For TinyMCE buttons
