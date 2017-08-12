@@ -463,7 +463,8 @@
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: $match-8;
-    height: 44vh;
+    // height: 44vh;
+    min-height: 374px;
     width: calc(50% - 0.75em);
     padding: 1em;
     .night {
@@ -578,7 +579,8 @@
     margin: 0 auto;
     margin-bottom: 20px;
     max-width: $match-8;
-    height: 44vh;
+    // height: 44vh;
+    height : 370px;
     @include w1000 {
       width: calc(100% - #{ $gutter / 2 });
       padding: 2em;
