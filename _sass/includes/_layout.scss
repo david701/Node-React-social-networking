@@ -631,6 +631,7 @@ label span {
 .view-sidebar {
   order: 1;
   z-index: 99999;
+  position: relative;
   width: 0;
   @include w1000 {
     width: em(200);
