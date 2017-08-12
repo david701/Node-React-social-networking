@@ -21,9 +21,7 @@ class Editor extends Component{
               'insertdatetime media nonbreaking save table contextmenu directionality',
               'emoticons template paste textcolor colorpicker textpattern imagetools toc'
             ],
-            toolbar1: 'undo redo | insert | styleselect | bold italic underline strikethrough | link image',
-            toolbar2: 'formatselect | alignleft aligncenter alignright alignjustify | outdent indent | table | emoticons',
-            toolbar3: 'bullist numlist | forecolor backcolor',
+            toolbar: 'undo redo | insert | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | forecolor backcolor | table | emoticons | link image | styleselect | formatselect',
             menubar: false,
             height: this.props.settings.editorHeight,
             theme: 'modern'

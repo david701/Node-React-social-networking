@@ -147,7 +147,7 @@ export default class EditBookContainer extends React.Component {
         <div className="book-top-half">
           <DetailsContainer toggleSettings={this.updateSlidesToShow} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           {(settings.slidesToShow === 2 || mobile) &&
-            <div className="content-block content-block-standard-new ads">
+            <div className="content-block content-block-standard-new ads book-details-ads">
               <AdElement page='book-detail'/>
               <AdElement page='book-detail'/>
             </div>
