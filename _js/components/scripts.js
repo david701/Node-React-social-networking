@@ -13,15 +13,17 @@ $(document).ready(function() {
   });
 
   $('.search-toggle').click(e => {
-    e.preventDefault();
-    $('body').toggleClass('search-open');
+    // e.preventDefault();
+    // $('body').toggleClass('search-open');
+
     // $('.search-toggle').toggle(() => {
     //   $('.search-toggle').css({ marginRight: '20px' });
     // }, () => {
     //   $('.search-toggle').css({ marginRight: 0 });
     // });
-    $('body').toggleClass('menu-toggle');
-    $('.logo').toggleClass('logo-hidden');
+
+    // $('body').toggleClass('menu-toggle');
+    // $('.logo').toggleClass('logo-hidden');
   });
 
   $('.search-cancel').click(e => {
