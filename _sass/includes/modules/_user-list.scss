@@ -308,4 +308,11 @@
     .chapter-row .buttons .add-or-remove input {
         width: 110px;
     }
+
+    .book-blocks-feature > ul {
+        justify-content: flex-start;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+       
+    }
 }
