@@ -209,10 +209,13 @@
     }
     .chapter-row .buttons .add-or-remove input {
         margin-right: 20px;
+        // width: auto;
+        min-width: 100px;
+        float: left;
         width: auto;
     }
     .chapter-row .buttons .add-or-remove {
-        display: inline-block;
+        display: block;
     }
     .chapter-row .buttons .button.button-plusminus {
         padding: 10px 15px;
@@ -298,5 +301,18 @@
     .slick-next {
         bottom: -24px;
         top: initial !important;
+    }
+}
+
+@include n480 {
+    .chapter-row .buttons .add-or-remove input {
+        width: 110px;
+    }
+
+    .book-blocks-feature > ul {
+        justify-content: flex-start;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+       
     }
 }

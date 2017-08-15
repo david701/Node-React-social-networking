@@ -7,7 +7,7 @@
     display: none;
 }
 .chapter-row .buttons .button.button-plusminus.minus {
-    padding: 0 17px;   
+    // padding: 0 17px;   //Disabled for minus button height change on mobile responsive
 }
 .book-cover {
     width: 45%;
@@ -182,6 +182,7 @@ select, input, textarea {
     .card__back {
       -webkit-transform: rotateY(-180deg);
               transform: rotateY(-180deg);
+              display:none !important;
     }
 
 
@@ -310,8 +311,9 @@ select, input, textarea {
                     @include n1000 {
                         text-align: center;
                         width: auto;
-                        padding-left: rem(57);
-                        padding-right: rem(57);
+                        padding-left: rem(44);
+                        padding-right: rem(44);
+                        white-space: nowrap;
                     }
                     background-image: url('/assets/images/icons/night-mode.svg');
                     background-repeat: no-repeat;
@@ -614,6 +616,7 @@ label span {
 .card__back {
   -webkit-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
+  
 }
 
 
@@ -621,11 +624,22 @@ label span {
 .card.effect__click.flipped .card__front {
   -webkit-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
+  display: none !important;
 }
 
 .card.effect__click.flipped .card__back {
   -webkit-transform: rotateY(0);
   transform: rotateY(0);
+  display: block !important;
+}
+
+/* click effect */
+.card.effect__click .card__front {
+  display: block !important;
+}
+
+.card.effect__click .card__back {
+  display: none !important;
 }
 
 .view-sidebar {
@@ -762,8 +776,9 @@ label span {
         @include n1000 {
           text-align: center;
           width: auto;
-          padding-left: rem(57);
-          padding-right: rem(57);
+          padding-left: rem(44);
+          padding-right: rem(44);
+          white-space: nowrap;
         }
         background-image: url('/assets/images/icons/night-mode.svg');
         background-repeat: no-repeat;
@@ -949,6 +964,7 @@ body.search-open {
             margin: 0;
             max-width: none;
             overflow: visible;
+            min-height: auto;
         }
         .title-row {
             float: left;
@@ -1197,7 +1213,7 @@ hr.dividers {
     min-height: calc(100% - 44px);
     justify-content: space-between;  
     .chapter-editor {
-        width: 50%;
+        width: 55%;
     } 
 }
 .ads .content-block {
