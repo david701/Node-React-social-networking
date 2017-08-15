@@ -310,8 +310,9 @@ select, input, textarea {
                     @include n1000 {
                         text-align: center;
                         width: auto;
-                        padding-left: rem(57);
-                        padding-right: rem(57);
+                        padding-left: rem(44);
+                        padding-right: rem(44);
+                        white-space: nowrap;
                     }
                     background-image: url('/assets/images/icons/night-mode.svg');
                     background-repeat: no-repeat;
@@ -762,8 +763,9 @@ label span {
         @include n1000 {
           text-align: center;
           width: auto;
-          padding-left: rem(57);
-          padding-right: rem(57);
+          padding-left: rem(44);
+          padding-right: rem(44);
+          white-space: nowrap;
         }
         background-image: url('/assets/images/icons/night-mode.svg');
         background-repeat: no-repeat;

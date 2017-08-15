@@ -243,9 +243,9 @@ class LoginButtons extends React.Component{
         <footer>
 					<form className="search-form" onSubmit={this.searchSubmit} >
 							 <input type="search" name="search" onChange={this._onChange} placeholder="Search" />
-					 </form>
-            <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode day">Night Mode</a>
-            <a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode night">Day Mode</a>
+					</form>
+					<a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode day">Night Mode</a>
+					<a href="javascript:void(0)" onClick={toggleNightMode} className="button button-red button-night-mode night">Day Mode</a>
         </footer>
     </div>
     );
