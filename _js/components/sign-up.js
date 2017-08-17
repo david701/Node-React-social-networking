@@ -305,7 +305,12 @@ class SignUp extends React.Component{
           <p className="error-message">
           {this.state.error}
           </p>
-        }
+		}
+				<div className="submit-row submit-row-small">
+					<div className="controls">
+						<p>By signing up for a BookBrawl account, you will also be registered for the forum. You can enter your BookBrawl email and password to access the forum at any time.</p>
+					</div>
+				</div>
 				<div className="submit-row">
 					<div className="field">
 						<input type="checkbox" name="newsletter" id="newsletter" value={!this.state.profile.newsletter} onChange={this.handleChange} checked={this.state.profile.newsletter}/>
