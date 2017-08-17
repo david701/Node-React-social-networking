@@ -129,7 +129,13 @@ exports.createUser = (req, res)=>{
 					})
 				})
 			}else{
-				handle.err(res, 'Email is already in use.');
+				if(user.status == 1) {
+					handle.err(res, 'Email is already in use.');
+				}
+				else {
+					handle.err(res, 'Please contact Book Brawl Support. Support@bookbrawl.com');
+				}
+				
 			}
 		})
 		.catch((err)=>{
