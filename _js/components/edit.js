@@ -128,7 +128,8 @@ class SignUp extends React.Component{
                 if(self.state.me.role < 1){
                   self.signOut();
                 }else{
-                  window.location.href = "/dashboard/find-friends";
+									alert('The user ' + self.state.profile.name + ' has been removed!');
+                  window.location.href = "/dashboard/all-users/1";
                 }
               }
             }
