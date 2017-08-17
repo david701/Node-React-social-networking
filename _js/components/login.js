@@ -33,6 +33,9 @@ class Login extends React.Component{
     }
 
     resetErrors(event){
+        if(!event || !event.target)
+            return;
+        
         let form = $(event.target).closest('form');
         form.find('.help-text').hide();
         form.find('.field-error').removeClass('field-error');
