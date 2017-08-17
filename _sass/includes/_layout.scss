@@ -1046,8 +1046,12 @@ body.search-open {
   }
 }
 
-.login-modal .content-block {
-    transform: translateY(7em);
+.login-modal {
+    z-index: 999999 !important;
+    
+    .content-block {
+        transform: translateY(7em);
+    }
 }
 
 // Modal
