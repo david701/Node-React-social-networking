@@ -4,6 +4,12 @@
   .slick-track .reader p {
       color: #eaeaea;
   }
+
+  .slick-track .reader{
+    h5, h6, table{
+      color: #eaeaea;
+    } 
+  }
   .slick-track .reader table p {
       color: #0a0a0a;
   }
