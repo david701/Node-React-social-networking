@@ -71,16 +71,16 @@ $(document).ready(function() {
         $('.login-modal ').hide();
     });
 
-  $('#bookSubmit').click(function(e){
-    e.preventDefault();
-    $('#coverSubmit').click();
-  })
-
-  //login modal
-  $('#loginButton').click(function(e){
-    $('.login-modal').css({visibility: 'visible', opacity: 1});
+    $('#bookSubmit').click(function(e){
         e.preventDefault();
-  })
+        $('#coverSubmit').click();
+    })
+
+    //login modal
+    $('#loginButton').click(function(e){
+        $('.login-modal').css({visibility: 'visible', opacity: 1});
+            e.preventDefault();
+    })
 
     $('#deleteButton').click(function(e){
         $('.delete-modal').css({visibility: 'visible', opacity: 1});

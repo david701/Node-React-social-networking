@@ -99,46 +99,46 @@ class SignUp extends React.Component{
     	this.setState({profile: this.new_profile});
   	}
 
-  cleanUrls(links){
+	cleanUrls(links){
 
-    for (var key in links) {
-        // skip loop if the property is from prototype
-        if (!links.hasOwnProperty(key)) continue;
-        //clear out empty urls
-        if(links[key] === "http://"){
-          links[key] = ""
-        }
-    }
-    return links;
-  }
+		for (var key in links) {
+			// skip loop if the property is from prototype
+			if (!links.hasOwnProperty(key)) continue;
+			//clear out empty urls
+			if(links[key] === "http://"){
+			links[key] = ""
+			}
+		}
+		return links;
+	}
 
-  handleSubmit = (event) => {
-    //stop bubbling
-    event.preventDefault();
-    event.stopPropagation();
+	handleSubmit = (event) => {
+		//stop bubbling
+		event.preventDefault();
+		event.stopPropagation();
 
-    let $this = this;
-		this.new_profile.bday = this.new_profile.bday._d;
+		let $this = this;
+			this.new_profile.bday = this.new_profile.bday._d;
 
-    this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
+		this.new_profile.social_media = this.cleanUrls(this.new_profile.social_media);
 
-    //restart profile
-    $.ajax({
-        url: '/api/v1/users/',
-        type: 'POST',
-        data: JSON.stringify(this.new_profile),
-        dataType: 'json',
-        contentType: 'application/json; charset=UTF-8',
-    })
-    .then((response) =>{
-        if(response.status !== "error"){
-          window.location.href = "/email";
-        }else{
-          this.setState({error: response.message});
-        }
-        this.new_profile = new Profile();
-        this.setState({profile: this.new_profile});
-    })
+		//restart profile
+		$.ajax({
+			url: '/api/v1/users/',
+			type: 'POST',
+			data: JSON.stringify(this.new_profile),
+			dataType: 'json',
+			contentType: 'application/json; charset=UTF-8',
+		})
+		.then((response) =>{
+			if(response.status !== "error"){
+			window.location.href = "/email";
+			}else{
+			this.setState({error: response.message});
+			}
+			this.new_profile = new Profile();
+			this.setState({profile: this.new_profile});
+		})
 	}
 
 	isChecked(array,value){
@@ -305,7 +305,12 @@ class SignUp extends React.Component{
           <p className="error-message">
           {this.state.error}
           </p>
-        }
+		}
+				<div className="submit-row submit-row-small">
+					<div className="controls">
+						<p>By signing up for a BookBrawl account, you will also be registered for the forum. You can enter your BookBrawl email and password to access the forum at any time.</p>
+					</div>
+				</div>
 				<div className="submit-row">
 					<div className="field">
 						<input type="checkbox" name="newsletter" id="newsletter" value={!this.state.profile.newsletter} onChange={this.handleChange} checked={this.state.profile.newsletter}/>
