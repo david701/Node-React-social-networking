@@ -85,8 +85,7 @@ select, input, textarea {
                 }
             }
             .toggleScreen {
-                float: right;
-                position: relative;
+                
             }
         }
         .slide-to-chapter {
@@ -521,6 +520,10 @@ select, input, textarea {
                 margin: 0 30px 30px 0;
             }
         }
+    }
+
+    #search-page {
+        width: 100%;
     }
 }
 
@@ -1043,8 +1046,12 @@ body.search-open {
   }
 }
 
-.login-modal .content-block {
-    transform: translateY(7em);
+.login-modal {
+    z-index: 999999 !important;
+    
+    .content-block {
+        transform: translateY(7em);
+    }
 }
 
 // Modal
