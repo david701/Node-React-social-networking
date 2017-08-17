@@ -4,6 +4,12 @@
   .slick-track .reader p {
       color: #eaeaea;
   }
+
+  .slick-track .reader{
+    h5, h6, table{
+      color: #eaeaea;
+    } 
+  }
   .slick-track .reader table p {
       color: #0a0a0a;
   }
@@ -306,7 +312,7 @@
       .quote {
         color: #fff;
         font-size: em(16);
-        text-align: center;
+        text-align: left;
         line-height: 1.25;
         margin-bottom: 1.25em;
         a {
@@ -870,7 +876,7 @@
     .quote {
       color: $light-blue;
       font-size: em(16);
-      text-align: center;
+      text-align: left;
       line-height: 1.25;
       margin-bottom: 1.25em;
     }

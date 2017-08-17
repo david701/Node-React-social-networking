@@ -377,7 +377,7 @@ select, input, textarea {
                         .menu-close {
                             width: em(16);
                             height: em(16);
-                            display: none;
+                            // display: none;
                         }
                     }
                 }
@@ -1170,6 +1170,28 @@ hr.dividers {
     line-height:32.4px;
     color: #0a0a0a;
 }
+
+.slick-slide .reader {
+    all: initial;
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h6 {
+        font-size: 0.67em;
+    }
+
+    h5, h6 {
+        margin-bottom: 1em;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #0a0a0a;
+    }
+}
+
+
 .slick-dots li:last-child {
     display: none;
 }
