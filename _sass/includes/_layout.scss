@@ -330,7 +330,7 @@ select, input, textarea {
         .main-view {
             transform: translateX(calc(100vw - 3em));
             opacity: 0.5;
-            @include w480 {
+            @include w270 {
                 transform: translateX(em(200));
             }
             @include w1000 {
@@ -668,7 +668,7 @@ label span {
     width: calc(100vw - 3em);
     transform: translateX((calc(-100vw + 3em)));
     transition: transform $timing-slower, width $timing-slower;
-    @include w480 {
+    @include w270 {
       width: em(200);
       transform: translateX(em(-200));
     }
@@ -799,7 +799,7 @@ body.menu-open {
   .main-view {
     transform: translateX(calc(100vw - 3em));
     opacity: 0.5;
-    @include w480 {
+    @include w270 {
       transform: translateX(em(200));
     }
     @include w1000 {

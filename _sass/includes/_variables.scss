@@ -71,6 +71,8 @@ $lh-normal: 1.75;
 @mixin n480  { @media screen and (max-width: em(479))	{ @content; } }
 @mixin w480  { @media screen and (min-width: em(480))	{ @content; } }
 
+@mixin w270  { @media screen and (min-width: em(270))	{ @content; } }
+
 @mixin n640  { @media screen and (max-width: em(639))	{ @content; } }
 @mixin w640  { @media screen and (min-width: em(640))	{ @content; } }
 
