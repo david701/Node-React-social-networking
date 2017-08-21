@@ -154,7 +154,6 @@ export default class BrawlAdmin extends React.Component {
 		//brawlers=true&type=brawlType
 		$.get('/api/v1/books?brawlers=true').then((brawlers)=>{
 			let brawl_type = this.filterBy(brawlers.data, "genre", brawlType);
-			console.log(brawl_type)
 			this.setState({brawlers: brawl_type});
 		})
 	}
@@ -216,12 +215,12 @@ export default class BrawlAdmin extends React.Component {
 							</h2>
 							<div className="week-control-this">
 								<span>Select Brawl: </span>
-								<select onChange={$this.handleChange} className="label label-large">
+								<select onChange={$this.handleChange} value={currentBrawl ? currentBrawl._id : "Create Brawl"} className="label label-large">
 									<option value="Create Brawl">Create Brawl</option>;
 									{
 										oldBrawls.map(function(brawl, i){
 											return (
-												<option key={i} selected={i===0} value={brawl._id}>{brawl.status === 1 ? "Current Brawl" : moment(brawl.updated_at).format('MM-DD-YYYY')}</option>
+												<option key={i} value={brawl._id}>{brawl.status === 1 ? "Current Brawl" : moment(brawl.updated_at).format('MM-DD-YYYY')}</option>
 											)
 										})
 									}
@@ -239,11 +238,11 @@ export default class BrawlAdmin extends React.Component {
 				</main>
 				<div className={"brawlers book-blocks book-blocks-small" + (showBrawlers ? " open" : "")}>
 					<div className="dropdown">
-					<select id="selection" onChange={(e)=>{$this.changeType(e)}}>
+					<select id="selection" value={brawlType} onChange={(e)=>{$this.changeType(e)}}>
 						{
 							genres.map((genre,index) => {
 								return (
-									<option value={genre} selected={brawlType === genre}>{genre}</option>
+									<option key={index} value={genre}>{genre}</option>
 								)
 							})
 						}
@@ -255,7 +254,7 @@ export default class BrawlAdmin extends React.Component {
 								brawlers.map((book, i)=>{
 									//Need to change
 									return (
-										<li key={i} className={(currentBrawl.book_a._id === book._id || currentBrawl.book_b._id === book._id) ? "active" : ""}>
+										<li key={i} className={((currentBrawl.book_a && book && currentBrawl.book_a._id === book._id) || (currentBrawl.book_b && book && currentBrawl.book_b._id === book._id)) ? "active" : ""}>
 											<div className="content-block content-block-book">
 												<BookType type={book.type}/>
 												<figure>

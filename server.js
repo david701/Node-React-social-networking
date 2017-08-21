@@ -1,9 +1,14 @@
 const express = require('express')
 const cookieSession = require('cookie-session')
 const bodyParser = require('body-parser')
+const cacheControl = require('express-cache-controller');
 
 const app = express()
 
+app.use(cacheControl({
+  noCache: true
+}));
+app.set('trust proxy', 1)
 app.use(cookieSession({name: 'bbv1', keys:['bbKey', 'bbKey2']}))
 app.use(express.static('public'))
 app.use(bodyParser.json({limit: '5mb'}));

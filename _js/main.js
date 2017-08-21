@@ -253,7 +253,8 @@ class LoginButtons extends React.Component{
 }
 
 if(document.getElementById('login-buttons'))
-  {ReactDOM.render(<LoginButtons />, document.getElementById('login-buttons'));}
+ 	{ReactDOM.render(<LoginButtons />, document.getElementById('login-buttons'));}
+  
 
 
 class UploadCover extends React.Component{
