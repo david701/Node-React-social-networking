@@ -388,7 +388,7 @@ exports.resetPassword = (req, res)=>{
 
 /// USER SESSION INFO
 exports.userSession = (req, res)=>{
-	if(!req.session || !req.session._id){
+	if(!req.session){
 		handle.err(res, 'Not logged in')
 		return;
 	}
