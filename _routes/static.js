@@ -98,7 +98,7 @@ router.get('/authors/all', (req, res)=>{
 });
 
 router.get('/dashboard', (req, res)=>{
-	if(req.session){
+	if(req.session && req.session._id){
 		res.render('dashboard', {title: 'Dashboard'});
 	}else{
 		res.redirect('/login');
@@ -110,7 +110,7 @@ router.get('/dashboard/edit', (req, res)=>{
 });
 
 router.get('/dashboard/edit/books/:bookId', (req, res) => {
-	if(req.session){
+	if(req.session && req.session._id){
 		res.render('dashboard-create', {title: 'Create', bookId: req.params.bookId})
 	}else{
 		res.redirect('/login');
@@ -118,7 +118,7 @@ router.get('/dashboard/edit/books/:bookId', (req, res) => {
 });
 
 router.get('/dashboard/create', (req, res) => {
-	if(req.session){
+	if(req.session && req.session._id){
 		res.render('dashboard-create', {title: 'Create', bookId: false})
 	}else{
 		res.redirect('/login');

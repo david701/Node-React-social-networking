@@ -232,12 +232,12 @@ class Parent extends React.Component {
 	render() {
 		let self = this,
 			following = "You're not following any authors",
-			authors = this.state.user.following_authors,
+			authors = this.state.user ? this.state.user.following_authors : null,
 			// books = this.state.user.books,
 			button = "Unfollow",
 			func = this.handleUnfollow;
 
-		if (this.state.user.role > 0) {
+		if (this.state.user && this.state.user.role > 0) {
 			following = "There are no user's to edit";
 			authors = this.state.all_users;
 			button = "Edit";
@@ -258,7 +258,7 @@ class Parent extends React.Component {
 		return (
 			<div className="standard-section-with-sidebar">
 				<div className="container">
-					{this.state.user.role < 1 &&
+					{this.state.user && this.state.user.role < 1 &&
 						<div className="flex-row">
 							<div className="content-block content-block-standard">
 								<header>
@@ -381,7 +381,7 @@ class Parent extends React.Component {
 							</div>
 						</div>
 					}
-					{this.state.user.role > 0 &&
+					{this.state.user && this.state.user.role > 0 &&
 						<div className="content-block content-block-standard account-block">
 							{this.state.claim ? (<Claims claim={this.state.claim} user={this.state.selectedClaim ? this.state.selectedClaim.reporter : {}} book={this.state.selectedClaim ? this.state.selectedClaim.book : {}} content={this.state.selectedClaim ? this.state.selectedClaim.content : {}} cancelClaim={this.cancelClaim} deleteBook={this.deleteBook} resolveClaim={this.resolveClaim} view='true'/>) : ('')}
 							<header>

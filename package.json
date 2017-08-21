@@ -43,6 +43,7 @@
     "destroy": "^1.0.4",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
+    "express-cache-controller": "^1.0.1",
     "jquery": "^3.2.1",
     "mailchimp-api-v3": "^1.7.0",
     "mandrill-api": "^1.0.45",
