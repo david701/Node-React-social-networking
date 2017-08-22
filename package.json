@@ -45,6 +45,7 @@
     "express": "^4.15.3",
     "express-cache-controller": "^1.0.1",
     "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
     "mailchimp-api-v3": "^1.7.0",
     "mandrill-api": "^1.0.45",
     "moment": "^2.18.1",
