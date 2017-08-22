@@ -275,6 +275,8 @@
               font-size: em(18);
               margin-bottom: em(1.5);
               word-break: break-word;
+              width: 100%;
+              table-layout: fixed;
             }
             p {
               margin-bottom: em(11);
