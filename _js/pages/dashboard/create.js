@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import UploadCover from '../../components/dashboard/UploadCover';
 import Checkbox from '../../components/dashboard/Checkbox';
 import SocialMedia from '../../components/dashboard/SocialMedia';
@@ -112,10 +113,10 @@ class DashboardCreate extends Component {
   _handleTags = e => {
     const {tags} = this.state;
     const newTag = e.target.value;
-    if (!tags.includes(newTag)) {
+    if (tags.indexOf(newTag) < 0) {
       const newAry = [...tags, newTag];
 			this.setState({...this.state, tags: newAry });
-    } else if (tags.includes(newTag)) {
+    } else if (tags.indexOf(newTag) >= 0) {
       const newAry = tags.filter(tag => tag !== newTag);
       this.setState({ ...this.state, tags: newAry });
     }
@@ -126,10 +127,10 @@ class DashboardCreate extends Component {
   _handleWarnings = e => {
     const {warnings} = this.state;
     const newWarning = e.target.value;
-    if (!warnings.includes(newWarning)) {
+    if (warnings.indexOf(newWarning) < 0) {
       const newAry = [...warnings, newWarning];
       this.setState({ ...this.state, warnings: newAry});
-    } else if (warnings.includes(newWarning)) {
+    } else if (warnings.indexOf(newWarning) >= 0) {
       const newAry = warnings.filter(warning => warning !== newWarning);
       this.setState({ ...this.state, warnings: newAry});
     }
@@ -284,9 +285,11 @@ export const Genres = ({genres, handleCheckbox, checked, validate}) => (
           <span className="help-text">Please select one tag.</span>
       </div>
       <div className="new-create-books-row">
-        {genres.map((genre, index) => (
-          <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} validation="minChecks,maxChecks,required" validate={validate} minCheck={1} maxCheck={1} checked={checked.includes(genre)}/>
-        ))}
+        { 
+          genres.map((genre, index) => (
+            <Checkbox name="genres" label={genre} key={index} handleCheckboxChange={handleCheckbox} validation="minChecks,maxChecks,required" validate={validate} minCheck={1} maxCheck={1} checked={checked.indexOf(genre) >= 0}/>
+          ))
+        }
       </div>
     </li>
   </ul>
@@ -301,7 +304,7 @@ export const Tags = ({tags, handleCheckbox, validate, checked}) => (
       </div>
       <div className="new-create-books-row">
         {tags.map((tag, index) => (
-          <Checkbox name="tags" checked={checked.includes(tag)} label={tag} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks,minChecks,required" validate={validate}  minCheck={1} maxCheck={3} />
+          <Checkbox name="tags" checked={checked.indexOf(tag) >= 0} label={tag} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks,minChecks,required" validate={validate}  minCheck={1} maxCheck={3} />
         ))}
       </div>
     </li>
@@ -313,7 +316,7 @@ export const Warnings = ({warnings, handleCheckbox, validate, checked}) => (
     <p>Content warning.</p>
     <div className="new-create-books-row">
       {warnings.map((warning, index) => (
-        <Checkbox name="warnings" checked={checked.includes(warning)} label={warning} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks" minCheck={1} validate={validate} />
+        <Checkbox name="warnings" checked={checked.indexOf(warning) >= 0} label={warning} key={index} handleCheckboxChange={handleCheckbox} validation="maxChecks" minCheck={1} validate={validate} />
       ))}
     </div>
   </div>
@@ -328,7 +331,7 @@ export const BookType = ({types, handleChange, currentType}) => (
     <ul className="radio-list radio-list-inline">
       {types.map((type, index) => (
         <li key={index}>
-          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} validation="" validate={validate} onChange={handleChange} />
+          <input type="radio" name="avatar" id={"avatar-" + (index + 1)} checked={currentType === type} value={type} onChange={handleChange} />
           <label htmlFor={"avatar-"+ (index + 1)}>
             {type}
           </label>
