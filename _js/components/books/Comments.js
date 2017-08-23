@@ -103,14 +103,11 @@ export default class Comments extends React.Component{
 					<ul className="comments_list" style={{height: 'calc(100% - 165px)', overflowY: 'scroll'}}>
 						{comments}
 					</ul>
-					{
-						this.props.user._id &&
-						<div className="comments_add" style={{position:'absolute', bottom:0, left:0, right:0, padding:'0.5rem'}}>
-							<textarea name="comment" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-validation="required" value={this.state.comment}></textarea>
-							<button className='button-white' style={{display:'inline-block', marginTop:'0.5rem', marginRight:'0.5rem', width:'30%'}} onClick={this.toggleComments}>Close</button>
-							<button onClick={this.handleSubmit} style={{display:'inline-block', marginTop:'0.5rem', width:'30%'}} disabled={this.state.disabled}>Send</button>
-						</div>
-					}
+					<div className="comments_add" style={{position:'absolute', bottom:0, left:0, right:0, padding:'0.5rem'}}>
+						<textarea name="comment" onChange={(e) => {this._onChange(e); validate(e);}} onBlur={validate} data-validation="required" value={this.state.comment}></textarea>
+						<button className='button-white' style={{display:'inline-block', marginTop:'0.5rem', marginRight:'0.5rem', width:'30%'}} onClick={this.toggleComments}>Close</button>
+						<button onClick={this.handleSubmit} style={{display:'inline-block', marginTop:'0.5rem', width:'30%'}} disabled={!this.props.user._id || this.state.disabled}>Send</button>
+					</div>
 				</div>
 			</div>
 		)
