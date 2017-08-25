@@ -52,6 +52,15 @@ export default class SearchContainer extends React.Component {
 
 	componentDidMount(){
 		this.getUser();
+
+		//Get the ads
+		$.get('/api/v1/ads').then((ads)=>{
+			ads.data.map((ad, key)=>{
+				if(ad.page == 'search' && ad.ads){
+					this.setState({ads:true})
+				}
+			});
+		})
 	}
 
 	getUser=()=>{
@@ -229,7 +238,7 @@ export default class SearchContainer extends React.Component {
 								{this.state.results?(<BookRow title='Search Results' books={this.state.results}/>):''}
 							</form>
 						</div>
-						<div>
+						<div style={(!this.state.ads) ? { 'display' : 'none' } : {}}>
 							<AdElement page='search'/>
 							<AdElement page='search'/>
 						</div>
