@@ -108,6 +108,15 @@ class Parent extends React.Component {
 				window.location.href = "/";
 			}
 		});
+
+		//Get the ads
+		$.get('/api/v1/ads').then((ads)=>{
+			ads.data.map((ad, key)=>{
+				if(ad.page == 'dashboard' && ad.ads){
+					this.setState({ads:true})
+				}
+			});
+		})
 	}
 
 	editProfile = event => {
@@ -375,7 +384,7 @@ class Parent extends React.Component {
 								<hr />
 								{this.state.books.length? (<Library books={this.state.books} loadBooks={this.loadBooks} author={this.state.user.name} title={"My Books"} user={this.state.user} me={this.state.user} loadUserInfo={this.loadUserInfo} showBrawl={this.showBrawl}/>):''}
 							</div>
-							<div>
+							<div style={(!this.state.ads) ? { 'display' : 'none' } : {}}>
 								<AdElement page='dashboard'/>
 								<AdElement page='dashboard'/>
 							</div>

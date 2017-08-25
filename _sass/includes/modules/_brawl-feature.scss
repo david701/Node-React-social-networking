@@ -486,10 +486,14 @@
             transition: transform $timing-slower, opacity $timing-slower;
             @include w1000 {
                 width: calc(100vw - #{em(200)});
-                transform: translateX(calc(-100vw + #{em(200)}));
+                // transform: translateX(calc(-100vw + #{em(200)}));
+                transform: translateX(-100vw) translateX(#{em(200)});
             }
             &-last {
                 opacity: 0;
+            }
+            .container{
+                margin: 0;
             }
         }
         .flex-row {
