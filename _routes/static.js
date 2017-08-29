@@ -43,6 +43,10 @@ router.get('/conduct', (req, res)=>{
 	res.render('legal', {title: 'Conduct'})
 });
 
+router.get('/contactus', (req, res)=>{
+	res.render('contactus', {title: 'Contact Us'})
+});
+
 router.get('/report-sent', (req, res)=>{
 	res.render('email', {title: 'Report Sent'})
 });
