@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import {Ads, AdElement} from '../components/ads/Ad';
 
 //shared forumla's and variables
 
@@ -222,3 +223,37 @@ class AllUsers extends React.Component{
 
 if(document.getElementById('all-users'))
     ReactDOM.render(<AllUsers />, document.getElementById('all-users'))
+
+
+class AdsSpace extends React.Component {
+
+    constructor(props) {
+        super(props);
+		this.state = {
+			ads: false
+		};
+    }
+
+    componentDidMount() {
+        document.getElementById('ads-div-container').style.display = 'none'
+		//Get the ads
+		$.get('/api/v1/ads').then((ads)=>{
+			ads.data.map((ad, key)=>{
+				if(ad.page == 'dashboard' && ad.ads){
+                    this.setState({ads:true});
+                    document.getElementById('ads-div-container').style.display = 'block'
+				}
+			});
+		})
+    }
+    
+    render() {
+        return <div style={(!this.state.ads) ? { 'display' : 'none' } : {}}>
+                    <AdElement page='dashboard'/>
+                    <AdElement page='dashboard'/>
+                </div>
+    }
+}
+
+if(document.getElementById('ads-div-container'))
+    ReactDOM.render(<AdsSpace />, document.getElementById('ads-div-container'))
