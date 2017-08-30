@@ -221,7 +221,11 @@ a {
 		margin-bottom: 1em;
 	}
 }
-#accountInfo,
+
+#accountInfo {
+	width: 100% !important;
+}
+
 #search-page {
 	width: 100%;
 }
