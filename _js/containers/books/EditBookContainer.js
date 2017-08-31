@@ -35,7 +35,15 @@ export default class EditBookContainer extends React.Component {
   componentDidMount() {
     this.loadChapters();
     this.updateSlidesToShow();
-    window.addEventListener("resize", this.updateSlidesToShow)
+    window.addEventListener("resize", this.updateSlidesToShow);
+
+    $.get('/api/v1/ads').then((ads)=>{
+			ads.data.map((ad, key)=>{
+				if(ad.page == 'book-detail' && ad.ads){
+					this.setState({ads:true})
+				}
+			});
+		})
   }
 
   updateSlidesToShow = () => {
@@ -147,14 +155,16 @@ export default class EditBookContainer extends React.Component {
         <div className="book-top-half">
           <DetailsContainer toggleSettings={this.updateSlidesToShow} slider={this.refs.slider} bookId={this.props.bookId} toggleStatus={this.props.toggleStatus} toggleScreen={this.props.toggleScreen} book={this.props.book} length={this.state.chapters.length} following={this.props.following} authorized={this.props.authorized}/>
           {(settings.slidesToShow === 2 || mobile) &&
-            <div className="content-block content-block-standard-new ads book-details-ads">
+            <div className="content-block content-block-standard-new ads book-details-ads" 
+                 style={(!this.state.ads) ? { 'display' : 'none' } : {}}>
               <AdElement page='book-detail'/>
               <AdElement page='book-detail'/>
             </div>
           }
         </div>
         {(settings.slidesToShow === 1 && !mobile) &&
-          <div className="content-block content-block-standard-new full left">
+          <div className="content-block content-block-standard-new full left"
+            style={(!this.state.ads) ? { 'display' : 'none' } : {}}>
             <AdElement page='book-detail'/>
           </div>
         }
@@ -162,7 +172,8 @@ export default class EditBookContainer extends React.Component {
           {this.loadSlides(slides)}
         </Slider>
         {(settings.slidesToShow === 1 && !mobile) &&
-          <div className="content-block content-block-standard-new full right">
+          <div className="content-block content-block-standard-new full right"
+               style={(!this.state.ads) ? { 'display' : 'none' } : {}}>
             <AdElement page='book-detail'/>
           </div>
         }
